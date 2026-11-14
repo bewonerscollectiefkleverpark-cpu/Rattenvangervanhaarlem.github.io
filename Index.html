@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <title>Rattenvanger van Haarlem</title>
+  <meta name="description" content="Zie je een rat? Meld ’m hier! Bekijk vrijwillige rattenwaarnemingen per straat in Haarlem.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink:#202421; --muted:#626a64; --paper:#f7f7f4;
+      --white:#fff; --line:#dfe3dd; --green:#287a4b;
+      --orange:#b96a12; --red:#b63a35; --grey:#8b918d;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    * { box-sizing:border-box }
+    body { margin:0;background:var(--paper);color:var(--ink);line-height:1.5 }
+    button,select { font:inherit }
+    button,a { -webkit-tap-highlight-color:transparent }
+    button {
+      border:0;border-radius:12px;padding:13px 17px;font-weight:650;
+      cursor:pointer;background:var(--ink);color:white
+    }
+    button:disabled { opacity:.45;cursor:not-allowed }
+    a { color:inherit }
+    .wrap { max-width:980px;margin:auto;padding:18px }
+    header { display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:12px 0 22px;border-bottom:1px solid var(--line) }
+    .brand { display:flex;align-items:center;gap:12px;min-width:0 }
+    .brand img { width:66px;height:54px;object-fit:contain }
+    .brand h1 { font-size:clamp(19px,4vw,26px);line-height:1.15;margin:0 }
+    .brand p { margin:4px 0 0;color:var(--muted);font-size:14px }
+    select { max-width:150px;padding:10px;border:1px solid var(--line);
+      background:white;border-radius:10px;color:var(--ink) }
+    nav { display:flex;flex-wrap:wrap;gap:8px;padding:16px 0 }
+    nav button { background:#e8ebe6;color:var(--ink);font-size:14px }
+    nav button[aria-current="page"] { background:var(--ink);color:white }
+    main { padding:10px 0 42px }
+    section { background:white;border:1px solid var(--line);border-radius:18px;
+      padding:clamp(18px,4vw,30px);margin:0 0 16px }
+    h2 { margin:0 0 12px;font-size:clamp(22px,4vw,30px);line-height:1.2 }
+    h3 { margin:20px 0 8px }
+    p { margin:8px 0 14px }
+    .muted { color:var(--muted) }
+    .notice { background:#f1f3ef;border-radius:12px;padding:14px;margin:16px 0 }
+    .primary { display:inline-block;text-decoration:none;text-align:center;
+      background:var(--green);color:white;border-radius:12px;padding:14px 18px;
+      font-weight:700 }
+    .secondary { background:#e8ebe6;color:var(--ink) }
+    .actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:18px }
+    .hidden { display:none!important }
+    #map { height:58vh;min-height:340px;border-radius:14px;border:1px solid var(--line) }
+    .legend { display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;font-size:13px }
+    .dot { display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px }
+    .street-list { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:14px }
+    .street { display:flex;justify-content:space-between;gap:8px;text-align:left;
+      background:#f1f3ef;color:var(--ink);font-weight:550 }
+    .street.selected { outline:3px solid var(--green) }
+    .pill { border-radius:999px;padding:3px 9px;background:white;font-size:13px }
+    .field { display:block;margin:15px 0 }
+    .field label { display:block;font-weight:650;margin-bottom:6px }
+    .field select { width:100%;max-width:none }
+    .check { display:flex;align-items:flex-start;gap:10px;margin:16px 0 }
+    .check input { width:20px;height:20px;flex:none;margin-top:3px }
+    .error { color:#a12626;font-weight:600 }
+    .success { color:#216b40;font-weight:600 }
+    footer { border-top:1px solid var(--line);padding:20px 0 36px;color:var(--muted);font-size:13px }
+    [dir="rtl"] { text-align:right }
+    [dir="rtl"] .brand,[dir="rtl"] nav,[dir="rtl"] .actions { flex-direction:row-reverse }
+    [dir="rtl"] #map { direction:ltr }
+    @media(max-width:560px) {
+      .wrap { padding:12px }
+      header { align-items:flex-start }
+      .brand img { width:48px;height:44px }
+      select#language { max-width:118px;font-size:13px }
+      #map { height:54vh;min-height:320px }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img src="assets/logo.png" alt="Logo Rattenvanger van Haarlem"
+        onerror="this.style.display='none'">
+      <div>
+        <h1>Rattenvanger van Haarlem</h1>
+        <p id="subtitle">Zie je een rat? Meld ’m hier!</p>
+      </div>
+    </div>
+    <select id="language" aria-label="Taal kiezen">
+      <option value="nl">Nederlands</option>
+      <option value="tr">Türkçe</option>
+      <option value="ar">العربية</option>
+      <option value="ru">Русский</option>
+      <option value="es">Español</option>
+      <option value="en">English</option>
+    </select>
+  </header>
+
+  <nav aria-label="Hoofdnavigatie">
+    <button data-page="report" id="navReport"></button>
+    <button data-page="map" id="navMap"></button>
+    <button data-page="info" id="navInfo"></button>
+  </nav>
+
+  <main>
+    <section id="page-report">
+      <h2 data-t="reportTitle"></h2>
+      <p data-t="reportIntro"></p>
+      <div class="notice">
+        <strong data-t="officialFirst"></strong>
+        <p data-t="officialExplain"></p>
+        <a class="primary" id="officialLink"
+          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem"
+          target="_self" rel="noopener" data-t="openEmail"></a>
+      </div>
+      <p class="muted" data-t="emailLimit"></p>
+      <div class="check">
+        <input id="returned" type="checkbox">
+        <label for="returned" data-t="returnedLabel"></label>
+      </div>
+      <div class="actions">
+        <button id="unlockButton" disabled data-t="unlockMap"></button>
+      </div>
+      <p id="unlockMessage" role="status" aria-live="polite"></p>
+      <div id="turnstileBox" class="hidden" style="margin-top:16px"></div>
+    </section>
+
+    <section id="page-map" class="hidden">
+      <h2 data-t="mapTitle"></h2>
+      <p data-t="mapIntro"></p>
+      <div class="notice" data-t="mapWarning"></div>
+      <div class="legend" aria-label="Legenda">
+        <span><i class="dot" style="background:#8b918d"></i><span data-t="zero"></span></span>
+        <span><i class="dot" style="background:#287a4b"></i>1–2</span>
+        <span><i class="dot" style="background:#b96a12"></i>3–4</span>
+        <span><i class="dot" style="background:#b63a35"></i>5+</span>
+      </div>
+      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
+      <h3 data-t="chooseStreet"></h3>
+      <div id="streetList" class="street-list"></div>
+      <div class="field">
+        <label for="observation" data-t="observationLabel"></label>
+        <select id="observation">
+          <option value="1" data-t="oneRat"></option>
+          <option value="2" data-t="multipleRats"></option>
+        </select>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="consent">
+        <span data-t="consent"></span>
+      </label>
+      <div class="actions">
+        <button id="submitReport" disabled data-t="submit"></button>
+      </div>
+      <p id="submitMessage" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="page-info" class="hidden">
+      <h2 data-t="infoTitle"></h2>
+      <p data-t="infoText"></p>
+      <h3 data-t="privacyTitle"></h3>
+      <p data-t="privacyText"></p>
+      <h3 data-t="limitsTitle"></h3>
+      <p data-t="limitsText"></p>
+    </section>
+  </main>
+
+  <footer>
+    <span data-t="footerText"></span>
+  </footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const CONFIG = {
+    apiUrl: "https://YOUR_PROJECT.functions.supabase.co/rattenvanger-api",
+    supabaseAnonKey: "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY",
+    turnstileSiteKey: "YOUR_TURNSTILE_SITE_KEY",
+    officialEmail: "info@spaarnelanden.nl"
+  };
+
+  const API_READY =
+    !CONFIG.apiUrl.includes("YOUR_PROJECT") &&
+    !CONFIG.supabaseAnonKey.includes("YOUR_SUPABASE") &&
+    !CONFIG.turnstileSiteKey.includes("YOUR_TURNSTILE");
+
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    lang: localStorage.getItem("rvh-language") || "nl",
+    returned: false,
+    unlocked: false,
+    token: null,
+    captchaToken: null,
+    captchaWidget: null,
+    map: null,
+    layer: null,
+    streets: [],
+    selectedStreet: null,
+    submissionId: null,
+    busy: false
+  };
+
+  const T = {
+    nl: {
+      report:"Rat melden", map:"Rattenkaart Haarlem", info:"Informatie",
+      reportTitle:"Een rat gezien?", reportIntro:"Help mee om waarnemingen in Haarlem zichtbaar te maken.",
+      officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
+      officialExplain:"Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.",
+      openEmail:"E-mail aan Spaarnelanden openen",
+      emailLimit:"We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.",
+      returnedLabel:"Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
+      unlockMap:"Verder naar de kaart", mapTitle:"Rattenkaart Haarlem",
+      mapIntro:"Kies de straat waar je de rat hebt gezien. Je melding telt mee bij die straat.",
+      mapWarning:"De kaart toont vrijwillige, niet-gecontroleerde waarnemingen. Nul meldingen betekent niet dat er geen ratten zijn.",
+      zero:"0 meldingen", chooseStreet:"Kies een straat", observationLabel:"Wat heb je gezien?",
+      oneRat:"Eén rat", multipleRats:"Meerdere ratten", consent:"Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.",
+      submit:"Waarneming registreren", infoTitle:"Over dit initiatief",
+      infoText:"Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.",
+      privacyTitle:"Privacy", privacyText:"De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.",
+      limitsTitle:"Wat deze kaart niet bewijst", limitsText:"De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.",
+      footerText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
+      loading:"Bezig…", apiUnavailable:"De technische omgeving is nog niet ingesteld.",
+      captchaWait:"Rond eerst de beveiligingscontrole af.", confirmReturn:"Bevestig eerst dat je bent teruggekeerd.",
+      mapLocked:"Open eerst de e-maillink en bevestig daarna je terugkeer.",
+      mapError:"De kaart kon niet worden geladen. Probeer het later opnieuw.",
+      chooseFirst:"Kies eerst een straat.", consentFirst:"Geef eerst toestemming om de waarneming te registreren.",
+      saved:"Je waarneming is geregistreerd.", submitError:"Registreren is niet gelukt. Probeer het opnieuw.",
+      unlockError:"De kaart kon niet worden vrijgegeven. Probeer het opnieuw.",
+      streetCount:"meldingen"
+    },
+    en: {
+      report:"Report a rat", map:"Haarlem rat map", info:"Information",
+      reportTitle:"Seen a rat?", reportIntro:"Help make rat sightings in Haarlem visible.",
+      officialFirst:"First make an official report to Spaarnelanden yourself.",
+      officialExplain:"Open the email, add details if needed, and send it yourself.",
+      openEmail:"Open email to Spaarnelanden",
+      emailLimit:"We cannot verify whether you sent the email or whether Spaarnelanden received it.",
+      returnedLabel:"I have returned to this website after opening the email link.",
+      unlockMap:"Continue to the map", mapTitle:"Haarlem rat map",
+      mapIntro:"Choose the street where you saw the rat.",
+      mapWarning:"The map shows voluntary, unverified sightings. Zero reports does not mean there are no rats.",
+      zero:"0 reports", chooseStreet:"Choose a street", observationLabel:"What did you see?",
+      oneRat:"One rat", multipleRats:"More than one rat", consent:"I understand that my report is voluntary, unverified and displayed as a street total.",
+      submit:"Register sighting", infoTitle:"About this initiative",
+      infoText:"Rattenvanger van Haarlem collects voluntary street-level sightings. It does not catch rats, carry out pest control or handle official reports.",
+      privacyTitle:"Privacy", privacyText:"The map does not display individual reports, names, email addresses, phone numbers or exact sighting locations. Technical providers may process technical data such as IP addresses in server logs.",
+      limitsTitle:"What this map does not prove", limitsText:"The data is unverified and is not an official count or reliable measurement of the rat population.",
+      footerText:"Rattenvanger van Haarlem is an independent residents' initiative.",
+      loading:"Loading…", apiUnavailable:"The technical environment has not been configured.",
+      captchaWait:"Complete the security check first.", confirmReturn:"Confirm that you have returned first.",
+      mapLocked:"Open the email link and confirm your return first.",
+      mapError:"The map could not be loaded. Please try again later.",
+      chooseFirst:"Choose a street first.", consentFirst:"Consent is required to register a sighting.",
+      saved:"Your sighting has been registered.", submitError:"Registration failed. Please try again.",
+      unlockError:"The map could not be unlocked. Please try again.", streetCount:"reports"
+    },
+    tr: {
+      report:"Fare bildir", map:"Haarlem fare haritası", info:"Bilgi",
+      reportTitle:"Fare gördünüz mü?", reportIntro:"Haarlem'deki gözlemlerin görünür olmasına yardımcı olun.",
+      officialFirst:"Önce Spaarnelanden'e kendiniz resmî bildirim yapın.",
+      officialExplain:"E-postayı açın, gerekirse bilgileri ekleyin ve kendiniz gönderin.",
+      openEmail:"Spaarnelanden'e e-posta aç",
+      emailLimit:"E-postayı gönderip göndermediğinizi veya Spaarnelanden'in alıp almadığını doğrulayamayız.",
+      returnedLabel:"E-posta bağlantısını açtıktan sonra bu siteye geri döndüm.",
+      unlockMap:"Haritaya geç", mapTitle:"Haarlem fare haritası",
+      mapIntro:"Fareyi gördüğünüz sokağı seçin.",
+      mapWarning:"Harita gönüllü ve doğrulanmamış gözlemleri gösterir. Sıfır bildirim fare olmadığı anlamına gelmez.",
+      zero:"0 bildirim", chooseStreet:"Bir sokak seçin", observationLabel:"Ne gördünüz?",
+      oneRat:"Bir fare", multipleRats:"Birden fazla fare", consent:"Bildirimin gönüllü ve doğrulanmamış olduğunu ve sokak toplamı olarak gösterileceğini anlıyorum.",
+      submit:"Gözlemi kaydet", infoTitle:"Bu girişim hakkında",
+      infoText:"Rattenvanger van Haarlem gönüllü sokak düzeyindeki gözlemleri toplar. Fare yakalamaz, ilaçlama yapmaz ve resmî bildirimleri işlemez.",
+      privacyTitle:"Gizlilik", privacyText:"Haritada kişisel bildirimler, isimler, e-posta adresleri, telefon numaraları veya kesin konumlar gösterilmez. Teknik hizmet sağlayıcılar IP adresleri gibi teknik verileri günlüklerde işleyebilir.",
+      limitsTitle:"Haritanın kanıtlamadığı şeyler", limitsText:"Veriler doğrulanmamıştır ve resmî sayım ya da güvenilir fare nüfusu ölçümü değildir.",
+      footerText:"Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
+      loading:"Yükleniyor…", apiUnavailable:"Teknik ortam henüz yapılandırılmadı.",
+      captchaWait:"Önce güvenlik kontrolünü tamamlayın.", confirmReturn:"Önce geri döndüğünüzü onaylayın.",
+      mapLocked:"Önce e-posta bağlantısını açın ve dönüşünüzü onaylayın.",
+      mapError:"Harita yüklenemedi. Daha sonra tekrar deneyin.",
+      chooseFirst:"Önce bir sokak seçin.", consentFirst:"Gözlemi kaydetmek için onay gereklidir.",
+      saved:"Gözleminiz kaydedildi.", submitError:"Kayıt başarısız. Tekrar deneyin.",
+      unlockError:"Haritanın kilidi açılamadı. Tekrar deneyin.", streetCount:"bildirim"
+    },
+    ar: {
+      report:"الإبلاغ عن جرذ", map:"خريطة هارلم", info:"معلومات",
+      reportTitle:"هل رأيت جرذًا؟", reportIntro:"ساعدنا في إظهار مشاهدات الجرذان في هارلم.",
+      officialFirst:"قدّم أولاً بلاغًا رسميًا بنفسك إلى Spaarnelanden.",
+      officialExplain:"افتح البريد الإلكتروني، وأضف التفاصيل عند الحاجة، ثم أرسله بنفسك.",
+      openEmail:"فتح رسالة إلى Spaarnelanden",
+      emailLimit:"لا يمكننا التحقق مما إذا كنت قد أرسلت الرسالة أو ما إذا كانت Spaarnelanden قد استلمتها.",
+      returnedLabel:"لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
+      unlockMap:"المتابعة إلى الخريطة", mapTitle:"خريطة الجرذان في هارلم",
+      mapIntro:"اختر الشارع الذي رأيت فيه الجرذ.",
+      mapWarning:"تعرض الخريطة مشاهدات طوعية وغير مؤكدة. عدم وجود بلاغات لا يعني عدم وجود جرذان.",
+      zero:"0 بلاغات", chooseStreet:"اختر شارعًا", observationLabel:"ماذا رأيت؟",
+      oneRat:"جرذ واحد", multipleRats:"أكثر من جرذ", consent:"أفهم أن البلاغ طوعي وغير مؤكد وسيُعرض ضمن إجمالي الشارع.",
+      submit:"تسجيل المشاهدة", infoTitle:"عن هذه المبادرة",
+      infoText:"تجمع Rattenvanger van Haarlem مشاهدات طوعية على مستوى الشارع. ولا تصطاد الجرذان ولا تنفذ المكافحة ولا تعالج البلاغات الرسمية.",
+      privacyTitle:"الخصوصية", privacyText:"لا تعرض الخريطة البلاغات الفردية أو الأسماء أو عناوين البريد الإلكتروني أو أرقام الهواتف أو المواقع الدقيقة. وقد يعالج مقدمو الخدمات التقنية بيانات مثل عناوين IP في سجلات الخادم.",
+      limitsTitle:"ما الذي لا تثبته الخريطة؟", limitsText:"البيانات غير مؤكدة وليست إحصاءً رسميًا أو قياسًا موثوقًا لأعداد الجرذان.",
+      footerText:"Rattenvanger van Haarlem مبادرة مستقلة للسكان.",
+      loading:"جارٍ التحميل…", apiUnavailable:"لم يتم إعداد البيئة التقنية بعد.",
+      captchaWait:"أكمل فحص الأمان أولاً.", confirmReturn:"أكد عودتك أولاً.",
+      mapLocked:"افتح رابط البريد الإلكتروني وأكد عودتك أولاً.",
+      mapError:"تعذر تحميل الخريطة. حاول مرة أخرى لاحقًا.",
+      chooseFirst:"اختر شارعًا أولاً.", consentFirst:"يجب الموافقة لتسجيل المشاهدة.",
+      saved:"تم تسجيل المشاهدة.", submitError:"لم ينجح التسجيل. حاول مرة أخرى.",
+      unlockError:"تعذر فتح الخريطة. حاول مرة أخرى.", streetCount:"بلاغات"
+    },
+    ru: {
+      report:"Сообщить о крысе", map:"Карта крыс Харлема", info:"Информация",
+      reportTitle:"Увидели крысу?", reportIntro:"Помогите сделать наблюдения в Харлеме видимыми.",
+      officialFirst:"Сначала самостоятельно отправьте официальное сообщение в Spaarnelanden.",
+      officialExplain:"Откройте письмо, при необходимости дополните его и отправьте самостоятельно.",
+      openEmail:"Открыть письмо в Spaarnelanden",
+      emailLimit:"Мы не можем проверить, отправили ли вы письмо и получило ли его Spaarnelanden.",
+      returnedLabel:"Я вернулся на этот сайт после открытия ссылки электронной почты.",
+      unlockMap:"Перейти к карте", mapTitle:"Карта крыс Харлема",
+      mapIntro:"Выберите улицу, где вы увидели крысу.",
+      mapWarning:"На карте показаны добровольные, непроверенные наблюдения. Ноль сообщений не означает отсутствие крыс.",
+      zero:"0 сообщений", chooseStreet:"Выберите улицу", observationLabel:"Что вы увидели?",
+      oneRat:"Одну крысу", multipleRats:"Несколько крыс", consent:"Я понимаю, что сообщение добровольное, непроверенное и отображается как общее число по улице.",
+      submit:"Зарегистрировать наблюдение", infoTitle:"Об этой инициативе",
+      infoText:"Rattenvanger van Haarlem собирает добровольные наблюдения на уровне улиц. Инициатива не ловит крыс, не проводит дезинсекцию и не обрабатывает официальные сообщения.",
+      privacyTitle:"Конфиденциальность", privacyText:"На карте не показываются отдельные сообщения, имена, адреса электронной почты, телефоны или точные места наблюдений. Технические поставщики могут обрабатывать технические данные, например IP-адреса в журналах сервера.",
+      limitsTitle:"Чего эта карта не доказывает", limitsText:"Данные не проверены и не являются официальным подсчётом или достоверным измерением популяции крыс.",
+      footerText:"Rattenvanger van Haarlem — независимая инициатива жителей.",
+      loading:"Загрузка…", apiUnavailable:"Техническая среда ещё не настроена.",
+      captchaWait:"Сначала пройдите проверку безопасности.", confirmReturn:"Сначала подтвердите возвращение.",
+      mapLocked:"Сначала откройте ссылку электронной почты и подтвердите возвращение.",
+      mapError:"Не удалось загрузить карту. Попробуйте позже.",
+      chooseFirst:"Сначала выберите улицу.", consentFirst:"Для регистрации наблюдения необходимо согласие.",
+      saved:"Ваше наблюдение зарегистрировано.", submitError:"Не удалось зарегистрировать. Попробуйте ещё раз.",
+      unlockError:"Не удалось открыть карту. Попробуйте ещё раз.", streetCount:"сообщений"
+    },
+    es: {
+      report:"Informar de una rata", map:"Mapa de ratas de Haarlem", info:"Información",
+      reportTitle:"¿Has visto una rata?", reportIntro:"Ayuda a mostrar los avistamientos en Haarlem.",
+      officialFirst:"Primero presenta tú mismo un aviso oficial a Spaarnelanden.",
+      officialExplain:"Abre el correo, añade los datos necesarios y envíalo tú mismo.",
+      openEmail:"Abrir correo para Spaarnelanden",
+      emailLimit:"No podemos comprobar si has enviado el correo ni si Spaarnelanden lo ha recibido.",
+      returnedLabel:"He vuelto a este sitio después de abrir el enlace del correo.",
+      unlockMap:"Continuar al mapa", mapTitle:"Mapa de ratas de Haarlem",
+      mapIntro:"Elige la calle donde viste la rata.",
+      mapWarning:"El mapa muestra observaciones voluntarias y no verificadas. Cero avisos no significa que no haya ratas.",
+      zero:"0 avisos", chooseStreet:"Elige una calle", observationLabel:"¿Qué viste?",
+      oneRat:"Una rata", multipleRats:"Varias ratas", consent:"Entiendo que mi aviso es voluntario, no verificado y se muestra como un total por calle.",
+      submit:"Registrar observación", infoTitle:"Sobre esta iniciativa",
+      infoText:"Rattenvanger van Haarlem recopila observaciones voluntarias por calle. No captura ratas, no realiza control de plagas ni gestiona avisos oficiales.",
+      privacyTitle:"Privacidad", privacyText:"El mapa no muestra avisos individuales, nombres, correos electrónicos, teléfonos ni ubicaciones exactas. Los proveedores técnicos pueden procesar datos técnicos, como direcciones IP en los registros del servidor.",
+      limitsTitle:"Lo que este mapa no demuestra", limitsText:"Los datos no están verificados y no constituyen un recuento oficial ni una medición fiable de la población de ratas.",
+      footerText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
+      loading:"Cargando…", apiUnavailable:"El entorno técnico aún no está configurado.",
+      captchaWait:"Completa primero la comprobación de seguridad.", confirmReturn:"Confirma primero que has regresado.",
+      mapLocked:"Abre primero el enlace del correo y confirma que has regresado.",
+      mapError:"No se pudo cargar el mapa. Inténtalo más tarde.",
+      chooseFirst:"Primero elige una calle.", consentFirst:"Se necesita tu consentimiento para registrar la observación.",
+      saved:"Tu observación ha sido registrada.", submitError:"No se pudo registrar. Inténtalo de nuevo.",
+      unlockError:"No se pudo desbloquear el mapa. Inténtalo de nuevo.", streetCount:"avisos"
+    }
+  };
+
+  const tr = (key) => (T[state.lang] || T.nl)[key] || T.nl[key] || key;
+
+  function applyLanguage() {
+    const lang = T[state.lang] ? state.lang : "nl";
+    state.lang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    $("language").value = lang;
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const key = el.dataset.t;
+      el.textContent = tr(key);
+    });
+    $("navReport").textContent = tr("report");
+    $("navMap").textContent = tr("map");
+    $("navInfo").textContent = tr("info");
+    $("officialLink").href =
+      "mailto:" + CONFIG.officialEmail +
+      "?subject=" + encodeURIComponent("Melding rattenoverlast Haarlem");
+    $("subtitle").textContent = "Zie je een rat? Meld ’m hier!";
+    document.title = "Rattenvanger van Haarlem";
+    renderStreetList();
+  }
+
+  function showPage(page) {
+    if (page === "map" && !state.unlocked) {
+      page = "report";
+      $("unlockMessage").textContent = tr("mapLocked");
+    }
+    ["report","map","info"].forEach(name =>
+      $("page-" + name).classList.toggle("hidden", name !== page)
+    );
+    document.querySelectorAll("nav button").forEach(btn => {
+      if (btn.dataset.page === page) btn.setAttribute("aria-current","page");
+      else btn.removeAttribute("aria-current");
+    });
+    if (page === "map") {
+      if (!state.map) initMap();
+      setTimeout(() => state.map && state.map.invalidateSize(), 100);
+    }
+  }
+
+  async function api(action, payload = {}) {
+    if (!API_READY) throw new Error("API_NOT_CONFIGURED");
+    const response = await fetch(CONFIG.apiUrl, {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "apikey":CONFIG.supabaseAnonKey
+      },
+      body:JSON.stringify({ action, ...payload })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "REQUEST_FAILED");
+    return data;
+  }
+
+  function setupTurnstile() {
+    if (!API_READY || !window.turnstile || state.captchaWidget !== null) return;
+    $("turnstileBox").classList.remove("hidden");
+    state.captchaWidget = window.turnstile.render("#turnstileBox", {
+      sitekey:CONFIG.turnstileSiteKey,
+      callback:(token) => { state.captchaToken = token; },
+      "expired-callback":() => { state.captchaToken = null; },
+      "error-callback":() => { state.captchaToken = null; }
+    });
+  }
+
+  async function unlock() {
+    $("unlockMessage").textContent = "";
+    if (!state.returned) {
+      $("unlockMessage").textContent = tr("confirmReturn");
+      return;
+    }
+    if (!API_READY) {
+      $("unlockMessage").textContent = tr("apiUnavailable");
+      return;
+    }
+    if (!state.captchaToken) {
+      $("unlockMessage").textContent = tr("captchaWait");
+      setupTurnstile();
+      return;
+    }
+    $("unlockButton").disabled = true;
+    try {
+      const result = await api("unlock", { captchaToken:state.captchaToken });
+      if (!result.token) throw new Error("TOKEN_MISSING");
+      state.token = result.token;
+      state.unlocked = true;
+      sessionStorage.setItem("rvh_unlocked","1");
+      await loadMapData();
+      showPage("map");
+    } catch (err) {
+      $("unlockMessage").textContent = tr("unlockError");
+      state.captchaToken = null;
+      if (window.turnstile && state.captchaWidget !== null) {
+        window.turnstile.reset(state.captchaWidget);
+      }
+    } finally {
+      $("unlockButton").disabled = false;
+    }
+  }
+
+  function countColor(count) {
+    if (count === 0) return "#8b918d";
+    if (count <= 2) return "#287a4b";
+    if (count <= 4) return "#b96a12";
+    return "#b63a35";
+  }
+
+  
