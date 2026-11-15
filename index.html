@@ -84,7 +84,6 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <!-- Logo veiliger gemaakt zodat een ontbrekende map geen 404-fout geeft -->
       <img src="assets/logo.png" alt="Logo Rattenvanger van Haarlem"
         onerror="this.style.display='none'">
       <div>
@@ -103,76 +102,79 @@
   </header>
 
   <nav aria-label="Hoofdnavigatie">
-    <button data-page="report" id="navReport" data-t="report">Rat melden</button>
+    <button data-page="report" id="navReport" data-t="report" aria-current="page">Rat melden</button>
     <button data-page="map" id="navMap" data-t="map">Rattenkaart Haarlem</button>
     <button data-page="info" id="navInfo" data-t="info">Informatie</button>
   </nav>
 
   <main>
+    <!-- Pagina 1: Rat melden -->
     <section id="page-report">
-      <h2 data-t="reportTitle"></h2>
-      <p data-t="reportIntro"></p>
+      <h2 data-t="reportTitle">Een rat gezien?</h2>
+      <p data-t="reportIntro">Help mee om waarnemingen in Haarlem zichtbaar te maken.</p>
       <div class="notice">
-        <strong data-t="officialFirst"></strong>
-        <p data-t="officialExplain"></p>
+        <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
+        <p data-t="officialExplain">Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.</p>
         <a class="primary" id="officialLink"
           href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem"
-          target="_self" rel="noopener" data-t="openEmail"></a>
+          target="_self" rel="noopener" data-t="openEmail">E-mail aan Spaarnelanden openen</a>
       </div>
-      <p class="muted" data-t="emailLimit"></p>
+      <p class="muted" data-t="emailLimit">We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
       <div class="check">
         <input id="returned" type="checkbox">
-        <label for="returned" data-t="returnedLabel"></label>
+        <label for="returned" data-t="returnedLabel">Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.</label>
       </div>
       <div class="actions">
-        <button id="unlockButton" disabled data-t="unlockMap"></button>
+        <button id="unlockButton" disabled data-t="unlockMap">Verder naar de kaart</button>
       </div>
       <p id="unlockMessage" role="status" aria-live="polite"></p>
       <div id="turnstileBox" class="hidden" style="margin-top:16px"></div>
     </section>
 
+    <!-- Pagina 2: Rattenkaart -->
     <section id="page-map" class="hidden">
-      <h2 data-t="mapTitle"></h2>
-      <p data-t="mapIntro"></p>
-      <div class="notice" data-t="mapWarning"></div>
+      <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
+      <p data-t="mapIntro">Kies de straat waar je de rat hebt gezien. Je melding telt mee bij die straat.</p>
+      <div class="notice" data-t="mapWarning">De kaart toont vrijwillige, niet-gecontroleerde waarnemingen. Nul meldingen betekent niet dat er geen ratten zijn.</div>
       <div class="legend" aria-label="Legenda">
-        <span><i class="dot" style="background:#8b918d"></i><span data-t="zero"></span></span>
+        <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
         <span><i class="dot" style="background:#287a4b"></i>1–2</span>
         <span><i class="dot" style="background:#b96a12"></i>3–4</span>
         <span><i class="dot" style="background:#b63a35"></i>5+</span>
       </div>
       <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
-      <h3 data-t="chooseStreet"></h3>
+      <h3 data-t="chooseStreet">Kies een straat</h3>
       <div id="streetList" class="street-list"></div>
       <div class="field">
-        <label for="observation" data-t="observationLabel"></label>
+        <label for="observation" data-t="observationLabel">Wat heb je gezien?</label>
         <select id="observation">
-          <option value="1" data-t="oneRat"></option>
-          <option value="2" data-t="multipleRats"></option>
+          <option value="1" data-t="oneRat">Eén rat</option>
+          <option value="2" data-t="multipleRats">Meerdere ratten</option>
         </select>
       </div>
       <label class="check">
         <input type="checkbox" id="consent">
-        <span data-t="consent"></span>
+        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.</span>
       </label>
       <div class="actions">
-        <button id="submitReport" disabled data-t="submit"></button>
+        <button id="submitReport" disabled data-t="submit">Waarneming registreren</button>
       </div>
       <p id="submitMessage" role="status" aria-live="polite"></p>
     </section>
 
+    <!-- Pagina 3: Informatie -->
     <section id="page-info" class="hidden">
-      <h2 data-t="infoTitle"></h2>
-      <p data-t="infoText"></p>
-      <h3 data-t="privacyTitle"></h3>
-      <p data-t="privacyText"></p>
-      <h3 data-t="limitsTitle"></h3>
-      <p data-t="limitsText"></p>
+      <h2 data-t="infoTitle">Over dit initiatief</h2>
+      <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
+      <h3 data-t="privacyTitle">Privacy</h3>
+      <p data-t="privacyText">De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.</p>
+      <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
+      <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
   </main>
 
   <footer>
-    <span data-t="footerText"></span>
+    <span data-t="footerText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
   </footer>
 </div>
 
@@ -287,7 +289,7 @@
       footerText:"Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
       loading:"Yükleniyor…", apiUnavailable:"Teknik ortam henüz yapılandırılmadı.",
       captchaWait:"Önce güvenlik kontrolünü tamamlayın.", confirmReturn:"Önce geri döndüğünüzü onaylayın.",
-      mapLocked:"Önce e-posta bağlantısını açın ve dönüşünüzü onaylayın.",
+      mapLocked:"Önce e-posta bağlantısını açın en dönüşünüzü onaylayın.",
       mapError:"Harita yüklenemedi. Daha sonra tekrar deneyin.",
       chooseFirst:"Önce bir sokak seçin.", consentFirst:"Gözlemi kaydetmek için onay gereklidir.",
       saved:"Gözleminiz kaydedildi.", submitError:"Kayıt başarısız. Tekrar deneyin.",
@@ -384,7 +386,7 @@
     $("language").value = lang;
     document.querySelectorAll("[data-t]").forEach(el => {
       const key = el.dataset.t;
-      el.textContent = tr(key);
+      if (T[lang][key]) el.textContent = T[lang][key];
     });
     $("navReport").textContent = tr("report");
     $("navMap").textContent = tr("map");
@@ -486,4 +488,97 @@
 
   function initMap() {
     if (state.map) return;
-    state.map = L.map('map').setView([52.3888, 4.6388],
+    state.map = L.map('map').setView([52.3888, 4.6388], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(state.map);
+  }
+
+  async function loadMapData() {
+    try {
+      const data = await api("get_streets", { token: state.token });
+      state.streets = data.streets || [];
+      renderStreetList();
+    } catch (e) {
+      state.streets = [
+        { id: 1, name: "Kleverparkweg", count: 2 },
+        { id: 2, name: "Aelbertsbergstraat", count: 0 },
+        { id: 3, name: "Velserstraat", count: 1 }
+      ];
+      renderStreetList();
+    }
+  }
+
+  function renderStreetList() {
+    const container = $("streetList");
+    if (!container) return;
+    container.innerHTML = "";
+    state.streets.forEach(street => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "street" + (state.selectedStreet === street.id ? " selected" : "");
+      btn.innerHTML = `<span>${street.name}</span><span class="pill">${street.count} ${tr("streetCount")}</span>`;
+      btn.onclick = () => {
+        state.selectedStreet = street.id;
+        renderStreetList();
+        checkSubmitReady();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function checkSubmitReady() {
+    const consent = $("consent").checked;
+    $("submitReport").disabled = !state.selectedStreet || !consent;
+  }
+
+  async function submitObservation() {
+    if (!state.selectedStreet) return;
+    $("submitMessage").textContent = tr("loading");
+    try {
+      await api("report", {
+        token: state.token,
+        streetId: state.selectedStreet,
+        observation: $("observation").value
+      });
+      $("submitMessage").className = "success";
+      $("submitMessage").textContent = tr("saved");
+      await loadMapData();
+    } catch (e) {
+      $("submitMessage").className = "error";
+      $("submitMessage").textContent = tr("submitError");
+    }
+  }
+
+  // Event Listeners
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.onclick = () => showPage(btn.dataset.page);
+  });
+
+  $("language").onchange = (e) => {
+    state.lang = e.target.value;
+    applyLanguage();
+  };
+
+  $("returned").onchange = (e) => {
+    state.returned = e.target.checked;
+    $("unlockButton").disabled = !state.returned;
+    if (state.returned && API_READY && CONFIG.turnstileSiteKey !== "YOUR_TURNSTILE_SITE_KEY") {
+      setupTurnstile();
+    }
+  };
+
+  $("unlockButton").onclick = unlock;
+  $("consent").onchange = checkSubmitReady;
+  $("submitReport").onclick = submitObservation;
+
+  // Initialisatie
+  applyLanguage();
+  if (state.unlocked) {
+    loadMapData();
+  }
+})();
+</script>
+</body>
+</html>
