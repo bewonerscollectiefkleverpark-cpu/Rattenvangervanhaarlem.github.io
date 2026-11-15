@@ -35,7 +35,7 @@
     .brand p { margin:4px 0 0;color:var(--muted);font-size:14px }
     select#language { width:auto;max-width:160px;padding:10px;border:1px solid var(--line);
       background:white;border-radius:10px;color:var(--ink);flex-shrink:0 }
-    .field select, .field input[type="text"] { width:100%;max-width:none;padding:12px;border:1px solid var(--line);
+    .field input[type="text"] { width:100%;max-width:none;padding:12px;border:1px solid var(--line);
       background:white;border-radius:10px;color:var(--ink) }
     nav { display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;position:relative;z-index:5 }
     nav button { background:#e8ebe6;color:var(--ink);font-size:14px }
@@ -128,9 +128,9 @@
     <!-- Pagina 2: Rattenkaart -->
     <section id="page-map" class="hidden">
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
-      <p data-t="mapIntro">Kies een straat uit de lijst, typ je eigen straat, of klik op een stip op de kaart.</p>
+      <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.</p>
       <div class="notice" data-t="mapWarning">
-        Privacy &amp; locatie: Elke stip staat op een willekeurig punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning. Nul meldingen betekent niet dat er geen ratten zijn.
+        Privacy &amp; locatie: Elke stip staat op een willekeurig punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.
       </div>
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
@@ -141,16 +141,10 @@
       
       <div id="map" aria-label="Kaart met rattenwaarnemingen per straat in Haarlem"></div>
 
+      <!-- Vrij invoerveld voor straten in Haarlem -->
       <div class="field">
-        <label for="streetSelect" data-t="chooseStreet">Kies een straat in Haarlem:</label>
-        <select id="streetSelect">
-          <option value="">-- Selecteer een straat --</option>
-        </select>
-      </div>
-
-      <div class="field hidden" id="customStreetField">
-        <label for="customStreetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
-        <input type="text" id="customStreetInput" placeholder="Bijv. Schotersingel">
+        <label for="streetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
+        <input type="text" id="streetInput" placeholder="Bijv. Aelbertsbergstraat">
       </div>
 
       <div class="field">
@@ -198,8 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentLang = localStorage.getItem("rvh-language") || "nl";
   let mapInstance = null;
   let markersLayer = null;
-  let selectedStreetId = null;
-  let customStreetName = "";
+  let enteredStreetName = "";
 
   const T = {
     nl: {
@@ -212,11 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
       emailLimit: "We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.",
       returnedLabel: "Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap: "Verder naar de kaart", mapTitle: "Rattenkaart Haarlem",
-      mapIntro: "Kies een straat uit de lijst, typ je eigen straat, of klik op een stip op de kaart.",
-      mapWarning: "Privacy & locatie: Elke stip staat op een willekeurig punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning. Nul meldingen betekent niet dat er geen ratten zijn.",
-      zero: "0 meldingen", chooseStreet: "Kies een straat in Haarlem:",
-      selectPlaceholder: "-- Selecteer een straat --", customOption: "— Andere straat (zelf intypen) —",
-      typeStreet: "Typ de naam van je straat in Haarlem:",
+      mapIntro: "Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.",
+      mapWarning: "Privacy & locatie: Elke stip staat op een willekeurig punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.",
+      zero: "0 meldingen", typeStreet: "Typ de naam van je straat in Haarlem:",
       observationLabel: "Wat heb je gezien?", oneRat: "Eén rat", multipleRats: "Meerdere ratten",
       consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip willekeurig in de straat staat (nooit op een huisadres).",
       submit: "Waarneming registreren", saved: "Je waarneming is geregistreerd!",
@@ -239,11 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
       emailLimit: "We cannot verify whether you sent the email or whether Spaarnelanden received it.",
       returnedLabel: "I have returned to this website after opening the email link.",
       unlockMap: "Continue to the map", mapTitle: "Haarlem rat map",
-      mapIntro: "Choose a street from the list, type your own street, or click a dot on the map.",
-      mapWarning: "Privacy & location: Each dot is placed at a random point in the street and only shows the total reports for the entire street. A dot never indicates a specific house address. Zero reports does not mean there are no rats.",
-      zero: "0 reports", chooseStreet: "Choose a street in Haarlem:",
-      selectPlaceholder: "-- Select a street --", customOption: "— Other street (type manually) —",
-      typeStreet: "Type your street name in Haarlem:",
+      mapIntro: "Type your Haarlem street below and view sightings on the map.",
+      mapWarning: "Privacy & location: Each dot is placed at a random point in the street and only shows total reports for the entire street. A dot never indicates a specific house address.",
+      zero: "0 reports", typeStreet: "Type your street name in Haarlem:",
       observationLabel: "What did you see?", oneRat: "One rat", multipleRats: "More than one rat",
       consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed randomly on the street (never on a home address).",
       submit: "Register sighting", saved: "Your sighting has been registered!",
@@ -266,20 +255,18 @@ document.addEventListener("DOMContentLoaded", () => {
       emailLimit: "E-postayı gönderip göndermediğinizi veya Spaarnelanden'in alıp almadığını göremiyoruz.",
       returnedLabel: "E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
       unlockMap: "Haritaya devam et", mapTitle: "Haarlem fare haritası",
-      mapIntro: "Listeden bir sokak seçin, kendi sokağınızı yazın veya haritadaki bir noktaya tıklayın.",
-      mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta rastgele bir yere yerleştirilir ve yalnızca o sokağın toplam bildirim sayısını gösterir. Hiçbir zaman belirli bir ev adresini göstermez.",
-      zero: "0 bildirim", chooseStreet: "Haarlem'de bir sokak seçin:",
-      selectPlaceholder: "-- Bir sokak seçin --", customOption: "— Başka sokak (kendiniz yazın) —",
-      typeStreet: "Haarlem'deki sokağınızın adını yazın:",
+      mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın ve haritadaki gözlemleri görün.",
+      mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta rastgele bir yere yerleştirilir ve yalnızca o sokağın toplam bildirim sayısını gösterir. Asla belirli bir ev adresini belirtmez.",
+      zero: "0 bildirim", typeStreet: "Haarlem'deki sokağınızın adını yazın:",
       observationLabel: "Ne gördünüz?", oneRat: "Bir fare", multipleRats: "Birden fazla fare",
       consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu, sokak toplamı olarak gösterileceğini ve noktanın sokakta rastgele yer aldığını anlıyorum.",
       submit: "Gözlemi kaydet", saved: "Gözleminiz kaydedildi!",
       infoTitle: "Bu girişim hakkında",
-      infoText: "Rattenvanger van Haarlem sokak düzeyinde gönüllü gözlemleri toplar. Kendisi fare yakalamaz veya ilaçlama yapmaz.",
+      infoText: "Rattenvanger van Haarlem sokak düzeyinde gönüllü gözlemleri toplar.",
       privacyTitle: "Gizlilik",
-      privacyText: "Harita bireysel bildirimleri, kapı numaralarını veya isimleri göstermez.",
+      privacyText: "Harita bireysel bildirimleri veya kapı numaralarını göstermez.",
       limitsTitle: "Bu harita neyi kanıtlamaz",
-      limitsText: "Veriler doğrulanmamıştır ve resmi bir sayım değildir.",
+      limitsText: "Veriler doğrulanmamıştır.",
       footerText: "Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
       streetCount: "bildirim", popupNote: "Sokakta rastgele nokta (adres belirtmez)."
     },
@@ -290,102 +277,81 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst: "قم أولاً بتقديم بلاغ رسمي بنفسك لدى Spaarnelanden.",
       officialExplain: "افتح البريد الإلكتروني، وأضف التفاصيل إذا لزم الأمر، وأرسله بنفسك.",
       openEmail: "فتح البريد الإلكتروني إلى Spaarnelanden",
-      emailLimit: "لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني أو ما إذا كانت Spaarnelanden قد استلمته.",
+      emailLimit: "لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني.",
       returnedLabel: "لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
       unlockMap: "المتابعة إلى الخريطة", mapTitle: "خريطة الفئران في هارلم",
-      mapIntro: "اختر شارعاً من القائمة، أو اكتب اسم شارعك، أو انقر على نقطة في الخريطة.",
+      mapIntro: "اكتب شارعك في هارلم أدناه لعرض المشاهدات.",
       mapWarning: "الخصوصية والموقع: يتم وضع كل نقطة في مكان عشوائي في الشارع المعني وتعرض فقط إجمالي البلاغات للشارع بأكمله، ولا تشير أبداً إلى عنوان منزل محدد.",
-      zero: "0 بلاغات", chooseStreet: "اختر شارعاً في هارلم:",
-      selectPlaceholder: "-- اختر شارعاً --", customOption: "— شارع آخر (اكتبه بنفسك) —",
-      typeStreet: "اكتب اسم شارعك في هارلم:",
+      zero: "0 بلاغات", typeStreet: "اكتب اسم شارعك في هارلم:",
       observationLabel: "ماذا رأيت؟", oneRat: "فأر واحد", multipleRats: "عدة فئران",
       consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض كإجمالي للشارع في نقطة عشوائية.",
       submit: "تسجيل المشاهدة", saved: "تم تسجيل مشاهدتك!",
       infoTitle: "حول هذه المبادرة",
-      infoText: "تجمع مبادرة Rattenvanger van Haarlem المشاهدات الطوعية على مستوى الشارع ولا تقوم بمكافحة القوارض.",
+      infoText: "تجمع مبادرة Rattenvanger van Haarlem المشاهدات الطوعية.",
       privacyTitle: "الخصوصية",
-      privacyText: "لا تعرض الخريطة بلاغات فردية أو أرقام منازل أو أسماء.",
+      privacyText: "لا تعرض الخريطة بلاغات فردية أو أرقام منازل.",
       limitsTitle: "ما لا تثبته هذه الخريطة",
-      limitsText: "البيانات غير موثقة ولا تشكل إحصاءً رسمياً.",
-      footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة للسكان.",
+      limitsText: "البيانات غير موثقة.",
+      footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة.",
       streetCount: "بلاغات", popupNote: "نقطة عشوائية في الشارع (لا تشير إلى عنوان)."
     },
     ru: {
       subtitle: "Увидели крысу? Сообщите здесь!",
       report: "Сообщить о крысе", map: "Карта крыс Харлема", info: "Информация",
-      reportTitle: "Увидели крысу?", reportIntro: "Помогите сделать наблюдения за крысами в Харлеме видимыми.",
+      reportTitle: "Увидели крысу?", reportIntro: "Помогите сделать наблюдения за крысами видимыми.",
       officialFirst: "Сначала самостоятельно отправьте официальное сообщение в Spaarnelanden.",
-      officialExplain: "Откройте электронное письмо, при необходимости добавьте данные и отправьте его.",
+      officialExplain: "Откройте электронное письмо и отправьте его.",
       openEmail: "Открыть письмо в Spaarnelanden",
-      emailLimit: "Мы не можем проверить, отправили ли вы письмо и получила ли его компания Spaarnelanden.",
-      returnedLabel: "Я вернулся на этот сайт после открытия ссылки электронной почты.",
+      emailLimit: "Мы не можем проверить отправку письма.",
+      returnedLabel: "Я вернулся на этот сайт после открытия ссылки.",
       unlockMap: "Перейти к карте", mapTitle: "Карта крыс Харлема",
-      mapIntro: "Выберите улицу из списка, введите свою улицу или нажмите на точку на карте.",
-      mapWarning: "Конфиденциальность: каждая точка размещается в случайном месте улицы и показывает только общее количество сообщений по всей улице, никогда не указывая на конкретный дом.",
-      zero: "0 сообщений", chooseStreet: "Выберите улицу в Харлеме:",
-      selectPlaceholder: "-- Выберите улицу --", customOption: "— Другая улица (ввести вручную) —",
-      typeStreet: "Введите название вашей улицы в Харлеме:",
+      mapIntro: "Введите вашу улицу в Харлеме ниже.",
+      mapWarning: "Конфиденциальность: каждая точка размещается в случайном месте улицы и показывает только общее количество сообщений, никогда не указывая на конкретный дом.",
+      zero: "0 сообщений", typeStreet: "Введите название вашей улицы в Харлеме:",
       observationLabel: "Что вы видели?", oneRat: "Одну крысу", multipleRats: "Несколько крыс",
-      consent: "Я понимаю, что мое сообщение является добровольным, непроверенным и отображается в случайной точке улицы.",
+      consent: "Я понимаю, что мое сообщение является добровольным и отображается в случайной точке улицы.",
       submit: "Зарегистрировать наблюдение", saved: "Ваше наблюдение зарегистрировано!",
       infoTitle: "Об этой инициативе",
-      infoText: "Rattenvanger van Haarlem собирает добровольные наблюдения на уровне улиц и не занимается отловом крыс.",
+      infoText: "Rattenvanger van Haarlem собирает добровольные наблюдения.",
       privacyTitle: "Конфиденциальность",
-      privacyText: "На карте не отображаются номера домов, имена или точные адреса.",
+      privacyText: "На карте не отображаются номера домов.",
       limitsTitle: "Чего эта карта не доказывает",
-      limitsText: "Данные не проверены и не являются официальным подсчетом.",
-      footerText: "Rattenvanger van Haarlem — независимая инициатива жителей.",
+      limitsText: "Данные не проверены.",
+      footerText: "Rattenvanger van Haarlem — независимая инициатива.",
       streetCount: "сообщений", popupNote: "Случайная точка на улице (не указывает на адрес)."
     },
     es: {
       subtitle: "¿Viste una rata? ¡Repórtala aquí!",
       report: "Reportar rata", map: "Mapa de ratas de Haarlem", info: "Información",
-      reportTitle: "¿Viste una rata?", reportIntro: "Ayuda a hacer visibles los avistamientos en Haarlem.",
+      reportTitle: "¿Viste una rata?", reportIntro: "Ayuda a hacer visibles los avistamientos.",
       officialFirst: "Primero haz un reporte oficial tú mismo en Spaarnelanden.",
-      officialExplain: "Abre el correo electrónico, añade los datos necesarios y envíalo tú mismo.",
+      officialExplain: "Abre el correo electrónico y envíalo.",
       openEmail: "Abrir correo a Spaarnelanden",
-      emailLimit: "No podemos verificar si enviaste el correo o si Spaarnelanden lo recibió.",
-      returnedLabel: "He vuelto a este sitio web después de abrir el enlace del correo.",
+      emailLimit: "No podemos verificar si enviaste el correo.",
+      returnedLabel: "He vuelto a este sitio web.",
       unlockMap: "Continuar al mapa", mapTitle: "Mapa de ratas de Haarlem",
-      mapIntro: "Elige una calle de la lista, escribe tu calle o haz clic en un punto del mapa.",
+      mapIntro: "Escribe tu calle en Haarlem abajo.",
       mapWarning: "Privacidad y ubicación: cada punto se coloca al azar en la calle y muestra solo el total de reportes de toda la calle. Nunca señala una dirección específica.",
-      zero: "0 reportes", chooseStreet: "Elige una calle en Haarlem:",
-      selectPlaceholder: "-- Selecciona una calle --", customOption: "— Otra calle (escribir manualmente) —",
-      typeStreet: "Escribe el nombre de tu calle en Haarlem:",
+      zero: "0 reportes", typeStreet: "Escribe el nombre de tu calle en Haarlem:",
       observationLabel: "¿Qué viste?", oneRat: "Una rata", multipleRats: "Varias ratas",
-      consent: "Entiendo que mi reporte es voluntario, no verificado y se muestra en un punto aleatorio de la calle.",
+      consent: "Entiendo que mi reporte es voluntario y se muestra en un punto aleatorio de la calle.",
       submit: "Registrar avistamiento", saved: "¡Tu avistamiento ha sido registrado!",
       infoTitle: "Sobre esta iniciativa",
-      infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios por calle y no realiza control de plagas.",
+      infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios.",
       privacyTitle: "Privacidad",
-      privacyText: "El mapa no muestra números de casa, nombres ni direcciones exactas.",
+      privacyText: "El mapa no muestra números de casa.",
       limitsTitle: "Lo que este mapa no prueba",
-      limitsText: "Los datos no están verificados y no constituyen un conteo oficial.",
-      footerText: "Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
+      limitsText: "Los datos no están verificados.",
+      footerText: "Rattenvanger van Haarlem es una iniciativa vecinal.",
       streetCount: "reportes", popupNote: "Punto aleatorio en la calle (nunca indica una dirección)."
     }
   };
 
   const tr = (key) => (T[currentLang] && T[currentLang][key]) ? T[currentLang][key] : (T.nl[key] || key);
 
-  // Alle straten op 0 meldingen (grijs), alleen Aelbertsbergstraat op 5 meldingen (rood)
+  // Dynamische lijst van straten die door gebruikers worden ingevoerd (Aelbertsbergstraat standaard op 5 meldingen = rood)
   const streets = [
-    { id: 1, name: "Kleverparkweg", lat: 52.3912, lng: 4.6338, count: 0 },
-    { id: 2, name: "Aelbertsbergstraat", lat: 52.3924, lng: 4.6315, count: 5 },
-    { id: 3, name: "Velserstraat", lat: 52.3919, lng: 4.6352, count: 0 },
-    { id: 4, name: "Kleverlaan", lat: 52.3936, lng: 4.6358, count: 0 },
-    { id: 5, name: "Rode Schuttersstraat", lat: 52.3905, lng: 4.6365, count: 0 },
-    { id: 6, name: "Zijlweg", lat: 52.3832, lng: 4.6275, count: 0 },
-    { id: 7, name: "Kenaustraat", lat: 52.3872, lng: 4.6368, count: 0 },
-    { id: 8, name: "Kenaupark", lat: 52.3860, lng: 4.6362, count: 0 },
-    { id: 9, name: "Parklaan", lat: 52.3848, lng: 4.6405, count: 0 },
-    { id: 10, name: "Jansweg", lat: 52.3845, lng: 4.6442, count: 0 },
-    { id: 11, name: "Kruisweg", lat: 52.3855, lng: 4.6402, count: 0 },
-    { id: 12, name: "Grote Markt", lat: 52.3813, lng: 4.6366, count: 0 },
-    { id: 13, name: "Spaarne", lat: 52.3798, lng: 4.6438, count: 0 },
-    { id: 14, name: "Brouwersvaart", lat: 52.3782, lng: 4.6245, count: 0 },
-    { id: 15, name: "Verspronckweg", lat: 52.3902, lng: 4.6305, count: 0 },
-    { id: 16, name: "Schotersingel", lat: 52.3895, lng: 4.6388, count: 0 }
+    { id: 1, name: "Aelbertsbergstraat", lat: 52.3924, lng: 4.6315, count: 5 }
   ];
 
   function applyLanguage() {
@@ -402,7 +368,6 @@ document.addEventListener("DOMContentLoaded", () => {
       el.textContent = tr(key);
     });
 
-    populateStreetSelect();
     if (markersLayer) renderMapMarkers();
   }
 
@@ -439,34 +404,8 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         if (mapInstance) mapInstance.invalidateSize();
       }, 150);
-      populateStreetSelect();
       renderMapMarkers();
     }
-  }
-
-  function populateStreetSelect() {
-    const select = $("streetSelect");
-    if (!select) return;
-    select.innerHTML = `<option value="">${tr("selectPlaceholder")}</option>`;
-    
-    const sorted = [...streets].sort((a, b) => a.name.localeCompare(b.name));
-    sorted.forEach(street => {
-      const opt = document.createElement("option");
-      opt.value = street.id;
-      opt.textContent = `${street.name} (${street.count} ${tr("streetCount")})`;
-      if (String(street.id) === String(selectedStreetId)) {
-        opt.selected = true;
-      }
-      select.appendChild(opt);
-    });
-
-    const customOpt = document.createElement("option");
-    customOpt.value = "custom";
-    customOpt.textContent = tr("customOption");
-    if (selectedStreetId === "custom") {
-      customOpt.selected = true;
-    }
-    select.appendChild(customOpt);
   }
 
   function renderMapMarkers() {
@@ -475,13 +414,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     streets.forEach(street => {
       const color = getMarkerColor(street.count);
-      const isSelected = String(street.id) === String(selectedStreetId);
-
       const circleMarker = L.circleMarker([street.lat, street.lng], {
-        radius: isSelected ? 11 : 8,
+        radius: 9,
         fillColor: color,
-        color: isSelected ? "#202421" : "#ffffff",
-        weight: isSelected ? 3 : 2,
+        color: "#ffffff",
+        weight: 2,
         opacity: 1,
         fillOpacity: 0.92
       });
@@ -489,17 +426,6 @@ document.addEventListener("DOMContentLoaded", () => {
       circleMarker.bindPopup(
         `<b>${street.name}</b><br>${street.count} ${tr("streetCount")}<br><small style="color:#626a64">${tr("popupNote")}</small>`
       );
-      
-      circleMarker.on('click', () => {
-        selectedStreetId = street.id;
-        customStreetName = "";
-        const select = $("streetSelect");
-        if (select) select.value = street.id;
-        const customField = $("customStreetField");
-        if (customField) customField.classList.add("hidden");
-        renderMapMarkers();
-        checkSubmitState();
-      });
 
       markersLayer.addLayer(circleMarker);
     });
@@ -508,13 +434,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkSubmitState() {
     const consent = $("consent");
     const submitBtn = $("submitReport");
-    const hasSelection = selectedStreetId !== null && (selectedStreetId !== "custom" || customStreetName.trim().length > 0);
+    const streetInput = $("streetInput");
+    const hasStreet = streetInput && streetInput.value.trim().length > 0;
     if (consent && submitBtn) {
-      submitBtn.disabled = !hasSelection || !consent.checked;
+      submitBtn.disabled = !hasStreet || !consent.checked;
     }
   }
 
-  // Taalkiezer
   const langSelect = $("language");
   if (langSelect) {
     langSelect.addEventListener("change", (e) => {
@@ -523,12 +449,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Navigatie knoppen
   document.querySelectorAll("nav button").forEach(btn => {
     btn.addEventListener("click", () => showPage(btn.dataset.page));
   });
 
-  // Vinkje en ontgrendel knop
   const returnedCheckbox = $("returned");
   const unlockButton = $("unlockButton");
 
@@ -541,37 +465,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Straatkeuze
-  const streetSelect = $("streetSelect");
-  const customField = $("customStreetField");
-  const customInput = $("customStreetInput");
-
-  if (streetSelect) {
-    streetSelect.addEventListener("change", (e) => {
-      const val = e.target.value;
-      if (val === "custom") {
-        selectedStreetId = "custom";
-        if (customField) customField.classList.remove("hidden");
-        if (customInput) customInput.focus();
-      } else {
-        selectedStreetId = val ? Number(val) : null;
-        customStreetName = "";
-        if (customField) customField.classList.add("hidden");
-        if (selectedStreetId) {
-          const found = streets.find(s => s.id === Number(selectedStreetId));
-          if (found && mapInstance) {
-            mapInstance.setView([found.lat, found.lng], 15);
-          }
-        }
-      }
-      renderMapMarkers();
-      checkSubmitState();
-    });
-  }
-
-  if (customInput) {
-    customInput.addEventListener("input", (e) => {
-      customStreetName = e.target.value;
+  const streetInput = $("streetInput");
+  if (streetInput) {
+    streetInput.addEventListener("input", (e) => {
+      enteredStreetName = e.target.value;
       checkSubmitState();
     });
   }
@@ -581,70 +478,4 @@ document.addEventListener("DOMContentLoaded", () => {
     consentCheckbox.addEventListener("change", checkSubmitState);
   }
 
-  const submitBtn = $("submitReport");
-  if (submitBtn) {
-    submitBtn.addEventListener("click", async () => {
-      const msg = $("submitMessage");
-      submitBtn.disabled = true;
-
-      if (selectedStreetId === "custom" && customStreetName.trim()) {
-        const typedName = customStreetName.trim();
-        let lat = 52.3880 + (Math.random() - 0.5) * 0.008;
-        let lng = 4.6370 + (Math.random() - 0.5) * 0.008;
-
-        try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(typedName + ", Haarlem, Nederland")}`
-          );
-          const results = await res.json();
-          if (results && results.length > 0) {
-            lat = parseFloat(results[0].lat);
-            lng = parseFloat(results[0].lon);
-          }
-        } catch (err) {
-          // Fallback coördinaten
-        }
-
-        const existing = streets.find(s => s.name.toLowerCase() === typedName.toLowerCase());
-        if (existing) {
-          existing.count++;
-          selectedStreetId = existing.id;
-        } else {
-          const newId = streets.length + 1;
-          streets.push({
-            id: newId,
-            name: typedName,
-            lat: lat,
-            lng: lng,
-            count: 1
-          });
-          selectedStreetId = newId;
-        }
-
-        customStreetName = "";
-        if (customField) customField.classList.add("hidden");
-        if (customInput) customInput.value = "";
-        if (mapInstance) mapInstance.setView([lat, lng], 15);
-      } else {
-        const found = streets.find(s => s.id === Number(selectedStreetId));
-        if (found) {
-          found.count++;
-        }
-      }
-
-      if (msg) {
-        msg.className = "success";
-        msg.textContent = tr("saved");
-      }
-      populateStreetSelect();
-      renderMapMarkers();
-      checkSubmitState();
-    });
-  }
-
-  applyLanguage();
-  showPage("report");
-});
-</script>
-</body>
-</html>
+  const submitBtn =
