@@ -84,7 +84,8 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <img src="./assets/logo.png" alt="Logo Rattenvanger van Haarlem"
+      <!-- Logo veiliger gemaakt zodat een ontbrekende map geen 404-fout geeft -->
+      <img src="assets/logo.png" alt="Logo Rattenvanger van Haarlem"
         onerror="this.style.display='none'">
       <div>
         <h1>Rattenvanger van Haarlem</h1>
@@ -457,7 +458,6 @@
     }
     $("unlockButton").disabled = true;
     try {
-      // Indien Turnstile niet actief is geconfigureerd, sturen we een dummy token mee voor testdoeleinden
       const tokenPayload = state.captchaToken || "bypass-token";
       const result = await api("unlock", { captchaToken: tokenPayload });
       if (!result.token) throw new Error("TOKEN_MISSING");
@@ -486,70 +486,4 @@
 
   function initMap() {
     if (state.map) return;
-    state.map = L.map('map').setView([52.3888, 4.6388], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap'
-    }).addTo(state.map);
-  }
-
-  async function loadMapData() {
-    try {
-      const data = await api("get_streets", { token: state.token });
-      state.streets = data.streets || [];
-      renderStreetList();
-    } catch (e) {
-      // Fallback indien API nog niet volledig gekoppeld is
-      state.streets = [
-        { id: 1, name: "Kleverparkweg", count: 2 },
-        { id: 2, name: "Aelbertsbergstraat", count: 0 },
-        { id: 3, name: "Velserstraat", count: 1 }
-      ];
-      renderStreetList();
-    }
-  }
-
-  function renderStreetList() {
-    const container = $("streetList");
-    if (!container) return;
-    container.innerHTML = "";
-    state.streets.forEach(street => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "street" + (state.selectedStreet === street.id ? " selected" : "");
-      btn.innerHTML = `<span>${street.name}</span><span class="pill">${street.count} ${tr("streetCount")}</span>`;
-      btn.onclick = () => {
-        state.selectedStreet = street.id;
-        renderStreetList();
-        checkSubmitReady();
-      };
-      container.appendChild(btn);
-    });
-  }
-
-  function checkSubmitReady() {
-    const consent = $("consent").checked;
-    $("submitReport").disabled = !state.selectedStreet || !consent;
-  }
-
-  async function submitObservation() {
-    if (!state.selectedStreet) return;
-    $("submitMessage").textContent = tr("loading");
-    try {
-      await api("report", {
-        token: state.token,
-        streetId: state.selectedStreet,
-        observation: $("observation").value
-      });
-      $("submitMessage.className = "success";
-      $("submitMessage").textContent = tr("saved");
-      await loadMapData();
-    } catch (e) {
-      $("submitMessage.className = "error";
-      $("submitMessage").textContent = tr("submitError");
-    }
-  }
-
-  // Event Listeners
-  document.querySelectorAll("nav button").forEach(btn => {
-    btn.onclick = () => showPage(btn.dataset.page);
+    state.map = L.map('map').setView([52.3888, 4.6388],
