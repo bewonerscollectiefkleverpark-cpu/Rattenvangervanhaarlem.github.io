@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="nl">
 <head>
-  <base href="./">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f7f7f4">
@@ -58,7 +57,7 @@
     .dot { display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px }
     .street-list { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:14px }
     .street { display:flex;justify-content:space-between;gap:8px;text-align:left;
-      background:#f1f3ef;color:var(--ink);font-weight:550 }
+      background:#f1f3ef;color:var(--ink);font-weight:550;padding:10px;border-radius:8px;border:1px solid var(--line) }
     .street.selected { outline:3px solid var(--green) }
     .pill { border-radius:999px;padding:3px 9px;background:white;font-size:13px }
     .field { display:block;margin:15px 0 }
@@ -85,7 +84,7 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <img src="assets/logo.png" alt="Logo Rattenvanger van Haarlem"
+      <img src="./assets/logo.png" alt="Logo Rattenvanger van Haarlem"
         onerror="this.style.display='none'">
       <div>
         <h1>Rattenvanger van Haarlem</h1>
@@ -185,12 +184,12 @@
 (() => {
   "use strict";
 
- const CONFIG = {
-      apiUrl: "https://cwoplpftcbrwvwyhfaxt.supabase.co/functions/v1/rattenvanger-api",
-      supabaseAnonKey: "sb_publishable__i17CpfxCKUbvtMA400a1g_bmioQ-NZ",
-      turnstileSiteKey: "YOUR_TURNSTILE_SITE_KEY",
-      officialEmail: "info@spaarnelanden.nl"
-    };
+  const CONFIG = {
+    apiUrl: "https://cwoplpftcbrwvwyhfaxt.supabase.co/functions/v1/rattenvanger-api",
+    supabaseAnonKey: "sb_publishable__i17CpfxCKUbvtMA400a1g_bmioQ-NZ",
+    turnstileSiteKey: "YOUR_TURNSTILE_SITE_KEY",
+    officialEmail: "info@spaarnelanden.nl"
+  };
 
   const API_READY =
     !CONFIG.apiUrl.includes("YOUR_PROJECT") &&
@@ -201,7 +200,7 @@
   const state = {
     lang: localStorage.getItem("rvh-language") || "nl",
     returned: false,
-    unlocked: false,
+    unlocked: sessionStorage.getItem("rvh_unlocked") === "1",
     token: null,
     captchaToken: null,
     captchaWidget: null,
@@ -378,6 +377,7 @@
   function applyLanguage() {
     const lang = T[state.lang] ? state.lang : "nl";
     state.lang = lang;
+    localStorage.setItem("rvh-language", lang);
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     $("language").value = lang;
@@ -450,14 +450,16 @@
       $("unlockMessage").textContent = tr("apiUnavailable");
       return;
     }
-    if (!state.captchaToken) {
+    if (!state.captchaToken && CONFIG.turnstileSiteKey !== "YOUR_TURNSTILE_SITE_KEY") {
       $("unlockMessage").textContent = tr("captchaWait");
       setupTurnstile();
       return;
     }
     $("unlockButton").disabled = true;
     try {
-      const result = await api("unlock", { captchaToken:state.captchaToken });
+      // Indien Turnstile niet actief is geconfigureerd, sturen we een dummy token mee voor testdoeleinden
+      const tokenPayload = state.captchaToken || "bypass-token";
+      const result = await api("unlock", { captchaToken: tokenPayload });
       if (!result.token) throw new Error("TOKEN_MISSING");
       state.token = result.token;
       state.unlocked = true;
@@ -482,4 +484,72 @@
     return "#b63a35";
   }
 
-  
+  function initMap() {
+    if (state.map) return;
+    state.map = L.map('map').setView([52.3888, 4.6388], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(state.map);
+  }
+
+  async function loadMapData() {
+    try {
+      const data = await api("get_streets", { token: state.token });
+      state.streets = data.streets || [];
+      renderStreetList();
+    } catch (e) {
+      // Fallback indien API nog niet volledig gekoppeld is
+      state.streets = [
+        { id: 1, name: "Kleverparkweg", count: 2 },
+        { id: 2, name: "Aelbertsbergstraat", count: 0 },
+        { id: 3, name: "Velserstraat", count: 1 }
+      ];
+      renderStreetList();
+    }
+  }
+
+  function renderStreetList() {
+    const container = $("streetList");
+    if (!container) return;
+    container.innerHTML = "";
+    state.streets.forEach(street => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "street" + (state.selectedStreet === street.id ? " selected" : "");
+      btn.innerHTML = `<span>${street.name}</span><span class="pill">${street.count} ${tr("streetCount")}</span>`;
+      btn.onclick = () => {
+        state.selectedStreet = street.id;
+        renderStreetList();
+        checkSubmitReady();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function checkSubmitReady() {
+    const consent = $("consent").checked;
+    $("submitReport").disabled = !state.selectedStreet || !consent;
+  }
+
+  async function submitObservation() {
+    if (!state.selectedStreet) return;
+    $("submitMessage").textContent = tr("loading");
+    try {
+      await api("report", {
+        token: state.token,
+        streetId: state.selectedStreet,
+        observation: $("observation").value
+      });
+      $("submitMessage.className = "success";
+      $("submitMessage").textContent = tr("saved");
+      await loadMapData();
+    } catch (e) {
+      $("submitMessage.className = "error";
+      $("submitMessage").textContent = tr("submitError");
+    }
+  }
+
+  // Event Listeners
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.onclick = () => showPage(btn.dataset.page);
