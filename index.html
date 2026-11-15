@@ -51,7 +51,7 @@
       font-weight:700 }
     .actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:18px }
     .hidden { display:none!important }
-    #map { height:58vh;min-height:340px;border-radius:14px;border:1px solid var(--line);margin-bottom:20px }
+    #map { height:60vh;min-height:360px;border-radius:14px;border:1px solid var(--line);margin-bottom:20px }
     .legend { display:flex;flex-wrap:wrap;gap:14px;margin:12px 0;font-size:13px }
     .line-sample { display:inline-block;width:18px;height:5px;border-radius:3px;margin-right:6px;vertical-align:middle }
     .field { display:block;margin:15px 0 }
@@ -120,8 +120,8 @@
     <!-- Pagina 2: Rattenkaart -->
     <section id="page-map" class="hidden">
       <h2>Rattenkaart Haarlem</h2>
-      <p>Kies een straat uit de lijst, typ je eigen straat, of klik direct op een gekleurde straat op de kaart.</p>
-      <div class="notice">Om privacy te beschermen worden waarnemingen per volledige straat weergegeven en nooit op huisnummerniveau. Nul meldingen betekent niet dat er geen ratten zijn.</div>
+      <p>Kies een straat uit de lijst, typ je eigen straat, of klik direct op een straat op de kaart.</p>
+      <div class="notice">Voor de privacy worden meldingen per volledige straat getoond. Nul meldingen betekent niet dat er geen ratten zijn.</div>
       <div class="legend" aria-label="Legenda">
         <span><i class="line-sample" style="background:#8b918d"></i><span>0 meldingen</span></span>
         <span><i class="line-sample" style="background:#2b7cd3"></i>1–2 meldingen</span>
@@ -129,7 +129,7 @@
         <span><i class="line-sample" style="background:#b63a35"></i>5+ meldingen</span>
       </div>
       
-      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat in Haarlem"></div>
+      <div id="map" aria-label="Kaart met straten in Haarlem"></div>
 
       <div class="field">
         <label for="streetSelect">Kies een straat in Haarlem:</label>
@@ -141,7 +141,7 @@
       <!-- Veld voor eigen straat indien gekozen -->
       <div class="field hidden" id="customStreetField">
         <label for="customStreetInput">Typ de naam van je straat:</label>
-        <input type="text" id="customStreetInput" placeholder="Bijv. Schotersingel">
+        <input type="text" id="customStreetInput" placeholder="Bijv. Kleverparkweg">
       </div>
 
       <div class="field">
@@ -168,7 +168,7 @@
       <h2>Over dit initiatief</h2>
       <p>Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
       <h3>Privacy</h3>
-      <p>De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. Waarnemingen worden uitsluitend op volledige straatlengte getoond.</p>
+      <p>De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. Waarnemingen worden uitsluitend per straat getoond.</p>
       <h3>Wat deze kaart niet bewijst</h3>
       <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of meting van de rattenpopulatie.</p>
     </section>
@@ -193,91 +193,103 @@
   let selectedStreetId = null;
   let customStreetName = "";
 
-  // Straten met coördinaten-lijnen (meerdere punten langs het verloop van de straat)
+  // Straten in Kleverpark en Haarlem met nauwkeurige multi-punt coördinaten die het stratenpatroon volgen
   const streets = [
     {
       id: 1,
       name: "Kleverparkweg",
-      coords: [[52.3887, 4.6388], [52.3905, 4.6391], [52.3924, 4.6393]],
+      coords: [
+        [52.3878, 4.6385], [52.3889, 4.6388], [52.3902, 4.6390], [52.3915, 4.6392], [52.3928, 4.6395]
+      ],
       count: 2
     },
     {
       id: 2,
       name: "Aelbertsbergstraat",
-      coords: [[52.3895, 4.6352], [52.3893, 4.6375], [52.3891, 4.6390]],
+      coords: [
+        [52.3892, 4.6360], [52.3892, 4.6375], [52.3892, 4.6392]
+      ],
       count: 0
     },
     {
       id: 3,
       name: "Velserstraat",
-      coords: [[52.3883, 4.6355], [52.3881, 4.6388], [52.3879, 4.6410]],
+      coords: [
+        [52.3880, 4.6362], [52.3880, 4.6385], [52.3880, 4.6405]
+      ],
       count: 1
     },
     {
       id: 4,
       name: "Kleverlaan",
-      coords: [[52.3929, 4.6320], [52.3925, 4.6360], [52.3922, 4.6395]],
-      count: 4 // Paars (3-4)
+      coords: [
+        [52.3928, 4.6330], [52.3925, 4.6355], [52.3922, 4.6385], [52.3920, 4.6410]
+      ],
+      count: 4
     },
     {
       id: 5,
       name: "Rode Schuttersstraat",
-      coords: [[52.3910, 4.6392], [52.3908, 4.6415]],
+      coords: [
+        [52.3910, 4.6392], [52.3908, 4.6415]
+      ],
       count: 1
     },
     {
       id: 6,
       name: "Zijlweg",
-      coords: [[52.3875, 4.6230], [52.3855, 4.6295], [52.3832, 4.6345]],
-      count: 3 // Paars (3-4)
+      coords: [
+        [52.3870, 4.6260], [52.3862, 4.6290], [52.3850, 4.6320], [52.3838, 4.6345]
+      ],
+      count: 3
     },
     {
       id: 7,
       name: "Kenaustraat",
-      coords: [[52.3868, 4.6365], [52.3863, 4.6395]],
+      coords: [
+        [52.3868, 4.6365], [52.3863, 4.6395]
+      ],
       count: 0
     },
     {
       id: 8,
       name: "Kenaupark",
-      coords: [[52.3872, 4.6352], [52.3853, 4.6362], [52.3848, 4.6388]],
+      coords: [
+        [52.3872, 4.6352], [52.3853, 4.6362], [52.3848, 4.6388]
+      ],
       count: 2
     },
     {
       id: 9,
       name: "Parklaan",
-      coords: [[52.3854, 4.6385], [52.3848, 4.6425], [52.3842, 4.6458]],
-      count: 6 // Rood (5+)
+      coords: [
+        [52.3854, 4.6385], [52.3848, 4.6425], [52.3842, 4.6458]
+      ],
+      count: 6
     },
     {
       id: 10,
       name: "Jansweg",
-      coords: [[52.3872, 4.6435], [52.3845, 4.6442], [52.3822, 4.6446]],
+      coords: [
+        [52.3872, 4.6435], [52.3845, 4.6442], [52.3822, 4.6446]
+      ],
       count: 1
     },
     {
       id: 11,
-      name: "Kruisweg / Kruisstraat",
-      coords: [[52.3875, 4.6408], [52.3840, 4.6412], [52.3818, 4.6410]],
-      count: 0
+      name: "Grote Markt",
+      coords: [
+        [52.3816, 4.6355], [52.3813, 4.6378], [52.3809, 4.6362]
+      ],
+      count: 5
     },
     {
       id: 12,
-      name: "Grote Markt",
-      coords: [[52.3816, 4.6355], [52.3813, 4.6378], [52.3809, 4.6362]],
-      count: 5 // Rood (5+)
-    },
-    {
-      id: 13,
       name: "Spaarne",
-      coords: [[52.3825, 4.6462], [52.3795, 4.6448], [52.3765, 4.6435]],
-      count: 3 // Paars (3-4)
-    },
-    {
-      id: 14,
-      name: "Brouwersvaart",
-      coords: [[52.3788, 4.6210], [52.3782, 4.6265], [52.3775, 4.6315]],
-      count: 1
+      coords: [
+        [52.3835, 4.6465], [52.3800, 4.6450], [52.3765, 4.6435]
+      ],
+      count: 3
     }
   ];
 
@@ -304,7 +316,7 @@
 
     if (pageName === "map") {
       if (!mapInstance) {
-        mapInstance = L.map('map').setView([52.3875, 4.6390], 14);
+        mapInstance = L.map('map').setView([52.3895, 4.6385], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; OpenStreetMap'
@@ -352,11 +364,10 @@
       const color = getStreetColor(street.count);
       const isSelected = String(street.id) === String(selectedStreetId);
 
-      // Teken een gekleurde lijn over het volledige verloop van de straat
       const polyline = L.polyline(street.coords, {
         color: color,
-        weight: isSelected ? 10 : 7,
-        opacity: 0.9,
+        weight: isSelected ? 9 : 6,
+        opacity: 0.95,
         lineCap: "round",
         lineJoin: "round"
       });
@@ -449,14 +460,15 @@
       const msg = $("submitMessage");
       if (selectedStreetId === "custom" && customStreetName.trim()) {
         const newId = streets.length + 1;
-        const baseLat = 52.3875 + (Math.random() - 0.5) * 0.008;
-        const baseLng = 4.6390 + (Math.random() - 0.5) * 0.008;
+        const baseLat = 52.3890 + (Math.random() - 0.5) * 0.005;
+        const baseLng = 4.6380 + (Math.random() - 0.5) * 0.005;
         const newStreet = {
           id: newId,
           name: customStreetName.trim(),
           coords: [
-            [baseLat, baseLng - 0.0012],
-            [baseLat + 0.0004, baseLng + 0.0012]
+            [baseLat - 0.0008, baseLng - 0.0008],
+            [baseLat, baseLng],
+            [baseLat + 0.0008, baseLng + 0.0008]
           ],
           count: 1
         };
