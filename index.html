@@ -102,83 +102,194 @@
   </header>
 
   <nav aria-label="Hoofdnavigatie">
-    <button data-page="report" id="navReport" data-t="report" aria-current="page">Rat melden</button>
-    <button data-page="map" id="navMap" data-t="map">Rattenkaart Haarlem</button>
-    <button data-page="info" id="navInfo" data-t="info">Informatie</button>
+    <button type="button" data-page="report" id="navReport" aria-current="page">Rat melden</button>
+    <button type="button" data-page="map" id="navMap">Rattenkaart Haarlem</button>
+    <button type="button" data-page="info" id="navInfo">Informatie</button>
   </nav>
 
   <main>
     <!-- Pagina 1: Rat melden -->
     <section id="page-report">
-      <h2 data-t="reportTitle">Een rat gezien?</h2>
-      <p data-t="reportIntro">Help mee om waarnemingen in Haarlem zichtbaar te maken.</p>
+      <h2>Een rat gezien?</h2>
+      <p>Help mee om waarnemingen in Haarlem zichtbaar te maken.</p>
       <div class="notice">
-        <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
-        <p data-t="officialExplain">Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.</p>
+        <strong>Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
+        <p>Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.</p>
         <a class="primary" id="officialLink"
           href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem"
-          target="_self" rel="noopener" data-t="openEmail">E-mail aan Spaarnelanden openen</a>
+          target="_self" rel="noopener">E-mail aan Spaarnelanden openen</a>
       </div>
-      <p class="muted" data-t="emailLimit">We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
+      <p class="muted">We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
       <div class="check">
         <input id="returned" type="checkbox">
-        <label for="returned" data-t="returnedLabel">Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.</label>
+        <label for="returned">Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.</label>
       </div>
       <div class="actions">
-        <button id="unlockButton" disabled data-t="unlockMap">Verder naar de kaart</button>
+        <button type="button" id="unlockButton" disabled>Verder naar de kaart</button>
       </div>
-      <p id="unlockMessage" role="status" aria-live="polite"></p>
-      <div id="turnstileBox" class="hidden" style="margin-top:16px"></div>
     </section>
 
     <!-- Pagina 2: Rattenkaart -->
     <section id="page-map" class="hidden">
-      <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
-      <p data-t="mapIntro">Kies de straat waar je de rat hebt gezien. Je melding telt mee bij die straat.</p>
-      <div class="notice" data-t="mapWarning">De kaart toont vrijwillige, niet-gecontroleerde waarnemingen. Nul meldingen betekent niet dat er geen ratten zijn.</div>
+      <h2>Rattenkaart Haarlem</h2>
+      <p>Kies de straat waar je de rat hebt gezien. Je melding telt mee bij die straat.</p>
+      <div class="notice">De kaart toont vrijwillige, niet-gecontroleerde waarnemingen. Nul meldingen betekent niet dat er geen ratten zijn.</div>
       <div class="legend" aria-label="Legenda">
-        <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
+        <span><i class="dot" style="background:#8b918d"></i><span>0 meldingen</span></span>
         <span><i class="dot" style="background:#287a4b"></i>1–2</span>
         <span><i class="dot" style="background:#b96a12"></i>3–4</span>
         <span><i class="dot" style="background:#b63a35"></i>5+</span>
       </div>
       <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
-      <h3 data-t="chooseStreet">Kies een straat</h3>
+      <h3>Kies een straat</h3>
       <div id="streetList" class="street-list"></div>
       <div class="field">
-        <label for="observation" data-t="observationLabel">Wat heb je gezien?</label>
+        <label for="observation">Wat heb je gezien?</label>
         <select id="observation">
-          <option value="1" data-t="oneRat">Eén rat</option>
-          <option value="2" data-t="multipleRats">Meerdere ratten</option>
+          <option value="1">Eén rat</option>
+          <option value="2">Meerdere ratten</option>
         </select>
       </div>
       <label class="check">
         <input type="checkbox" id="consent">
-        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.</span>
+        <span>Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.</span>
       </label>
       <div class="actions">
-        <button id="submitReport" disabled data-t="submit">Waarneming registreren</button>
+        <button type="button" id="submitReport" disabled>Waarneming registreren</button>
       </div>
       <p id="submitMessage" role="status" aria-live="polite"></p>
     </section>
 
     <!-- Pagina 3: Informatie -->
     <section id="page-info" class="hidden">
-      <h2 data-t="infoTitle">Over dit initiatief</h2>
-      <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
-      <h3 data-t="privacyTitle">Privacy</h3>
-      <p data-t="privacyText">De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.</p>
-      <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
-      <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
+      <h2>Over dit initiatief</h2>
+      <p>Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
+      <h3>Privacy</h3>
+      <p>De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.</p>
+      <h3>Wat deze kaart niet bewijst</h3>
+      <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
   </main>
 
   <footer>
-    <span data-t="footerText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+    <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
   </footer>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
-<script src="
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  let mapInstance = null;
+  let selectedStreetId = null;
+
+  const streets = [
+    { id: 1, name: "Kleverparkweg", count: 2 },
+    { id: 2, name: "Aelbertsbergstraat", count: 0 },
+    { id: 3, name: "Velserstraat", count: 1 }
+  ];
+
+  function showPage(pageName) {
+    ["report", "map", "info"].forEach(name => {
+      const sec = $("page-" + name);
+      if (sec) sec.classList.toggle("hidden", name !== pageName);
+    });
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      if (btn.dataset.page === pageName) {
+        btn.setAttribute("aria-current", "page");
+      } else {
+        btn.removeAttribute("aria-current");
+      }
+    });
+
+    if (pageName === "map") {
+      if (!mapInstance) {
+        mapInstance = L.map('map').setView([52.3888, 4.6388], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(mapInstance);
+      }
+      setTimeout(() => {
+        if (mapInstance) mapInstance.invalidateSize();
+      }, 150);
+      renderStreets();
+    }
+  }
+
+  function renderStreets() {
+    const container = $("streetList");
+    if (!container) return;
+    container.innerHTML = "";
+    streets.forEach(street => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "street" + (selectedStreetId === street.id ? " selected" : "");
+      btn.innerHTML = `<span>${street.name}</span><span class="pill">${street.count} meldingen</span>`;
+      btn.onclick = () => {
+        selectedStreetId = street.id;
+        renderStreets();
+        checkSubmitState();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function checkSubmitState() {
+    const consent = $("consent");
+    const submitBtn = $("submitReport");
+    if (consent && submitBtn) {
+      submitBtn.disabled = !selectedStreetId || !consent.checked;
+    }
+  }
+
+  // Directe Event Listeners voor navigatie
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.onclick = () => showPage(btn.dataset.page);
+  });
+
+  // Vinkje en ontgrendel knop
+  const returnedCheckbox = $("returned");
+  const unlockButton = $("unlockButton");
+
+  if (returnedCheckbox && unlockButton) {
+    returnedCheckbox.onchange = () => {
+      unlockButton.disabled = !returnedCheckbox.checked;
+    };
+    unlockButton.onclick = () => {
+      showPage("map");
+    };
+  }
+
+  // Toestemming en verzendknop
+  const consentCheckbox = $("consent");
+  if (consentCheckbox) {
+    consentCheckbox.onchange = checkSubmitState;
+  }
+
+  const submitBtn = $("submitReport");
+  if (submitBtn) {
+    submitBtn.onclick = () => {
+      const msg = $("submitMessage");
+      if (msg) {
+        msg.className = "success";
+        msg.textContent = "Je waarneming is geregistreerd!";
+      }
+      const found = streets.find(s => s.id === selectedStreetId);
+      if (found) found.count++;
+      renderStreets();
+    };
+  }
+
+  // Start op pagina 1
+  showPage("report");
+})();
+</script>
+</body>
+</html>
