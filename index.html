@@ -13,7 +13,7 @@
       color-scheme: light;
       --ink:#202421; --muted:#626a64; --paper:#f7f7f4;
       --white:#fff; --line:#dfe3dd; --blue:#2b7cd3;
-      --orange:#b96a12; --red:#b63a35; --grey:#8b918d;
+      --purple:#8e44ad; --red:#b63a35; --grey:#8b918d;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
     * { box-sizing:border-box }
@@ -125,7 +125,7 @@
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span>0 meldingen</span></span>
         <span><i class="dot" style="background:#2b7cd3"></i>1–2 meldingen</span>
-        <span><i class="dot" style="background:#b96a12"></i>3–4 meldingen</span>
+        <span><i class="dot" style="background:#8e44ad"></i>3–4 meldingen</span>
         <span><i class="dot" style="background:#b63a35"></i>5+ meldingen</span>
       </div>
       
@@ -197,27 +197,27 @@
     { id: 1, name: "Kleverparkweg", lat: 52.3905, lng: 4.6390, count: 2 },
     { id: 2, name: "Aelbertsbergstraat", lat: 52.3892, lng: 4.6375, count: 0 },
     { id: 3, name: "Velserstraat", lat: 52.3880, lng: 4.6385, count: 1 },
-    { id: 4, name: "Kleverlaan", lat: 52.3920, lng: 4.6360, count: 4 },
+    { id: 4, name: "Kleverlaan", lat: 52.3920, lng: 4.6360, count: 4 }, // Valt nu in paars (3-4)
     { id: 5, name: "Rode Schuttersstraat", lat: 52.3910, lng: 4.6405, count: 1 },
-    { id: 6, name: "Zijlweg", lat: 52.3870, lng: 4.6290, count: 3 },
+    { id: 6, name: "Zijlweg", lat: 52.3870, lng: 4.6290, count: 3 }, // Valt nu in paars (3-4)
     { id: 7, name: "Kenaustraat", lat: 52.3860, lng: 4.6380, count: 0 },
     { id: 8, name: "Kenaupark", lat: 52.3865, lng: 4.6370, count: 2 },
-    { id: 9, name: "Parklaan", lat: 52.3850, lng: 4.6420, count: 6 },
+    { id: 9, name: "Parklaan", lat: 52.3850, lng: 4.6420, count: 6 }, // Rood (5+)
     { id: 10, name: "Jansweg", lat: 52.3845, lng: 4.6440, count: 1 },
     { id: 11, name: "Kruisstraat", lat: 52.3835, lng: 4.6430, count: 0 },
-    { id: 12, name: "Grote Markt", lat: 52.3812, lng: 4.6375, count: 5 },
+    { id: 12, name: "Grote Markt", lat: 52.3812, lng: 4.6375, count: 5 }, // Rood (5+)
     { id: 13, name: "Houtplein", lat: 52.3750, lng: 4.6350, count: 2 },
-    { id: 14, name: "Spaarne", lat: 52.3800, lng: 4.6450, count: 3 },
+    { id: 14, name: "Spaarne", lat: 52.3800, lng: 4.6450, count: 3 }, // Paars (3-4)
     { id: 15, name: "Brouwersvaart", lat: 52.3780, lng: 4.6250, count: 1 },
     { id: 16, name: "Ramplaan", lat: 52.3850, lng: 4.6150, count: 0 },
     { id: 17, name: "Kleverpark-Noord", lat: 52.3930, lng: 4.6380, count: 2 }
   ];
 
   function getMarkerColor(count) {
-    if (count === 0) return "#8b918d";
-    if (count <= 2) return "#2b7cd3"; // Blauw voor 1-2 meldingen
-    if (count <= 4) return "#b96a12"; // Oranje voor 3-4
-    return "#b63a35"; // Rood voor 5+
+    if (count === 0) return "#8b918d";    // Grijs
+    if (count <= 2) return "#2b7cd3";     // Blauw (1-2)
+    if (count <= 4) return "#8e44ad";     // Paars (3-4)
+    return "#b63a35";                     // Rood (5+)
   }
 
   function showPage(pageName) {
@@ -267,7 +267,6 @@
       select.appendChild(opt);
     });
 
-    // Optie om zelf een straat te typen
     const customOpt = document.createElement("option");
     customOpt.value = "custom";
     customOpt.textContent = "— Andere straat (zelf intypen) —";
@@ -317,12 +316,10 @@
     }
   }
 
-  // Navigatie knoppen
   document.querySelectorAll("nav button").forEach(btn => {
     btn.onclick = () => showPage(btn.dataset.page);
   });
 
-  // Vinkje en ontgrendel knop
   const returnedCheckbox = $("returned");
   const unlockButton = $("unlockButton");
 
@@ -335,7 +332,6 @@
     };
   }
 
-  // Straatkeuze via dropdown of zelf typen
   const streetSelect = $("streetSelect");
   const customField = $("customStreetField");
   const customInput = $("customStreetInput");
@@ -369,7 +365,6 @@
     };
   }
 
-  // Toestemming en verzendknop
   const consentCheckbox = $("consent");
   if (consentCheckbox) {
     consentCheckbox.onchange = checkSubmitState;
@@ -380,7 +375,6 @@
     submitBtn.onclick = () => {
       const msg = $("submitMessage");
       if (selectedStreetId === "custom" && customStreetName.trim()) {
-        // Voeg de nieuwe eigen straat toe aan de lijst
         const newId = streets.length + 1;
         const newStreet = {
           id: newId,
@@ -411,7 +405,6 @@
     };
   }
 
-  // Start op pagina 1
   showPage("report");
 })();
 </script>
