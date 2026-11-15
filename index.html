@@ -154,4 +154,31 @@
       </div>
       <label class="check">
         <input type="checkbox" id="consent">
-        <span
+        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.</span>
+      </label>
+      <div class="actions">
+        <button id="submitReport" disabled data-t="submit">Waarneming registreren</button>
+      </div>
+      <p id="submitMessage" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Pagina 3: Informatie -->
+    <section id="page-info" class="hidden">
+      <h2 data-t="infoTitle">Over dit initiatief</h2>
+      <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
+      <h3 data-t="privacyTitle">Privacy</h3>
+      <p data-t="privacyText">De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.</p>
+      <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
+      <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span data-t="footerText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+  </footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+<script src="
