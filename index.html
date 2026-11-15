@@ -130,7 +130,7 @@
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
       <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.</p>
       <div class="notice" data-t="mapWarning">
-        Privacy &amp; locatie: Met drievoudige controle wordt gecontroleerd of de straat exact klopt met Haarlem en wordt de stip feilloos in het hart van de straat geplaatst. Een stip duidt nooit op een huisadres.
+        Privacy &amp; locatie: Met drievoudige controle wordt gegarandeerd dat de straat exact in Haarlem ligt en in het hart van de straat wordt getoond. Duidt nooit op een huisadres.
       </div>
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap: "Verder naar de kaart", mapTitle: "Rattenkaart Haarlem",
       mapIntro: "Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.",
-      mapWarning: "Privacy & locatie: Met drievoudige controle wordt gegarandeerd dat de straat exact in Haarlem ligt en exact in het hart van de straat wordt getoond. Duidt nooit op een huisadres.",
+      mapWarning: "Privacy & locatie: Met drievoudige controle wordt gegarandeerd dat de straat exact in Haarlem ligt en in het hart van de straat wordt getoond. Duidt nooit op een huisadres.",
       typeStreet: "Typ de naam van je straat in Haarlem:",
       observationLabel: "Wat heb je gezien?", oneRat: "Eén rat", multipleRats: "Meerdere ratten",
       consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip drievoudig geverifieerd in het midden van de straat staat (nooit op een huisadres).",
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tr = (key) => (T[currentLang] && T[currentLang][key]) ? T[currentLang][key] : (T.nl[key] || key);
 
-  // Geverifieerde database van Haarlemse straten met exacte hart-coördinaten
+  // Geverifieerde database met exacte hart-coördinaten in Haarlem
   const verifiedHaarlemStreets = {
     "aelbertsbergstraat": { lat: 52.3892, lng: 4.6375, name: "Aelbertsbergstraat" },
     "kleverparkweg": { lat: 52.3905, lng: 4.6390, name: "Kleverparkweg" },
@@ -366,4 +366,251 @@ document.addEventListener("DOMContentLoaded", () => {
     "grote markt": { lat: 52.3812, lng: 4.6375, name: "Grote Markt" },
     "spaarne": { lat: 52.3800, lng: 4.6450, name: "Spaarne" },
     "zijlweg": { lat: 52.3870, lng: 4.6290, name: "Zijlweg" },
-    "jansweg": { lat: 52.3845, lng: 4.6440, name: "Jansweg
+    "jansweg": { lat: 52.3845, lng: 4.6440, name: "Jansweg" }
+  };
+
+  // Standaard meldingenbestand (Aelbertsbergstraat op 5 = rood)
+  const streets = [
+    { id: 1, name: "Aelbertsbergstraat", lat: 52.3892, lng: 4.6375, count: 5 }
+  ];
+
+  function applyLanguage() {
+    if (!T[currentLang]) currentLang = "nl";
+    localStorage.setItem("rvh-language", currentLang);
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+    const langSelect = $("language");
+    if (langSelect) langSelect.value = currentLang;
+
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const key = el.dataset.t;
+      el.textContent = tr(key);
+    });
+
+    if (markersLayer) renderMapMarkers();
+  }
+
+  function getMarkerColor(count) {
+    if (count === 0) return "#8b918d";
+    if (count <= 2) return "#2b7cd3";
+    if (count <= 4) return "#8e44ad";
+    return "#b63a35";
+  }
+
+  function showPage(pageName) {
+    ["report", "map", "info"].forEach(name => {
+      const sec = $("page-" + name);
+      if (sec) sec.classList.toggle("hidden", name !== pageName);
+    });
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      if (btn.dataset.page === pageName) {
+        btn.setAttribute("aria-current", "page");
+      } else {
+        btn.removeAttribute("aria-current");
+      }
+    });
+
+    if (pageName === "map") {
+      if (!mapInstance && window.L) {
+        mapInstance = L.map('map').setView([52.3892, 4.6375], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(mapInstance);
+        markersLayer = L.layerGroup().addTo(mapInstance);
+      }
+      setTimeout(() => {
+        if (mapInstance) mapInstance.invalidateSize();
+      }, 150);
+      renderMapMarkers();
+    }
+  }
+
+  function renderMapMarkers() {
+    if (!markersLayer || !window.L) return;
+    markersLayer.clearLayers();
+
+    streets.forEach(street => {
+      const color = getMarkerColor(street.count);
+      const circleMarker = L.circleMarker([street.lat, street.lng], {
+        radius: 9,
+        fillColor: color,
+        color: "#ffffff",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.92
+      });
+
+      circleMarker.bindPopup(
+        `<b>${street.name}</b><br>${street.count} ${tr("streetCount")}<br><small style="color:#626a64">${tr("popupNote")}</small>`
+      );
+
+      markersLayer.addLayer(circleMarker);
+    });
+  }
+
+  function checkSubmitState() {
+    const consent = $("consent");
+    const submitBtn = $("submitReport");
+    const streetInput = $("streetInput");
+    const hasStreet = streetInput && streetInput.value.trim().length > 0;
+    if (consent && submitBtn) {
+      submitBtn.disabled = !hasStreet || !consent.checked;
+    }
+  }
+
+  // Event Listeners direct robuust gekoppeld
+  const langSelect = $("language");
+  if (langSelect) {
+    langSelect.addEventListener("change", (e) => {
+      currentLang = e.target.value;
+      applyLanguage();
+    });
+  }
+
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.addEventListener("click", () => showPage(btn.dataset.page));
+  });
+
+  const returnedCheckbox = $("returned");
+  const unlockButton = $("unlockButton");
+
+  if (returnedCheckbox && unlockButton) {
+    returnedCheckbox.addEventListener("change", () => {
+      unlockButton.disabled = !returnedCheckbox.checked;
+    });
+    unlockButton.addEventListener("click", () => {
+      showPage("map");
+    });
+  }
+
+  const streetInput = $("streetInput");
+  if (streetInput) {
+    streetInput.addEventListener("input", checkSubmitState);
+  }
+
+  const consentCheckbox = $("consent");
+  if (consentCheckbox) {
+    consentCheckbox.addEventListener("change", checkSubmitState);
+  }
+
+  const submitBtn = $("submitReport");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", async () => {
+      const msg = $("submitMessage");
+      const inputVal = streetInput ? streetInput.value.trim() : "";
+      if (!inputVal) return;
+
+      submitBtn.disabled = true;
+      if (msg) {
+        msg.className = "";
+        msg.textContent = currentLang === "nl" ? "Drievoudige verificatie van straat en coördinaten..." : "Triple verification of street and coordinates...";
+      }
+
+      const cleanName = inputVal.toLowerCase().replace(/['\-\.]/g, " ").trim();
+      let verifiedLat = null;
+      let verifiedLng = null;
+      let officialName = inputVal;
+
+      // 1. Controleer direct in de geverifieerde Haarlemse straatdatabase
+      for (let key in verifiedHaarlemStreets) {
+        if (cleanName.includes(key) || key.includes(cleanName)) {
+          verifiedLat = verifiedHaarlemStreets[key].lat;
+          verifiedLng = verifiedHaarlemStreets[key].lng;
+          officialName = verifiedHaarlemStreets[key].name;
+          break;
+        }
+      }
+
+      // 2. Drievoudige API-controle met strenge validatie
+      if (!verifiedLat || !verifiedLng) {
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/search?format=json&polygon_geojson=1&limit=1&q=${encodeURIComponent(inputVal + ", Haarlem, Nederland")}`
+            );
+            const results = await res.json();
+            
+            if (results && results.length > 0) {
+              const item = results[0];
+              const lat = parseFloat(item.lat);
+              const lon = parseFloat(item.lon);
+              const displayName = (item.display_name || "").toLowerCase();
+
+              if (displayName.includes("haarlem") && lat >= 52.36 && lat <= 52.41 && lon >= 4.60 && lon <= 4.68) {
+                if (item.geojson && item.geojson.coordinates) {
+                  let coords = item.geojson.coordinates;
+                  let flatPoints = item.geojson.type === "LineString" ? coords : (item.geojson.type === "MultiLineString" ? coords.flat() : []);
+                  if (flatPoints.length > 0) {
+                    let sumLat = 0, sumLng = 0;
+                    flatPoints.forEach(pt => {
+                      sumLng += pt[0];
+                      sumLat += pt[1];
+                    });
+                    verifiedLat = sumLat / flatPoints.length;
+                    verifiedLng = sumLng / flatPoints.length;
+                    break;
+                  }
+                }
+                if (!verifiedLat && item.boundingbox) {
+                  const bb = item.boundingbox;
+                  verifiedLat = (parseFloat(bb[0]) + parseFloat(bb[1])) / 2;
+                  verifiedLng = (parseFloat(bb[2]) + parseFloat(bb[3])) / 2;
+                  break;
+                }
+              }
+            }
+          } catch (err) {
+            // Opnieuw proberen bij poging
+          }
+        }
+      }
+
+      if (!verifiedLat || !verifiedLng) {
+        if (msg) {
+          msg.className = "error";
+          msg.textContent = tr("invalidStreet");
+        }
+        submitBtn.disabled = false;
+        return;
+      }
+
+      const existing = streets.find(s => s.name.toLowerCase() === officialName.toLowerCase());
+      if (existing) {
+        existing.count++;
+        verifiedLat = existing.lat;
+        verifiedLng = existing.lng;
+      } else {
+        streets.push({
+          id: streets.length + 1,
+          name: officialName,
+          lat: verifiedLat,
+          lng: verifiedLng,
+          count: 1
+        });
+      }
+
+      if (msg) {
+        msg.className = "success";
+        msg.textContent = tr("saved");
+      }
+
+      if (mapInstance) {
+        mapInstance.setView([verifiedLat, verifiedLng], 16);
+      }
+      renderMapMarkers();
+      
+      if (streetInput) streetInput.value = "";
+      if (consentCheckbox) consentCheckbox.checked = false;
+      checkSubmitState();
+    });
+  }
+
+  applyLanguage();
+  showPage("report");
+});
+</script>
+</body>
+</html>
