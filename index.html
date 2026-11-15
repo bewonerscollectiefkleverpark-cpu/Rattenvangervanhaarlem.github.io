@@ -172,7 +172,7 @@
       <h3>Privacy &amp; weergave op de kaart</h3>
       <p>De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. De gekleurde stippen op de kaart worden willekeurig in de betreffende straat geplaatst om het straat-totaal aan te geven en duiden nooit op een specifiek adres.</p>
       <h3>Wat deze kaart niet bewijst</h3>
-      <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of meting van de rattenpopulatie.</p>
+      <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
   </main>
 
@@ -188,3 +188,186 @@
 <script>
 (() => {
   "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  let mapInstance = null;
+  let markersLayer = null;
+  let selectedStreetId = null;
+  let customStreetName = "";
+
+  // Stratenbestand: Aelbertsbergstraat op 5 (rood), rest op 0 (grijs)
+  const streets = [
+    { id: 1, name: "Kleverparkweg", lat: 52.3912, lng: 4.6338, count: 0 },
+    { id: 2, name: "Aelbertsbergstraat", lat: 52.3924, lng: 4.6315, count: 5 },
+    { id: 3, name: "Velserstraat", lat: 52.3919, lng: 4.6352, count: 0 },
+    { id: 4, name: "Kleverlaan", lat: 52.3936, lng: 4.6358, count: 0 },
+    { id: 5, name: "Rode Schuttersstraat", lat: 52.3905, lng: 4.6365, count: 0 },
+    { id: 6, name: "Zijlweg", lat: 52.3832, lng: 4.6275, count: 0 },
+    { id: 7, name: "Kenaustraat", lat: 52.3872, lng: 4.6368, count: 0 },
+    { id: 8, name: "Kenaupark", lat: 52.3860, lng: 4.6362, count: 0 },
+    { id: 9, name: "Parklaan", lat: 52.3848, lng: 4.6405, count: 0 },
+    { id: 10, name: "Jansweg", lat: 52.3845, lng: 4.6442, count: 0 },
+    { id: 11, name: "Kruisweg", lat: 52.3855, lng: 4.6402, count: 0 },
+    { id: 12, name: "Grote Markt", lat: 52.3813, lng: 4.6366, count: 0 },
+    { id: 13, name: "Spaarne", lat: 52.3798, lng: 4.6438, count: 0 },
+    { id: 14, name: "Brouwersvaart", lat: 52.3782, lng: 4.6245, count: 0 },
+    { id: 15, name: "Verspronckweg", lat: 52.3902, lng: 4.6305, count: 0 },
+    { id: 16, name: "Schotersingel", lat: 52.3895, lng: 4.6388, count: 0 }
+  ];
+
+  function getMarkerColor(count) {
+    if (count === 0) return "#8b918d";
+    if (count <= 2) return "#2b7cd3";
+    if (count <= 4) return "#8e44ad";
+    return "#b63a35";
+  }
+
+  function showPage(pageName) {
+    ["report", "map", "info"].forEach(name => {
+      const sec = $("page-" + name);
+      if (sec) sec.classList.toggle("hidden", name !== pageName);
+    });
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      if (btn.dataset.page === pageName) {
+        btn.setAttribute("aria-current", "page");
+      } else {
+        btn.removeAttribute("aria-current");
+      }
+    });
+
+    if (pageName === "map") {
+      if (!mapInstance) {
+        mapInstance = L.map('map').setView([52.3910, 4.6345], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(mapInstance);
+        markersLayer = L.layerGroup().addTo(mapInstance);
+      }
+      setTimeout(() => {
+        if (mapInstance) mapInstance.invalidateSize();
+      }, 150);
+      populateStreetSelect();
+      renderMapMarkers();
+    }
+  }
+
+  function populateStreetSelect() {
+    const select = $("streetSelect");
+    if (!select) return;
+    select.innerHTML = '<option value="">-- Selecteer een straat --</option>';
+    
+    const sorted = [...streets].sort((a, b) => a.name.localeCompare(b.name));
+    sorted.forEach(street => {
+      const opt = document.createElement("option");
+      opt.value = street.id;
+      opt.textContent = `${street.name} (${street.count} meldingen)`;
+      if (String(street.id) === String(selectedStreetId)) {
+        opt.selected = true;
+      }
+      select.appendChild(opt);
+    });
+
+    const customOpt = document.createElement("option");
+    customOpt.value = "custom";
+    customOpt.textContent = "— Andere straat (zelf intypen) —";
+    if (selectedStreetId === "custom") {
+      customOpt.selected = true;
+    }
+    select.appendChild(customOpt);
+  }
+
+  function renderMapMarkers() {
+    if (!markersLayer) return;
+    markersLayer.clearLayers();
+
+    streets.forEach(street => {
+      const color = getMarkerColor(street.count);
+      const isSelected = String(street.id) === String(selectedStreetId);
+
+      const circleMarker = L.circleMarker([street.lat, street.lng], {
+        radius: isSelected ? 11 : 8,
+        fillColor: color,
+        color: isSelected ? "#202421" : "#ffffff",
+        weight: isSelected ? 3 : 2,
+        opacity: 1,
+        fillOpacity: 0.92
+      });
+
+      circleMarker.bindPopup(
+        `<b>${street.name}</b><br>${street.count} meldingen<br><small style="color:#626a64">Willekeurig punt in de straat (duidt nooit op een adres).</small>`
+      );
+      
+      circleMarker.on('click', () => {
+        selectedStreetId = street.id;
+        customStreetName = "";
+        const select = $("streetSelect");
+        if (select) select.value = street.id;
+        const customField = $("customStreetField");
+        if (customField) customField.classList.add("hidden");
+        renderMapMarkers();
+        checkSubmitState();
+      });
+
+      markersLayer.addLayer(circleMarker);
+    });
+  }
+
+  function checkSubmitState() {
+    const consent = $("consent");
+    const submitBtn = $("submitReport");
+    const hasSelection = selectedStreetId !== null && (selectedStreetId !== "custom" || customStreetName.trim().length > 0);
+    if (consent && submitBtn) {
+      submitBtn.disabled = !hasSelection || !consent.checked;
+    }
+  }
+
+  // Event Listeners direct gekoppeld
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.onclick = () => showPage(btn.dataset.page);
+  });
+
+  const returnedCheckbox = $("returned");
+  const unlockButton = $("unlockButton");
+
+  if (returnedCheckbox && unlockButton) {
+    returnedCheckbox.onchange = () => {
+      unlockButton.disabled = !returnedCheckbox.checked;
+    };
+    unlockButton.onclick = () => {
+      showPage("map");
+    };
+  }
+
+  const streetSelect = $("streetSelect");
+  const customField = $("customStreetField");
+  const customInput = $("customStreetInput");
+
+  if (streetSelect) {
+    streetSelect.onchange = (e) => {
+      const val = e.target.value;
+      if (val === "custom") {
+        selectedStreetId = "custom";
+        if (customField) customField.classList.remove("hidden");
+        if (customInput) customInput.focus();
+      } else {
+        selectedStreetId = val ? Number(val) : null;
+        customStreetName = "";
+        if (customField) customField.classList.add("hidden");
+        if (selectedStreetId) {
+          const found = streets.find(s => s.id === Number(selectedStreetId));
+          if (found && mapInstance) {
+            mapInstance.setView([found.lat, found.lng], 15);
+          }
+        }
+      }
+      renderMapMarkers();
+      checkSubmitState();
+    };
+  }
+
+  if (customInput) {
+    customInput.oninput = (e) => {
+      customStreetName =
+        
