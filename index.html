@@ -12,13 +12,13 @@
     :root {
       color-scheme: light;
       --ink:#202421; --muted:#626a64; --paper:#f7f7f4;
-      --white:#fff; --line:#dfe3dd; --green:#287a4b;
+      --white:#fff; --line:#dfe3dd; --blue:#2b7cd3;
       --orange:#b96a12; --red:#b63a35; --grey:#8b918d;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
     * { box-sizing:border-box }
     body { margin:0;background:var(--paper);color:var(--ink);line-height:1.5 }
-    button,select { font:inherit }
+    button,select,input { font:inherit }
     button,a { -webkit-tap-highlight-color:transparent }
     button {
       border:0;border-radius:12px;padding:13px 17px;font-weight:650;
@@ -33,7 +33,7 @@
     .brand img { width:66px;height:54px;object-fit:contain }
     .brand h1 { font-size:clamp(19px,4vw,26px);line-height:1.15;margin:0 }
     .brand p { margin:4px 0 0;color:var(--muted);font-size:14px }
-    select { max-width:150px;padding:10px;border:1px solid var(--line);
+    select,input[type="text"] { width:100%;max-width:none;padding:12px;border:1px solid var(--line);
       background:white;border-radius:10px;color:var(--ink) }
     nav { display:flex;flex-wrap:wrap;gap:8px;padding:16px 0 }
     nav button { background:#e8ebe6;color:var(--ink);font-size:14px }
@@ -47,30 +47,20 @@
     .muted { color:var(--muted) }
     .notice { background:#f1f3ef;border-radius:12px;padding:14px;margin:16px 0 }
     .primary { display:inline-block;text-decoration:none;text-align:center;
-      background:var(--green);color:white;border-radius:12px;padding:14px 18px;
+      background:var(--blue);color:white;border-radius:12px;padding:14px 18px;
       font-weight:700 }
-    .secondary { background:#e8ebe6;color:var(--ink) }
     .actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:18px }
     .hidden { display:none!important }
-    #map { height:58vh;min-height:340px;border-radius:14px;border:1px solid var(--line) }
+    #map { height:58vh;min-height:340px;border-radius:14px;border:1px solid var(--line);margin-bottom:20px }
     .legend { display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;font-size:13px }
     .dot { display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px }
-    .street-list { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:14px }
-    .street { display:flex;justify-content:space-between;gap:8px;text-align:left;
-      background:#f1f3ef;color:var(--ink);font-weight:550;padding:10px;border-radius:8px;border:1px solid var(--line) }
-    .street.selected { outline:3px solid var(--green) }
-    .pill { border-radius:999px;padding:3px 9px;background:white;font-size:13px }
     .field { display:block;margin:15px 0 }
     .field label { display:block;font-weight:650;margin-bottom:6px }
-    .field select { width:100%;max-width:none }
     .check { display:flex;align-items:flex-start;gap:10px;margin:16px 0 }
     .check input { width:20px;height:20px;flex:none;margin-top:3px }
     .error { color:#a12626;font-weight:600 }
     .success { color:#216b40;font-weight:600 }
     footer { border-top:1px solid var(--line);padding:20px 0 36px;color:var(--muted);font-size:13px }
-    [dir="rtl"] { text-align:right }
-    [dir="rtl"] .brand,[dir="rtl"] nav,[dir="rtl"] .actions { flex-direction:row-reverse }
-    [dir="rtl"] #map { direction:ltr }
     @media(max-width:560px) {
       .wrap { padding:12px }
       header { align-items:flex-start }
@@ -88,16 +78,14 @@
         onerror="this.style.display='none'">
       <div>
         <h1>Rattenvanger van Haarlem</h1>
-        <p id="subtitle">Zie je een rat? Meld ’m hier!</p>
+        <p>Zie je een rat? Meld ’m hier!</p>
       </div>
     </div>
     <select id="language" aria-label="Taal kiezen">
       <option value="nl">Nederlands</option>
-      <option value="tr">Türkçe</option>
-      <option value="ar">العربية</option>
-      <option value="ru">Русский</option>
-      <option value="es">Español</option>
       <option value="en">English</option>
+      <option value="tr">Türkçe</option>
+      <option value="es">Español</option>
     </select>
   </header>
 
@@ -132,17 +120,30 @@
     <!-- Pagina 2: Rattenkaart -->
     <section id="page-map" class="hidden">
       <h2>Rattenkaart Haarlem</h2>
-      <p>Kies de straat waar je de rat hebt gezien. Je melding telt mee bij die straat.</p>
+      <p>Kies een straat uit de lijst, typ je eigen straat, of klik direct op een markering op de kaart.</p>
       <div class="notice">De kaart toont vrijwillige, niet-gecontroleerde waarnemingen. Nul meldingen betekent niet dat er geen ratten zijn.</div>
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span>0 meldingen</span></span>
-        <span><i class="dot" style="background:#287a4b"></i>1–2</span>
-        <span><i class="dot" style="background:#b96a12"></i>3–4</span>
-        <span><i class="dot" style="background:#b63a35"></i>5+</span>
+        <span><i class="dot" style="background:#2b7cd3"></i>1–2 meldingen</span>
+        <span><i class="dot" style="background:#b96a12"></i>3–4 meldingen</span>
+        <span><i class="dot" style="background:#b63a35"></i>5+ meldingen</span>
       </div>
-      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
-      <h3>Kies een straat</h3>
-      <div id="streetList" class="street-list"></div>
+      
+      <div id="map" aria-label="Kaart met rattenwaarnemingen in Haarlem"></div>
+
+      <div class="field">
+        <label for="streetSelect">Kies een straat in Haarlem:</label>
+        <select id="streetSelect">
+          <option value="">-- Selecteer een straat --</option>
+        </select>
+      </div>
+
+      <!-- Veld voor eigen straat indien gekozen -->
+      <div class="field hidden" id="customStreetField">
+        <label for="customStreetInput">Typ de naam van je straat:</label>
+        <input type="text" id="customStreetInput" placeholder="Bijv. Aelbertsbergstraat">
+      </div>
+
       <div class="field">
         <label for="observation">Wat heb je gezien?</label>
         <select id="observation">
@@ -150,10 +151,12 @@
           <option value="2">Meerdere ratten</option>
         </select>
       </div>
+
       <label class="check">
         <input type="checkbox" id="consent">
         <span>Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is en als straat-totaal wordt weergegeven.</span>
       </label>
+
       <div class="actions">
         <button type="button" id="submitReport" disabled>Waarneming registreren</button>
       </div>
@@ -165,9 +168,9 @@
       <h2>Over dit initiatief</h2>
       <p>Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
       <h3>Privacy</h3>
-      <p>De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties. Technische dienstverleners kunnen wel technische gegevens verwerken, zoals IP-adressen in serverlogboeken.</p>
+      <p>De kaart toont geen individuele meldingen, namen, e-mailadressen, telefoonnummers of exacte waarnemingslocaties.</p>
       <h3>Wat deze kaart niet bewijst</h3>
-      <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
+      <p>De gegevens zijn niet gecontroleerd en vormen geen officiële telling of meting van de rattenpopulatie.</p>
     </section>
   </main>
 
@@ -186,13 +189,36 @@
 
   const $ = (id) => document.getElementById(id);
   let mapInstance = null;
+  let markersLayer = null;
   let selectedStreetId = null;
+  let customStreetName = "";
 
   const streets = [
-    { id: 1, name: "Kleverparkweg", count: 2 },
-    { id: 2, name: "Aelbertsbergstraat", count: 0 },
-    { id: 3, name: "Velserstraat", count: 1 }
+    { id: 1, name: "Kleverparkweg", lat: 52.3905, lng: 4.6390, count: 2 },
+    { id: 2, name: "Aelbertsbergstraat", lat: 52.3892, lng: 4.6375, count: 0 },
+    { id: 3, name: "Velserstraat", lat: 52.3880, lng: 4.6385, count: 1 },
+    { id: 4, name: "Kleverlaan", lat: 52.3920, lng: 4.6360, count: 4 },
+    { id: 5, name: "Rode Schuttersstraat", lat: 52.3910, lng: 4.6405, count: 1 },
+    { id: 6, name: "Zijlweg", lat: 52.3870, lng: 4.6290, count: 3 },
+    { id: 7, name: "Kenaustraat", lat: 52.3860, lng: 4.6380, count: 0 },
+    { id: 8, name: "Kenaupark", lat: 52.3865, lng: 4.6370, count: 2 },
+    { id: 9, name: "Parklaan", lat: 52.3850, lng: 4.6420, count: 6 },
+    { id: 10, name: "Jansweg", lat: 52.3845, lng: 4.6440, count: 1 },
+    { id: 11, name: "Kruisstraat", lat: 52.3835, lng: 4.6430, count: 0 },
+    { id: 12, name: "Grote Markt", lat: 52.3812, lng: 4.6375, count: 5 },
+    { id: 13, name: "Houtplein", lat: 52.3750, lng: 4.6350, count: 2 },
+    { id: 14, name: "Spaarne", lat: 52.3800, lng: 4.6450, count: 3 },
+    { id: 15, name: "Brouwersvaart", lat: 52.3780, lng: 4.6250, count: 1 },
+    { id: 16, name: "Ramplaan", lat: 52.3850, lng: 4.6150, count: 0 },
+    { id: 17, name: "Kleverpark-Noord", lat: 52.3930, lng: 4.6380, count: 2 }
   ];
+
+  function getMarkerColor(count) {
+    if (count === 0) return "#8b918d";
+    if (count <= 2) return "#2b7cd3"; // Blauw voor 1-2 meldingen
+    if (count <= 4) return "#b96a12"; // Oranje voor 3-4
+    return "#b63a35"; // Rood voor 5+
+  }
 
   function showPage(pageName) {
     ["report", "map", "info"].forEach(name => {
@@ -215,41 +241,83 @@
           maxZoom: 19,
           attribution: '&copy; OpenStreetMap'
         }).addTo(mapInstance);
+        markersLayer = L.layerGroup().addTo(mapInstance);
       }
       setTimeout(() => {
         if (mapInstance) mapInstance.invalidateSize();
       }, 150);
-      renderStreets();
+      populateStreetSelect();
+      renderMapMarkers();
     }
   }
 
-  function renderStreets() {
-    const container = $("streetList");
-    if (!container) return;
-    container.innerHTML = "";
+  function populateStreetSelect() {
+    const select = $("streetSelect");
+    if (!select) return;
+    select.innerHTML = '<option value="">-- Selecteer een straat --</option>';
+    
+    const sorted = [...streets].sort((a, b) => a.name.localeCompare(b.name));
+    sorted.forEach(street => {
+      const opt = document.createElement("option");
+      opt.value = street.id;
+      opt.textContent = `${street.name} (${street.count} meldingen)`;
+      if (String(street.id) === String(selectedStreetId)) {
+        opt.selected = true;
+      }
+      select.appendChild(opt);
+    });
+
+    // Optie om zelf een straat te typen
+    const customOpt = document.createElement("option");
+    customOpt.value = "custom";
+    customOpt.textContent = "— Andere straat (zelf intypen) —";
+    if (selectedStreetId === "custom") {
+      customOpt.selected = true;
+    }
+    select.appendChild(customOpt);
+  }
+
+  function renderMapMarkers() {
+    if (!markersLayer) return;
+    markersLayer.clearLayers();
+
     streets.forEach(street => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "street" + (selectedStreetId === street.id ? " selected" : "");
-      btn.innerHTML = `<span>${street.name}</span><span class="pill">${street.count} meldingen</span>`;
-      btn.onclick = () => {
+      const color = getMarkerColor(street.count);
+      const circleMarker = L.circleMarker([street.lat, street.lng], {
+        radius: 8,
+        fillColor: color,
+        color: "#fff",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.9
+      });
+
+      circleMarker.bindPopup(`<b>${street.name}</b><br>${street.count} meldingen`);
+      
+      circleMarker.on('click', () => {
         selectedStreetId = street.id;
-        renderStreets();
+        customStreetName = "";
+        const select = $("streetSelect");
+        if (select) select.value = street.id;
+        const customField = $("customStreetField");
+        if (customField) customField.classList.add("hidden");
         checkSubmitState();
-      };
-      container.appendChild(btn);
+      });
+
+      markersLayer.addLayer(circleMarker);
     });
   }
 
   function checkSubmitState() {
     const consent = $("consent");
     const submitBtn = $("submitReport");
+    const hasSelection = selectedStreetId !== null && (selectedStreetId !== "custom" || customStreetName.trim().length > 0);
     if (consent && submitBtn) {
-      submitBtn.disabled = !selectedStreetId || !consent.checked;
+      submitBtn.disabled = !hasSelection || !consent.checked;
     }
   }
 
-  // Directe Event Listeners voor navigatie
+  // Navigatie knoppen
   document.querySelectorAll("nav button").forEach(btn => {
     btn.onclick = () => showPage(btn.dataset.page);
   });
@@ -267,6 +335,40 @@
     };
   }
 
+  // Straatkeuze via dropdown of zelf typen
+  const streetSelect = $("streetSelect");
+  const customField = $("customStreetField");
+  const customInput = $("customStreetInput");
+
+  if (streetSelect) {
+    streetSelect.onchange = (e) => {
+      const val = e.target.value;
+      if (val === "custom") {
+        selectedStreetId = "custom";
+        if (customField) customField.classList.remove("hidden");
+        if (customInput) customInput.focus();
+      } else {
+        selectedStreetId = val ? Number(val) : null;
+        customStreetName = "";
+        if (customField) customField.classList.add("hidden");
+        if (selectedStreetId) {
+          const found = streets.find(s => s.id === selectedStreetId);
+          if (found && mapInstance) {
+            mapInstance.setView([found.lat, found.lng], 16);
+          }
+        }
+      }
+      checkSubmitState();
+    };
+  }
+
+  if (customInput) {
+    customInput.oninput = (e) => {
+      customStreetName = e.target.value;
+      checkSubmitState();
+    };
+  }
+
   // Toestemming en verzendknop
   const consentCheckbox = $("consent");
   if (consentCheckbox) {
@@ -277,13 +379,35 @@
   if (submitBtn) {
     submitBtn.onclick = () => {
       const msg = $("submitMessage");
+      if (selectedStreetId === "custom" && customStreetName.trim()) {
+        // Voeg de nieuwe eigen straat toe aan de lijst
+        const newId = streets.length + 1;
+        const newStreet = {
+          id: newId,
+          name: customStreetName.trim(),
+          lat: 52.3888 + (Math.random() - 0.5) * 0.01,
+          lng: 4.6388 + (Math.random() - 0.5) * 0.01,
+          count: 1
+        };
+        streets.push(newStreet);
+        selectedStreetId = newId;
+        customStreetName = "";
+        if (customField) customField.classList.add("hidden");
+        if (customInput) customInput.value = "";
+      } else {
+        const found = streets.find(s => s.id === selectedStreetId);
+        if (found) {
+          found.count++;
+        }
+      }
+
       if (msg) {
         msg.className = "success";
         msg.textContent = "Je waarneming is geregistreerd!";
       }
-      const found = streets.find(s => s.id === selectedStreetId);
-      if (found) found.count++;
-      renderStreets();
+      populateStreetSelect();
+      renderMapMarkers();
+      checkSubmitState();
     };
   }
 
