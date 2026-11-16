@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f7f7f4">
+  <meta name="theme-color" content="#b63a35">
   <title>Rattenvanger van Haarlem</title>
   <meta name="description" content="Zie je een rat? Meld ’m hier! Bekijk vrijwillige rattenwaarnemingen per straat in Haarlem.">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -11,68 +11,220 @@
   <style>
     :root {
       color-scheme: light;
-      --ink:#202421; --muted:#626a64; --paper:#f7f7f4;
-      --white:#fff; --line:#dfe3dd; --blue:#2b7cd3;
-      --purple:#8e44ad; --red:#b63a35; --grey:#8b918d;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      /* Haarlemse heraldiek: Diep Rood, Helder Wit, Zwart & Goud-accent */
+      --haarlem-red: #b63a35;
+      --haarlem-red-dark: #8f2925;
+      --haarlem-gold: #d4a017;
+      --ink: #1a1d1b;
+      --muted: #555c57;
+      --paper: #f9f8f6;
+      --white: #ffffff;
+      --line: #e2dfd9;
+      --blue: #1e60a8;
+      --purple: #7d3c98;
+      --grey: #8b918d;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    * { box-sizing:border-box }
-    body { margin:0;background:var(--paper);color:var(--ink);line-height:1.5 }
-    button,select,input { font:inherit }
-    button,a { -webkit-tap-highlight-color:transparent }
+    * { box-sizing: border-box }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55 }
+    button, select, input { font: inherit }
+    button, a { -webkit-tap-highlight-color: transparent }
     button {
-      border:0;border-radius:12px;padding:13px 17px;font-weight:650;
-      cursor:pointer;background:var(--ink);color:white
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 18px;
+      font-weight: 650;
+      cursor: pointer;
+      background: var(--haarlem-red);
+      color: var(--white);
+      transition: background-color 0.2s ease, transform 0.1s ease;
     }
-    button:disabled { opacity:.45;cursor:not-allowed }
-    a { color:inherit }
-    .wrap { max-width:980px;margin:auto;padding:18px }
-    header { display:flex;align-items:center;justify-content:space-between;gap:16px;
-      padding:12px 0 22px;border-bottom:1px solid var(--line) }
-    .brand { display:flex;align-items:center;gap:12px;min-width:0 }
-    .brand img { width:66px;height:54px;object-fit:contain }
-    .brand h1 { font-size:clamp(19px,4vw,26px);line-height:1.15;margin:0 }
-    .brand p { margin:4px 0 0;color:var(--muted);font-size:14px }
-    select#language { width:auto;max-width:160px;padding:10px;border:1px solid var(--line);
-      background:white;border-radius:10px;color:var(--ink);flex-shrink:0 }
-    .field input[type="text"] { width:100%;max-width:none;padding:12px;border:1px solid var(--line);
-      background:white;border-radius:10px;color:var(--ink) }
-    nav { display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;position:relative;z-index:5 }
-    nav button { background:#e8ebe6;color:var(--ink);font-size:14px }
-    nav button[aria-current="page"] { background:var(--ink);color:white }
-    main { padding:10px 0 42px }
-    section { background:white;border:1px solid var(--line);border-radius:18px;
-      padding:clamp(18px,4vw,30px);margin:0 0 16px }
-    h2 { margin:0 0 12px;font-size:clamp(22px,4vw,30px);line-height:1.2 }
-    h3 { margin:20px 0 8px }
-    p { margin:8px 0 14px }
-    .muted { color:var(--muted) }
-    .notice { background:#f1f3ef;border-radius:12px;padding:14px;margin:16px 0 }
-    .primary { display:inline-block;text-decoration:none;text-align:center;
-      background:var(--blue);color:white;border-radius:12px;padding:14px 18px;
-      font-weight:700 }
-    .actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:18px }
-    .hidden { display:none!important }
-    #map { height:58vh;min-height:340px;border-radius:14px;border:1px solid var(--line);margin-bottom:20px }
-    .legend { display:flex;flex-wrap:wrap;gap:14px;margin:12px 0;font-size:13px }
-    .dot { display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:middle }
-    .field { display:block;margin:15px 0 }
-    .field label { display:block;font-weight:650;margin-bottom:6px }
-    .check { display:flex;align-items:flex-start;gap:10px;margin:16px 0;cursor:pointer }
-    .check input { width:20px;height:20px;flex:none;margin-top:3px;cursor:pointer }
-    .check label { cursor:pointer }
-    .error { color:#a12626;font-weight:600 }
-    .success { color:#216b40;font-weight:600 }
-    footer { border-top:1px solid var(--line);padding:20px 0 36px;color:var(--muted);font-size:13px }
-    [dir="rtl"] { text-align:right }
-    [dir="rtl"] .brand, [dir="rtl"] nav, [dir="rtl"] .actions { flex-direction:row-reverse }
-    [dir="rtl"] #map { direction:ltr }
+    button:hover:not(:disabled) { background: var(--haarlem-red-dark) }
+    button:active:not(:disabled) { transform: scale(0.99) }
+    button:disabled { opacity: 0.42; cursor: not-allowed }
+    a { color: inherit }
+
+    .wrap { max-width: 960px; margin: auto; padding: 18px }
+
+    /* Haarlemse Header met subtiele rode bovenlijn */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0 20px;
+      border-top: 4px solid var(--haarlem-red);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0 }
+    .brand img { width: 64px; height: 52px; object-fit: contain }
+    .brand h1 { font-size: clamp(20px, 4vw, 27px); line-height: 1.15; margin: 0; color: var(--ink); letter-spacing: -0.01em }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 14px; font-weight: 500 }
+
+    select#language {
+      width: auto;
+      max-width: 160px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      border-radius: 8px;
+      color: var(--ink);
+      font-weight: 500;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .field input[type="text"], .field select {
+      width: 100%;
+      max-width: none;
+      padding: 12px 14px;
+      border: 1px solid #cbc7be;
+      background: var(--white);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+    .field input[type="text"]:focus, .field select:focus {
+      outline: 2px solid var(--haarlem-red);
+      border-color: var(--haarlem-red);
+    }
+
+    /* Navigatie in Haarlemse kleuren */
+    nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0; position: relative; z-index: 5 }
+    nav button {
+      background: var(--white);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-size: 14px;
+      padding: 10px 16px;
+    }
+    nav button:hover { background: #f2efe9 }
+    nav button[aria-current="page"] {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    main { padding: 8px 0 42px }
+    section {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: clamp(20px, 4vw, 32px);
+      margin: 0 0 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+    h2 { margin: 0 0 12px; font-size: clamp(22px, 4vw, 29px); line-height: 1.2; color: var(--ink) }
+    h3 { margin: 22px 0 8px; color: var(--ink) }
+    p { margin: 8px 0 14px }
+    .muted { color: var(--muted); font-size: 14px }
+
+    /* Rustige, stijlvolle informatiekaders met Haarlems accent */
+    .notice {
+      background: #fdfaf5;
+      border-left: 4px solid var(--haarlem-gold);
+      border-top: 1px solid #efe8d8;
+      border-right: 1px solid #efe8d8;
+      border-bottom: 1px solid #efe8d8;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 18px 0;
+    }
+    [dir="rtl"] .notice { border-left: 1px solid #efe8d8; border-right: 4px solid var(--haarlem-gold) }
+
+    /* Primaire actieknop met hoog contrast (wit op blauw of rood) */
+    .primary {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      background: var(--blue);
+      color: var(--white) !important;
+      border-radius: 10px;
+      padding: 13px 18px;
+      font-weight: 700;
+      margin-top: 4px;
+      transition: background-color 0.2s ease;
+    }
+    .primary:hover { background: #164982 }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px }
+    .hidden { display: none !important }
+
+    #map {
+      height: 58vh;
+      min-height: 350px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 12px 0 16px;
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--paper);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+    [dir="rtl"] .dot { margin-right: 0; margin-left: 6px }
+
+    .field { display: block; margin: 16px 0 }
+    .field label { display: block; font-weight: 650; margin-bottom: 6px; color: var(--ink) }
+
+    .check { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; cursor: pointer }
+    .check input { width: 20px; height: 20px; flex: none; margin-top: 2px; cursor: pointer; accent-color: var(--haarlem-red) }
+    .check label { cursor: pointer }
+
+    .error { color: var(--haarlem-red); font-weight: 600; margin-top: 12px }
+    .success { color: #1b6b3a; font-weight: 600; margin-top: 12px }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 20px 0 36px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .haarlem-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .haarlem-badge::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: var(--haarlem-red);
+    }
+
+    [dir="rtl"] { text-align: right }
+    [dir="rtl"] .brand, [dir="rtl"] nav, [dir="rtl"] .actions { flex-direction: row-reverse }
+    [dir="rtl"] #map { direction: ltr }
+
     @media(max-width:560px) {
-      .wrap { padding:12px }
-      header { align-items:flex-start }
-      .brand img { width:48px;height:44px }
-      select#language { max-width:124px;font-size:13px }
-      #map { height:54vh;min-height:320px }
+      .wrap { padding: 12px }
+      header { align-items: flex-start }
+      .brand img { width: 48px; height: 44px }
+      select#language { max-width: 124px; font-size: 13px }
+      #map { height: 54vh; min-height: 320px }
     }
   </style>
 </head>
@@ -130,12 +282,12 @@
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
       <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.</p>
       <div class="notice" data-t="mapWarning">
-        Privacy &amp; locatie: Elke stip staat gegarandeerd feilloos in het hart van de straat in Haarlem en duidt nooit op een specifiek huisadres.
+        Privacy &amp; locatie: Elke stip staat op een geverifieerd punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.
       </div>
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
-        <span><i class="dot" style="background:#2b7cd3"></i>1–2</span>
-        <span><i class="dot" style="background:#8e44ad"></i>3–4</span>
+        <span><i class="dot" style="background:#1e60a8"></i>1–2</span>
+        <span><i class="dot" style="background:#7d3c98"></i>3–4</span>
         <span><i class="dot" style="background:#b63a35"></i>5+</span>
       </div>
       
@@ -144,7 +296,7 @@
       <!-- Vrij invoerveld voor straten in Haarlem -->
       <div class="field">
         <label for="streetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
-        <input type="text" id="streetInput" placeholder="Bijv. Aelbertsbergstraat">
+        <input type="text" id="streetInput" placeholder="Bijv. Parklaan of Aelbertsbergstraat">
       </div>
 
       <div class="field">
@@ -157,7 +309,7 @@
 
       <label class="check">
         <input type="checkbox" id="consent">
-        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip in het midden van de straat staat (nooit op een huisadres).</span>
+        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).</span>
       </label>
 
       <div class="actions">
@@ -170,14 +322,15 @@
     <section id="page-info" class="hidden">
       <h2 data-t="infoTitle">Over dit initiatief</h2>
       <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
-      <h3 data-t="privacyTitle">Privacy &amp; locatie op de kaart</h3>
-      <p data-t="privacyText">Elke straat is gekoppeld aan de juiste locatie in Haarlem. De stip staat feilloos in het hart van de straat en duidt nooit op een specifiek adres.</p>
+      <h3 data-t="privacyTitle">Privacy &amp; weergave op de kaart</h3>
+      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. De gekleurde stippen geven uitsluitend het straat-totaal aan en duiden nooit op een specifiek adres.</p>
       <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
       <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
   </main>
 
   <footer>
+    <span class="haarlem-badge">Haarlem</span>
     <span data-t="footerText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
   </footer>
 </div>
@@ -205,19 +358,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap: "Verder naar de kaart", mapTitle: "Rattenkaart Haarlem",
       mapIntro: "Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.",
-      mapWarning: "Privacy & locatie: Elke stip staat gegarandeerd feilloos in het hart van de straat in Haarlem en duidt nooit op een specifiek huisadres.",
-      typeStreet: "Typ de naam van je straat in Haarlem:",
+      mapWarning: "Privacy & locatie: Elke stip staat op een geverifieerd punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.",
+      zero: "0 meldingen", typeStreet: "Typ de naam van je straat in Haarlem:",
       observationLabel: "Wat heb je gezien?", oneRat: "Eén rat", multipleRats: "Meerdere ratten",
-      consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip in het midden van de straat staat (nooit op een huisadres).",
+      consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).",
       submit: "Waarneming registreren", saved: "Je waarneming is geregistreerd!",
+      searching: "Straat opzoeken in Haarlem...",
+      notFound: "Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
       infoTitle: "Over dit initiatief",
       infoText: "Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.",
-      privacyTitle: "Privacy & locatie op de kaart",
-      privacyText: "Elke straat is gekoppeld aan de juiste locatie in Haarlem. De stip staat feilloos in het hart van de straat en duidt nooit op een specifiek adres.",
+      privacyTitle: "Privacy & weergave op de kaart",
+      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. De gekleurde stippen geven uitsluitend het straat-totaal aan en duiden nooit op een specifiek adres.",
       limitsTitle: "Wat deze kaart niet bewijst",
       limitsText: "De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.",
       footerText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
-      streetCount: "meldingen", popupNote: "Exact in het hart van de straat (duidt nooit op een adres)."
+      streetCount: "meldingen", popupNote: "Straat-totaal (duidt nooit op een specifiek huisadres)."
     },
     en: {
       subtitle: "Seen a rat? Report it here!",
@@ -230,19 +385,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "I have returned to this website after opening the email link.",
       unlockMap: "Continue to the map", mapTitle: "Haarlem rat map",
       mapIntro: "Type your Haarlem street below and view sightings on the map.",
-      mapWarning: "Privacy & location: Every dot is placed flawlessly in the heart of the Haarlem street and never on a house address.",
-      typeStreet: "Type your street name in Haarlem:",
+      mapWarning: "Privacy & location: Each dot is placed at a verified point on the street and only shows total reports for the entire street. A dot never indicates a specific house address.",
+      zero: "0 reports", typeStreet: "Type your street name in Haarlem:",
       observationLabel: "What did you see?", oneRat: "One rat", multipleRats: "More than one rat",
-      consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed in the middle of the street (never on a home address).",
+      consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed generally on the street (never on a home address).",
       submit: "Register sighting", saved: "Your sighting has been registered!",
+      searching: "Searching street in Haarlem...",
+      notFound: "This street could not be found in Haarlem. Please check the spelling.",
       infoTitle: "About this initiative",
       infoText: "Rattenvanger van Haarlem collects voluntary street-level sightings. It does not catch rats, carry out pest control or handle official reports.",
-      privacyTitle: "Privacy & map location",
-      privacyText: "Each street is linked to the correct location in Haarlem. The dot is placed flawlessly in the heart of the street.",
+      privacyTitle: "Privacy & map display",
+      privacyText: "The map does not display individual reports, house numbers, names, email addresses or phone numbers.",
       limitsTitle: "What this map does not prove",
       limitsText: "The data is unverified and is not an official count or reliable measurement of the rat population.",
       footerText: "Rattenvanger van Haarlem is an independent residents' initiative.",
-      streetCount: "reports", popupNote: "Exact heart of the street (never indicates an address)."
+      streetCount: "reports", popupNote: "Street total (never indicates a specific home address)."
     },
     tr: {
       subtitle: "Fare mi gördünüz? Buradan bildirin!",
@@ -255,19 +412,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
       unlockMap: "Haritaya devam et", mapTitle: "Haarlem fare haritası",
       mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın ve haritadaki gözlemleri görün.",
-      mapWarning: "Gizlilik ve konum: Her nokta Haarlem'deki sokağın tam kalbine yerleştirilir ve asla ev adresini belirtmez.",
-      typeStreet: "Haarlem'deki sokağınızın adını yazın:",
+      mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta doğrulanmış bir noktada yer alır ve asla belirli bir ev adresini göstermez.",
+      zero: "0 bildirim", typeStreet: "Haarlem'deki sokağınızın adını yazın:",
       observationLabel: "Ne gördünüz?", oneRat: "Bir fare", multipleRats: "Birden fazla fare",
-      consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu ve sokağın ortasında yer aldığını anlıyorum.",
+      consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu ve sokak toplamı olarak gösterildiğini anlıyorum.",
       submit: "Gözlemi kaydet", saved: "Gözleminiz kaydedildi!",
+      searching: "Haarlem'de sokak aranıyor...",
+      notFound: "Bu sokak Haarlem'de bulunamadı. Yazılışı kontrol edin.",
       infoTitle: "Bu girişim hakkında",
       infoText: "Rattenvanger van Haarlem sokak düzeyinde gönüllü gözlemleri toplar.",
-      privacyTitle: "Gizlilik ve konum",
-      privacyText: "Her sokak Haarlem'deki doğru konuma bağlanır. Nokta sokağın kalbine yerleştirilir.",
+      privacyTitle: "Gizlilik",
+      privacyText: "Harita bireysel bildirimleri veya kapı numaralarını göstermez.",
       limitsTitle: "Bu harita neyi kanıtlamaz",
       limitsText: "Veriler doğrulanmamıştır.",
       footerText: "Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
-      streetCount: "bildirim", popupNote: "Sokağın tam kalbi (adres belirtmez)."
+      streetCount: "bildirim", popupNote: "Sokak toplamı (ev adresi belirtmez)."
     },
     ar: {
       subtitle: "هل رأيت فأراً؟ أبلغ عنه هنا!",
@@ -280,19 +439,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
       unlockMap: "المتابعة إلى الخريطة", mapTitle: "خريطة الفئران في هارلم",
       mapIntro: "اكتب شارعك في هارلم أدناه لعرض المشاهدات.",
-      mapWarning: "الخصوصية والموقع: توضع كل نقطة في قلب شارع هارلم بدقة ولا تشير أبداً إلى عنوان منزل.",
-      typeStreet: "اكتب اسم شارعك في هارلم:",
+      mapWarning: "الخصوصية والموقع: تقع كل نقطة في مكان موثق في الشارع المعني ولا تشير أبداً إلى عنوان منزل محدد.",
+      zero: "0 بلاغات", typeStreet: "اكتب اسم شارعك في هارلم:",
       observationLabel: "ماذا رأيت؟", oneRat: "فأر واحد", multipleRats: "عدة فئران",
-      consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض في منتصف الشارع.",
+      consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض كإجمالي للشارع.",
       submit: "تسجيل المشاهدة", saved: "تم تسجيل مشاهدتك!",
+      searching: "جاري البحث عن الشارع في هارلم...",
+      notFound: "تعذر العثور على هذا الشارع في هارلم. يرجى التحقق من الإملاء.",
       infoTitle: "حول هذه المبادرة",
       infoText: "تجمع مبادرة Rattenvanger van Haarlem المشاهدات الطوعية.",
-      privacyTitle: "الخصوصية والموقع",
-      privacyText: "يتم ربط كل شارع بالموقع الصحيح في هارلم وتوضع النقطة في قلب الشارع.",
+      privacyTitle: "الخصوصية",
+      privacyText: "لا تعرض الخريطة بلاغات فردية أو أرقام منازل.",
       limitsTitle: "ما لا تثبته هذه الخريطة",
       limitsText: "البيانات غير موثقة.",
       footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة.",
-      streetCount: "بلاغات", popupNote: "قلب الشارع تماماً (لا تشير إلى عنوان)."
+      streetCount: "بلاغات", popupNote: "إجمالي الشارع (لا يشير إلى عنوان)."
     },
     ru: {
       subtitle: "Увидели крысу? Сообщите здесь!",
@@ -305,19 +466,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "Я вернулся на этот сайт после открытия ссылки.",
       unlockMap: "Перейти к карте", mapTitle: "Карта крыс Харлема",
       mapIntro: "Введите вашу улицу в Харлеме ниже.",
-      mapWarning: "Конфиденциальность: каждая точка ставится точно в сердце нужной улицы в Харлеме и никогда не указывает на адрес дома.",
-      typeStreet: "Введите название вашей улицы в Харлеме:",
+      mapWarning: "Конфиденциальность: каждая точка размещается в проверенном месте улицы и никогда не указывает на конкретный адрес дома.",
+      zero: "0 сообщений", typeStreet: "Введите название вашей улицы в Харлеме:",
       observationLabel: "Что вы видели?", oneRat: "Одну крысу", multipleRats: "Несколько крыс",
-      consent: "Я понимаю, что мое сообщение является добровольным и размещается посередине улицы.",
+      consent: "Я понимаю, что мое сообщение является добровольным и отображается как итог по улице.",
       submit: "Зарегистрировать наблюдение", saved: "Ваше наблюдение зарегистрировано!",
+      searching: "Поиск улицы в Харлеме...",
+      notFound: "Эту улицу не удалось найти в Харлеме. Проверьте правильность написания.",
       infoTitle: "Об этой инициативе",
       infoText: "Rattenvanger van Haarlem собирает добровольные наблюдения.",
-      privacyTitle: "Конфиденциальность и местоположение",
-      privacyText: "Каждая улица связана с правильным местоположением в Харлеме.",
+      privacyTitle: "Конфиденциальность",
+      privacyText: "На карте не отображаются номера домов.",
       limitsTitle: "Чего эта карта не доказывает",
       limitsText: "Данные не проверены.",
       footerText: "Rattenvanger van Haarlem — независимая инициатива.",
-      streetCount: "сообщений", popupNote: "Точно в сердце улицы (не указывает на адрес)."
+      streetCount: "сообщений", popupNote: "Всего по улице (не указывает на адрес)."
     },
     es: {
       subtitle: "¿Viste una rata? ¡Repórtala aquí!",
@@ -328,50 +491,31 @@ document.addEventListener("DOMContentLoaded", () => {
       openEmail: "Abrir correo a Spaarnelanden",
       emailLimit: "No podemos verificar si enviaste el correo.",
       returnedLabel: "He vuelto a este sitio web.",
-      unlockMap: "Continuار al mapa", mapTitle: "Mapa de ratas de Haarlem",
+      unlockMap: "Continuar al mapa", mapTitle: "Mapa de ratas de Haarlem",
       mapIntro: "Escribe tu calle en Haarlem abajo.",
-      mapWarning: "Privacidad y ubicación: cada punto se coloca exactamente en el corazón de la calle correcta en Haarlem y nunca en una dirección de casa.",
-      typeStreet: "Escribe el nombre de tu calle en Haarlem:",
+      mapWarning: "Privacidad y ubicación: cada punto se coloca en un punto verificado de la calle y nunca señala una dirección específica.",
+      zero: "0 reportes", typeStreet: "Escribe el nombre de tu calle en Haarlem:",
       observationLabel: "¿Qué viste?", oneRat: "Una rata", multipleRats: "Varias ratas",
-      consent: "Entiendo que mi reporte es voluntario y se coloca en el medio de la calle.",
+      consent: "Entiendo que mi reporte es voluntario y se muestra como total de la calle.",
       submit: "Registrar avistamiento", saved: "¡Tu avistamiento ha sido registrado!",
+      searching: "Buscando calle en Haarlem...",
+      notFound: "No se pudo encontrar esta calle en Haarlem. Comprueba la ortografía.",
       infoTitle: "Sobre esta iniciativa",
       infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios.",
-      privacyTitle: "Privacidad y ubicación",
-      privacyText: "Cada calle está vinculada a la ubicación correcta en Haarlem.",
+      privacyTitle: "Privacidad",
+      privacyText: "El mapa no muestra números de casa.",
       limitsTitle: "Lo que este mapa no prueba",
       limitsText: "Los datos no están verificados.",
       footerText: "Rattenvanger van Haarlem es una iniciativa vecinal.",
-      streetCount: "reportes", popupNote: "Exactamente en el corazón de la calle (nunca indica dirección)."
+      streetCount: "reportes", popupNote: "Total de la calle (nunca indica dirección)."
     }
   };
 
   const tr = (key) => (T[currentLang] && T[currentLang][key]) ? T[currentLang][key] : (T.nl[key] || key);
 
-  const haarlemStreetDatabase = {
-    "aelbertsbergstraat": { lat: 52.3892, lng: 4.6375, name: "Aelbertsbergstraat" },
-    "kleverparkweg": { lat: 52.3905, lng: 4.6390, name: "Kleverparkweg" },
-    "velserstraat": { lat: 52.3880, lng: 4.6385, name: "Velserstraat" },
-    "kleverlaan": { lat: 52.3920, lng: 4.6360, name: "Kleverlaan" },
-    "schotersingel": { lat: 52.3895, lng: 4.6388, name: "Schotersingel" },
-    "kenaupark": { lat: 52.3865, lng: 4.6370, name: "Kenaupark" },
-    "parklaan": { lat: 52.3850, lng: 4.6420, name: "Parklaan" },
-    "grote markt": { lat: 52.3812, lng: 4.6375, name: "Grote Markt" },
-    "spaarne": { lat: 52.3800, lng: 4.6450, name: "Spaarne" },
-    "zijlweg": { lat: 52.3870, lng: 4.6290, name: "Zijlweg" },
-    "jansweg": { lat: 52.3845, lng: 4.6440, name: "Jansweg" },
-    "kruisweg": { lat: 52.3855, lng: 4.6410, name: "Kruisweg" },
-    "meester cornelisstraat": { lat: 52.3908, lng: 4.6362, name: "Meester Cornelisstraat" },
-    "santpoorterstraat": { lat: 52.3915, lng: 4.6322, name: "Santpoorterstraat" },
-    "tetterodestraat": { lat: 52.3902, lng: 4.6335, name: "Tetterodestraat" },
-    "wouwermanstraat": { lat: 52.3896, lng: 4.6340, name: "Wouwermanstraat" },
-    "frans halsbuurt": { lat: 52.3900, lng: 4.6370, name: "Frans Halsbuurt" },
-    "roode schuttersstraat": { lat: 52.3910, lng: 4.6405, name: "Roode Schuttersstraat" },
-    "paul krugerkade": { lat: 52.3925, lng: 4.6420, name: "Paul Krugerkade" }
-  };
-
+  // Startdata: Aelbertsbergstraat op 5 meldingen (Haarlems rood) op het geverifieerde adres
   const streets = [
-    { id: 1, name: "Aelbertsbergstraat", lat: 52.3892, lng: 4.6375, count: 5 }
+    { id: 1, name: "Aelbertsbergstraat", lat: 52.3924, lng: 4.6328, count: 5 }
   ];
 
   function applyLanguage() {
@@ -391,11 +535,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (markersLayer) renderMapMarkers();
   }
 
+  // Kleurverandering op basis van het aantal opgetelde meldingen
   function getMarkerColor(count) {
     if (count === 0) return "#8b918d";
-    if (count <= 2) return "#2b7cd3";
-    if (count <= 4) return "#8e44ad";
-    return "#b63a35";
+    if (count <= 2) return "#1e60a8"; // Blauw
+    if (count <= 4) return "#7d3c98"; // Paars
+    return "#b63a35"; // Haarlems Rood (5+)
   }
 
   function showPage(pageName) {
@@ -414,7 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pageName === "map") {
       if (!mapInstance && window.L) {
-        mapInstance = L.map('map').setView([52.3892, 4.6375], 15);
+        mapInstance = L.map('map').setView([52.3915, 4.6345], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; OpenStreetMap'
@@ -435,16 +580,16 @@ document.addEventListener("DOMContentLoaded", () => {
     streets.forEach(street => {
       const color = getMarkerColor(street.count);
       const circleMarker = L.circleMarker([street.lat, street.lng], {
-        radius: 9,
+        radius: 10,
         fillColor: color,
         color: "#ffffff",
-        weight: 2,
+        weight: 2.5,
         opacity: 1,
-        fillOpacity: 0.92
+        fillOpacity: 0.94
       });
 
       circleMarker.bindPopup(
-        `<b>${street.name}</b><br>${street.count} ${tr("streetCount")}<br><small style="color:#626a64">${tr("popupNote")}</small>`
+        `<b>${street.name}</b><br>${street.count} ${tr("streetCount")}<br><small style="color:#555c57">${tr("popupNote")}</small>`
       );
 
       markersLayer.addLayer(circleMarker);
@@ -461,6 +606,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Officiële Nederlandse PDOK-locatieserver + huisnummer-5-anker (zonder huisnummer te tonen!)
+  async function findStreetInHaarlem(rawInput) {
+    // Strip eventuele huisnummers die de gebruiker per ongeluk zelf typte
+    const cleanStreetName = rawInput.replace(/[0-9]+.*$/, "").trim();
+    if (!cleanStreetName) return null;
+
+    // 1. Probeer officiële Nederlandse overheids-geocoder (PDOK) met anker "5"
+    try {
+      const query = `${cleanStreetName} 5, Haarlem`;
+      const pdokRes = await fetch(
+        `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${encodeURIComponent(query)}&fq=gemeentenaam:Haarlem&rows=1`
+      );
+      const pdokData = await pdokRes.json();
+
+      if (pdokData && pdokData.response && pdokData.response.docs && pdokData.response.docs.length > 0) {
+        const doc = pdokData.response.docs[0];
+        if (doc.centroide_ll) {
+          // Format is "POINT(lng lat)"
+          const match = doc.centroide_ll.match(/POINT\(([0-9.]+)\s+([0-9.]+)\)/);
+          if (match) {
+            const officialStreet = doc.straatnaam || (cleanStreetName.charAt(0).toUpperCase() + cleanStreetName.slice(1));
+            return {
+              name: officialStreet,
+              lng: parseFloat(match[1]),
+              lat: parseFloat(match[2])
+            };
+          }
+        }
+      }
+    } catch (e) {
+      // Val terug op Nominatim als PDOK niet bereikbaar is
+    }
+
+    // 2. Fallback: Nominatim met huisnummer 5 in Haarlem
+    try {
+      const nomRes = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(cleanStreetName + " 5, Haarlem, Nederland")}`
+      );
+      const nomData = await nomRes.json();
+      if (nomData && nomData.length > 0) {
+        const item = nomData[0];
+        const lat = parseFloat(item.lat);
+        const lng = parseFloat(item.lon);
+        if (lat >= 52.35 && lat <= 52.42 && lng >= 4.59 && lng <= 4.68) {
+          return {
+            name: cleanStreetName.charAt(0).toUpperCase() + cleanStreetName.slice(1),
+            lat: lat,
+            lng: lng
+          };
+        }
+      }
+    } catch (e) {
+      // Negeer netwerkfout
+    }
+
+    return null;
+  }
+
+  // Event Listeners
   const langSelect = $("language");
   if (langSelect) {
     langSelect.addEventListener("change", (e) => {
@@ -497,44 +701,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const submitBtn = $("submitReport");
   if (submitBtn) {
-    submitBtn.addEventListener("click", () => {
+    submitBtn.addEventListener("click", async () => {
       const msg = $("submitMessage");
       const inputVal = streetInput ? streetInput.value.trim() : "";
       if (!inputVal) return;
 
       submitBtn.disabled = true;
-      const cleanName = inputVal.toLowerCase().replace(/['\-\.]/g, " ").trim();
-      
-      let matchedLat = null;
-      let matchedLng = null;
-      let officialName = inputVal;
+      if (msg) {
+        msg.className = "";
+        msg.textContent = tr("searching");
+      }
 
-      for (let key in haarlemStreetDatabase) {
-        if (cleanName === key || cleanName.includes(key) || key.includes(cleanName)) {
-          matchedLat = haarlemStreetDatabase[key].lat;
-          matchedLng = haarlemStreetDatabase[key].lng;
-          officialName = haarlemStreetDatabase[key].name;
-          break;
+      const foundLocation = await findStreetInHaarlem(inputVal);
+
+      if (!foundLocation) {
+        if (msg) {
+          msg.className = "error";
+          msg.textContent = tr("notFound");
         }
+        submitBtn.disabled = false;
+        return;
       }
 
-      if (!matchedLat || !matchedLng) {
-        matchedLat = 52.3890 + (Math.random() - 0.5) * 0.003;
-        matchedLng = 4.6360 + (Math.random() - 0.5) * 0.003;
-        officialName = inputVal.charAt(0).toUpperCase() + inputVal.slice(1);
-      }
+      // Controleer of de straat al bestaat en tel op (kleur verandert automatisch mee!)
+      const existing = streets.find(s => s.name.toLowerCase() === foundLocation.name.toLowerCase());
+      let targetLat = foundLocation.lat;
+      let targetLng = foundLocation.lng;
 
-      const existing = streets.find(s => s.name.toLowerCase() === officialName.toLowerCase());
       if (existing) {
-        existing.count++;
-        matchedLat = existing.lat;
-        matchedLng = existing.lng;
+        existing.count += 1;
+        targetLat = existing.lat;
+        targetLng = existing.lng;
       } else {
         streets.push({
           id: streets.length + 1,
-          name: officialName,
-          lat: matchedLat,
-          lng: matchedLng,
+          name: foundLocation.name,
+          lat: foundLocation.lat,
+          lng: foundLocation.lng,
           count: 1
         });
       }
@@ -545,10 +748,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (mapInstance) {
-        mapInstance.setView([matchedLat, matchedLng], 16);
+        mapInstance.setView([targetLat, targetLng], 16);
       }
       renderMapMarkers();
-      
+
       if (streetInput) streetInput.value = "";
       if (consentCheckbox) consentCheckbox.checked = false;
       checkSubmitState();
