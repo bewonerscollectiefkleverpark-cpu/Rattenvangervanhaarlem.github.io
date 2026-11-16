@@ -6,6 +6,10 @@
   <meta name="theme-color" content="#b63a35">
   <title>Rattenvanger van Haarlem</title>
   <meta name="description" content="Zie je een rat? Meld ’m hier! Bekijk vrijwillige rattenwaarnemingen per straat in Haarlem.">
+  <!-- Google Fonts: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
@@ -19,7 +23,7 @@
       --muted: #5a635e;
       --white: #ffffff;
       --line: #d1c5b3;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Montserrat', sans-serif;
     }
     * { box-sizing: border-box }
     body {
@@ -31,7 +35,7 @@
       min-height: 100vh;
     }
 
-    /* Achtergrond watermerk met exact de juiste bestandsnaam IMG_0106.PNG */
+    /* Achtergrond watermerk met IMG_0106.PNG */
     body::before {
       content: "";
       position: fixed;
@@ -70,19 +74,16 @@
       z-index: 1;
     }
 
+    /* Header structuur met aparte kaders */
     header {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
-      padding: 24px 16px 28px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--line);
-      border-top: 6px solid var(--haarlem-red);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      gap: 16px;
+      padding: 20px 16px;
       position: relative;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
     .lang-bar {
       width: 100%;
@@ -101,26 +102,46 @@
       font-weight: 500;
       cursor: pointer;
     }
-    .brand {
+
+    /* Bovenste kader: Het logo volledig vullend */
+    .logo-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--haarlem-red);
+      border-radius: 16px;
+      padding: 24px;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
-    .brand img {
-      width: clamp(140px, 28vw, 190px);
+    .logo-card img {
+      width: 100%;
+      max-width: 480px;
       height: auto;
       object-fit: contain;
+      display: block;
     }
-    .brand h1 {
-      font-size: clamp(25px, 4.5vw, 34px);
+
+    /* Nieuwe kader eronder: Titel en subtitel */
+    .title-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .title-card h1 {
+      font-size: clamp(24px, 4vw, 32px);
       line-height: 1.15;
-      margin: 0;
+      margin: 0 0 6px 0;
       color: var(--ink);
+      font-weight: 700;
       letter-spacing: -0.01em;
     }
-    .brand p {
-      margin: 4px 0 0;
+    .title-card p {
+      margin: 0;
       color: var(--muted);
       font-size: 15px;
       font-weight: 500;
@@ -145,7 +166,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
-      padding: 16px 0;
+      padding: 12px 0 16px;
       position: relative;
       z-index: 5;
     }
@@ -172,8 +193,8 @@
       margin: 0 0 18px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     }
-    h2 { margin: 0 0 12px; font-size: clamp(22px, 4vw, 29px); line-height: 1.2; color: var(--ink) }
-    h3 { margin: 22px 0 8px; color: var(--ink) }
+    h2 { margin: 0 0 12px; font-size: clamp(22px, 4vw, 29px); line-height: 1.2; color: var(--ink); font-weight: 700; }
+    h3 { margin: 22px 0 8px; color: var(--ink); font-weight: 600; }
     p { margin: 8px 0 14px }
     .muted { color: var(--muted); font-size: 14px }
 
@@ -312,14 +333,17 @@
         <option value="en">English</option>
       </select>
     </div>
-    <div class="brand">
-      <!-- Verwijst nu direct naar IMG_0106.PNG -->
+    
+    <!-- Kader 1: Logo volledig vullend -->
+    <div class="logo-card">
       <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem"
-        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'60\'><rect width=\'150\' height=\'60\' fill=\'%23b63a35\' rx=\'8\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23ffffff\' font-family=\'sans-serif\' font-weight=\'bold\' font-size=\'16\'>RATTENVANGER</text></svg>';">
-      <div>
-        <h1>Rattenvanger van Haarlem</h1>
-        <p data-t="subtitle">Zie je een rat? Meld ’m hier!</p>
-      </div>
+        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'100\'><rect width=\'300\' height=\'100\' fill=\'%23b63a35\' rx=\'8\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23ffffff\' font-family=\'Montserrat\' font-weight=\'bold\' font-size=\'20\'>RATTENVANGER</text></svg>';">
+    </div>
+
+    <!-- Kader 2: Titel en subtitel eronder -->
+    <div class="title-card">
+      <h1>Rattenvanger van Haarlem</h1>
+      <p data-t="subtitle">Zie je een rat? Meld ’m hier!</p>
     </div>
   </header>
 
