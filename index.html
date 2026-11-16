@@ -74,7 +74,6 @@
       z-index: 1;
     }
 
-    /* Header structuur met aparte kaders */
     header {
       display: flex;
       flex-direction: column;
@@ -103,7 +102,6 @@
       cursor: pointer;
     }
 
-    /* Bovenste kader: Het logo volledig vullend */
     .logo-card {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--line);
@@ -123,7 +121,6 @@
       display: block;
     }
 
-    /* Nieuwe kader eronder: Titel en subtitel */
     .title-card {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--line);
@@ -197,6 +194,16 @@
     h3 { margin: 22px 0 8px; color: var(--ink); font-weight: 600; }
     p { margin: 8px 0 14px }
     .muted { color: var(--muted); font-size: 14px }
+
+    /* Stijlen voor de puntjeslijst op de informatiepagina */
+    .info-list {
+      margin: 14px 0 20px;
+      padding-left: 20px;
+    }
+    .info-list li {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
 
     .notice {
       background: #fbf7ee;
@@ -334,13 +341,11 @@
       </select>
     </div>
     
-    <!-- Kader 1: Logo volledig vullend -->
     <div class="logo-card">
       <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem"
         onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'100\'><rect width=\'300\' height=\'100\' fill=\'%23b63a35\' rx=\'8\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23ffffff\' font-family=\'Montserrat\' font-weight=\'bold\' font-size=\'20\'>RATTENVANGER</text></svg>';">
     </div>
 
-    <!-- Kader 2: Titel en subtitel eronder -->
     <div class="title-card">
       <h1>Rattenvanger van Haarlem</h1>
       <p data-t="subtitle">Zie je een rat? Meld ’m hier!</p>
@@ -383,7 +388,6 @@
         Privacy &amp; locatie: Elke stip staat op een geverifieerd punt in de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal doorgegeven meldingen weer. Een stip duidt nooit op een specifiek huisadres.
       </div>
 
-      <!-- Legenda met uitleg over aantal doorgegeven meldingen -->
       <div class="legend-box">
         <span class="legend-title" data-t="legendTitle">Aantal doorgegeven meldingen per straat:</span>
         <div class="legend" aria-label="Legenda">
@@ -403,7 +407,6 @@
       
       <div id="map" aria-label="Kaart met rattenwaarnemingen per straat in Haarlem"></div>
 
-      <!-- Vrij invoerveld voor straten in Haarlem -->
       <div class="field">
         <label for="streetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
         <input type="text" id="streetInput" placeholder="Bijv. Aelbertsbergstraat of Parklaan">
@@ -431,11 +434,14 @@
     <!-- Pagina 3: Informatie -->
     <section id="page-info" class="hidden">
       <h2 data-t="infoTitle">Over dit initiatief</h2>
-      <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
-      <h3 data-t="privacyTitle">Privacy &amp; weergave op de kaart</h3>
-      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het totaal aantal doorgegeven meldingen aan in de betreffende straat.</p>
-      <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
-      <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
+      <p data-t="infoText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om de overlast in onze stad zichtbaar te maken.</p>
+      
+      <ul class="info-list">
+        <li><strong>Geen bestrijders:</strong> Wij vangen geen ratten en lossen het niet zelf op.</li>
+        <li><strong>Altijd melden bij Spaarnelanden:</strong> De gemeente heeft geen goed beeld van het echte probleem. Onze kaart vervangt geen officiële melding; gebruik daarom altijd eerst de e-mailknop om Spaarnelanden in te schakelen.</li>
+        <li><strong>100% Anoniem & Veilig:</strong> Wij slaan geen huisnummers, namen of e-mailadressen op. De kaart toont enkel het totale aantal meldingen per straat, nooit iemands privé-adres.</li>
+        <li><strong>Supereenvoudig:</strong> Geen accounts of ingewikkelde formulieren. Stuur de e-mail met ons kant-en-klare sjabloon en vink in een handomdraai je straat aan op de kaart.</li>
+      </ul>
     </section>
   </main>
 
@@ -477,11 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "Straat opzoeken in Haarlem...",
       notFound: "Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
       infoTitle: "Over dit initiatief",
-      infoText: "Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.",
-      privacyTitle: "Privacy & weergave op de kaart",
-      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het totaal aantal doorgegeven meldingen aan in de betreffende straat.",
-      limitsTitle: "Wat deze kaart niet bewijst",
-      limitsText: "De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.",
+      infoText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om de overlast in onze stad zichtbaar te maken.",
       footerText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
       streetCount: "doorgegeven meldingen", popupNote: "Straat-totaal (duidt nooit op een specifiek huisadres)."
     },
@@ -505,11 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "Searching street in Haarlem...",
       notFound: "This street could not be found in Haarlem. Please check the spelling.",
       infoTitle: "About this initiative",
-      infoText: "Rattenvanger van Haarlem collects voluntary street-level sightings. It does not catch rats, carry out pest control or handle official reports.",
-      privacyTitle: "Privacy & map display",
-      privacyText: "The map does not display individual reports, house numbers, names or email addresses.",
-      limitsTitle: "What this map does not prove",
-      limitsText: "The data is unverified and is not an official count or reliable measurement of the rat population.",
+      infoText: "Rattenvanger van Haarlem is an independent residents' initiative to make the nuisance in our city visible.",
       footerText: "Rattenvanger van Haarlem is an independent residents' initiative.",
       streetCount: "submitted reports", popupNote: "Street total (never indicates a specific home address)."
     },
@@ -523,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
       emailLimit: "E-postayı gönderip göndermediğinizi göremiyoruz.",
       returnedLabel: "E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
       unlockMap: "Haritaya devam et", mapTitle: "Haarlem fare haritası",
-      mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın en haritadaki gözlemleri görün.",
+      mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın ve haritadaki gözlemleri görün.",
       mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta doğrulanmış bir noktada yer alır.",
       legendTitle: "Sokak başına iletilen bildirim sayısı:",
       typeStreet: "Haarlem'deki sokağınızın adını yazın:",
@@ -533,11 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "Haarlem'de sokak aranıyor...",
       notFound: "Bu sokak Haarlem'de bulunamadı. Yazılışı kontrol edin.",
       infoTitle: "Bu girişim hakkında",
-      infoText: "Rattenvanger van Haarlem sokak düzeyinde gönüllü gözlemleri toplar.",
-      privacyTitle: "Gizlilik",
-      privacyText: "Harita kapı numaralarını göstermez.",
-      limitsTitle: "Bu harita neyi kanıtlamaz",
-      limitsText: "Veriler doğrulanmamıştır.",
+      infoText: "Rattenvanger van Haarlem, şehrimizdeki rahatsızlığı görünür kılmak için bağımsız bir mahalle girişimidir.",
       footerText: "Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
       streetCount: "iletilen bildirim", popupNote: "Sokak toplamı (ev adresi belirtmez)."
     },
@@ -561,11 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "جاري البحث عن الشارع في هارلم...",
       notFound: "تعذر العثور على هذا الشارع في هارلم. يرجى التحقق من الإملاء.",
       infoTitle: "حول هذه المبادرة",
-      infoText: "تجمع مبادرة Rattenvanger van Haarlem المشاهدات الطوعية.",
-      privacyTitle: "الخصوصية",
-      privacyText: "لا تعرض الخريطة أرقام المنازل.",
-      limitsTitle: "ما لا تثبته هذه الخريطة",
-      limitsText: "البيانات غير موثقة.",
+      infoText: "Rattenvanger van Haarlem هي مبادرة مستقلة لإظهار الإزعاج في مدينتنا.",
       footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة.",
       streetCount: "بلاغات مقدمة", popupNote: "إجمالي الشارع (لا يشير إلى عنوان)."
     },
@@ -589,11 +579,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "Поиск улицы в Харлеме...",
       notFound: "Эту улицу не удалось найти в Харлеме. Проверьте правильность написания.",
       infoTitle: "Об этой инициативе",
-      infoText: "Rattenvanger van Haarlem собирает добровольные наблюдения.",
-      privacyTitle: "Конфиденциальность",
-      privacyText: "На карте не отображаются номера домов.",
-      limitsTitle: "Чего эта карта не доказывает",
-      limitsText: "Данные не проверены.",
+      infoText: "Rattenvanger van Haarlem — независимая инициатива жителей.",
       footerText: "Rattenvanger van Haarlem — независимая инициатива.",
       streetCount: "поданных сообщений", popupNote: "Всего по улице (не указывает на адрес)."
     },
@@ -617,11 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searching: "Buscando calle en Haarlem...",
       notFound: "No se pudo encontrar esta calle en Haarlem. Comprueba la ortografía.",
       infoTitle: "Sobre esta iniciativa",
-      infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios.",
-      privacyTitle: "Privacidad",
-      privacyText: "El mapa não muestra números de casa.",
-      limitsTitle: "Lo que este mapa não prueba",
-      limitsText: "Los datos no están verificados.",
+      infoText: "Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
       footerText: "Rattenvanger van Haarlem es una iniciativa vecinal.",
       streetCount: "reportes enviados", popupNote: "Total de la calle (nunca indica dirección)."
     }
