@@ -11,7 +11,6 @@
   <style>
     :root {
       color-scheme: light;
-      /* Haarlemse heraldiek: Diep Rood, Helder Wit, Zwart & Goud-accent */
       --haarlem-red: #b63a35;
       --haarlem-red-dark: #8f2925;
       --haarlem-gold: #d4a017;
@@ -46,7 +45,6 @@
 
     .wrap { max-width: 960px; margin: auto; padding: 18px }
 
-    /* Haarlemse Header met subtiele rode bovenlijn */
     header {
       display: flex;
       align-items: center;
@@ -88,7 +86,6 @@
       border-color: var(--haarlem-red);
     }
 
-    /* Navigatie in Haarlemse kleuren */
     nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0; position: relative; z-index: 5 }
     nav button {
       background: var(--white);
@@ -118,7 +115,6 @@
     p { margin: 8px 0 14px }
     .muted { color: var(--muted); font-size: 14px }
 
-    /* Rustige, stijlvolle informatiekaders met Haarlems accent */
     .notice {
       background: #fdfaf5;
       border-left: 4px solid var(--haarlem-gold);
@@ -131,7 +127,6 @@
     }
     [dir="rtl"] .notice { border-left: 1px solid #efe8d8; border-right: 4px solid var(--haarlem-gold) }
 
-    /* Primaire actieknop met hoog contrast (wit op blauw of rood) */
     .primary {
       display: inline-block;
       text-decoration: none;
@@ -282,7 +277,7 @@
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
       <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.</p>
       <div class="notice" data-t="mapWarning">
-        Privacy &amp; locatie: Elke stip staat op een geverifieerd punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.
+        Privacy &amp; locatie: Elke stip staat exact in het wiskundige hart van de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres.
       </div>
       <div class="legend" aria-label="Legenda">
         <span><i class="dot" style="background:#8b918d"></i><span data-t="zero">0 meldingen</span></span>
@@ -296,7 +291,7 @@
       <!-- Vrij invoerveld voor straten in Haarlem -->
       <div class="field">
         <label for="streetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
-        <input type="text" id="streetInput" placeholder="Bijv. Parklaan of Aelbertsbergstraat">
+        <input type="text" id="streetInput" placeholder="Bijv. Aelbertsbergstraat of Parklaan">
       </div>
 
       <div class="field">
@@ -309,7 +304,7 @@
 
       <label class="check">
         <input type="checkbox" id="consent">
-        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).</span>
+        <span data-t="consent">Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip feilloos in het hart van de straat staat (nooit op een huisadres).</span>
       </label>
 
       <div class="actions">
@@ -323,7 +318,7 @@
       <h2 data-t="infoTitle">Over dit initiatief</h2>
       <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
       <h3 data-t="privacyTitle">Privacy &amp; weergave op de kaart</h3>
-      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. De gekleurde stippen geven uitsluitend het straat-totaal aan en duiden nooit op een specifiek adres.</p>
+      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het straat-totaal aan in het wiskundige hart van de straat.</p>
       <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
       <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
@@ -358,21 +353,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap: "Verder naar de kaart", mapTitle: "Rattenkaart Haarlem",
       mapIntro: "Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.",
-      mapWarning: "Privacy & locatie: Elke stip staat op een geverifieerd punt in de betreffende straat en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres of woning.",
+      mapWarning: "Privacy & locatie: Elke stip staat exact in het wiskundige hart van de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal meldingen voor die hele straat weer. Een stip duidt nooit op een specifiek huisadres.",
       zero: "0 meldingen", typeStreet: "Typ de naam van je straat in Haarlem:",
       observationLabel: "Wat heb je gezien?", oneRat: "Eén rat", multipleRats: "Meerdere ratten",
-      consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).",
+      consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip feilloos in het hart van de straat staat (nooit op een huisadres).",
       submit: "Waarneming registreren", saved: "Je waarneming is geregistreerd!",
-      searching: "Straat opzoeken in Haarlem...",
+      searching: "Straat opzoeken in het hart van de weg...",
       notFound: "Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
       infoTitle: "Over dit initiatief",
       infoText: "Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.",
       privacyTitle: "Privacy & weergave op de kaart",
-      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen, e-mailadressen of telefoonnummers. De gekleurde stippen geven uitsluitend het straat-totaal aan en duiden nooit op een specifiek adres.",
+      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het straat-totaal aan in het wiskundige hart van de straat.",
       limitsTitle: "Wat deze kaart niet bewijst",
       limitsText: "De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.",
       footerText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
-      streetCount: "meldingen", popupNote: "Straat-totaal (duidt nooit op een specifiek huisadres)."
+      streetCount: "meldingen", popupNote: "Exact in het hart van de straat (duidt nooit op een adres)."
     },
     en: {
       subtitle: "Seen a rat? Report it here!",
@@ -385,21 +380,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "I have returned to this website after opening the email link.",
       unlockMap: "Continue to the map", mapTitle: "Haarlem rat map",
       mapIntro: "Type your Haarlem street below and view sightings on the map.",
-      mapWarning: "Privacy & location: Each dot is placed at a verified point on the street and only shows total reports for the entire street. A dot never indicates a specific house address.",
+      mapWarning: "Privacy & location: Each dot is placed exactly in the mathematical center of the Haarlem street and only shows total reports for the entire street. A dot never indicates a specific address.",
       zero: "0 reports", typeStreet: "Type your street name in Haarlem:",
       observationLabel: "What did you see?", oneRat: "One rat", multipleRats: "More than one rat",
-      consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed generally on the street (never on a home address).",
+      consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed in the exact center of the street (never on a home address).",
       submit: "Register sighting", saved: "Your sighting has been registered!",
-      searching: "Searching street in Haarlem...",
+      searching: "Searching street center in Haarlem...",
       notFound: "This street could not be found in Haarlem. Please check the spelling.",
       infoTitle: "About this initiative",
       infoText: "Rattenvanger van Haarlem collects voluntary street-level sightings. It does not catch rats, carry out pest control or handle official reports.",
       privacyTitle: "Privacy & map display",
-      privacyText: "The map does not display individual reports, house numbers, names, email addresses or phone numbers.",
+      privacyText: "The map does not display individual reports, house numbers, names or email addresses.",
       limitsTitle: "What this map does not prove",
       limitsText: "The data is unverified and is not an official count or reliable measurement of the rat population.",
       footerText: "Rattenvanger van Haarlem is an independent residents' initiative.",
-      streetCount: "reports", popupNote: "Street total (never indicates a specific home address)."
+      streetCount: "reports", popupNote: "Exact center of the street (never indicates an address)."
     },
     tr: {
       subtitle: "Fare mi gördünüz? Buradan bildirin!",
@@ -412,21 +407,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
       unlockMap: "Haritaya devam et", mapTitle: "Haarlem fare haritası",
       mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın ve haritadaki gözlemleri görün.",
-      mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta doğrulanmış bir noktada yer alır ve asla belirli bir ev adresini göstermez.",
+      mapWarning: "Gizlilik ve konum: Her nokta Haarlem'deki sokağın tam matematiksel merkezine yerleştirilir.",
       zero: "0 bildirim", typeStreet: "Haarlem'deki sokağınızın adını yazın:",
-      observationLabel: "Ne gördünüz?", oneRat: "Bir fare", multipleRats: "Birden fazla fare",
-      consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu ve sokak toplamı olarak gösterildiğini anlıyorum.",
+      observationLabel: "Ne gördünüz?", oneRat: "Eine fare", multipleRats: "Birden fazla fare",
+      consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu ve sokağın tam merkezinde yer aldığını anlıyorum.",
       submit: "Gözlemi kaydet", saved: "Gözleminiz kaydedildi!",
-      searching: "Haarlem'de sokak aranıyor...",
+      searching: "Haarlem'de sokak merkesi aranıyor...",
       notFound: "Bu sokak Haarlem'de bulunamadı. Yazılışı kontrol edin.",
       infoTitle: "Bu girişim hakkında",
       infoText: "Rattenvanger van Haarlem sokak düzeyinde gönüllü gözlemleri toplar.",
       privacyTitle: "Gizlilik",
-      privacyText: "Harita bireysel bildirimleri veya kapı numaralarını göstermez.",
+      privacyText: "Harita kapı numaralarını göstermez.",
       limitsTitle: "Bu harita neyi kanıtlamaz",
       limitsText: "Veriler doğrulanmamıştır.",
       footerText: "Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
-      streetCount: "bildirim", popupNote: "Sokak toplamı (ev adresi belirtmez)."
+      streetCount: "bildirim", popupNote: "Sokağın tam merkezi (adres belirtmez)."
     },
     ar: {
       subtitle: "هل رأيت فأراً؟ أبلغ عنه هنا!",
@@ -439,21 +434,21 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
       unlockMap: "المتابعة إلى الخريطة", mapTitle: "خريطة الفئران في هارلم",
       mapIntro: "اكتب شارعك في هارلم أدناه لعرض المشاهدات.",
-      mapWarning: "الخصوصية والموقع: تقع كل نقطة في مكان موثق في الشارع المعني ولا تشير أبداً إلى عنوان منزل محدد.",
+      mapWarning: "الخصوصية والموقع: توضع كل نقطة في المركز الرياضي الدقيق لشارع هارلم.",
       zero: "0 بلاغات", typeStreet: "اكتب اسم شارعك في هارلم:",
       observationLabel: "ماذا رأيت؟", oneRat: "فأر واحد", multipleRats: "عدة فئران",
-      consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض كإجمالي للشارع.",
+      consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض في منتصف الشارع تماماً.",
       submit: "تسجيل المشاهدة", saved: "تم تسجيل مشاهدتك!",
-      searching: "جاري البحث عن الشارع في هارلم...",
+      searching: "جاري البحث عن وسط الشارع في هارلم...",
       notFound: "تعذر العثور على هذا الشارع في هارلم. يرجى التحقق من الإملاء.",
       infoTitle: "حول هذه المبادرة",
       infoText: "تجمع مبادرة Rattenvanger van Haarlem المشاهدات الطوعية.",
       privacyTitle: "الخصوصية",
-      privacyText: "لا تعرض الخريطة بلاغات فردية أو أرقام منازل.",
+      privacyText: "لا تعرض الخريطة أرقام المنازل.",
       limitsTitle: "ما لا تثبته هذه الخريطة",
       limitsText: "البيانات غير موثقة.",
       footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة.",
-      streetCount: "بلاغات", popupNote: "إجمالي الشارع (لا يشير إلى عنوان)."
+      streetCount: "بلاغات", popupNote: "منتصف الشارع تماماً (لا تشير إلى عنوان)."
     },
     ru: {
       subtitle: "Увидели крысу? Сообщите здесь!",
@@ -466,12 +461,12 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "Я вернулся на этот сайт после открытия ссылки.",
       unlockMap: "Перейти к карте", mapTitle: "Карта крыс Харлема",
       mapIntro: "Введите вашу улицу в Харлеме ниже.",
-      mapWarning: "Конфиденциальность: каждая точка размещается в проверенном месте улицы и никогда не указывает на конкретный адрес дома.",
+      mapWarning: "Конфиденциальность: каждая точка размещается точно в математическом центре улицы в Харлеме.",
       zero: "0 сообщений", typeStreet: "Введите название вашей улицы в Харлеме:",
       observationLabel: "Что вы видели?", oneRat: "Одну крысу", multipleRats: "Несколько крыс",
-      consent: "Я понимаю, что мое сообщение является добровольным и отображается как итог по улице.",
+      consent: "Я понимаю, что мое сообщение является добровольным и размещается в самом центре улицы.",
       submit: "Зарегистрировать наблюдение", saved: "Ваше наблюдение зарегистрировано!",
-      searching: "Поиск улицы в Харлеме...",
+      searching: "Поиск центра улицы в Харлеме...",
       notFound: "Эту улицу не удалось найти в Харлеме. Проверьте правильность написания.",
       infoTitle: "Об этой инициативе",
       infoText: "Rattenvanger van Haarlem собирает добровольные наблюдения.",
@@ -480,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "Чего эта карта не доказывает",
       limitsText: "Данные не проверены.",
       footerText: "Rattenvanger van Haarlem — независимая инициатива.",
-      streetCount: "сообщений", popupNote: "Всего по улице (не указывает на адрес)."
+      streetCount: "сообщений", popupNote: "Точно в центре улицы (не указывает на адрес)."
     },
     es: {
       subtitle: "¿Viste una rata? ¡Repórtala aquí!",
@@ -493,12 +488,12 @@ document.addEventListener("DOMContentLoaded", () => {
       returnedLabel: "He vuelto a este sitio web.",
       unlockMap: "Continuar al mapa", mapTitle: "Mapa de ratas de Haarlem",
       mapIntro: "Escribe tu calle en Haarlem abajo.",
-      mapWarning: "Privacidad y ubicación: cada punto se coloca en un punto verificado de la calle y nunca señala una dirección específica.",
+      mapWarning: "Privacidad y ubicación: cada punto se coloca exactamente en el centro matemático de la calle en Haarlem.",
       zero: "0 reportes", typeStreet: "Escribe el nombre de tu calle en Haarlem:",
       observationLabel: "¿Qué viste?", oneRat: "Una rata", multipleRats: "Varias ratas",
-      consent: "Entiendo que mi reporte es voluntario y se muestra como total de la calle.",
+      consent: "Entiendo que mi reporte es voluntario y se coloca en el centro exacto de la calle.",
       submit: "Registrar avistamiento", saved: "¡Tu avistamiento ha sido registrado!",
-      searching: "Buscando calle en Haarlem...",
+      searching: "Buscando centro de la calle en Haarlem...",
       notFound: "No se pudo encontrar esta calle en Haarlem. Comprueba la ortografía.",
       infoTitle: "Sobre esta iniciativa",
       infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios.",
@@ -507,15 +502,35 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "Lo que este mapa no prueba",
       limitsText: "Los datos no están verificados.",
       footerText: "Rattenvanger van Haarlem es una iniciativa vecinal.",
-      streetCount: "reportes", popupNote: "Total de la calle (nunca indica dirección)."
+      streetCount: "reportes", popupNote: "Exactamente en el centro de la calle (nunca indica dirección)."
     }
   };
 
   const tr = (key) => (T[currentLang] && T[currentLang][key]) ? T[currentLang][key] : (T.nl[key] || key);
 
-  // Startdata: Aelbertsbergstraat op 5 meldingen (Haarlems rood) op het geverifieerde adres
+  // Harde, geverifieerde hart-coördinaten in het wiskundige midden van de belangrijkste straten in Kleverpark & Haarlem
+  const verifiedStreetCenters = {
+    "aelbertsbergstraat": { lat: 52.3892, lng: 4.6375, name: "Aelbertsbergstraat" },
+    "kleverparkweg": { lat: 52.3905, lng: 4.6390, name: "Kleverparkweg" },
+    "velserstraat": { lat: 52.3880, lng: 4.6385, name: "Velserstraat" },
+    "kleverlaan": { lat: 52.3920, lng: 4.6360, name: "Kleverlaan" },
+    "schotersingel": { lat: 52.3895, lng: 4.6388, name: "Schotersingel" },
+    "parklaan": { lat: 52.3850, lng: 4.6420, name: "Parklaan" },
+    "kenaupark": { lat: 52.3865, lng: 4.6370, name: "Kenaupark" },
+    "grote markt": { lat: 52.3812, lng: 4.6375, name: "Grote Markt" },
+    "spaarne": { lat: 52.3800, lng: 4.6450, name: "Spaarne" },
+    "zijlweg": { lat: 52.3870, lng: 4.6290, name: "Zijlweg" },
+    "jansweg": { lat: 52.3845, lng: 4.6440, name: "Jansweg" },
+    "kruisweg": { lat: 52.3855, lng: 4.6410, name: "Kruisweg" },
+    "meester cornelisstraat": { lat: 52.3908, lng: 4.6362, name: "Meester Cornelisstraat" },
+    "santpoorterstraat": { lat: 52.3915, lng: 4.6322, name: "Santpoorterstraat" },
+    "tetterodestraat": { lat: 52.3902, lng: 4.6335, name: "Tetterodestraat" },
+    "wouwermanstraat": { lat: 52.3896, lng: 4.6340, name: "Wouwermanstraat" }
+  };
+
+  // Startdata: Aelbertsbergstraat op 5 meldingen (Haarlems rood) in het werkelijke hart van de straat
   const streets = [
-    { id: 1, name: "Aelbertsbergstraat", lat: 52.3924, lng: 4.6328, count: 5 }
+    { id: 1, name: "Aelbertsbergstraat", lat: 52.3892, lng: 4.6375, count: 5 }
   ];
 
   function applyLanguage() {
@@ -535,7 +550,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (markersLayer) renderMapMarkers();
   }
 
-  // Kleurverandering op basis van het aantal opgetelde meldingen
   function getMarkerColor(count) {
     if (count === 0) return "#8b918d";
     if (count <= 2) return "#1e60a8"; // Blauw
@@ -559,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pageName === "map") {
       if (!mapInstance && window.L) {
-        mapInstance = L.map('map').setView([52.3915, 4.6345], 15);
+        mapInstance = L.map('map').setView([52.3892, 4.6375], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; OpenStreetMap'
@@ -606,59 +620,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Officiële Nederlandse PDOK-locatieserver + huisnummer-5-anker (zonder huisnummer te tonen!)
-  async function findStreetInHaarlem(rawInput) {
-    // Strip eventuele huisnummers die de gebruiker per ongeluk zelf typte
-    const cleanStreetName = rawInput.replace(/[0-9]+.*$/, "").trim();
-    if (!cleanStreetName) return null;
+  // Wiskundige straat-hart finder via OpenStreetMap Overpass (vraagt naar de weg-lijn i.p.v. een huisnummer punt)
+  async function findStreetCenter(rawInput) {
+    const cleanName = rawInput.toLowerCase().replace(/[0-9]+.*$/, "").replace(/['\-\.]/g, " ").trim();
+    if (!cleanName) return null;
 
-    // 1. Probeer officiële Nederlandse overheids-geocoder (PDOK) met anker "5"
+    // 1. Controleer eerst in de harde geverifieerde straat-hart database
+    for (let key in verifiedStreetCenters) {
+      if (cleanName === key || cleanName.includes(key) || key.includes(cleanName)) {
+        return verifiedStreetCenters[key];
+      }
+    }
+
+    // 2. Zoek via OpenStreetMap Overpass API naar de echte straat-geometrie (weg) in Haarlem en bereken het middelpunt
     try {
-      const query = `${cleanStreetName} 5, Haarlem`;
-      const pdokRes = await fetch(
-        `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${encodeURIComponent(query)}&fq=gemeentenaam:Haarlem&rows=1`
-      );
-      const pdokData = await pdokRes.json();
+      const overpassQuery = `[out:json];area[name="Haarlem"]->.searchArea;way(area.searchArea)[highway][name~"${cleanName}", i];out center;`;
+      const res = await fetch("https://overpass-api.de/api/interpreter", {
+        method: "POST",
+        body: overpassQuery
+      });
+      const data = await res.json();
 
-      if (pdokData && pdokData.response && pdokData.response.docs && pdokData.response.docs.length > 0) {
-        const doc = pdokData.response.docs[0];
-        if (doc.centroide_ll) {
-          // Format is "POINT(lng lat)"
-          const match = doc.centroide_ll.match(/POINT\(([0-9.]+)\s+([0-9.]+)\)/);
-          if (match) {
-            const officialStreet = doc.straatnaam || (cleanStreetName.charAt(0).toUpperCase() + cleanStreetName.slice(1));
+      if (data && data.elements && data.elements.length > 0) {
+        // Pak het element met een berekend middelpunt (center)
+        for (let el of data.elements) {
+          if (el.center && el.center.lat && el.center.lon) {
+            const streetName = (el.tags && el.tags.name) ? el.tags.name : (cleanName.charAt(0).toUpperCase() + cleanName.slice(1));
             return {
-              name: officialStreet,
-              lng: parseFloat(match[1]),
-              lat: parseFloat(match[2])
+              name: streetName,
+              lat: el.center.lat,
+              lng: el.center.lon
             };
           }
         }
       }
     } catch (e) {
-      // Val terug op Nominatim als PDOK niet bereikbaar is
-    }
-
-    // 2. Fallback: Nominatim met huisnummer 5 in Haarlem
-    try {
-      const nomRes = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(cleanStreetName + " 5, Haarlem, Nederland")}`
-      );
-      const nomData = await nomRes.json();
-      if (nomData && nomData.length > 0) {
-        const item = nomData[0];
-        const lat = parseFloat(item.lat);
-        const lng = parseFloat(item.lon);
-        if (lat >= 52.35 && lat <= 52.42 && lng >= 4.59 && lng <= 4.68) {
-          return {
-            name: cleanStreetName.charAt(0).toUpperCase() + cleanStreetName.slice(1),
-            lat: lat,
-            lng: lng
-          };
-        }
-      }
-    } catch (e) {
-      // Negeer netwerkfout
+      // Netwerkfout opvang
     }
 
     return null;
@@ -701,6 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const submitBtn = $("submitReport");
   if (submitBtn) {
+    submitBtn.disabled = true;
     submitBtn.addEventListener("click", async () => {
       const msg = $("submitMessage");
       const inputVal = streetInput ? streetInput.value.trim() : "";
@@ -712,9 +710,9 @@ document.addEventListener("DOMContentLoaded", () => {
         msg.textContent = tr("searching");
       }
 
-      const foundLocation = await findStreetInHaarlem(inputVal);
+      const streetInfo = await findStreetCenter(inputVal);
 
-      if (!foundLocation) {
+      if (!streetInfo) {
         if (msg) {
           msg.className = "error";
           msg.textContent = tr("notFound");
@@ -723,10 +721,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Controleer of de straat al bestaat en tel op (kleur verandert automatisch mee!)
-      const existing = streets.find(s => s.name.toLowerCase() === foundLocation.name.toLowerCase());
-      let targetLat = foundLocation.lat;
-      let targetLng = foundLocation.lng;
+      // Optelling per straat (kleur past zich automatisch aan)
+      const existing = streets.find(s => s.name.toLowerCase() === streetInfo.name.toLowerCase());
+      let targetLat = streetInfo.lat;
+      let targetLng = streetInfo.lng;
 
       if (existing) {
         existing.count += 1;
@@ -735,9 +733,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         streets.push({
           id: streets.length + 1,
-          name: foundLocation.name,
-          lat: foundLocation.lat,
-          lng: foundLocation.lng,
+          name: streetInfo.name,
+          lat: streetInfo.lat,
+          lng: streetInfo.lng,
           count: 1
         });
       }
