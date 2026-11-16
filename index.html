@@ -31,7 +31,6 @@
       min-height: 100vh;
     }
 
-    /* Stijlvolle achtergrond patroon met subtiel watermerk */
     body::before {
       content: "";
       position: fixed;
@@ -105,22 +104,8 @@
       align-items: center;
       gap: 10px;
     }
-    .brand-logo-box {
-      width: 82px;
-      height: 82px;
-      background: var(--haarlem-red);
-      color: var(--white);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 28px;
-      box-shadow: 0 4px 12px rgba(182, 58, 53, 0.3);
-      border: 3px solid #fff;
-    }
     .brand img {
-      max-width: 150px;
+      width: clamp(100px, 20vw, 140px);
       height: auto;
       object-fit: contain;
     }
@@ -225,28 +210,39 @@
       border: 1px solid var(--line);
       margin-bottom: 20px;
     }
+
+    /* Strakke legenda met duidelijke melding-uitleg */
+    .legend-box {
+      background: #f7f5f0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 14px 0 18px;
+    }
+    .legend-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+      display: block;
+    }
     .legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
-      margin: 12px 0 16px;
       font-size: 12px;
       font-weight: 600;
-      background: #f7f5f0;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--line);
     }
     .legend-item {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
     .dot {
       display: inline-block;
-      width: 11px;
-      height: 11px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       border: 1px solid rgba(0,0,0,0.2);
     }
@@ -315,7 +311,8 @@
       </select>
     </div>
     <div class="brand">
-      <div class="brand-logo-box" aria-hidden="true">H</div>
+      <img src="assets/logo.png" alt="Logo Rattenvanger van Haarlem"
+        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'50\'><rect width=\'120\' height=\'50\' fill=\'%23b63a35\' rx=\'8\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23ffffff\' font-family=\'sans-serif\' font-weight=\'bold\' font-size=\'18\'>HAARLEM</text></svg>';">
       <div>
         <h1>Rattenvanger van Haarlem</h1>
         <p data-t="subtitle">Zie je een rat? Meld ’m hier!</p>
@@ -336,10 +333,10 @@
       <p data-t="reportIntro">Help mee om waarnemingen in Haarlem zichtbaar te maken.</p>
       <div class="notice">
         <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
-        <p data-t="officialExplain">Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.</p>
+        <p data-t="officialExplain">Open de e-mail met het standaardformulier en verstuur deze zelf.</p>
         <a class="primary" id="officialLink"
-          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem"
-          target="_self" rel="noopener" data-t="openEmail">E-mail aan Spaarnelanden openen</a>
+          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem&body=Beste%20Spaarnelanden,%0A%0AHierbij%20doe%20ik%20een%20melding%20van%20rattenoverlast.%0A%0AA.%20Wat%20er%20is%20gezien%20(bijv.%20levend/dood,%20uitwerpselen,%20knaagschade,%20gaten/gangen):%0A-%0A%0AB.%20Locatie%20/%20Straatnaam%20in%20Haarlem:%0A-%0A%0AC.%20Naam%20melder:%0A-%0A%0AD.%20Telefoonnummer:%0A-%0A%0AMet%20vriendelijke%20groet,"
+          target="_self" rel="noopener" data-t="openEmail">E-mail met formulier openen</a>
       </div>
       <p class="muted" data-t="emailLimit">We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
       <div class="check">
@@ -356,22 +353,25 @@
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
       <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.</p>
       <div class="notice" data-t="mapWarning">
-        Privacy &amp; locatie: Elke stip staat op een geverifieerd punt in de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal meldingen weer. Een stip duidt nooit op een specifiek huisadres.
+        Privacy &amp; locatie: Elke stip staat op een geverifieerd punt in de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal doorgegeven meldingen weer. Een stip duidt nooit op een specifiek huisadres.
       </div>
 
-      <!-- Uitgebreide legenda: 0 t/m 10+ unieke kleuren -->
-      <div class="legend" aria-label="Legenda">
-        <span class="legend-item"><i class="dot" style="background:#8b918d"></i>0</span>
-        <span class="legend-item"><i class="dot" style="background:#2980b9"></i>1</span>
-        <span class="legend-item"><i class="dot" style="background:#3498db"></i>2</span>
-        <span class="legend-item"><i class="dot" style="background:#1abc9c"></i>3</span>
-        <span class="legend-item"><i class="dot" style="background:#2ecc71"></i>4</span>
-        <span class="legend-item"><i class="dot" style="background:#f1c40f"></i>5</span>
-        <span class="legend-item"><i class="dot" style="background:#e67e22"></i>6</span>
-        <span class="legend-item"><i class="dot" style="background:#9b59b6"></i>7</span>
-        <span class="legend-item"><i class="dot" style="background:#e84393"></i>8</span>
-        <span class="legend-item"><i class="dot" style="background:#c0392b"></i>9</span>
-        <span class="legend-item"><i class="dot" style="background:#8b0000"></i>10+</span>
+      <!-- Legenda met uitleg over aantal doorgegeven meldingen en unieke kleuren -->
+      <div class="legend-box">
+        <span class="legend-title" data-t="legendTitle">Aantal doorgegeven meldingen per straat:</span>
+        <div class="legend" aria-label="Legenda">
+          <span class="legend-item"><i class="dot" style="background:#8b918d"></i>0</span>
+          <span class="legend-item"><i class="dot" style="background:#2980b9"></i>1</span>
+          <span class="legend-item"><i class="dot" style="background:#3498db"></i>2</span>
+          <span class="legend-item"><i class="dot" style="background:#1abc9c"></i>3</span>
+          <span class="legend-item"><i class="dot" style="background:#2ecc71"></i>4</span>
+          <span class="legend-item"><i class="dot" style="background:#f1c40f"></i>5</span>
+          <span class="legend-item"><i class="dot" style="background:#e67e22"></i>6</span>
+          <span class="legend-item"><i class="dot" style="background:#9b59b6"></i>7</span>
+          <span class="legend-item"><i class="dot" style="background:#e84393"></i>8</span>
+          <span class="legend-item"><i class="dot" style="background:#c0392b"></i>9</span>
+          <span class="legend-item"><i class="dot" style="background:#8b0000"></i>10+</span>
+        </div>
       </div>
       
       <div id="map" aria-label="Kaart met rattenwaarnemingen per straat in Haarlem"></div>
@@ -406,7 +406,7 @@
       <h2 data-t="infoTitle">Over dit initiatief</h2>
       <p data-t="infoText">Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.</p>
       <h3 data-t="privacyTitle">Privacy &amp; weergave op de kaart</h3>
-      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het straat-totaal aan in de betreffende straat.</p>
+      <p data-t="privacyText">De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het totaal aantal doorgegeven meldingen aan in de betreffende straat.</p>
       <h3 data-t="limitsTitle">Wat deze kaart niet bewijst</h3>
       <p data-t="limitsText">De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.</p>
     </section>
@@ -435,13 +435,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report: "Rat melden", map: "Rattenkaart Haarlem", info: "Informatie",
       reportTitle: "Een rat gezien?", reportIntro: "Help mee om waarnemingen in Haarlem zichtbaar te maken.",
       officialFirst: "Doe eerst zelf een officiële melding bij Spaarnelanden.",
-      officialExplain: "Open de e-mail, vul zo nodig de gegevens aan en verstuur deze zelf.",
-      openEmail: "E-mail aan Spaarnelanden openen",
+      officialExplain: "Open de e-mail met het standaardformulier en verstuur deze zelf.",
+      openEmail: "E-mail met formulier openen",
       emailLimit: "We kunnen niet zien of je de e-mail hebt verzonden of dat Spaarnelanden deze heeft ontvangen.",
       returnedLabel: "Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap: "Verder naar de kaart", mapTitle: "Rattenkaart Haarlem",
       mapIntro: "Typ hieronder je straat in Haarlem en bekijk de waarnemingen op de kaart.",
-      mapWarning: "Privacy & locatie: Elke stip staat op een geverifieerd punt in de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal meldingen weer. Een stip duidt nooit op een specifiek huisadres.",
+      mapWarning: "Privacy & locatie: Elke stip staat op een geverifieerd punt in de betreffende straat in Haarlem en geeft uitsluitend het totaal aantal doorgegeven meldingen weer. Een stip duidt nooit op een specifiek huisadres.",
+      legendTitle: "Aantal doorgegeven meldingen per straat:",
       typeStreet: "Typ de naam van je straat in Haarlem:",
       observationLabel: "Wat heb je gezien?", oneRat: "Eén rat", multipleRats: "Meerdere ratten",
       consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).",
@@ -451,24 +452,25 @@ document.addEventListener("DOMContentLoaded", () => {
       infoTitle: "Over dit initiatief",
       infoText: "Rattenvanger van Haarlem verzamelt vrijwillige waarnemingen op straatniveau. Het initiatief vangt zelf geen ratten, voert geen bestrijding uit en handelt geen officiële meldingen af.",
       privacyTitle: "Privacy & weergave op de kaart",
-      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het straat-totaal aan in de betreffende straat.",
+      privacyText: "De kaart toont geen individuele meldingen, huisnummers, namen of e-mailadressen. De gekleurde stippen geven uitsluitend het totaal aantal doorgegeven meldingen aan in de betreffende straat.",
       limitsTitle: "Wat deze kaart niet bewijst",
       limitsText: "De gegevens zijn niet gecontroleerd en vormen geen officiële telling of betrouwbare meting van de rattenpopulatie.",
       footerText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
-      streetCount: "meldingen", popupNote: "Straat-totaal (duidt nooit op een specifiek huisadres)."
+      streetCount: "doorgegeven meldingen", popupNote: "Straat-totaal (duidt nooit op een specifiek huisadres)."
     },
     en: {
       subtitle: "Seen a rat? Report it here!",
       report: "Report a rat", map: "Haarlem rat map", info: "Information",
       reportTitle: "Seen a rat?", reportIntro: "Help make rat sightings in Haarlem visible.",
       officialFirst: "First make an official report to Spaarnelanden yourself.",
-      officialExplain: "Open the email, add details if needed, and send it yourself.",
-      openEmail: "Open email to Spaarnelanden",
+      officialExplain: "Open the email with the standard form and send it yourself.",
+      openEmail: "Open email with form",
       emailLimit: "We cannot verify whether you sent the email or whether Spaarnelanden received it.",
       returnedLabel: "I have returned to this website after opening the email link.",
       unlockMap: "Continue to the map", mapTitle: "Haarlem rat map",
       mapIntro: "Type your Haarlem street below and view sightings on the map.",
-      mapWarning: "Privacy & location: Each dot is placed at a verified point on the Haarlem street and only shows total reports. A dot never indicates a specific address.",
+      mapWarning: "Privacy & location: Each dot is placed at a verified point on the Haarlem street and only shows total submitted reports. A dot never indicates a specific address.",
+      legendTitle: "Number of submitted reports per street:",
       typeStreet: "Type your street name in Haarlem:",
       observationLabel: "What did you see?", oneRat: "One rat", multipleRats: "More than one rat",
       consent: "I understand that my report is voluntary, unverified, shown as a street total, and placed generally on the street (never on a home address).",
@@ -482,20 +484,21 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "What this map does not prove",
       limitsText: "The data is unverified and is not an official count or reliable measurement of the rat population.",
       footerText: "Rattenvanger van Haarlem is an independent residents' initiative.",
-      streetCount: "reports", popupNote: "Street total (never indicates a specific home address)."
+      streetCount: "submitted reports", popupNote: "Street total (never indicates a specific home address)."
     },
     tr: {
       subtitle: "Fare mi gördünüz? Buradan bildirin!",
       report: "Fare bildir", map: "Haarlem fare haritası", info: "Bilgi",
       reportTitle: "Fare mi gördünüz?", reportIntro: "Haarlem'deki fare gözlemlerini görünür kılmaya yardımcı olun.",
       officialFirst: "Önce Spaarnelanden'e kendiniz resmi bir bildirim yapın.",
-      officialExplain: "E-postayı açın, gerekirse bilgileri ekleyin ve kendiniz gönderin.",
-      openEmail: "Spaarnelanden'e e-posta aç",
+      officialExplain: "Formu içeren e-postayı açın ve kendiniz gönderin.",
+      openEmail: "Form ile e-posta aç",
       emailLimit: "E-postayı gönderip göndermediğinizi göremiyoruz.",
       returnedLabel: "E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
       unlockMap: "Haritaya devam et", mapTitle: "Haarlem fare haritası",
       mapIntro: "Aşağıya Haarlem'deki sokağınızı yazın ve haritadaki gözlemleri görün.",
       mapWarning: "Gizlilik ve konum: Her nokta ilgili sokakta doğrulanmış bir noktada yer alır.",
+      legendTitle: "Sokak başına iletilen bildirim sayısı:",
       typeStreet: "Haarlem'deki sokağınızın adını yazın:",
       observationLabel: "Ne gördünüz?", oneRat: "Bir fare", multipleRats: "Birden fazla fare",
       consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu ve sokak toplamı olarak gösterildiğini anlıyorum.",
@@ -509,20 +512,21 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "Bu harita neyi kanıtlamaz",
       limitsText: "Veriler doğrulanmamıştır.",
       footerText: "Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
-      streetCount: "bildirim", popupNote: "Sokak toplamı (ev adresi belirtmez)."
+      streetCount: "iletilen bildirim", popupNote: "Sokak toplamı (ev adresi belirtmez)."
     },
     ar: {
       subtitle: "هل رأيت فأراً؟ أبلغ عنه هنا!",
       report: "الإبلاغ عن فأر", map: "خريطة الفئران في هارلم", info: "معلومات",
       reportTitle: "هل رأيت فأراً؟", reportIntro: "ساعد في إظهار مشاهدات الفئران في هارلم.",
       officialFirst: "قم أولاً بتقديم بلاغ رسمي بنفسك لدى Spaarnelanden.",
-      officialExplain: "افتح البريد الإلكتروني وأرسله بنفسك.",
-      openEmail: "فتح البريد الإلكتروني إلى Spaarnelanden",
+      officialExplain: "افتح البريد الإلكتروني مع النموذج القياسي وأرسله بنفسك.",
+      openEmail: "فتح البريد مع النموذج",
       emailLimit: "لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني.",
       returnedLabel: "لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
       unlockMap: "المتابعة إلى الخريطة", mapTitle: "خريطة الفئران في هارلم",
       mapIntro: "اكتب شارعك في هارلم أدناه لعرض المشاهدات.",
       mapWarning: "الخصوصية والموقع: تقع كل نقطة في مكان موثق في الشارع المعني.",
+      legendTitle: "عدد البلاغات المقدمة لكل شارع:",
       typeStreet: "اكتب اسم شارعك في هارلم:",
       observationLabel: "ماذا رأيت؟", oneRat: "فأر واحد", multipleRats: "عدة فئران",
       consent: "أفهم أن بلاغي تطوعي وغير موثق ويُعرض كإجمالي للشارع.",
@@ -536,20 +540,21 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "ما لا تثبته هذه الخريطة",
       limitsText: "البيانات غير موثقة.",
       footerText: "Rattenvanger van Haarlem هي مبادرة مستقلة.",
-      streetCount: "بلاغات", popupNote: "إجمالي الشارع (لا يشير إلى عنوان)."
+      streetCount: "بلاغات مقدمة", popupNote: "إجمالي الشارع (لا يشير إلى عنوان)."
     },
     ru: {
       subtitle: "Увидели крысу? Сообщите здесь!",
       report: "Сообщить о крысе", map: "Карта крыс Харлема", info: "Информация",
       reportTitle: "Увидели крысу?", reportIntro: "Помогите сделать наблюдения за крысами видимыми.",
       officialFirst: "Сначала самостоятельно отправьте официальное сообщение в Spaarnelanden.",
-      officialExplain: "Откройте электронное письмо и отправьте его.",
-      openEmail: "Открыть письмо в Spaarnelanden",
+      officialExplain: "Откройте электронное письмо со стандартной формой.",
+      openEmail: "Открыть письмо с формой",
       emailLimit: "Мы не можем проверить отправку письма.",
       returnedLabel: "Я вернулся на этот сайт после открытия ссылки.",
       unlockMap: "Перейти к карте", mapTitle: "Карта крыс Харлема",
       mapIntro: "Введите вашу улицу в Харлеме ниже.",
       mapWarning: "Конфиденциальность: каждая точка размещается в проверенном месте улицы.",
+      legendTitle: "Количество поданных сообщений по улице:",
       typeStreet: "Введите название вашей улицы в Харлеме:",
       observationLabel: "Что вы видели?", oneRat: "Одну крысу", multipleRats: "Несколько крыс",
       consent: "Я понимаю, что мое сообщение является добровольным и отображается как итог по улице.",
@@ -563,20 +568,21 @@ document.addEventListener("DOMContentLoaded", () => {
       limitsTitle: "Чего эта карта не доказывает",
       limitsText: "Данные не проверены.",
       footerText: "Rattenvanger van Haarlem — независимая инициатива.",
-      streetCount: "сообщений", popupNote: "Всего по улице (не указывает на адрес)."
+      streetCount: "поданных сообщений", popupNote: "Всего по улице (не указывает на адрес)."
     },
     es: {
       subtitle: "¿Viste una rata? ¡Repórtala aquí!",
       report: "Reportar rata", map: "Mapa de ratas de Haarlem", info: "Información",
       reportTitle: "¿Viste una rata?", reportIntro: "Ayuda a hacer visibles los avistamientos.",
       officialFirst: "Primero haz un reporte oficial tú mismo en Spaarnelanden.",
-      officialExplain: "Abre el correo electrónico y envíalo.",
-      openEmail: "Abrir correo a Spaarnelanden",
+      officialExplain: "Abre el correo electrónico con el formulario estándar.",
+      openEmail: "Abrir correo con formulario",
       emailLimit: "No podemos verificar si enviaste el correo.",
       returnedLabel: "He vuelto a este sitio web.",
       unlockMap: "Continuar al mapa", mapTitle: "Mapa de ratas de Haarlem",
       mapIntro: "Escribe tu calle en Haarlem abajo.",
       mapWarning: "Privacidad y ubicación: cada punto se coloca en un punto verificado de la calle.",
+      legendTitle: "Número de reportes enviados por calle:",
       typeStreet: "Escribe el nombre de tu calle en Haarlem:",
       observationLabel: "¿Qué viste?", oneRat: "Una rata", multipleRats: "Varias ratas",
       consent: "Entiendo que mi reporte es voluntario y se muestra como total de la calle.",
@@ -587,10 +593,10 @@ document.addEventListener("DOMContentLoaded", () => {
       infoText: "Rattenvanger van Haarlem recopila avistamientos voluntarios.",
       privacyTitle: "Privacidad",
       privacyText: "El mapa no muestra números de casa.",
-      limitsTitle: "Lo que este mapa no prueba",
+      limitsTitle: "Lo que este mapa não prueba",
       limitsText: "Los datos no están verificados.",
       footerText: "Rattenvanger van Haarlem es una iniciativa vecinal.",
-      streetCount: "reportes", popupNote: "Total de la calle (nunca indica dirección)."
+      streetCount: "reportes enviados", popupNote: "Total de la calle (nunca indica dirección)."
     }
   };
 
@@ -615,7 +621,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (markersLayer) renderMapMarkers();
   }
 
-  // Exacte kleur per aantal meldingen (0 = grijs, 1 t/m 9 elk een unieke kleur, 10+ = felrood)
+  // Kleurenschema voor aantal meldingen (0 = grijs, 1 t/m 9 unieke kleuren, 10+ = felrood)
   function getMarkerColor(count) {
     if (count === 0) return "#8b918d";  // Grijs
     if (count === 1) return "#2980b9";  // Blauw
