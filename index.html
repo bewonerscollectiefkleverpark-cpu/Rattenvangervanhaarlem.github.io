@@ -97,9 +97,7 @@
       justify-content: flex-end;
     }
 
-    select {
-      cursor: pointer;
-    }
+    select { cursor: pointer; }
 
     #language {
       max-width: 170px;
@@ -187,7 +185,6 @@
     }
 
     h3 { margin: 22px 0 8px; }
-
     p { margin: 8px 0 14px; }
 
     .muted {
@@ -408,20 +405,12 @@
   </header>
 
   <nav aria-label="Hoofdnavigatie">
-    <button type="button" data-page="report" data-t="report" aria-current="page">
-      Rat melden
-    </button>
-    <button type="button" data-page="map" data-t="map">
-      Rattenkaart Haarlem
-    </button>
-    <button type="button" data-page="info" data-t="info">
-      Informatie
-    </button>
+    <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
+    <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
+    <button type="button" data-page="info" data-t="info">Informatie</button>
   </nav>
 
   <main>
-
-    <!-- MELDINGSPAGINA -->
 
     <section id="page-report">
       <h2 data-t="reportTitle">Een rat gezien?</h2>
@@ -463,8 +452,6 @@
         </button>
       </div>
     </section>
-
-    <!-- KAARTPAGINA -->
 
     <section id="page-map" class="hidden">
 
@@ -526,7 +513,6 @@
 
       <label class="check">
         <input type="checkbox" id="consent">
-
         <span data-t="consent">
           Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is,
           als straat-totaal wordt weergegeven en dat de stip algemeen in
@@ -543,13 +529,10 @@
       <p id="submitMessage" role="status" aria-live="polite"></p>
 
       <p class="muted" data-t="storageNotice">
-        Let op: in deze demonstratie worden meldingen alleen lokaal op dit
-        apparaat opgeslagen. Ze zijn niet zichtbaar voor andere bezoekers.
+        Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.
       </p>
 
     </section>
-
-    <!-- INFORMATIEPAGINA -->
 
     <section id="page-info" class="hidden">
 
@@ -593,7 +576,6 @@
 
   <footer>
     <span class="haarlem-badge">Haarlem</span>
-
     <span data-t="footerText">
       Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.
     </span>
@@ -613,7 +595,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const $ = id => document.getElementById(id);
 
-  const STORAGE_KEY = "rvh-local-reports-v2";
+  // Centrale opslag via Google Apps Script.
+  const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxMmRvtWUyTQWamuxKI84Iu7hNEQ2_UMskCrVge3zbL4c3FxpwNQegwwqCaXZ7fF7DJ/exec";
+
   const LANGUAGE_KEY = "rvh-language";
 
   let currentLang = "nl";
@@ -621,6 +606,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let markersLayer = null;
   let streets = [];
   let isSubmitting = false;
+  let callbackCounter = 0;
 
   // ------------------------------------------------
   // VERTALINGEN
@@ -652,10 +638,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, als straat-totaal wordt weergegeven en dat de stip algemeen in de straat staat (nooit op een huisadres).",
       submit: "Waarneming registreren",
       searching: "Straat opzoeken in Haarlem...",
-      saved: "Je waarneming is lokaal geregistreerd!",
+      sending: "Melding veilig opslaan...",
+      saved: "Je waarneming is centraal opgeslagen. Bedankt!",
       notFound: "Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
-      storageError: "Opslaan is niet gelukt. Controleer de opslagruimte van je browser.",
-      storageNotice: "Let op: meldingen worden alleen lokaal op dit apparaat opgeslagen. Ze zijn niet zichtbaar voor andere bezoekers.",
+      storageError: "De melding kon niet worden opgeslagen. Probeer het later opnieuw.",
+      duplicateReport: "Voor deze straat is onlangs al een melding gedaan. Probeer het over 15 minuten opnieuw.",
+      loadingReports: "Meldingen worden opgehaald...",
+      loadError: "De meldingen konden niet worden opgehaald. Probeer de kaart later opnieuw te openen.",
+      storageNotice: "Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.",
       infoTitle: "Over dit initiatief",
       infoText: "Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om de overlast in onze stad zichtbaar te maken.",
       info1: "Geen bestrijders: Wij vangen geen ratten en lossen het probleem niet zelf op.",
@@ -692,10 +682,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "I understand that my report is voluntary and unverified, shown as a street total, and placed generally on the street, never at a home address.",
       submit: "Register sighting",
       searching: "Searching for street in Haarlem...",
-      saved: "Your sighting has been saved locally!",
+      sending: "Saving report securely...",
+      saved: "Your sighting has been saved centrally. Thank you!",
       notFound: "This street could not be found in Haarlem. Check the spelling.",
-      storageError: "Saving failed. Check your browser storage.",
-      storageNotice: "Note: Reports are stored only on this device and are not visible to other visitors.",
+      storageError: "The report could not be saved. Please try again later.",
+      duplicateReport: "A report for this street was recently submitted. Please try again in 15 minutes.",
+      loadingReports: "Loading reports...",
+      loadError: "Reports could not be loaded. Please try opening the map again later.",
+      storageNotice: "Reports are stored centrally and are visible to all visitors.",
       infoTitle: "About this initiative",
       infoText: "Rattenvanger van Haarlem is an independent residents' initiative to make rat nuisance visible in our city.",
       info1: "We are not pest controllers. We do not catch rats or solve the problem ourselves.",
@@ -732,10 +726,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "Bildirimimin gönüllü ve doğrulanmamış olduğunu, sokak toplamı olarak gösterildiğini anlıyorum.",
       submit: "Gözlemi kaydet",
       searching: "Haarlem'de sokak aranıyor...",
-      saved: "Gözleminiz bu cihazda kaydedildi!",
+      sending: "Bildirim kaydediliyor...",
+      saved: "Gözleminiz merkezi olarak kaydedildi. Teşekkürler!",
       notFound: "Bu sokak Haarlem'de bulunamadı.",
-      storageError: "Kayıt başarısız oldu.",
-      storageNotice: "Bildirimler yalnızca bu cihazda saklanır ve diğer ziyaretçiler tarafından görülemez.",
+      storageError: "Bildirim kaydedilemedi. Daha sonra tekrar deneyin.",
+      duplicateReport: "Bu sokak için yakın zamanda bildirim yapıldı. 15 dakika sonra tekrar deneyin.",
+      loadingReports: "Bildirimler yükleniyor...",
+      loadError: "Bildirimler yüklenemedi. Haritayı daha sonra tekrar açın.",
+      storageNotice: "Bildirimler merkezi olarak saklanır ve tüm ziyaretçiler tarafından görülebilir.",
       infoTitle: "Bu girişim hakkında",
       infoText: "Rattenvanger van Haarlem, şehrimizdeki fare sorununu görünür kılmak için bağımsız bir mahalle girişimidir.",
       info1: "Biz haşere kontrol şirketi değiliz ve fare yakalamıyoruz.",
@@ -772,10 +770,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "أفهم أن بلاغي تطوعي وغير مؤكد ويُعرض كإجمالي للشارع وليس كعنوان منزل.",
       submit: "تسجيل المشاهدة",
       searching: "جاري البحث عن الشارع في هارلم...",
-      saved: "تم حفظ المشاهدة على هذا الجهاز!",
+      sending: "جارٍ حفظ البلاغ...",
+      saved: "تم حفظ المشاهدة مركزياً. شكراً لك!",
       notFound: "تعذر العثور على هذا الشارع في هارلم.",
-      storageError: "تعذر حفظ البلاغ.",
-      storageNotice: "يتم حفظ البلاغات على هذا الجهاز فقط ولا يراها الزوار الآخرون.",
+      storageError: "تعذر حفظ البلاغ. حاول مرة أخرى لاحقاً.",
+      duplicateReport: "تم تقديم بلاغ لهذا الشارع مؤخراً. حاول مرة أخرى بعد 15 دقيقة.",
+      loadingReports: "جارٍ تحميل البلاغات...",
+      loadError: "تعذر تحميل البلاغات. حاول فتح الخريطة لاحقاً.",
+      storageNotice: "يتم حفظ البلاغات مركزياً ويمكن لجميع الزوار رؤيتها.",
       infoTitle: "حول هذه المبادرة",
       infoText: "Rattenvanger van Haarlem مبادرة مستقلة لإظهار مشكلة الفئران في مدينتنا.",
       info1: "لسنا شركة مكافحة آفات ولا نقوم باصطياد الفئران.",
@@ -812,10 +814,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "Я понимаю, что сообщение добровольное, не проверенное и отображается только как итог по улице.",
       submit: "Зарегистрировать наблюдение",
       searching: "Поиск улицы в Харлеме...",
-      saved: "Наблюдение сохранено на этом устройстве!",
+      sending: "Сохранение сообщения...",
+      saved: "Наблюдение сохранено централизованно. Спасибо!",
       notFound: "Эту улицу не удалось найти в Харлеме.",
-      storageError: "Не удалось сохранить сообщение.",
-      storageNotice: "Сообщения сохраняются только на этом устройстве и не видны другим посетителям.",
+      storageError: "Не удалось сохранить сообщение. Попробуйте позже.",
+      duplicateReport: "Недавно уже было отправлено сообщение об этой улице. Попробуйте через 15 минут.",
+      loadingReports: "Загрузка сообщений...",
+      loadError: "Не удалось загрузить сообщения. Попробуйте открыть карту позже.",
+      storageNotice: "Сообщения хранятся централизованно и видны всем посетителям.",
       infoTitle: "Об этой инициативе",
       infoText: "Rattenvanger van Haarlem — независимая инициатива жителей.",
       info1: "Мы не занимаемся отловом крыс и не являемся службой дезинсекции.",
@@ -852,10 +858,14 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: "Entiendo que mi reporte es voluntario, no verificado y se muestra como un total por calle, nunca como dirección de una vivienda.",
       submit: "Registrar avistamiento",
       searching: "Buscando calle en Haarlem...",
-      saved: "¡Avistamiento guardado en este dispositivo!",
+      sending: "Guardando reporte...",
+      saved: "¡Avistamiento guardado centralmente. Gracias!",
       notFound: "No se pudo encontrar esta calle en Haarlem.",
-      storageError: "No se pudo guardar el reporte.",
-      storageNotice: "Los reportes se guardan solamente en este dispositivo y no son visibles para otros visitantes.",
+      storageError: "No se pudo guardar el reporte. Inténtalo más tarde.",
+      duplicateReport: "Ya se ha enviado un reporte reciente para esta calle. Inténtalo de nuevo en 15 minutos.",
+      loadingReports: "Cargando reportes...",
+      loadError: "No se pudieron cargar los reportes. Intenta abrir el mapa más tarde.",
+      storageNotice: "Los reportes se guardan centralmente y son visibles para todos los visitantes.",
       infoTitle: "Sobre esta iniciativa",
       infoText: "Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
       info1: "No somos una empresa de control de plagas ni capturamos ratas.",
@@ -874,40 +884,131 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // OPSLAG
+  // CENTRALE OPSLAG VIA GOOGLE APPS SCRIPT
+  // JSONP voorkomt problemen met browser-CORS.
   // ------------------------------------------------
 
-  function loadReports() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return [];
+  function callAppsScript(params) {
+    return new Promise((resolve, reject) => {
+      const callbackName =
+        "rvhCallback_" + Date.now() + "_" + (++callbackCounter);
 
-      const parsed = JSON.parse(saved);
+      const script = document.createElement("script");
+      const query = new URLSearchParams(params);
 
-      if (!Array.isArray(parsed)) return [];
+      query.set("callback", callbackName);
 
-      return parsed.filter(s =>
-        typeof s.name === "string" &&
-        Number.isFinite(s.lat) &&
-        Number.isFinite(s.lng) &&
-        Number.isInteger(s.count) &&
-        s.count >= 1 &&
-        s.lat >= 52.2 && s.lat <= 52.6 &&
-        s.lng >= 4.4 && s.lng <= 4.9
-      );
+      let finished = false;
 
-    } catch (error) {
-      console.error("Fout bij laden:", error);
-      return [];
-    }
+      const cleanup = () => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        try {
+          delete window[callbackName];
+        } catch (error) {
+          window[callbackName] = undefined;
+        }
+
+        clearTimeout(timeout);
+      };
+
+      const finish = (callback, value) => {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        callback(value);
+      };
+
+      window[callbackName] = data => {
+        finish(resolve, data);
+      };
+
+      const timeout = setTimeout(() => {
+        finish(
+          reject,
+          new Error("De verbinding met de meldingenserver duurde te lang.")
+        );
+      }, 20000);
+
+      script.onerror = () => {
+        finish(
+          reject,
+          new Error("De meldingenserver kon niet worden bereikt.")
+        );
+      };
+
+      script.src = APPS_SCRIPT_URL + "?" + query.toString();
+      document.head.appendChild(script);
+    });
   }
 
-  function saveReports() {
+  function normalizeStreet(value) {
+    return String(value || "")
+      .trim()
+      .toLocaleLowerCase("nl")
+      .replace(/\s+/g, " ");
+  }
+
+  // Haal alle meldingen op en tel ze per straat bij elkaar op.
+  async function loadCentralReports() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(streets));
+      const result = await callAppsScript({
+        action: "get"
+      });
+
+      if (!result || result.success !== true || !Array.isArray(result.reports)) {
+        throw new Error("Ongeldig antwoord van de meldingenserver.");
+      }
+
+      const grouped = new Map();
+
+      result.reports.forEach(report => {
+        const name = String(report.street || "").trim();
+        const lat = Number(report.lat);
+        const lng = Number(report.lng);
+        const count = Number(report.count);
+
+        if (
+          !name ||
+          !Number.isInteger(count) ||
+          count < 1 ||
+          count > 2 ||
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lng) ||
+          lat < 52.2 || lat > 52.6 ||
+          lng < 4.4 || lng > 4.9
+        ) {
+          return;
+        }
+
+        const key = normalizeStreet(name);
+
+        if (!grouped.has(key)) {
+          grouped.set(key, {
+            name,
+            lat,
+            lng,
+            count: 0
+          });
+        }
+
+        const street = grouped.get(key);
+        street.count += count;
+
+        // Gebruik de coördinaten van de laatst opgehaalde melding.
+        street.lat = lat;
+        street.lng = lng;
+      });
+
+      streets = Array.from(grouped.values());
+
+      renderMapMarkers();
       return true;
+
     } catch (error) {
-      console.error("Fout bij opslaan:", error);
+      console.error("Fout bij ophalen meldingen:", error);
       return false;
     }
   }
@@ -1013,7 +1114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function showPage(pageName) {
+  async function showPage(pageName) {
     ["report", "map", "info"].forEach(name => {
       $("page-" + name).classList.toggle(
         "hidden",
@@ -1031,6 +1132,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pageName === "map") {
       initMap();
+
+      const loaded = await loadCentralReports();
+
+      if (!loaded) {
+        $("submitMessage").className = "error";
+        $("submitMessage").textContent = tr("loadError");
+      }
 
       setTimeout(() => {
         if (mapInstance) mapInstance.invalidateSize();
@@ -1088,7 +1196,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) continue;
 
         const data = await response.json();
-
         const docs = data?.response?.docs || [];
 
         for (const doc of docs) {
@@ -1103,7 +1210,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const lng = Number(match[1]);
           const lat = Number(match[2]);
 
-          // Controleer of de gevonden locatie binnen Haarlem ligt.
           if (
             !Number.isFinite(lat) ||
             !Number.isFinite(lng) ||
@@ -1143,8 +1249,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const input = $("streetInput");
     const message = $("submitMessage");
-    const submitBtn = $("submitReport");
-
     const streetName = input.value.trim();
 
     if (!streetName || !$("consent").checked) return;
@@ -1156,6 +1260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     message.textContent = tr("searching");
 
     try {
+      // Eerst de straatnaam en algemene straatlocatie bepalen.
       const streetInfo = await findStreetViaPDOK(streetName);
 
       if (!streetInfo) {
@@ -1167,33 +1272,41 @@ document.addEventListener("DOMContentLoaded", () => {
       const addedCount =
         Number.parseInt($("observation").value, 10) || 1;
 
-      const existing = streets.find(
-        s => s.name.toLocaleLowerCase() ===
-          streetInfo.name.toLocaleLowerCase()
-      );
+      message.textContent = tr("sending");
 
-      if (existing) {
-        existing.count += addedCount;
-      } else {
-        streets.push({
-          id: crypto.randomUUID
-            ? crypto.randomUUID()
-            : String(Date.now()),
-          name: streetInfo.name,
-          lat: streetInfo.lat,
-          lng: streetInfo.lng,
-          count: addedCount
-        });
-      }
+      // De melding rechtstreeks centraal opslaan.
+      const result = await callAppsScript({
+        action: "add",
+        street: streetInfo.name,
+        count: String(addedCount),
+        lat: String(streetInfo.lat),
+        lng: String(streetInfo.lng)
+      });
 
-      if (!saveReports()) {
+      if (!result || result.success !== true) {
         message.className = "error";
-        message.textContent = tr("storageError");
+
+        const serverMessage = String(result?.message || "");
+
+        if (serverMessage.includes("onlangs al")) {
+          message.textContent = tr("duplicateReport");
+        } else {
+          message.textContent = tr("storageError");
+        }
+
         return;
       }
 
-      message.className = "success";
-      message.textContent = tr("saved");
+      // Na opslaan opnieuw de centrale lijst ophalen.
+      const loaded = await loadCentralReports();
+
+      if (!loaded) {
+        message.className = "success";
+        message.textContent = tr("saved");
+      } else {
+        message.className = "success";
+        message.textContent = tr("saved");
+      }
 
       if (mapInstance) {
         mapInstance.setView(
@@ -1209,7 +1322,7 @@ document.addEventListener("DOMContentLoaded", () => {
       $("observation").value = "1";
 
     } catch (error) {
-      console.error(error);
+      console.error("Fout bij versturen melding:", error);
       message.className = "error";
       message.textContent = tr("storageError");
 
@@ -1226,6 +1339,12 @@ document.addEventListener("DOMContentLoaded", () => {
   $("language").addEventListener("change", event => {
     currentLang = event.target.value;
     applyLanguage();
+
+    try {
+      localStorage.setItem(LANGUAGE_KEY, currentLang);
+    } catch (error) {
+      console.warn("Taalvoorkeur kon niet worden opgeslagen.");
+    }
   });
 
   try {
@@ -1237,14 +1356,6 @@ document.addEventListener("DOMContentLoaded", () => {
   } catch (error) {
     console.warn("Taalvoorkeur niet beschikbaar.");
   }
-
-  $("language").addEventListener("change", event => {
-    try {
-      localStorage.setItem(LANGUAGE_KEY, event.target.value);
-    } catch (error) {
-      console.warn("Taalvoorkeur kon niet worden opgeslagen.");
-    }
-  });
 
   document.querySelectorAll("nav button").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -1269,8 +1380,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------------------------------------------
   // START
   // ------------------------------------------------
-
-  streets = loadReports();
 
   applyLanguage();
   showPage("report");
