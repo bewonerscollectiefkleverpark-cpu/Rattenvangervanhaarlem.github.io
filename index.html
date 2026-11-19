@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#b63a35">
   <title>Rattenvanger van Haarlem</title>
-  <meta name="description" content="Zie je een rat in Haarlem? Meld hoeveel ratten je het afgelopen jaar hebt gezien.">
+  <meta name="description" content="Zie je een rat in Haarlem? Meld het exacte aantal ratten dat je de afgelopen 12 maanden hebt gezien.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -427,18 +427,19 @@
       <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen.</p>
 
       <div class="notice" data-t="mapWarning">
-        De kaart toont per straat de hoogste gemelde categorie uit de afgelopen 12 maanden.
-        Meldingen zijn vrijwillig en niet automatisch geverifieerd.
+        Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden.
+        Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.
       </div>
 
       <div class="legend-box">
-        <span class="legend-title" data-t="legendTitle">Hoogste gemelde categorie per straat (afgelopen 12 maanden):</span>
+        <span class="legend-title" data-t="legendTitle">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
         <div class="legend">
-          <span class="legend-item"><i class="dot" style="background:#2980b9"></i><span data-t="cat1">1 rat</span></span>
-          <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span data-t="cat2">2–5 ratten</span></span>
-          <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span data-t="cat3">6–10 ratten</span></span>
-          <span class="legend-item"><i class="dot" style="background:#e67e22"></i><span data-t="cat4">11–20 ratten</span></span>
-          <span class="legend-item"><i class="dot" style="background:#c0392b"></i><span data-t="cat5">Meer dan 20 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span data-t="band1">1–4</span></span>
+          <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span data-t="band2">5–9</span></span>
+          <span class="legend-item"><i class="dot" style="background:#e67e22"></i><span data-t="band3">10–19</span></span>
+          <span class="legend-item"><i class="dot" style="background:#c0392b"></i><span data-t="band4">20–39</span></span>
+          <span class="legend-item"><i class="dot" style="background:#8e44ad"></i><span data-t="band5">40–99</span></span>
+          <span class="legend-item"><i class="dot" style="background:#000000"></i><span data-t="band6">100 of meer</span></span>
         </div>
       </div>
 
@@ -453,20 +454,14 @@
 
       <div class="field">
         <label for="observation" data-t="observationLabel">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
-        <select id="observation">
-          <option value="1" data-t="cat1">1 rat</option>
-          <option value="2" data-t="cat2">2–5 ratten</option>
-          <option value="3" data-t="cat3">6–10 ratten</option>
-          <option value="4" data-t="cat4">11–20 ratten</option>
-          <option value="5" data-t="cat5">Meer dan 20 ratten</option>
-        </select>
+        <input type="number" id="observation" min="1" max="20" step="1" value="1" inputmode="numeric">
+        <p class="muted" data-t="countHelp">Vul een exact aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
       </div>
 
       <label class="check">
         <input type="checkbox" id="consent">
         <span data-t="consent">
-          Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is,
-          betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.
+          Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.
         </span>
       </label>
 
@@ -519,6 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://script.google.com/macros/s/AKfycbxMmRvtWUyTQWamuxKI84Iu7hNEQ2_UMskCrVge3zbL4c3FxpwNQegwwqCaXZ7fF7DJ/exec";
 
   const LANGUAGE_KEY = "rvh-language";
+  const DEVICE_KEY = "rvh-device-id";
 
   let currentLang = "nl";
   let mapInstance = null;
@@ -527,20 +523,25 @@ document.addEventListener("DOMContentLoaded", () => {
   let isSubmitting = false;
   let callbackCounter = 0;
 
-  // De categoriecodes zijn:
-  // 1 = 1 rat
-  // 2 = 2–5 ratten
-  // 3 = 6–10 ratten
-  // 4 = 11–20 ratten
-  // 5 = meer dan 20 ratten
+  // Elke browser krijgt een eigen willekeurige ID.
+  // De server gebruikt deze ID voor de wachttijd van 15 minuten.
+  function getDeviceId() {
+    try {
+      let id = localStorage.getItem(DEVICE_KEY);
 
-  const categoryColors = {
-    1: "#2980b9",
-    2: "#2ecc71",
-    3: "#f1c40f",
-    4: "#e67e22",
-    5: "#c0392b"
-  };
+      if (!id) {
+        id = (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : "rvh-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+
+        localStorage.setItem(DEVICE_KEY, id);
+      }
+
+      return id;
+    } catch (error) {
+      return "";
+    }
+  }
 
   const T = {
     nl: {
@@ -556,20 +557,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"Verder naar de kaart",
       mapTitle:"Rattenkaart Haarlem",
       mapIntro:"Typ hieronder je straat in Haarlem en bekijk de waarnemingen.",
-      mapWarning:"De kaart toont per straat de hoogste gemelde categorie uit de afgelopen 12 maanden. Meldingen zijn vrijwillig en niet automatisch geverifieerd.",
-      legendTitle:"Hoogste gemelde categorie per straat (afgelopen 12 maanden):",
+      mapWarning:"Let op: Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden. Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.",
+      legendTitle:"Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):",
+      band1:"1–4 ratten", band2:"5–9 ratten", band3:"10–19 ratten",
+      band4:"20–39 ratten", band5:"40–99 ratten", band6:"100 of meer",
       typeStreet:"Typ de naam van je straat in Haarlem:",
       observationLabel:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
-      cat1:"1 rat", cat2:"2–5 ratten", cat3:"6–10 ratten",
-      cat4:"11–20 ratten", cat5:"Meer dan 20 ratten",
+      countHelp:"Vul een exact aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
       consent:"Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.",
       submit:"Waarneming registreren",
       searching:"Straat opzoeken in Haarlem...",
       sending:"Melding veilig opslaan...",
       saved:"Je waarneming is centraal opgeslagen. Bedankt!",
       notFound:"Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
+      invalidCount:"Vul een heel getal in tussen 1 en 20.",
       storageError:"De melding kon niet worden opgeslagen. Probeer het later opnieuw.",
-      duplicateReport:"Voor deze straat is onlangs al een melding gedaan. Probeer het over 15 minuten opnieuw.",
+      duplicateReport:"Je hebt vanaf deze browser onlangs al een melding gedaan. Probeer het over 15 minuten opnieuw.",
       loadingReports:"Meldingen worden opgehaald...",
       loadError:"De meldingen konden niet worden opgehaald. Probeer de kaart later opnieuw te openen.",
       storageNotice:"Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.",
@@ -581,8 +584,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"Eenvoudig: Geen account nodig. Open de officiële e-mail en registreer daarna vrijwillig je waarneming.",
       privacyNotice:"De kaart is bedoeld om algemene patronen zichtbaar te maken. De meldingen zijn geen officiële gemeentelijke gegevens.",
       footerText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
-      popupCategory:"Hoogste gemelde categorie in de afgelopen 12 maanden",
-      popupNote:"Vrijwillige, niet-geverifieerde melding. Geen huisadres."
+      popupTotal:"Totaal aantal bewonersmeldingen",
+      popupReports:"Aantal meldingen",
+      popupNote:"Optelsom van meldingen, geen telling van unieke ratten."
     },
 
     en: {
@@ -598,20 +602,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"Continue to the map",
       mapTitle:"Haarlem rat map",
       mapIntro:"Enter your Haarlem street below and view sightings.",
-      mapWarning:"The map shows the highest reported category per street during the past 12 months. Reports are voluntary and not automatically verified.",
-      legendTitle:"Highest reported category per street (past 12 months):",
+      mapWarning:"The total per street is the sum of residents' reports over the past 12 months. The same rats may have been seen by multiple residents, so this is not a count of unique rats.",
+      legendTitle:"Total reported rats per street (past 12 months):",
+      band1:"1–4 rats", band2:"5–9 rats", band3:"10–19 rats",
+      band4:"20–39 rats", band5:"40–99 rats", band6:"100 or more",
       typeStreet:"Enter your street name in Haarlem:",
       observationLabel:"How many rats have you seen in total during the past 12 months?",
-      cat1:"1 rat", cat2:"2–5 rats", cat3:"6–10 rats",
-      cat4:"11–20 rats", cat5:"More than 20 rats",
+      countHelp:"Enter an exact number. You can report a maximum of 20 rats per report.",
       consent:"I understand that my report is voluntary and unverified, covers the past 12 months and is displayed generally at street level.",
       submit:"Register sighting",
       searching:"Searching for street in Haarlem...",
       sending:"Saving report securely...",
       saved:"Your sighting has been saved centrally. Thank you!",
       notFound:"This street could not be found in Haarlem. Check the spelling.",
+      invalidCount:"Enter a whole number between 1 and 20.",
       storageError:"The report could not be saved. Please try again later.",
-      duplicateReport:"A report for this street was recently submitted. Please try again in 15 minutes.",
+      duplicateReport:"A report was recently submitted from this browser. Please try again in 15 minutes.",
       loadingReports:"Loading reports...",
       loadError:"Reports could not be loaded. Please try opening the map again later.",
       storageNotice:"Reports are stored centrally and are visible to all visitors.",
@@ -623,8 +629,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"No account is required. Open the official email and then voluntarily register your sighting.",
       privacyNotice:"The map shows general patterns. Reports are not official municipal data.",
       footerText:"Rattenvanger van Haarlem is an independent residents' initiative.",
-      popupCategory:"Highest reported category during the past 12 months",
-      popupNote:"Voluntary, unverified report. No home address."
+      popupTotal:"Total residents' reports",
+      popupReports:"Number of reports",
+      popupNote:"Sum of reports, not a count of unique rats."
     },
 
     tr: {
@@ -640,20 +647,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"Haritaya devam et",
       mapTitle:"Haarlem fare haritası",
       mapIntro:"Haarlem'deki sokağınızı yazın ve gözlemleri görün.",
-      mapWarning:"Harita, son 12 ay içinde her sokak için bildirilen en yüksek kategoriyi gösterir. Bildirimler gönüllüdür ve otomatik olarak doğrulanmaz.",
-      legendTitle:"Sokak başına en yüksek bildirim kategorisi (son 12 ay):",
+      mapWarning:"Sokak toplamı, son 12 aydaki sakin bildirimlerinin toplamıdır. Aynı fareler birden fazla kişi tarafından görülmüş olabilir; bu sayı benzersiz farelerin sayısı değildir.",
+      legendTitle:"Sokak başına bildirilen toplam fare (son 12 ay):",
+      band1:"1–4 fare", band2:"5–9 fare", band3:"10–19 fare",
+      band4:"20–39 fare", band5:"40–99 fare", band6:"100 veya daha fazla",
       typeStreet:"Haarlem'deki sokağınızın adını yazın:",
       observationLabel:"Son 12 ayda toplam kaç fare gördünüz?",
-      cat1:"1 fare", cat2:"2–5 fare", cat3:"6–10 fare",
-      cat4:"11–20 fare", cat5:"20'den fazla fare",
+      countHelp:"Kesin sayıyı girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
       consent:"Bildirimimin gönüllü ve doğrulanmamış olduğunu, son 12 ayı kapsadığını ve sokak düzeyinde gösterildiğini anlıyorum.",
       submit:"Gözlemi kaydet",
       searching:"Haarlem'de sokak aranıyor...",
       sending:"Bildirim kaydediliyor...",
       saved:"Gözleminiz merkezi olarak kaydedildi. Teşekkürler!",
       notFound:"Bu sokak Haarlem'de bulunamadı. Yazımı kontrol edin.",
+      invalidCount:"1 ile 20 arasında tam sayı girin.",
       storageError:"Bildirim kaydedilemedi. Daha sonra tekrar deneyin.",
-      duplicateReport:"Bu sokak için yakın zamanda bildirim yapıldı. 15 dakika sonra tekrar deneyin.",
+      duplicateReport:"Bu tarayıcıdan yakın zamanda bildirim yapıldı. 15 dakika sonra tekrar deneyin.",
       loadingReports:"Bildirimler yükleniyor...",
       loadError:"Bildirimler yüklenemedi. Haritayı daha sonra tekrar açın.",
       storageNotice:"Bildirimler merkezi olarak saklanır ve tüm ziyaretçiler tarafından görülebilir.",
@@ -665,8 +674,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"Hesap gerekmez. Resmi e-postayı açın ve gözleminizi kaydedin.",
       privacyNotice:"Harita genel eğilimleri göstermek içindir. Bildirimler resmi belediye verileri değildir.",
       footerText:"Bağımsız bir mahalle girişimi.",
-      popupCategory:"Son 12 aydaki en yüksek bildirim kategorisi",
-      popupNote:"Gönüllü ve doğrulanmamış bildirim. Ev adresi değildir."
+      popupTotal:"Sakinlerin bildirdiği toplam",
+      popupReports:"Bildirim sayısı",
+      popupNote:"Bildirimlerin toplamı; benzersiz fare sayısı değildir."
     },
 
     ar: {
@@ -682,20 +692,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"المتابعة إلى الخريطة",
       mapTitle:"خريطة الفئران في هارلم",
       mapIntro:"اكتب اسم شارعك في هارلم لعرض المشاهدات.",
-      mapWarning:"تعرض الخريطة أعلى فئة تم الإبلاغ عنها لكل شارع خلال آخر 12 شهراً. البلاغات تطوعية وغير مؤكدة تلقائياً.",
-      legendTitle:"أعلى فئة تم الإبلاغ عنها لكل شارع (آخر 12 شهراً):",
+      mapWarning:"الإجمالي لكل شارع هو مجموع بلاغات السكان خلال آخر 12 شهراً. قد تكون الفئران نفسها قد شوهدت من عدة أشخاص؛ لذلك ليس هذا عدداً للفئران الفريدة.",
+      legendTitle:"إجمالي الفئران المبلغ عنها لكل شارع (آخر 12 شهراً):",
+      band1:"1–4", band2:"5–9", band3:"10–19",
+      band4:"20–39", band5:"40–99", band6:"100 أو أكثر",
       typeStreet:"اكتب اسم شارعك في هارلم:",
       observationLabel:"كم فأراً رأيت إجمالاً خلال آخر 12 شهراً؟",
-      cat1:"فأر واحد", cat2:"2–5 فئران", cat3:"6–10 فئران",
-      cat4:"11–20 فأراً", cat5:"أكثر من 20 فأراً",
+      countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 فأراً كحد أقصى في كل بلاغ.",
       consent:"أفهم أن بلاغي تطوعي وغير مؤكد ويغطي آخر 12 شهراً ويُعرض على مستوى الشارع فقط.",
       submit:"تسجيل المشاهدة",
       searching:"جاري البحث عن الشارع في هارلم...",
       sending:"جارٍ حفظ البلاغ...",
       saved:"تم حفظ المشاهدة مركزياً. شكراً لك!",
       notFound:"تعذر العثور على هذا الشارع في هارلم. تحقق من الكتابة.",
+      invalidCount:"أدخل عدداً صحيحاً بين 1 و20.",
       storageError:"تعذر حفظ البلاغ. حاول مرة أخرى لاحقاً.",
-      duplicateReport:"تم تقديم بلاغ لهذا الشارع مؤخراً. حاول مرة أخرى بعد 15 دقيقة.",
+      duplicateReport:"تم تقديم بلاغ مؤخراً من هذا المتصفح. حاول بعد 15 دقيقة.",
       loadingReports:"جارٍ تحميل البلاغات...",
       loadError:"تعذر تحميل البلاغات. حاول فتح الخريطة لاحقاً.",
       storageNotice:"يتم حفظ البلاغات مركزياً ويمكن لجميع الزوار رؤيتها.",
@@ -707,8 +719,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"لا تحتاج إلى حساب. افتح البريد الإلكتروني وسجل المشاهدة.",
       privacyNotice:"الخريطة مخصصة لإظهار الأنماط العامة وليست بيانات بلدية رسمية.",
       footerText:"مبادرة مستقلة من السكان.",
-      popupCategory:"أعلى فئة تم الإبلاغ عنها خلال آخر 12 شهراً",
-      popupNote:"بلاغ تطوعي وغير مؤكد. ليس عنوان منزل."
+      popupTotal:"إجمالي بلاغات السكان",
+      popupReports:"عدد البلاغات",
+      popupNote:"مجموع البلاغات وليس عدد الفئران الفريدة."
     },
 
     ru: {
@@ -724,20 +737,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"Перейти к карте",
       mapTitle:"Карта крыс Харлема",
       mapIntro:"Введите название улицы в Харлеме.",
-      mapWarning:"Карта показывает наивысшую категорию сообщений по каждой улице за последние 12 месяцев. Сообщения добровольные и автоматически не проверяются.",
-      legendTitle:"Наивысшая категория по улице (последние 12 месяцев):",
+      mapWarning:"Итог по улице — это сумма сообщений жителей за последние 12 месяцев. Одних и тех же крыс могли видеть разные жители, поэтому это не точное число уникальных крыс.",
+      legendTitle:"Общее число сообщённых крыс по улице (последние 12 месяцев):",
+      band1:"1–4", band2:"5–9", band3:"10–19",
+      band4:"20–39", band5:"40–99", band6:"100 или больше",
       typeStreet:"Введите название вашей улицы в Харлеме:",
       observationLabel:"Сколько всего крыс вы видели за последние 12 месяцев?",
-      cat1:"1 крыса", cat2:"2–5 крыс", cat3:"6–10 крыс",
-      cat4:"11–20 крыс", cat5:"Более 20 крыс",
+      countHelp:"Укажите точное число. В одном сообщении можно указать не более 20 крыс.",
       consent:"Я понимаю, что сообщение добровольное, не проверенное, охватывает последние 12 месяцев и отображается только на уровне улицы.",
       submit:"Зарегистрировать наблюдение",
       searching:"Поиск улицы в Харлеме...",
       sending:"Сохранение сообщения...",
       saved:"Наблюдение сохранено централизованно. Спасибо!",
       notFound:"Эту улицу не удалось найти в Харлеме. Проверьте написание.",
+      invalidCount:"Введите целое число от 1 до 20.",
       storageError:"Не удалось сохранить сообщение. Попробуйте позже.",
-      duplicateReport:"Недавно уже было отправлено сообщение об этой улице. Попробуйте через 15 минут.",
+      duplicateReport:"С этого браузера недавно уже отправлялось сообщение. Попробуйте через 15 минут.",
       loadingReports:"Загрузка сообщений...",
       loadError:"Не удалось загрузить сообщения. Попробуйте открыть карту позже.",
       storageNotice:"Сообщения хранятся централизованно и видны всем посетителям.",
@@ -749,8 +764,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"Аккаунт не нужен. Откройте официальное письмо и зарегистрируйте наблюдение.",
       privacyNotice:"Карта показывает общие тенденции. Это не официальные муниципальные данные.",
       footerText:"Независимая инициатива жителей.",
-      popupCategory:"Наивысшая категория за последние 12 месяцев",
-      popupNote:"Добровольное, непроверенное сообщение. Не адрес дома."
+      popupTotal:"Общее число сообщений жителей",
+      popupReports:"Количество сообщений",
+      popupNote:"Сумма сообщений, а не число уникальных крыс."
     },
 
     es: {
@@ -766,20 +782,22 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockMap:"Continuar al mapa",
       mapTitle:"Mapa de ratas de Haarlem",
       mapIntro:"Escribe el nombre de tu calle en Haarlem.",
-      mapWarning:"El mapa muestra la categoría más alta reportada por calle durante los últimos 12 meses. Los reportes son voluntarios y no se verifican automáticamente.",
-      legendTitle:"Categoría más alta por calle (últimos 12 meses):",
+      mapWarning:"El total por calle es la suma de los reportes de los residentes durante los últimos 12 meses. Varias personas pueden haber visto las mismas ratas; no es un recuento de ratas únicas.",
+      legendTitle:"Total de ratas reportadas por calle (últimos 12 meses):",
+      band1:"1–4 ratas", band2:"5–9 ratas", band3:"10–19 ratas",
+      band4:"20–39 ratas", band5:"40–99 ratas", band6:"100 o más",
       typeStreet:"Escribe el nombre de tu calle en Haarlem:",
       observationLabel:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
-      cat1:"1 rata", cat2:"2–5 ratas", cat3:"6–10 ratas",
-      cat4:"11–20 ratas", cat5:"Más de 20 ratas",
+      countHelp:"Introduce una cantidad exacta. Puedes reportar un máximo de 20 ratas por aviso.",
       consent:"Entiendo que mi reporte es voluntario y no verificado, cubre los últimos 12 meses y se muestra únicamente a nivel de calle.",
       submit:"Registrar avistamiento",
       searching:"Buscando calle en Haarlem...",
       sending:"Guardando reporte...",
       saved:"¡Avistamiento guardado centralmente. Gracias!",
       notFound:"No se pudo encontrar esta calle en Haarlem. Comprueba la escritura.",
+      invalidCount:"Introduce un número entero entre 1 y 20.",
       storageError:"No se pudo guardar el reporte. Inténtalo más tarde.",
-      duplicateReport:"Ya se ha enviado un reporte reciente para esta calle. Inténtalo de nuevo en 15 minutos.",
+      duplicateReport:"Ya se ha enviado un reporte desde este navegador. Inténtalo de nuevo en 15 minutos.",
       loadingReports:"Cargando reportes...",
       loadError:"No se pudieron cargar los reportes. Intenta abrir el mapa más tarde.",
       storageNotice:"Los reportes se guardan centralmente y son visibles para todos los visitantes.",
@@ -791,8 +809,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"No necesitas una cuenta. Abre el correo oficial y registra tu avistamiento.",
       privacyNotice:"El mapa muestra tendencias generales. Los reportes no son datos municipales oficiales.",
       footerText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
-      popupCategory:"Categoría más alta reportada durante los últimos 12 meses",
-      popupNote:"Reporte voluntario y no verificado. No es una dirección particular."
+      popupTotal:"Total de reportes de residentes",
+      popupReports:"Número de reportes",
+      popupNote:"Suma de reportes, no recuento de ratas únicas."
     }
   };
 
@@ -847,12 +866,27 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/\s+/g, " ");
   }
 
-  function categoryLabel(category) {
-    return tr("cat" + category);
+  // Kleuren op basis van het opgetelde aantal meldingen per straat.
+  function getMarkerColor(total) {
+    if (total >= 100) return "#000000";
+    if (total >= 40) return "#8e44ad";
+    if (total >= 20) return "#c0392b";
+    if (total >= 10) return "#e67e22";
+    if (total >= 5) return "#f1c40f";
+    if (total >= 1) return "#2ecc71";
+    return "#8b918d";
   }
 
-  // De hoogste categorie per straat wordt getoond.
-  // We tellen categorieën niet bij elkaar op.
+  function getColorBand(total) {
+    if (total >= 100) return tr("band6");
+    if (total >= 40) return tr("band5");
+    if (total >= 20) return tr("band4");
+    if (total >= 10) return tr("band3");
+    if (total >= 5) return tr("band2");
+    return tr("band1");
+  }
+
+  // Haal de meldingen op en tel de exacte aantallen per straat bij elkaar op.
   async function loadCentralReports() {
     try {
       const result = await callAppsScript({});
@@ -862,22 +896,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const grouped = new Map();
+      const twelveMonthsAgo = new Date();
+      twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
 
       result.reports.forEach(report => {
         const name = String(report.street || "").trim();
         const lat = Number(report.lat);
         const lng = Number(report.lng);
         const count = Number(report.count);
+        const reportDate = new Date(report.date);
+
+        // Alleen nieuwe exacte meldingen gebruiken.
+        // De Apps Script-code moet deze meldingen als exact12m teruggeven.
+        if (report.kind !== "exact12m") return;
 
         if (
           !name ||
           !Number.isInteger(count) ||
           count < 1 ||
-          count > 5 ||
+          count > 20 ||
           !Number.isFinite(lat) ||
           !Number.isFinite(lng) ||
           lat < 52.2 || lat > 52.6 ||
-          lng < 4.4 || lng > 4.9
+          lng < 4.4 || lng > 4.9 ||
+          isNaN(reportDate.getTime()) ||
+          reportDate < twelveMonthsAgo
         ) return;
 
         const key = normalizeStreet(name);
@@ -887,16 +930,13 @@ document.addEventListener("DOMContentLoaded", () => {
             name,
             lat,
             lng,
-            count
+            total: count,
+            reports: 1
           });
         } else {
           const street = grouped.get(key);
-
-          if (count > street.count) {
-            street.count = count;
-            street.lat = lat;
-            street.lng = lng;
-          }
+          street.total += count;
+          street.reports += 1;
         }
       });
 
@@ -922,10 +962,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (markersLayer) renderMapMarkers();
-  }
-
-  function getMarkerColor(category) {
-    return categoryColors[category] || "#8b918d";
   }
 
   function initMap() {
@@ -954,7 +990,7 @@ document.addEventListener("DOMContentLoaded", () => {
         [street.lat, street.lng],
         {
           radius: 11,
-          fillColor: getMarkerColor(street.count),
+          fillColor: getMarkerColor(street.total),
           color: "#ffffff",
           weight: 2.5,
           opacity: 1,
@@ -967,13 +1003,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const title = document.createElement("strong");
       title.textContent = street.name;
 
-      const category = document.createElement("p");
-      category.textContent = categoryLabel(street.count);
+      const total = document.createElement("p");
+      total.textContent = tr("popupTotal") + ": " + street.total;
+
+      const band = document.createElement("p");
+      band.textContent = getColorBand(street.total);
+
+      const reports = document.createElement("p");
+      reports.textContent = tr("popupReports") + ": " + street.reports;
 
       const explanation = document.createElement("small");
-      explanation.textContent = tr("popupCategory") + ". " + tr("popupNote");
+      explanation.textContent = tr("popupNote");
 
-      popup.append(title, category, explanation);
+      popup.append(title, total, band, reports, explanation);
       marker.bindPopup(popup);
       markersLayer.addLayer(marker);
     });
@@ -1085,10 +1127,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function checkSubmitState() {
     const hasStreet = $("streetInput").value.trim().length > 0;
+    const count = Number($("observation").value);
+    const validCount =
+      Number.isInteger(count) && count >= 1 && count <= 20;
     const consent = $("consent").checked;
 
     $("submitReport").disabled =
-      !hasStreet || !consent || isSubmitting;
+      !hasStreet || !validCount || !consent || isSubmitting;
   }
 
   async function submitReport() {
@@ -1097,8 +1142,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = $("streetInput");
     const message = $("submitMessage");
     const streetName = input.value.trim();
+    const count = Number($("observation").value);
 
     if (!streetName || !$("consent").checked) return;
+
+    if (!Number.isInteger(count) || count < 1 || count > 20) {
+      message.className = "error";
+      message.textContent = tr("invalidCount");
+      return;
+    }
+
+    const deviceId = getDeviceId();
+
+    if (!deviceId) {
+      message.className = "error";
+      message.textContent = tr("storageError");
+      return;
+    }
 
     isSubmitting = true;
     checkSubmitState();
@@ -1115,29 +1175,28 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const category = Number($("observation").value);
-
-      if (!Number.isInteger(category) || category < 1 || category > 5) {
-        throw new Error("Ongeldige categorie.");
-      }
-
       message.textContent = tr("sending");
 
       const result = await callAppsScript({
         action: "add",
         street: streetInfo.name,
-        count: String(category),
+        count: String(count),
         lat: String(streetInfo.lat),
-        lng: String(streetInfo.lng)
+        lng: String(streetInfo.lng),
+        deviceId: deviceId
       });
 
       if (!result || result.success !== true) {
         message.className = "error";
 
-        if (String(result?.message || "").includes("onlangs al")) {
+        if (
+          String(result?.message || "").toLowerCase().includes("15") ||
+          String(result?.message || "").toLowerCase().includes("cooldown") ||
+          String(result?.message || "").toLowerCase().includes("recent")
+        ) {
           message.textContent = tr("duplicateReport");
         } else {
-          message.textContent = tr("storageError");
+          message.textContent = result?.message || tr("storageError");
         }
         return;
       }
@@ -1205,6 +1264,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("streetInput").addEventListener("input", checkSubmitState);
+  $("observation").addEventListener("input", checkSubmitState);
   $("consent").addEventListener("change", checkSubmitState);
   $("submitReport").addEventListener("click", submitReport);
 
