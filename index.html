@@ -88,14 +88,32 @@
       justify-content: flex-end;
     }
 
-    select { cursor: pointer; }
-
     #language {
-      max-width: 170px;
-      padding: 9px 12px;
-      border: 1px solid var(--line);
+      max-width: 200px;
+      min-width: 175px;
+      padding: 12px 16px 12px 42px;
+      border: 2px solid var(--red);
+      background-color: var(--red);
+      color: white;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,.15);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 12px center;
+    }
+
+    #language:focus {
+      outline: 3px solid rgba(182,58,53,.25);
+      outline-offset: 3px;
+    }
+
+    #language option {
       background: white;
-      border-radius: 8px;
+      color: var(--ink);
     }
 
     .logo-card, .title-card, section, footer {
@@ -111,6 +129,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: #e8decb;
+      overflow: hidden;
     }
 
     .logo-card img {
@@ -118,11 +138,14 @@
       max-width: 480px;
       height: auto;
       object-fit: contain;
+      display: block;
+      mix-blend-mode: multiply;
     }
 
     .title-card {
-      padding: 24px;
+      padding: 24px 24px 16px;
       text-align: center;
+      overflow: hidden;
     }
 
     h1 {
@@ -135,6 +158,39 @@
       color: var(--muted);
       margin: 0;
       font-weight: 500;
+    }
+
+    .rat-runway {
+      position: relative;
+      height: 34px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(182,58,53,.18);
+    }
+
+    .running-rat {
+      position: absolute;
+      bottom: 0;
+      left: -45px;
+      font-size: 23px;
+      line-height: 1;
+      animation: rat-walk 12s linear infinite;
+      will-change: transform;
+    }
+
+    .rat-two {
+      animation-delay: 4s;
+      font-size: 19px;
+    }
+
+    .rat-three {
+      animation-delay: 8s;
+      font-size: 21px;
+    }
+
+    @keyframes rat-walk {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 100px)); }
     }
 
     nav {
@@ -357,8 +413,21 @@
 
     @media(max-width:560px) {
       .wrap { padding: 12px; }
+      header { padding: 12px 6px; }
+      .logo-card { padding: 16px; }
+      .title-card { padding: 20px 14px 12px; }
       #map { height: 54vh; min-height: 320px; }
       nav button { padding: 10px 12px; }
+      #language { max-width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .running-rat {
+        animation: none;
+        display: none;
+      }
+
+      button { transition: none; }
     }
   </style>
 </head>
@@ -369,12 +438,12 @@
   <header>
     <div class="lang-bar">
       <select id="language" aria-label="Taal kiezen">
-        <option value="nl">Nederlands</option>
-        <option value="tr">Türkçe</option>
-        <option value="ar">العربية</option>
-        <option value="ru">Русский</option>
-        <option value="es">Español</option>
-        <option value="en">English</option>
+        <option value="nl">🌐 Nederlands</option>
+        <option value="tr">🌐 Türkçe</option>
+        <option value="ar">🌐 العربية</option>
+        <option value="ru">🌐 Русский</option>
+        <option value="es">🌐 Español</option>
+        <option value="en">🌐 English</option>
       </select>
     </div>
 
@@ -387,6 +456,12 @@
     <div class="title-card">
       <h1>Rattenvanger van Haarlem</h1>
       <p data-t="subtitle">Zie je een rat? Meld 'm hier!</p>
+
+      <div class="rat-runway" aria-hidden="true">
+        <span class="running-rat rat-one">🐀</span>
+        <span class="running-rat rat-two">🐀</span>
+        <span class="running-rat rat-three">🐀</span>
+      </div>
     </div>
   </header>
 
@@ -560,8 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"Let op: Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden. Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.",
       legendTitle:"Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):",
       band1:"1–4 ratten", band2:"5–9 ratten", band3:"10–19 ratten",
-      band4:"20–39 ratten", band5:"40–59 ratten", band6:"60–99 ratten",
-      band7:"100 of meer",
+      band4:"20–39 ratten", band5:"40–59 ratten", band6:"60–99 ratten", band7:"100 of meer",
       typeStreet:"Typ de naam van je straat in Haarlem:",
       observationLabel:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
       countHelp:"Vul een exact aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
@@ -606,8 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"The total per street is the sum of residents' reports over the past 12 months. The same rats may have been seen by multiple residents, so this is not a count of unique rats.",
       legendTitle:"Total reported rats per street (past 12 months):",
       band1:"1–4 rats", band2:"5–9 rats", band3:"10–19 rats",
-      band4:"20–39 rats", band5:"40–59 rats", band6:"60–99 rats",
-      band7:"100 or more",
+      band4:"20–39 rats", band5:"40–59 rats", band6:"60–99 rats", band7:"100 or more",
       typeStreet:"Enter your street name in Haarlem:",
       observationLabel:"How many rats have you seen in total during the past 12 months?",
       countHelp:"Enter an exact number. You can report a maximum of 20 rats per report.",
@@ -652,8 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"Sokak toplamı, son 12 aydaki sakin bildirimlerinin toplamıdır. Aynı fareler birden fazla kişi tarafından görülmüş olabilir; bu sayı benzersiz farelerin sayısı değildir.",
       legendTitle:"Sokak başına bildirilen toplam fare (son 12 ay):",
       band1:"1–4 fare", band2:"5–9 fare", band3:"10–19 fare",
-      band4:"20–39 fare", band5:"40–59 fare", band6:"60–99 fare",
-      band7:"100 veya daha fazla",
+      band4:"20–39 fare", band5:"40–59 fare", band6:"60–99 fare", band7:"100 veya daha fazla",
       typeStreet:"Haarlem'deki sokağınızın adını yazın:",
       observationLabel:"Son 12 ayda toplam kaç fare gördünüz?",
       countHelp:"Kesin sayıyı girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
@@ -677,7 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"Hesap gerekmez. Resmi e-postayı açın ve gözleminizi kaydedin.",
       privacyNotice:"Harita genel eğilimleri göstermek içindir. Bildirimler resmi belediye verileri değildir.",
       footerText:"Bağımsız bir mahalle girişimi.",
-      popupTotal:"Bildirilen toplam fare sayısı",
+      popupTotal:"Bildirilen toplam fare",
       popupReports:"Bildirim sayısı",
       popupNote:"Bildirimlerin toplamı; benzersiz fare sayısı değildir."
     },
@@ -698,8 +770,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"الإجمالي لكل شارع هو مجموع بلاغات السكان خلال آخر 12 شهراً. قد تكون الفئران نفسها قد شوهدت من عدة أشخاص؛ لذلك ليس هذا عدداً للفئران الفريدة.",
       legendTitle:"إجمالي الفئران المبلغ عنها لكل شارع (آخر 12 شهراً):",
       band1:"1–4", band2:"5–9", band3:"10–19",
-      band4:"20–39", band5:"40–59", band6:"60–99",
-      band7:"100 أو أكثر",
+      band4:"20–39", band5:"40–59", band6:"60–99", band7:"100 أو أكثر",
       typeStreet:"اكتب اسم شارعك في هارلم:",
       observationLabel:"كم فأراً رأيت إجمالاً خلال آخر 12 شهراً؟",
       countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 فأراً كحد أقصى في كل بلاغ.",
@@ -723,7 +794,7 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"لا تحتاج إلى حساب. افتح البريد الإلكتروني وسجل المشاهدة.",
       privacyNotice:"الخريطة مخصصة لإظهار الأنماط العامة وليست بيانات بلدية رسمية.",
       footerText:"مبادرة مستقلة من السكان.",
-      popupTotal:"إجمالي عدد الفئران المبلغ عنها",
+      popupTotal:"إجمالي الفئران المُبلّغ عنها",
       popupReports:"عدد البلاغات",
       popupNote:"مجموع البلاغات وليس عدد الفئران الفريدة."
     },
@@ -744,8 +815,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"Итог по улице — это сумма сообщений жителей за последние 12 месяцев. Одних и тех же крыс могли видеть разные жители, поэтому это не точное число уникальных крыс.",
       legendTitle:"Общее число сообщённых крыс по улице (последние 12 месяцев):",
       band1:"1–4", band2:"5–9", band3:"10–19",
-      band4:"20–39", band5:"40–59", band6:"60–99",
-      band7:"100 или больше",
+      band4:"20–39", band5:"40–59", band6:"60–99", band7:"100 или больше",
       typeStreet:"Введите название вашей улицы в Харлеме:",
       observationLabel:"Сколько всего крыс вы видели за последние 12 месяцев?",
       countHelp:"Укажите точное число. В одном сообщении можно указать не более 20 крыс.",
@@ -769,7 +839,7 @@ document.addEventListener("DOMContentLoaded", () => {
       info4:"Аккаунт не нужен. Откройте официальное письмо и зарегистрируйте наблюдение.",
       privacyNotice:"Карта показывает общие тенденции. Это не официальные муниципальные данные.",
       footerText:"Независимая инициатива жителей.",
-      popupTotal:"Общее число сообщённых крыс",
+      popupTotal:"Всего сообщено о крысах",
       popupReports:"Количество сообщений",
       popupNote:"Сумма сообщений, а не число уникальных крыс."
     },
@@ -790,8 +860,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mapWarning:"El total por calle es la suma de los reportes de los residentes durante los últimos 12 meses. Varias personas pueden haber visto las mismas ratas; no es un recuento de ratas únicas.",
       legendTitle:"Total de ratas reportadas por calle (últimos 12 meses):",
       band1:"1–4 ratas", band2:"5–9 ratas", band3:"10–19 ratas",
-      band4:"20–39 ratas", band5:"40–59 ratas", band6:"60–99 ratas",
-      band7:"100 o más",
+      band4:"20–39 ratas", band5:"40–59 ratas", band6:"60–99 ratas", band7:"100 o más",
       typeStreet:"Escribe el nombre de tu calle en Haarlem:",
       observationLabel:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
       countHelp:"Introduce una cantidad exacta. Puedes reportar un máximo de 20 ratas por aviso.",
@@ -832,7 +901,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const script = document.createElement("script");
       const query = new URLSearchParams(params);
-
       query.set("callback", callbackName);
 
       let finished = false;
@@ -872,7 +940,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/\s+/g, " ");
   }
 
-  // Kleuren op basis van het opgetelde aantal meldingen per straat.
   function getMarkerColor(total) {
     if (total >= 100) return "#000000";
     if (total >= 60) return "#5b2c83";
@@ -884,7 +951,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return "#8b918d";
   }
 
-  // De categorie die bij de kleur hoort.
   function getColorBand(total) {
     if (total >= 100) return tr("band7");
     if (total >= 60) return tr("band6");
@@ -895,7 +961,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return tr("band1");
   }
 
-  // Haal de meldingen op en tel de exacte aantallen per straat bij elkaar op.
   async function loadCentralReports() {
     try {
       const result = await callAppsScript({});
@@ -1064,7 +1129,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Zoek de straat in Haarlem via PDOK.
   async function findStreetViaPDOK(rawInput) {
     const cleanName = rawInput
       .replace(/[0-9]+.*$/, "")
