@@ -30,13 +30,9 @@
       font-family: 'Montserrat', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -46,13 +42,8 @@
       line-height: 1.65;
     }
 
-    button, input, select {
-      font: inherit;
-    }
-
-    button, a {
-      -webkit-tap-highlight-color: transparent;
-    }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
     button {
       border: 0;
@@ -71,14 +62,8 @@
       box-shadow: 0 5px 14px rgba(80,40,30,.12);
     }
 
-    button:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-    }
-
-    a {
-      color: inherit;
-    }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    a { color: inherit; }
 
     .wrap {
       max-width: 1040px;
@@ -123,12 +108,8 @@
       outline-offset: 2px;
     }
 
-    #language option {
-      background: white;
-      color: var(--ink);
-    }
+    #language option { background: white; color: var(--ink); }
 
-    /* Het originele ronde logo */
     .logo-card {
       width: 174px;
       height: 174px;
@@ -192,15 +173,8 @@
       animation: rat-walk 12s linear infinite;
     }
 
-    .rat-two {
-      animation-delay: 4s;
-      font-size: 18px;
-    }
-
-    .rat-three {
-      animation-delay: 8s;
-      font-size: 20px;
-    }
+    .rat-two { animation-delay: 4s; font-size: 18px; }
+    .rat-three { animation-delay: 8s; font-size: 20px; }
 
     @keyframes rat-walk {
       from { transform: translateX(0); }
@@ -238,9 +212,7 @@
       border-color: var(--ink);
     }
 
-    main {
-      padding: 0 0 42px;
-    }
+    main { padding: 0 0 42px; }
 
     section {
       background: var(--paper);
@@ -258,18 +230,10 @@
       letter-spacing: -.4px;
     }
 
-    h3 {
-      margin: 22px 0 8px;
-    }
+    h3 { margin: 22px 0 8px; }
+    p { margin: 8px 0 14px; }
 
-    p {
-      margin: 8px 0 14px;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .muted { color: var(--muted); font-size: 13px; }
 
     .notice {
       background: #f8f4ed;
@@ -298,9 +262,7 @@
       transition: background .2s;
     }
 
-    .primary:hover {
-      background: var(--red-dark);
-    }
+    .primary:hover { background: var(--red-dark); }
 
     .actions {
       display: flex;
@@ -309,9 +271,7 @@
       margin-top: 20px;
     }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     #map {
       height: 58vh;
@@ -360,9 +320,7 @@
       flex: none;
     }
 
-    .field {
-      margin: 19px 0;
-    }
+    .field { margin: 19px 0; }
 
     .field label {
       display: block;
@@ -454,62 +412,41 @@
       background: var(--red);
     }
 
-    [dir="rtl"] {
-      text-align: right;
-    }
-
-    [dir="rtl"] .lang-bar {
-      justify-content: flex-start;
-    }
+    [dir="rtl"] { text-align: right; }
+    [dir="rtl"] .lang-bar { justify-content: flex-start; }
 
     [dir="rtl"] nav,
     [dir="rtl"] .actions {
       flex-direction: row-reverse;
     }
 
-    [dir="rtl"] #map {
-      direction: ltr;
-    }
+    [dir="rtl"] #map { direction: ltr; }
 
     @media(max-width:560px) {
-      .wrap {
-        padding: 14px;
-      }
-
-      header {
-        padding: 8px 0 14px;
-      }
+      .wrap { padding: 14px; }
+      header { padding: 8px 0 14px; }
 
       .logo-card {
         width: 145px;
         height: 145px;
       }
 
-      .title-card {
-        padding: 8px 4px;
-      }
+      .title-card { padding: 8px 4px; }
 
       #map {
         height: 54vh;
         min-height: 320px;
       }
 
-      nav {
-        gap: 7px;
-      }
+      nav { gap: 7px; }
 
       nav button {
         padding: 10px 13px;
         font-size: 13px;
       }
 
-      #language {
-        max-width: 100%;
-      }
-
-      section {
-        border-radius: 16px;
-      }
+      #language { max-width: 100%; }
+      section { border-radius: 16px; }
 
       footer {
         justify-content: center;
@@ -523,9 +460,7 @@
         display: none;
       }
 
-      button {
-        transition: none;
-      }
+      button { transition: none; }
     }
   </style>
 </head>
@@ -580,7 +515,7 @@
         <p data-t="officialExplain">Open de e-mail met het standaardformulier en verstuur deze zelf.</p>
 
         <a class="primary" id="officialLink"
-          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20Haarlem&body=Beste%20Spaarnelanden,%0A%0AHierbij%20doe%20ik%20een%20melding%20van%20rattenoverlast.%0A%0AA.%20Wat%20is%20er%20gezien%3F%0A-%0A%0AB.%20Locatie%20%2F%20Straatnaam%20in%20Haarlem%3A%0A-%0A%0AC.%20Naam%20melder%3A%0A-%0A%0AD.%20Telefoonnummer%3A%0A-%0A%0AMet%20vriendelijke%20groet,"
+          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20%E2%80%93%20Haarlem&body=Geachte%20medewerkers%20van%20Spaarnelanden%2C%0A%0AGraag%20wil%20ik%20melding%20maken%20van%20rattenoverlast%20in%20Haarlem.%0A%0A%0A1.%20WAT%20HEB%20IK%20GEZIEN%3F%0A%0AAantal%20ratten%3A%0A[Vul%20het%20aantal%20in]%0A%0AOmschrijving%20van%20de%20waarneming%3A%0A[Beschrijf%20hier%20wat%20u%20heeft%20gezien]%0A%0A%0A2.%20WAAR%20HEB%20IK%20DE%20RATTEN%20GEZIEN%3F%0A%0AStraat%20en%20huisnummer%20of%20exacte%20locatie%3A%0A[Vul%20hier%20de%20locatie%20in]%0A%0A%0A3.%20GEGEVENS%20VAN%20DE%20MELDER%0A%0ANaam%3A%0A[Vul%20uw%20naam%20in]%0A%0ATelefoonnummer%3A%0A[Vul%20uw%20telefoonnummer%20in]%0A%0AE-mailadres%3A%0A[Vul%20uw%20e-mailadres%20in]%0A%0A%0A4.%20VERZOEK%20OM%20BEVESTIGING%20EN%20TERUGKOPPELING%0A%0AGraag%20ontvang%20ik%20een%20bevestiging%20van%20de%20ontvangst%20van%20deze%20melding.%20Ook%20hoor%20ik%20graag%20welke%20actie%20naar%20aanleiding%20van%20deze%20melding%20wordt%20ondernomen.%0A%0A%0AAlvast%20hartelijk%20dank%20voor%20uw%20aandacht%20en%20het%20oppakken%20van%20deze%20melding.%0A%0AMet%20vriendelijke%20groet%2C%0A%0A[Uw%20naam]"
           data-t="openEmail">E-mail met formulier openen</a>
       </div>
 
@@ -723,8 +658,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"Een rat gezien?",
       reportIntro:"Help mee om waarnemingen in Haarlem zichtbaar te maken.",
       officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
-      officialExplain:"Open de e-mail met het standaardformulier en verstuur deze zelf.",
-      openEmail:"E-mail met formulier openen",
+      officialExplain:"Open de e-mail met het verbeterde meldformulier en verstuur deze zelf.",
+      openEmail:"E-mail met meldformulier openen",
       emailLimit:"We kunnen niet zien of je de e-mail hebt verzonden of ontvangen.",
       returnedLabel:"Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
       unlockMap:"Verder naar de kaart",
@@ -768,8 +703,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"Seen a rat?",
       reportIntro:"Help make rat sightings in Haarlem visible.",
       officialFirst:"First make an official report to Spaarnelanden yourself.",
-      officialExplain:"Open the email with the standard form and send it yourself.",
-      openEmail:"Open email with form",
+      officialExplain:"Open the email with the improved report form and send it yourself.",
+      openEmail:"Open email report form",
       emailLimit:"We cannot verify whether you sent the email or whether it was received.",
       returnedLabel:"I have returned to this website after opening the email link.",
       unlockMap:"Continue to the map",
@@ -813,8 +748,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"Fare mi gördünüz?",
       reportIntro:"Haarlem'deki fare gözlemlerini görünür kılmaya yardımcı olun.",
       officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirim yapın.",
-      officialExplain:"Formu içeren e-postayı açın ve kendiniz gönderin.",
-      openEmail:"Form ile e-posta aç",
+      officialExplain:"Geliştirilmiş bildirim formunu içeren e-postayı açın ve kendiniz gönderin.",
+      openEmail:"Bildirim e-postasını aç",
       emailLimit:"E-postanın gönderilip gönderilmediğini doğrulayamıyoruz.",
       returnedLabel:"E-posta bağlantısını açtıktan sonra bu siteye geri döndüm.",
       unlockMap:"Haritaya devam et",
@@ -858,8 +793,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"هل رأيت فأراً؟",
       reportIntro:"ساعد في إظهار مشاهدات الفئران في هارلم.",
       officialFirst:"قم أولاً بتقديم بلاغ رسمي بنفسك لدى Spaarnelanden.",
-      officialExplain:"افتح البريد الإلكتروني مع النموذج القياسي وأرسله بنفسك.",
-      openEmail:"فتح البريد مع النموذج",
+      officialExplain:"افتح البريد الإلكتروني مع نموذج الإبلاغ المحسّن وأرسله بنفسك.",
+      openEmail:"فتح نموذج الإبلاغ بالبريد",
       emailLimit:"لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني.",
       returnedLabel:"لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
       unlockMap:"المتابعة إلى الخريطة",
@@ -903,8 +838,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"Увидели крысу?",
       reportIntro:"Помогите сделать наблюдения за крысами в Харлеме заметными.",
       officialFirst:"Сначала самостоятельно отправьте официальное сообщение в Spaarnelanden.",
-      officialExplain:"Откройте электронное письмо со стандартной формой и отправьте его.",
-      openEmail:"Открыть письмо с формой",
+      officialExplain:"Откройте электронное письмо с улучшенной формой сообщения и отправьте его.",
+      openEmail:"Открыть форму сообщения",
       emailLimit:"Мы не можем проверить отправку письма.",
       returnedLabel:"Я вернулся на этот сайт после открытия ссылки электронной почты.",
       unlockMap:"Перейти к карте",
@@ -948,8 +883,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reportTitle:"¿Viste una rata?",
       reportIntro:"Ayuda a hacer visibles los avistamientos en Haarlem.",
       officialFirst:"Primero presenta un reporte oficial tú mismo en Spaarnelanden.",
-      officialExplain:"Abre el correo electrónico con el formulario y envíalo tú mismo.",
-      openEmail:"Abrir correo con formulario",
+      officialExplain:"Abre el correo electrónico con el formulario mejorado y envíalo tú mismo.",
+      openEmail:"Abrir formulario por correo",
       emailLimit:"No podemos verificar si enviaste el correo.",
       returnedLabel:"He vuelto a este sitio después de abrir el enlace del correo.",
       unlockMap:"Continuar al mapa",
