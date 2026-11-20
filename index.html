@@ -459,6 +459,36 @@
 
       button { transition: none; }
     }
+
+    .poster-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:18px; margin-top:22px; }
+    .poster-card { min-width:0; padding:16px; border:1px solid var(--line); border-radius:16px; background:#fff; display:flex; flex-direction:column; gap:12px; }
+    .poster-card h3 { margin:0; }
+    .poster-card img { display:block; width:100%; height:340px; object-fit:contain; background:#f8f6f1; border:1px solid var(--line); border-radius:8px; }
+    .poster-card button { margin-top:auto; }
+    .poster-print-instruction { font-size:15px; }
+
+    @media print {
+      @page { size:A4 portrait; margin:7mm; }
+      html, body { width:210mm !important; min-height:0 !important; margin:0 !important; padding:0 !important; background:#fff !important; }
+      body.printing * { visibility:hidden !important; }
+      body.printing #page-posters,
+      body.printing #page-posters .print-target,
+      body.printing #page-posters .print-target *,
+      body.printing #page-posters .poster-print-instruction,
+      body.printing #page-posters .poster-print-instruction * { visibility:visible !important; }
+      body.printing .wrap { width:auto !important; max-width:none !important; margin:0 !important; padding:0 !important; }
+      body.printing #page-posters { display:block !important; position:absolute !important; top:0 !important; left:0 !important; width:100% !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; background:#fff !important; }
+      body.printing #page-posters > h2,
+      body.printing #page-posters > p,
+      body.printing #page-posters > .poster-grid > .poster-card:not(.print-target) { display:none !important; }
+      body.printing #page-posters .poster-grid { display:block !important; margin:0 !important; }
+      body.printing #page-posters .poster-print-instruction { display:block !important; margin:0 0 3mm !important; padding:2mm 3mm !important; font-size:9pt !important; line-height:1.25 !important; border-radius:0 !important; }
+      body.printing #page-posters .poster-card.print-target { display:flex !important; width:100% !important; height:auto !important; max-height:270mm !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; gap:0 !important; align-items:center !important; justify-content:center !important; break-inside:avoid !important; page-break-inside:avoid !important; }
+      body.printing .poster-card.print-target h3,
+      body.printing .poster-card.print-target button { display:none !important; }
+      body.printing .poster-card.print-target img { display:block !important; width:100% !important; height:245mm !important; max-width:196mm !important; max-height:245mm !important; object-fit:contain !important; border:0 !important; border-radius:0 !important; background:#fff !important; }
+    }
+
   </style>
 </head>
 
@@ -499,6 +529,7 @@
     <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
     <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
     <button type="button" data-page="info" data-t="info">Informatie</button>
+    <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
   </nav>
 
   <main>
@@ -602,6 +633,29 @@
 
       <div class="notice" data-t="privacyNotice">
         De kaart is bedoeld om algemene patronen zichtbaar te maken. De meldingen zijn geen officiële gemeentelijke gegevens.
+      </div>
+    </section>
+
+    <section id="page-posters" class="hidden">
+      <h2 data-t="postersTitle">Posters om te printen</h2>
+      <p data-t="postersIntro">Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.</p>
+      <div class="notice poster-print-instruction"><strong data-t="posterInstruction">Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.</strong></div>
+      <div class="poster-grid">
+        <article class="poster-card" id="poster-card-1">
+          <h3 data-t="posterOne">Poster 1</h3>
+          <img src="poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="1" data-t="printPoster">Print deze poster</button>
+        </article>
+        <article class="poster-card" id="poster-card-2">
+          <h3 data-t="posterTwo">Poster 2</h3>
+          <img src="Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="2" data-t="printPoster">Print deze poster</button>
+        </article>
+        <article class="poster-card" id="poster-card-3">
+          <h3 data-t="posterThree">Poster 3</h3>
+          <img src="-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="3" data-t="printPoster">Print deze poster</button>
+        </article>
       </div>
     </section>
 
@@ -805,6 +859,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"Rat melden",
       map:"Rattenkaart Haarlem",
       info:"Informatie",
+      posters:"Posters om te printen",
+      postersTitle:"Posters om te printen",
+      postersIntro:"Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.",
+      posterInstruction:"Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.",
+      posterOne:"Poster 1",
+      posterTwo:"Poster 2",
+      posterThree:"Poster 3",
+      printPoster:"Print deze poster",
       reportTitle:"Een rat gezien?",
       reportIntro:"Help mee om rattenoverlast in Haarlem in kaart te brengen.",
       officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
@@ -863,6 +925,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"Report a rat",
       map:"Haarlem rat map",
       info:"Information",
+      posters:"Posters to print",
+      postersTitle:"Posters to print",
+      postersIntro:"Choose a poster and print it separately. Each poster is scaled to fit on no more than one A4 page.",
+      posterInstruction:"Print this poster and hang it inside the meter cupboard. That way, you will always have Spaarnelanden’s phone number handy to report rat problems.",
+      posterOne:"Poster 1",
+      posterTwo:"Poster 2",
+      posterThree:"Poster 3",
+      printPoster:"Print this poster",
       reportTitle:"Seen a rat?",
       reportIntro:"Help us map rat sightings in Haarlem.",
       officialFirst:"First, submit an official report to Spaarnelanden yourself.",
@@ -921,6 +991,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"Fare bildir",
       map:"Haarlem fare haritası",
       info:"Bilgi",
+      posters:"Yazdırılacak afişler",
+      postersTitle:"Yazdırılacak afişler",
+      postersIntro:"Bir afiş seçin ve ayrı olarak yazdırın. Her afiş en fazla bir A4 sayfasına sığacak şekilde ayarlanır.",
+      posterInstruction:"Bu afişi yazdırın ve sayaç dolabına asın. Böylece fare sorununu bildirmek için Spaarnelanden’in telefon numarası her zaman elinizin altında olur.",
+      posterOne:"Afiş 1",
+      posterTwo:"Afiş 2",
+      posterThree:"Afiş 3",
+      printPoster:"Bu afişi yazdır",
       reportTitle:"Fare gördünüz mü?",
       reportIntro:"Haarlem'deki fare gözlemlerini haritada göstermemize yardımcı olun.",
       officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirimde bulunun.",
@@ -979,6 +1057,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"الإبلاغ عن جرذ",
       map:"خريطة الجرذان في هارلم",
       info:"معلومات",
+      posters:"ملصقات للطباعة",
+      postersTitle:"ملصقات للطباعة",
+      postersIntro:"اختر ملصقاً واطبعه بشكل منفصل. يتم ضبط حجم كل ملصق ليتناسب مع صفحة A4 واحدة كحد أقصى.",
+      posterInstruction:"اطبع هذا الملصق وعلّقه داخل خزانة العدادات. وهكذا سيبقى رقم هاتف Spaarnelanden متاحاً لك دائماً للإبلاغ عن مشكلة الجرذان.",
+      posterOne:"الملصق 1",
+      posterTwo:"الملصق 2",
+      posterThree:"الملصق 3",
+      printPoster:"اطبع هذا الملصق",
       reportTitle:"هل رأيت جرذاً؟",
       reportIntro:"ساعدنا في توثيق مشاهدات الجرذان في هارلم على الخريطة.",
       officialFirst:"يرجى أولاً تقديم بلاغ رسمي بنفسك إلى Spaarnelanden.",
@@ -1037,6 +1123,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"Сообщить о крысе",
       map:"Карта крыс Харлема",
       info:"Информация",
+      posters:"Плакаты для печати",
+      postersTitle:"Плакаты для печати",
+      postersIntro:"Выберите плакат и распечатайте его отдельно. Каждый плакат масштабируется так, чтобы поместиться максимум на одном листе A4.",
+      posterInstruction:"Распечатайте этот плакат и повесьте его в шкафу со счётчиками. Так номер телефона Spaarnelanden всегда будет под рукой, чтобы сообщить о проблеме с крысами.",
+      posterOne:"Плакат 1",
+      posterTwo:"Плакат 2",
+      posterThree:"Плакат 3",
+      printPoster:"Распечатать этот плакат",
       reportTitle:"Увидели крысу?",
       reportIntro:"Помогите отметить на карте места, где в Харлеме замечали крыс.",
       officialFirst:"Сначала самостоятельно подайте официальное сообщение в Spaarnelanden.",
@@ -1095,6 +1189,14 @@ document.addEventListener("DOMContentLoaded", () => {
       report:"Informar sobre una rata",
       map:"Mapa de ratas de Haarlem",
       info:"Información",
+      posters:"Carteles para imprimir",
+      postersTitle:"Carteles para imprimir",
+      postersIntro:"Elige un cartel e imprímelo por separado. Cada cartel se ajusta para ocupar como máximo una página A4.",
+      posterInstruction:"Imprime este cartel y cuélgalo en el armario de contadores. Así tendrás siempre a mano el teléfono de Spaarnelanden para avisar de la presencia de ratas.",
+      posterOne:"Cartel 1",
+      posterTwo:"Cartel 2",
+      posterThree:"Cartel 3",
+      printPoster:"Imprimir este cartel",
       reportTitle:"¿Has visto una rata?",
       reportIntro:"Ayúdanos a localizar en el mapa los avistamientos de ratas en Haarlem.",
       officialFirst:"Primero, presenta tú mismo un aviso oficial a Spaarnelanden.",
@@ -1402,7 +1504,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function showPage(pageName) {
-    ["report", "map", "info"].forEach(name => {
+    ["report", "map", "info", "posters"].forEach(name => {
       $("page-" + name).classList.toggle("hidden", name !== pageName);
     });
 
@@ -1660,6 +1762,24 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("nav button").forEach(btn => {
     btn.addEventListener("click", () => showPage(btn.dataset.page));
   });
+
+  document.querySelectorAll("[data-print-poster]").forEach(button => {
+    button.addEventListener("click", () => {
+      const card = $("poster-card-" + button.dataset.printPoster);
+      if (!card) return;
+      document.querySelectorAll(".poster-card").forEach(item => item.classList.remove("print-target"));
+      card.classList.add("print-target");
+      document.body.classList.add("printing");
+      const finishPrint = () => {
+        document.body.classList.remove("printing");
+        card.classList.remove("print-target");
+        window.removeEventListener("afterprint", finishPrint);
+      };
+      window.addEventListener("afterprint", finishPrint);
+      window.print();
+    });
+  });
+
 
   $("returned").addEventListener("change", () => {
     $("unlockButton").disabled = !$("returned").checked;
