@@ -1625,6 +1625,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).addTo(mapInstance);
 
     markersLayer = L.layerGroup().addTo(mapInstance);
+    mapInstance.on("zoomend", renderMapMarkers);
     renderMapMarkers();
   }
 
@@ -1636,13 +1637,27 @@ document.addEventListener("DOMContentLoaded", () => {
     streets.forEach(street => {
       // Ratten blijven kleurgecodeerd. Keutels krijgen bruine stippen; holen witte stippen.
       const isRats = street.category === "rats";
-      const markerLat = street.lat;
-      const markerLng = street.lng + (
-        street.category === "droppings" ? -0.00012 :
-        street.category === "burrows" ? 0.00012 : 0
+      // Plaats de drie categorieën met een vaste afstand in beeld naast elkaar.
+      // Zo blijven de stippen ook bij in- en uitzoomen goed van elkaar te onderscheiden.
+      const horizontalOffset = street.category === "rats"
+        ? -22
+        : street.category === "droppings"
+          ? 0
+          : 22;
+      const basePoint = mapInstance.project(
+        [street.lat, street.lng],
+        mapInstance.getZoom()
+      );
+      const markerPoint = L.point(
+        basePoint.x + horizontalOffset,
+        basePoint.y
+      );
+      const markerLocation = mapInstance.unproject(
+        markerPoint,
+        mapInstance.getZoom()
       );
       const marker = L.circleMarker(
-        [markerLat, markerLng],
+        markerLocation,
         {
           radius: isRats ? 11 : (street.category === "burrows" ? 10 : 7),
           fillColor: isRats ? getMarkerColor(street.total) : (street.category === "droppings" ? "#8b4513" : "#ffffff"),
