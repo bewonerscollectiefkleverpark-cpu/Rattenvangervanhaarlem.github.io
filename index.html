@@ -516,11 +516,11 @@
           data-t="openEmail">E-mail met meldformulier openen</a>
       </div>
 
-      <p class="muted" data-t="emailLimit">Je bent terug op deze website. We kunnen niet controleren of je de e-mail hebt verzonden of ontvangen.</p>
+      <p class="muted" data-t="emailLimit">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
 
       <label class="check">
         <input type="checkbox" id="returned">
-        <span data-t="returnedLabel">Ik ben terug op deze website nadat ik de e-maillink heb geopend.</span>
+        <span data-t="returnedLabel">Ik heb de e-mail geopend en ben teruggekeerd naar deze website.</span>
       </label>
 
       <div class="actions">
@@ -649,10 +649,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /*
-   * De officiële e-mail aan Spaarnelanden is Nederlandstalig.
-   * De gekozen taal wordt als vertaalde invulhulp toegevoegd.
-   */
   const EMAIL_HELP = {
     en: {
       seen: "What did I see?",
@@ -749,7 +745,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "",
       "__________________________________________________",
       "",
-      "",
       "==================================================",
       "2. WAAR HEB IK DE RATTEN GEZIEN?" + translated("where"),
       "==================================================",
@@ -757,9 +752,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "Straat en huisnummer of exacte locatie:" + translated("location"),
       "",
       "__________________________________________________",
-      "",
-      "__________________________________________________",
-      "",
       "",
       "==================================================",
       "3. GEGEVENS VAN DE MELDER" + translated("reporter"),
@@ -777,14 +769,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "",
       "__________________________________________________",
       "",
-      "",
       "==================================================",
       "4. VERZOEK OM ONTVANGSTBEVESTIGING EN TERUGKOPPELING",
       "==================================================",
       "",
       "Ik verzoek u mij een ontvangstbevestiging te sturen en mij terug te koppelen welke actie naar aanleiding van deze melding wordt ondernomen.",
       helper ? "(" + helper.request + ")" : "",
-      "",
       "",
       "Met vriendelijke groet,",
       "",
@@ -815,8 +805,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
       officialExplain:"Open het onderstaande meldformulier in je e-mailprogramma, vul het in en verstuur de e-mail zelf.",
       openEmail:"E-mail met meldformulier openen",
-      emailLimit:"Je bent terug op deze website. We kunnen niet controleren of je de e-mail hebt verzonden of ontvangen.",
-      returnedLabel:"Ik ben terug op deze website nadat ik de e-maillink heb geopend.",
+      emailLimit:"Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.",
+      returnedLabel:"Ik heb de e-mail geopend en ben teruggekeerd naar deze website.",
       unlockMap:"Bekijk de kaart",
       mapTitle:"Rattenkaart Haarlem",
       mapIntro:"Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.",
@@ -871,8 +861,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"First, submit an official report to Spaarnelanden yourself.",
       officialExplain:"Open the report form below in your email app, fill it in and send the email yourself.",
       openEmail:"Open email report form",
-      emailLimit:"You are back on this website. We cannot verify whether you sent the email or whether it was received.",
-      returnedLabel:"I have returned to this website after opening the email link.",
+      emailLimit:"After opening the email, return to this website. We cannot verify whether you actually sent the email or whether Spaarnelanden received it.",
+      returnedLabel:"I have opened the email and returned to this website.",
       unlockMap:"View the map",
       mapTitle:"Haarlem rat map",
       mapIntro:"Enter the name of a street in Haarlem below to view reported sightings.",
@@ -927,8 +917,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirimde bulunun.",
       officialExplain:"Aşağıdaki bildirim formunu e-posta uygulamanızda açın, doldurun ve e-postayı kendiniz gönderin.",
       openEmail:"Bildirim formunu e-postayla aç",
-      emailLimit:"Bu web sitesine geri döndünüz. E-postayı gönderip göndermediğinizi veya e-postanın alınıp alınmadığını kontrol edemiyoruz.",
-      returnedLabel:"E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
+      emailLimit:"E-postayı açtıktan sonra bu web sitesine geri dönün. E-postayı gerçekten gönderip göndermediğinizi veya Spaarnelanden'in e-postayı alıp almadığını kontrol edemiyoruz.",
+      returnedLabel:"E-postayı açtım ve bu web sitesine geri döndüm.",
       unlockMap:"Haritayı görüntüle",
       mapTitle:"Haarlem fare haritası",
       mapIntro:"Gözlemleri görmek için aşağıya Haarlem'deki bir sokağın adını yazın.",
@@ -983,8 +973,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"يرجى أولاً تقديم بلاغ رسمي بنفسك إلى Spaarnelanden.",
       officialExplain:"افتح نموذج البلاغ أدناه في تطبيق البريد الإلكتروني، واملأه ثم أرسل الرسالة بنفسك.",
       openEmail:"فتح نموذج البلاغ عبر البريد الإلكتروني",
-      emailLimit:"لقد عدت إلى هذا الموقع. لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني أو مما إذا كان قد تم استلامه.",
-      returnedLabel:"عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
+      emailLimit:"بعد فتح رسالة البريد الإلكتروني، عُد إلى هذا الموقع. لا يمكننا التحقق مما إذا كنت قد أرسلت الرسالة بالفعل أو مما إذا كانت Spaarnelanden قد استلمتها.",
+      returnedLabel:"لقد فتحت رسالة البريد الإلكتروني وعدت إلى هذا الموقع.",
       unlockMap:"عرض الخريطة",
       mapTitle:"خريطة الجرذان في هارلم",
       mapIntro:"اكتب أدناه اسم أحد الشوارع في هارلم للاطلاع على البلاغات.",
@@ -1039,8 +1029,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"Сначала самостоятельно подайте официальное сообщение в Spaarnelanden.",
       officialExplain:"Откройте приведённую ниже форму в почтовом приложении, заполните её и самостоятельно отправьте письмо.",
       openEmail:"Открыть форму сообщения по электронной почте",
-      emailLimit:"Вы вернулись на этот сайт. Мы не можем проверить, отправили ли вы письмо и было ли оно получено.",
-      returnedLabel:"Я вернулся(лась) на этот сайт после открытия ссылки на электронную почту.",
+      emailLimit:"После открытия письма вернитесь на этот сайт. Мы не можем проверить, отправили ли вы письмо и получило ли его Spaarnelanden.",
+      returnedLabel:"Я открыл(а) письмо и вернулся(лась) на этот сайт.",
       unlockMap:"Посмотреть карту",
       mapTitle:"Карта крыс Харлема",
       mapIntro:"Введите ниже название улицы в Харлеме, чтобы посмотреть сообщения о замеченных крысах.",
@@ -1095,8 +1085,8 @@ document.addEventListener("DOMContentLoaded", () => {
       officialFirst:"Primero, presenta tú mismo un aviso oficial a Spaarnelanden.",
       officialExplain:"Abre el formulario que aparece a continuación en tu aplicación de correo electrónico, complétalo y envía el mensaje tú mismo.",
       openEmail:"Abrir el formulario por correo electrónico",
-      emailLimit:"Has vuelto a este sitio web. No podemos comprobar si has enviado el correo electrónico ni si ha sido recibido.",
-      returnedLabel:"He vuelto a este sitio web después de abrir el enlace del correo electrónico.",
+      emailLimit:"Después de abrir el correo electrónico, vuelve a este sitio web. No podemos comprobar si realmente has enviado el mensaje ni si Spaarnelanden lo ha recibido.",
+      returnedLabel:"He abierto el correo electrónico y he vuelto a este sitio web.",
       unlockMap:"Ver el mapa",
       mapTitle:"Mapa de ratas de Haarlem",
       mapIntro:"Escribe a continuación el nombre de una calle de Haarlem para consultar los avistamientos.",
@@ -1139,7 +1129,34 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function tr(key) {
-    return T[currentLang]?.[key] ?? key;
+    return T[currentLang]?.[key] ?? T.nl[key] ?? key;
+  }
+
+  /*
+   * Taalkeuze wordt opgeslagen voordat de pagina wordt vertaald.
+   * Daardoor blijft de keuze bewaard als de bezoeker terugkeert
+   * vanuit het e-mailprogramma of de pagina opnieuw opent.
+   */
+  function saveLanguage(language) {
+    if (!T[language]) return false;
+
+    try {
+      localStorage.setItem(LANGUAGE_KEY, language);
+      return true;
+    } catch (error) {
+      console.warn("Taalvoorkeur kon niet worden opgeslagen.", error);
+      return false;
+    }
+  }
+
+  function readSavedLanguage() {
+    try {
+      const saved = localStorage.getItem(LANGUAGE_KEY);
+      return T[saved] ? saved : "nl";
+    } catch (error) {
+      console.warn("Taalvoorkeur kon niet worden gelezen.", error);
+      return "nl";
+    }
   }
 
   function callAppsScript(params) {
@@ -1275,6 +1292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.documentElement.lang = currentLang;
     document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
     $("language").value = currentLang;
 
     document.querySelectorAll("[data-t]").forEach(el => {
@@ -1575,23 +1593,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /*
+   * Bij een taalkeuze eerst opslaan en daarna vertalen.
+   */
   $("language").addEventListener("change", event => {
-    currentLang = event.target.value;
-    applyLanguage();
+    const selectedLanguage = event.target.value;
 
-    try {
-      localStorage.setItem(LANGUAGE_KEY, currentLang);
-    } catch (error) {
-      console.warn("Taalvoorkeur kon niet worden opgeslagen.");
+    if (!T[selectedLanguage]) {
+      event.target.value = currentLang;
+      return;
+    }
+
+    saveLanguage(selectedLanguage);
+    currentLang = selectedLanguage;
+    applyLanguage();
+  });
+
+  /*
+   * Als de bezoeker terugkeert naar het tabblad, halen we de
+   * opgeslagen taal opnieuw op. Zo valt de pagina niet terug
+   * op Nederlands na terugkeer uit het e-mailprogramma.
+   */
+  window.addEventListener("pageshow", () => {
+    currentLang = readSavedLanguage();
+    applyLanguage();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      currentLang = readSavedLanguage();
+      applyLanguage();
     }
   });
 
-  try {
-    const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
-    if (savedLanguage && T[savedLanguage]) currentLang = savedLanguage;
-  } catch (error) {
-    console.warn("Taalvoorkeur niet beschikbaar.");
-  }
+  /*
+   * Als de taal in een ander tabblad wordt gewijzigd,
+   * wordt deze pagina ook bijgewerkt.
+   */
+  window.addEventListener("storage", event => {
+    if (event.key === LANGUAGE_KEY) {
+      currentLang = T[event.newValue] ? event.newValue : "nl";
+      applyLanguage();
+    }
+  });
+
+  currentLang = readSavedLanguage();
+  applyLanguage();
 
   document.querySelectorAll("nav button").forEach(btn => {
     btn.addEventListener("click", () => showPage(btn.dataset.page));
@@ -1610,7 +1657,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $("consent").addEventListener("change", checkSubmitState);
   $("submitReport").addEventListener("click", submitReport);
 
-  applyLanguage();
   showPage("report");
   checkSubmitState();
 });
