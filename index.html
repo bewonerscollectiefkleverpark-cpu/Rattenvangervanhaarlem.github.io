@@ -1648,37 +1648,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     markersLayer.clearLayers();
 
-    streets.forEach(street => {
-      // Ratten blijven kleurgecodeerd. Keutels krijgen bruine stippen; holen witte stippen.
+    // Gebruik echte geografische cirkels in meters, geen verschuiving in pixels.
+    // Daardoor blijven meldingen op hun straat liggen en schalen de stippen
+    // vanzelf mee wanneer de kaart in- of uitgezoomd wordt.
+    const categoryStyle = {
+      rats: {
+        radius: 28,
+        fillColor: street => getMarkerColor(street.total),
+        color: "#ffffff",
+        weight: 2.5
+      },
+      droppings: {
+        radius: 18,
+        fillColor: "#8b4513",
+        color: "#ffffff",
+        weight: 2
+      },
+      burrows: {
+        radius: 9,
+        fillColor: "#ffffff",
+        color: "#222222",
+        weight: 2
+      }
+    };
+
+    // Grote cirkels eerst tekenen; kleinere categorieën blijven daardoor
+    // zichtbaar als meldingen voor dezelfde straat op dezelfde coördinaat staan.
+    const orderedStreets = [...streets].sort((a, b) =>
+      categoryStyle[b.category].radius - categoryStyle[a.category].radius
+    );
+
+    orderedStreets.forEach(street => {
       const isRats = street.category === "rats";
-      // Plaats de drie categorieën met een vaste afstand in beeld naast elkaar.
-      // Zo blijven de stippen ook bij in- en uitzoomen goed van elkaar te onderscheiden.
-      const horizontalOffset = street.category === "rats"
-        ? -22
-        : street.category === "droppings"
-          ? 0
-          : 22;
-      const basePoint = mapInstance.project(
+      const style = categoryStyle[street.category];
+      const marker = L.circle(
         [street.lat, street.lng],
-        mapInstance.getZoom()
-      );
-      const markerPoint = L.point(
-        basePoint.x + horizontalOffset,
-        basePoint.y
-      );
-      const markerLocation = mapInstance.unproject(
-        markerPoint,
-        mapInstance.getZoom()
-      );
-      const marker = L.circleMarker(
-        markerLocation,
         {
-          radius: isRats ? 11 : (street.category === "burrows" ? 10 : 7),
-          fillColor: isRats ? getMarkerColor(street.total) : (street.category === "droppings" ? "#8b4513" : "#ffffff"),
-          color: isRats ? "#ffffff" : (street.category === "burrows" ? "#222222" : "#ffffff"),
-          weight: isRats ? 2.5 : 2,
+          radius: style.radius,
+          fillColor: typeof style.fillColor === "function"
+            ? style.fillColor(street)
+            : style.fillColor,
+          color: style.color,
+          weight: style.weight,
           opacity: 1,
-          fillOpacity: .98
+          fillOpacity: .82
         }
       );
 
