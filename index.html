@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -31,7 +30,6 @@
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -232,7 +230,6 @@
 
     h3 { margin: 22px 0 8px; }
     p { margin: 8px 0 14px; }
-
     .muted { color: var(--muted); font-size: 13px; }
 
     .notice {
@@ -512,11 +509,11 @@
 
       <div class="notice">
         <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
-        <p data-t="officialExplain">Open de e-mail met het standaardformulier en verstuur deze zelf.</p>
+        <p data-t="officialExplain">Open de e-mail met het verbeterde meldformulier en verstuur deze zelf.</p>
 
         <a class="primary" id="officialLink"
-          href="mailto:info@spaarnelanden.nl?subject=Melding%20rattenoverlast%20%E2%80%93%20Haarlem&body=Geachte%20medewerkers%20van%20Spaarnelanden%2C%0A%0AGraag%20wil%20ik%20melding%20maken%20van%20rattenoverlast%20in%20Haarlem.%0A%0A%0A1.%20WAT%20HEB%20IK%20GEZIEN%3F%0A%0AAantal%20ratten%3A%0A[Vul%20het%20aantal%20in]%0A%0AOmschrijving%20van%20de%20waarneming%3A%0A[Beschrijf%20hier%20wat%20u%20heeft%20gezien]%0A%0A%0A2.%20WAAR%20HEB%20IK%20DE%20RATTEN%20GEZIEN%3F%0A%0AStraat%20en%20huisnummer%20of%20exacte%20locatie%3A%0A[Vul%20hier%20de%20locatie%20in]%0A%0A%0A3.%20GEGEVENS%20VAN%20DE%20MELDER%0A%0ANaam%3A%0A[Vul%20uw%20naam%20in]%0A%0ATelefoonnummer%3A%0A[Vul%20uw%20telefoonnummer%20in]%0A%0AE-mailadres%3A%0A[Vul%20uw%20e-mailadres%20in]%0A%0A%0A4.%20VERZOEK%20OM%20BEVESTIGING%20EN%20TERUGKOPPELING%0A%0AGraag%20ontvang%20ik%20een%20bevestiging%20van%20de%20ontvangst%20van%20deze%20melding.%20Ook%20hoor%20ik%20graag%20welke%20actie%20naar%20aanleiding%20van%20deze%20melding%20wordt%20ondernomen.%0A%0A%0AAlvast%20hartelijk%20dank%20voor%20uw%20aandacht%20en%20het%20oppakken%20van%20deze%20melding.%0A%0AMet%20vriendelijke%20groet%2C%0A%0A[Uw%20naam]"
-          data-t="openEmail">E-mail met formulier openen</a>
+          href="mailto:info@spaarnelanden.nl"
+          data-t="openEmail">E-mail met meldformulier openen</a>
       </div>
 
       <p class="muted" data-t="emailLimit">We kunnen niet zien of je de e-mail hebt verzonden of ontvangen.</p>
@@ -649,6 +646,158 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       return "";
     }
+  }
+
+  /*
+   * De officiële e-mail blijft Nederlandstalig.
+   * De gekozen taal wordt er als vertaalde hulptekst bij gezet.
+   */
+  const EMAIL_HELP = {
+    en: {
+      seen: "What did I see?",
+      count: "Number of rats:",
+      description: "Description of the sighting:",
+      date: "Date and time of the sighting:",
+      where: "Where did I see the rats?",
+      location: "Street and house number or exact location:",
+      reporter: "Details of the person reporting",
+      name: "Name:",
+      phone: "Telephone number:",
+      email: "Email address:",
+      request: "I request that you send me a confirmation of receipt and inform me what action will be taken in response to this report."
+    },
+    tr: {
+      seen: "Ne gördüm?",
+      count: "Fare sayısı:",
+      description: "Gözlemin açıklaması:",
+      date: "Gözlemin tarihi ve saati:",
+      where: "Fareleri nerede gördüm?",
+      location: "Sokak ve kapı numarası veya tam konum:",
+      reporter: "Bildirimde bulunan kişinin bilgileri",
+      name: "Ad:",
+      phone: "Telefon numarası:",
+      email: "E-posta adresi:",
+      request: "Bu bildirimin alındığına dair onay göndermenizi ve bu bildirim üzerine hangi işlemin yapılacağını bana bildirmenizi rica ediyorum."
+    },
+    ar: {
+      seen: "ماذا شاهدت؟",
+      count: "عدد الجرذان:",
+      description: "وصف المشاهدة:",
+      date: "تاريخ ووقت المشاهدة:",
+      where: "أين شاهدت الجرذان؟",
+      location: "اسم الشارع ورقم المنزل أو الموقع الدقيق:",
+      reporter: "بيانات مقدم البلاغ",
+      name: "الاسم:",
+      phone: "رقم الهاتف:",
+      email: "البريد الإلكتروني:",
+      request: "أرجو إرسال تأكيد باستلام هذا البلاغ وإبلاغي بالإجراء الذي سيتم اتخاذه بناءً عليه."
+    },
+    ru: {
+      seen: "Что я увидел(а)?",
+      count: "Количество крыс:",
+      description: "Описание наблюдения:",
+      date: "Дата и время наблюдения:",
+      where: "Где я увидел(а) крыс?",
+      location: "Улица и номер дома или точное местоположение:",
+      reporter: "Данные заявителя",
+      name: "Имя:",
+      phone: "Номер телефона:",
+      email: "Электронная почта:",
+      request: "Прошу подтвердить получение этого сообщения и сообщить мне, какие меры будут приняты в связи с ним."
+    },
+    es: {
+      seen: "¿Qué he visto?",
+      count: "Número de ratas:",
+      description: "Descripción del avistamiento:",
+      date: "Fecha y hora del avistamiento:",
+      where: "¿Dónde he visto las ratas?",
+      location: "Calle y número o ubicación exacta:",
+      reporter: "Datos de la persona que informa",
+      name: "Nombre:",
+      phone: "Número de teléfono:",
+      email: "Correo electrónico:",
+      request: "Solicito que me envíen una confirmación de recepción y me informen de qué medidas se tomarán en respuesta a este aviso."
+    }
+  };
+
+  function updateOfficialEmailLink() {
+    const helper = EMAIL_HELP[currentLang] || null;
+    const nl = currentLang === "nl";
+
+    function translated(key) {
+      return helper ? " (" + helper[key] + ")" : "";
+    }
+
+    const lines = [
+      "Geachte heer/mevrouw,",
+      "",
+      "Hierbij meld ik rattenoverlast in Haarlem.",
+      "",
+      "==================================================",
+      "1. WAT HEB IK GEZIEN?" + translated("seen"),
+      "==================================================",
+      "",
+      "Aantal waargenomen ratten:" + translated("count"),
+      "",
+      "__________________________________________________",
+      "",
+      "Beschrijving van de waarneming:" + translated("description"),
+      "",
+      "__________________________________________________",
+      "",
+      "Datum en tijdstip van waarneming:" + translated("date"),
+      "",
+      "__________________________________________________",
+      "",
+      "",
+      "==================================================",
+      "2. WAAR HEB IK DE RATTEN GEZIEN?" + translated("where"),
+      "==================================================",
+      "",
+      "Straat en huisnummer of exacte locatie:" + translated("location"),
+      "",
+      "__________________________________________________",
+      "",
+      "__________________________________________________",
+      "",
+      "",
+      "==================================================",
+      "3. GEGEVENS VAN DE MELDER" + translated("reporter"),
+      "==================================================",
+      "",
+      "Naam:" + translated("name"),
+      "",
+      "__________________________________________________",
+      "",
+      "Telefoonnummer:" + translated("phone"),
+      "",
+      "__________________________________________________",
+      "",
+      "E-mailadres:" + translated("email"),
+      "",
+      "__________________________________________________",
+      "",
+      "",
+      "==================================================",
+      "4. VERZOEK OM ONTVANGSTBEVESTIGING EN TERUGKOPPELING",
+      "==================================================",
+      "",
+      "Ik verzoek u mij een ontvangstbevestiging te sturen en mij terug te koppelen welke actie naar aanleiding van deze melding wordt ondernomen.",
+      helper ? "(" + helper.request + ")" : "",
+      "",
+      "",
+      "Met vriendelijke groet,",
+      "",
+      "__________________________________________________"
+    ];
+
+    const subject = "Melding rattenoverlast – Haarlem";
+    const body = lines.join("\r\n");
+
+    $("officialLink").href =
+      "mailto:info@spaarnelanden.nl" +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
   }
 
   const T = {
@@ -1065,6 +1214,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-t]").forEach(el => {
       el.textContent = tr(el.dataset.t);
     });
+
+    updateOfficialEmailLink();
 
     if (markersLayer) renderMapMarkers();
   }
