@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f4ef">
   <title>Rattenvanger van Haarlem</title>
-  <meta name="description" content="Zie je een rat in Haarlem? Meld het exacte aantal ratten dat je de afgelopen 12 maanden hebt gezien.">
+  <meta name="description" content="Help rattenoverlast in Haarlem zichtbaar te maken. Doe een officiële melding en registreer je waarneming.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -467,7 +467,7 @@
 
   <header>
     <div class="lang-bar">
-      <select id="language" aria-label="Taal kiezen">
+      <select id="language" aria-label="Choose language" data-t-aria="languageLabel">
         <option value="nl">🌐 Nederlands</option>
         <option value="tr">🌐 Türkçe</option>
         <option value="ar">🌐 العربية</option>
@@ -485,7 +485,7 @@
 
     <div class="title-card">
       <h1>Rattenvanger van Haarlem</h1>
-      <p data-t="subtitle">Zie je een rat? Meld 'm hier!</p>
+      <p data-t="subtitle">Zie je een rat? Meld het hier!</p>
 
       <div class="rat-runway" aria-hidden="true">
         <span class="running-rat rat-one">🐀</span>
@@ -495,7 +495,7 @@
     </div>
   </header>
 
-  <nav aria-label="Hoofdnavigatie">
+  <nav aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
     <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
     <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
     <button type="button" data-page="info" data-t="info">Informatie</button>
@@ -505,32 +505,32 @@
 
     <section id="page-report">
       <h2 data-t="reportTitle">Een rat gezien?</h2>
-      <p data-t="reportIntro">Help mee om waarnemingen in Haarlem zichtbaar te maken.</p>
+      <p data-t="reportIntro">Help mee om rattenoverlast in Haarlem in kaart te brengen.</p>
 
       <div class="notice">
         <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
-        <p data-t="officialExplain">Open de e-mail met het verbeterde meldformulier en verstuur deze zelf.</p>
+        <p data-t="officialExplain">Open het onderstaande meldformulier in je e-mailprogramma, vul het in en verstuur de e-mail zelf.</p>
 
         <a class="primary" id="officialLink"
           href="mailto:info@spaarnelanden.nl"
           data-t="openEmail">E-mail met meldformulier openen</a>
       </div>
 
-      <p class="muted" data-t="emailLimit">We kunnen niet zien of je de e-mail hebt verzonden of ontvangen.</p>
+      <p class="muted" data-t="emailLimit">Je bent terug op deze website. We kunnen niet controleren of je de e-mail hebt verzonden of ontvangen.</p>
 
       <label class="check">
         <input type="checkbox" id="returned">
-        <span data-t="returnedLabel">Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.</span>
+        <span data-t="returnedLabel">Ik ben terug op deze website nadat ik de e-maillink heb geopend.</span>
       </label>
 
       <div class="actions">
-        <button type="button" id="unlockButton" disabled data-t="unlockMap">Verder naar de kaart</button>
+        <button type="button" id="unlockButton" disabled data-t="unlockMap">Bekijk de kaart</button>
       </div>
     </section>
 
     <section id="page-map" class="hidden">
       <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
-      <p data-t="mapIntro">Typ hieronder je straat in Haarlem en bekijk de waarnemingen.</p>
+      <p data-t="mapIntro">Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.</p>
 
       <div class="notice" data-t="mapWarning">
         Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden.
@@ -550,19 +550,20 @@
         </div>
       </div>
 
-      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
+      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat" data-t-aria="mapAria"></div>
 
       <div class="field">
-        <label for="streetInput" data-t="typeStreet">Typ de naam van je straat in Haarlem:</label>
+        <label for="streetInput" data-t="typeStreet">Straatnaam in Haarlem:</label>
         <input type="text" id="streetInput"
-          placeholder="Bijv. Aelbertsbergstraat of Parklaan"
+          placeholder="Bijvoorbeeld: Parklaan"
+          data-t-placeholder="streetPlaceholder"
           maxlength="100" autocomplete="off">
       </div>
 
       <div class="field">
         <label for="observation" data-t="observationLabel">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
         <input type="number" id="observation" min="1" max="20" step="1" value="1" inputmode="numeric">
-        <p class="muted" data-t="countHelp">Vul een exact aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
+        <p class="muted" data-t="countHelp">Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
       </div>
 
       <label class="check">
@@ -585,13 +586,13 @@
 
     <section id="page-info" class="hidden">
       <h2 data-t="infoTitle">Over dit initiatief</h2>
-      <p data-t="infoText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om de overlast in onze stad zichtbaar te maken.</p>
+      <p data-t="infoText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om rattenoverlast in onze stad zichtbaar te maken.</p>
 
       <ul class="info-list">
-        <li data-t="info1">Geen bestrijders: Wij vangen geen ratten en lossen het probleem niet zelf op.</li>
-        <li data-t="info2">Altijd melden bij Spaarnelanden: Onze kaart vervangt geen officiële melding.</li>
-        <li data-t="info3">Privacy: Wij vragen geen huisnummers, namen of e-mailadressen. De kaart toont uitsluitend straatgegevens.</li>
-        <li data-t="info4">Eenvoudig: Geen account nodig. Open de officiële e-mail en registreer daarna vrijwillig je waarneming.</li>
+        <li data-t="info1">Wij zijn geen ongediertebestrijders. We vangen geen ratten en bestrijden de overlast niet zelf.</li>
+        <li data-t="info2">Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt geen officiële melding.</li>
+        <li data-t="info3">Privacy: we vragen geen huisnummers, namen of e-mailadressen. De kaart toont alleen gegevens op straatniveau.</li>
+        <li data-t="info4">Je hebt geen account nodig. Open eerst de officiële e-mail en registreer daarna vrijwillig je waarneming op onze kaart.</li>
       </ul>
 
       <div class="notice" data-t="privacyNotice">
@@ -649,8 +650,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /*
-   * De officiële e-mail blijft Nederlandstalig.
-   * De gekozen taal wordt er als vertaalde hulptekst bij gezet.
+   * De officiële e-mail aan Spaarnelanden is Nederlandstalig.
+   * De gekozen taal wordt als vertaalde invulhulp toegevoegd.
    */
   const EMAIL_HELP = {
     en: {
@@ -672,9 +673,9 @@ document.addEventListener("DOMContentLoaded", () => {
       description: "Gözlemin açıklaması:",
       date: "Gözlemin tarihi ve saati:",
       where: "Fareleri nerede gördüm?",
-      location: "Sokak ve kapı numarası veya tam konum:",
+      location: "Sokak adı ve kapı numarası veya tam konum:",
       reporter: "Bildirimde bulunan kişinin bilgileri",
-      name: "Ad:",
+      name: "Adı soyadı:",
       phone: "Telefon numarası:",
       email: "E-posta adresi:",
       request: "Bu bildirimin alındığına dair onay göndermenizi ve bu bildirim üzerine hangi işlemin yapılacağını bana bildirmenizi rica ediyorum."
@@ -686,8 +687,8 @@ document.addEventListener("DOMContentLoaded", () => {
       date: "تاريخ ووقت المشاهدة:",
       where: "أين شاهدت الجرذان؟",
       location: "اسم الشارع ورقم المنزل أو الموقع الدقيق:",
-      reporter: "بيانات مقدم البلاغ",
-      name: "الاسم:",
+      reporter: "بيانات مقدّم البلاغ",
+      name: "الاسم الكامل:",
       phone: "رقم الهاتف:",
       email: "البريد الإلكتروني:",
       request: "أرجو إرسال تأكيد باستلام هذا البلاغ وإبلاغي بالإجراء الذي سيتم اتخاذه بناءً عليه."
@@ -698,11 +699,11 @@ document.addEventListener("DOMContentLoaded", () => {
       description: "Описание наблюдения:",
       date: "Дата и время наблюдения:",
       where: "Где я увидел(а) крыс?",
-      location: "Улица и номер дома или точное местоположение:",
+      location: "Название улицы и номер дома или точное местоположение:",
       reporter: "Данные заявителя",
-      name: "Имя:",
+      name: "Имя и фамилия:",
       phone: "Номер телефона:",
-      email: "Электронная почта:",
+      email: "Адрес электронной почты:",
       request: "Прошу подтвердить получение этого сообщения и сообщить мне, какие меры будут приняты в связи с ним."
     },
     es: {
@@ -711,9 +712,9 @@ document.addEventListener("DOMContentLoaded", () => {
       description: "Descripción del avistamiento:",
       date: "Fecha y hora del avistamiento:",
       where: "¿Dónde he visto las ratas?",
-      location: "Calle y número o ubicación exacta:",
-      reporter: "Datos de la persona que informa",
-      name: "Nombre:",
+      location: "Nombre de la calle y número o ubicación exacta:",
+      reporter: "Datos de la persona que presenta el aviso",
+      name: "Nombre y apellidos:",
       phone: "Número de teléfono:",
       email: "Correo electrónico:",
       request: "Solicito que me envíen una confirmación de recepción y me informen de qué medidas se tomarán en respuesta a este aviso."
@@ -722,16 +723,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateOfficialEmailLink() {
     const helper = EMAIL_HELP[currentLang] || null;
-    const nl = currentLang === "nl";
 
     function translated(key) {
       return helper ? " (" + helper[key] + ")" : "";
     }
 
     const lines = [
-      "Geachte heer/mevrouw,",
+      "Geachte medewerkers van Spaarnelanden,",
       "",
-      "Hierbij meld ik rattenoverlast in Haarlem.",
+      "Hierbij wil ik melding maken van rattenoverlast in Haarlem.",
       "",
       "==================================================",
       "1. WAT HEB IK GEZIEN?" + translated("seen"),
@@ -802,25 +802,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const T = {
     nl: {
-      subtitle:"Zie je een rat? Meld 'm hier!",
-      report:"Rat melden", map:"Rattenkaart Haarlem", info:"Informatie",
+      languageLabel:"Taal kiezen",
+      navigationLabel:"Hoofdnavigatie",
+      mapAria:"Kaart met rattenwaarnemingen per straat",
+      streetPlaceholder:"Bijvoorbeeld: Parklaan",
+      subtitle:"Zie je een rat? Meld het hier!",
+      report:"Rat melden",
+      map:"Rattenkaart Haarlem",
+      info:"Informatie",
       reportTitle:"Een rat gezien?",
-      reportIntro:"Help mee om waarnemingen in Haarlem zichtbaar te maken.",
+      reportIntro:"Help mee om rattenoverlast in Haarlem in kaart te brengen.",
       officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
-      officialExplain:"Open de e-mail met het verbeterde meldformulier en verstuur deze zelf.",
+      officialExplain:"Open het onderstaande meldformulier in je e-mailprogramma, vul het in en verstuur de e-mail zelf.",
       openEmail:"E-mail met meldformulier openen",
-      emailLimit:"We kunnen niet zien of je de e-mail hebt verzonden of ontvangen.",
-      returnedLabel:"Ik ben teruggekeerd naar deze website nadat ik de e-maillink heb geopend.",
-      unlockMap:"Verder naar de kaart",
+      emailLimit:"Je bent terug op deze website. We kunnen niet controleren of je de e-mail hebt verzonden of ontvangen.",
+      returnedLabel:"Ik ben terug op deze website nadat ik de e-maillink heb geopend.",
+      unlockMap:"Bekijk de kaart",
       mapTitle:"Rattenkaart Haarlem",
-      mapIntro:"Typ hieronder je straat in Haarlem en bekijk de waarnemingen.",
-      mapWarning:"Let op: Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden. Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.",
+      mapIntro:"Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.",
+      mapWarning:"Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden. Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.",
       legendTitle:"Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):",
-      band1:"1–4 ratten", band2:"5–9 ratten", band3:"10–19 ratten",
-      band4:"20–39 ratten", band5:"40–59 ratten", band6:"60–99 ratten", band7:"100 of meer",
-      typeStreet:"Typ de naam van je straat in Haarlem:",
+      band1:"1–4 ratten",
+      band2:"5–9 ratten",
+      band3:"10–19 ratten",
+      band4:"20–39 ratten",
+      band5:"40–59 ratten",
+      band6:"60–99 ratten",
+      band7:"100 of meer",
+      typeStreet:"Straatnaam in Haarlem:",
       observationLabel:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
-      countHelp:"Vul een exact aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
+      countHelp:"Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
       consent:"Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.",
       submit:"Waarneming registreren",
       searching:"Straat opzoeken in Haarlem...",
@@ -834,246 +845,301 @@ document.addEventListener("DOMContentLoaded", () => {
       loadError:"De meldingen konden niet worden opgehaald. Probeer de kaart later opnieuw te openen.",
       storageNotice:"Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.",
       infoTitle:"Over dit initiatief",
-      infoText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om de overlast in onze stad zichtbaar te maken.",
-      info1:"Geen bestrijders: Wij vangen geen ratten en lossen het probleem niet zelf op.",
-      info2:"Altijd melden bij Spaarnelanden: Onze kaart vervangt geen officiële melding.",
-      info3:"Privacy: Wij vragen geen huisnummers, namen of e-mailadressen. De kaart toont uitsluitend straatgegevens.",
-      info4:"Eenvoudig: Geen account nodig. Open de officiële e-mail en registreer daarna vrijwillig je waarneming.",
+      infoText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om rattenoverlast in onze stad zichtbaar te maken.",
+      info1:"Wij zijn geen ongediertebestrijders. We vangen geen ratten en bestrijden de overlast niet zelf.",
+      info2:"Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt geen officiële melding.",
+      info3:"Privacy: we vragen geen huisnummers, namen of e-mailadressen. De kaart toont alleen gegevens op straatniveau.",
+      info4:"Je hebt geen account nodig. Open eerst de officiële e-mail en registreer daarna vrijwillig je waarneming op onze kaart.",
       privacyNotice:"De kaart is bedoeld om algemene patronen zichtbaar te maken. De meldingen zijn geen officiële gemeentelijke gegevens.",
       footerText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
-      popupTotal:"Totaal aantal ratten gemeld",
+      popupTotal:"Totaal aantal gemelde ratten",
       popupReports:"Aantal meldingen",
       popupNote:"Optelsom van meldingen, geen telling van unieke ratten."
     },
 
     en: {
+      languageLabel:"Choose language",
+      navigationLabel:"Main navigation",
+      mapAria:"Map showing reported rat sightings by street",
+      streetPlaceholder:"For example: Parklaan",
       subtitle:"Seen a rat? Report it here!",
-      report:"Report a rat", map:"Haarlem rat map", info:"Information",
+      report:"Report a rat",
+      map:"Haarlem rat map",
+      info:"Information",
       reportTitle:"Seen a rat?",
-      reportIntro:"Help make rat sightings in Haarlem visible.",
-      officialFirst:"First make an official report to Spaarnelanden yourself.",
-      officialExplain:"Open the email with the improved report form and send it yourself.",
+      reportIntro:"Help us map rat sightings in Haarlem.",
+      officialFirst:"First, submit an official report to Spaarnelanden yourself.",
+      officialExplain:"Open the report form below in your email app, fill it in and send the email yourself.",
       openEmail:"Open email report form",
-      emailLimit:"We cannot verify whether you sent the email or whether it was received.",
+      emailLimit:"You are back on this website. We cannot verify whether you sent the email or whether it was received.",
       returnedLabel:"I have returned to this website after opening the email link.",
-      unlockMap:"Continue to the map",
+      unlockMap:"View the map",
       mapTitle:"Haarlem rat map",
-      mapIntro:"Enter your Haarlem street below and view sightings.",
-      mapWarning:"The total per street is the sum of residents' reports over the past 12 months. The same rats may have been seen by multiple residents, so this is not a count of unique rats.",
-      legendTitle:"Total reported rats per street (past 12 months):",
-      band1:"1–4 rats", band2:"5–9 rats", band3:"10–19 rats",
-      band4:"20–39 rats", band5:"40–59 rats", band6:"60–99 rats", band7:"100 or more",
-      typeStreet:"Enter your street name in Haarlem:",
+      mapIntro:"Enter the name of a street in Haarlem below to view reported sightings.",
+      mapWarning:"The total for each street is the sum of residents' reports from the past 12 months. The same rats may have been seen by several residents, so this is not a count of individual rats.",
+      legendTitle:"Total number of rats reported per street (past 12 months):",
+      band1:"1–4 rats",
+      band2:"5–9 rats",
+      band3:"10–19 rats",
+      band4:"20–39 rats",
+      band5:"40–59 rats",
+      band6:"60–99 rats",
+      band7:"100 or more",
+      typeStreet:"Street name in Haarlem:",
       observationLabel:"How many rats have you seen in total during the past 12 months?",
-      countHelp:"Enter an exact number. You can report a maximum of 20 rats per report.",
-      consent:"I understand that my report is voluntary and unverified, covers the past 12 months and is displayed generally at street level.",
+      countHelp:"Enter the exact number. You can report a maximum of 20 rats per report.",
+      consent:"I understand that my report is voluntary and has not been verified. It covers the past 12 months and is displayed only at street level.",
       submit:"Register sighting",
-      searching:"Searching for street in Haarlem...",
-      sending:"Saving report securely...",
-      saved:"Your sighting has been saved centrally. Thank you!",
-      notFound:"This street could not be found in Haarlem. Check the spelling.",
+      searching:"Looking up the street in Haarlem...",
+      sending:"Saving your report securely...",
+      saved:"Your sighting has been saved. Thank you!",
+      notFound:"This street could not be found in Haarlem. Please check the spelling.",
       invalidCount:"Enter a whole number between 1 and 20.",
-      storageError:"The report could not be saved. Please try again later.",
+      storageError:"Your report could not be saved. Please try again later.",
       duplicateReport:"A report was recently submitted from this browser. Please try again in 15 minutes.",
       loadingReports:"Loading reports...",
-      loadError:"Reports could not be loaded. Please try opening the map again later.",
+      loadError:"The reports could not be retrieved. Please try opening the map again later.",
       storageNotice:"Reports are stored centrally and are visible to all visitors.",
       infoTitle:"About this initiative",
-      infoText:"Rattenvanger van Haarlem is an independent residents' initiative to make rat nuisance visible in our city.",
-      info1:"We are not pest controllers. We do not catch rats or solve the problem ourselves.",
-      info2:"Always report to Spaarnelanden. Our map does not replace an official report.",
-      info3:"Privacy: We do not request house numbers, names or email addresses.",
-      info4:"No account is required. Open the official email and then voluntarily register your sighting.",
-      privacyNotice:"The map shows general patterns. Reports are not official municipal data.",
+      infoText:"Rattenvanger van Haarlem is an independent residents' initiative that aims to make rat problems in our city visible.",
+      info1:"We are not a pest-control service. We do not catch rats or deal with the problem ourselves.",
+      info2:"Always submit an official report to Spaarnelanden. Our map does not replace an official report.",
+      info3:"Privacy: we do not ask for house numbers, names or email addresses. The map only displays information at street level.",
+      info4:"You do not need an account. First open the official email, then voluntarily register your sighting on our map.",
+      privacyNotice:"The map is intended to show general patterns. The reports are not official municipal data.",
       footerText:"Rattenvanger van Haarlem is an independent residents' initiative.",
-      popupTotal:"Total rats reported",
+      popupTotal:"Total number of rats reported",
       popupReports:"Number of reports",
-      popupNote:"Sum of reports, not a count of unique rats."
+      popupNote:"The sum of reports, not a count of individual rats."
     },
 
     tr: {
-      subtitle:"Fare mi gördünüz? Buradan bildirin!",
-      report:"Fare bildir", map:"Haarlem fare haritası", info:"Bilgi",
-      reportTitle:"Fare mi gördünüz?",
-      reportIntro:"Haarlem'deki fare gözlemlerini görünür kılmaya yardımcı olun.",
-      officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirim yapın.",
-      officialExplain:"Geliştirilmiş bildirim formunu içeren e-postayı açın ve kendiniz gönderin.",
-      openEmail:"Bildirim e-postasını aç",
-      emailLimit:"E-postanın gönderilip gönderilmediğini doğrulayamıyoruz.",
-      returnedLabel:"E-posta bağlantısını açtıktan sonra bu siteye geri döndüm.",
-      unlockMap:"Haritaya devam et",
+      languageLabel:"Dil seçin",
+      navigationLabel:"Ana menü",
+      mapAria:"Sokaklara göre fare gözlemlerini gösteren harita",
+      streetPlaceholder:"Örneğin: Parklaan",
+      subtitle:"Fare gördünüz mü? Buradan bildirin!",
+      report:"Fare bildir",
+      map:"Haarlem fare haritası",
+      info:"Bilgi",
+      reportTitle:"Fare gördünüz mü?",
+      reportIntro:"Haarlem'deki fare gözlemlerini haritada göstermemize yardımcı olun.",
+      officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirimde bulunun.",
+      officialExplain:"Aşağıdaki bildirim formunu e-posta uygulamanızda açın, doldurun ve e-postayı kendiniz gönderin.",
+      openEmail:"Bildirim formunu e-postayla aç",
+      emailLimit:"Bu web sitesine geri döndünüz. E-postayı gönderip göndermediğinizi veya e-postanın alınıp alınmadığını kontrol edemiyoruz.",
+      returnedLabel:"E-posta bağlantısını açtıktan sonra bu web sitesine geri döndüm.",
+      unlockMap:"Haritayı görüntüle",
       mapTitle:"Haarlem fare haritası",
-      mapIntro:"Haarlem'deki sokağınızı yazın ve gözlemleri görün.",
-      mapWarning:"Sokak toplamı, son 12 aydaki sakin bildirimlerinin toplamıdır. Aynı fareler birden fazla kişi tarafından görülmüş olabilir; bu sayı benzersiz farelerin sayısı değildir.",
-      legendTitle:"Sokak başına bildirilen toplam fare (son 12 ay):",
-      band1:"1–4 fare", band2:"5–9 fare", band3:"10–19 fare",
-      band4:"20–39 fare", band5:"40–59 fare", band6:"60–99 fare", band7:"100 veya daha fazla",
-      typeStreet:"Haarlem'deki sokağınızın adını yazın:",
-      observationLabel:"Son 12 ayda toplam kaç fare gördünüz?",
-      countHelp:"Kesin sayıyı girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
-      consent:"Bildirimimin gönüllü ve doğrulanmamış olduğunu, son 12 ayı kapsadığını ve sokak düzeyinde gösterildiğini anlıyorum.",
+      mapIntro:"Gözlemleri görmek için aşağıya Haarlem'deki bir sokağın adını yazın.",
+      mapWarning:"Her sokak için gösterilen toplam sayı, son 12 ayda sakinler tarafından yapılan bildirimlerin toplamıdır. Aynı fareler birden fazla kişi tarafından görülmüş olabilir. Bu nedenle sayı, farklı farelerin sayısını göstermez.",
+      legendTitle:"Sokak başına bildirilen toplam fare sayısı (son 12 ay):",
+      band1:"1–4 fare",
+      band2:"5–9 fare",
+      band3:"10–19 fare",
+      band4:"20–39 fare",
+      band5:"40–59 fare",
+      band6:"60–99 fare",
+      band7:"100 veya daha fazla",
+      typeStreet:"Haarlem'deki sokağın adı:",
+      observationLabel:"Son 12 ay içinde toplam kaç fare gördünüz?",
+      countHelp:"Gördüğünüz farelerin tam sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
+      consent:"Bildirimimin gönüllü olduğunu ve doğrulanmadığını anlıyorum. Bildirimim son 12 ayı kapsar ve haritada yalnızca sokak düzeyinde gösterilir.",
       submit:"Gözlemi kaydet",
-      searching:"Haarlem'de sokak aranıyor...",
-      sending:"Bildirim kaydediliyor...",
-      saved:"Gözleminiz merkezi olarak kaydedildi. Teşekkürler!",
-      notFound:"Bu sokak Haarlem'de bulunamadı. Yazımı kontrol edin.",
+      searching:"Haarlem'deki sokak aranıyor...",
+      sending:"Bildiriminiz güvenli bir şekilde kaydediliyor...",
+      saved:"Gözleminiz kaydedildi. Teşekkür ederiz!",
+      notFound:"Bu sokak Haarlem'de bulunamadı. Lütfen yazımını kontrol edin.",
       invalidCount:"1 ile 20 arasında tam sayı girin.",
-      storageError:"Bildirim kaydedilemedi. Daha sonra tekrar deneyin.",
-      duplicateReport:"Bu tarayıcıdan yakın zamanda bildirim yapıldı. 15 dakika sonra tekrar deneyin.",
+      storageError:"Bildiriminiz kaydedilemedi. Lütfen daha sonra tekrar deneyin.",
+      duplicateReport:"Bu tarayıcıdan yakın zamanda bir bildirim gönderildi. Lütfen 15 dakika sonra tekrar deneyin.",
       loadingReports:"Bildirimler yükleniyor...",
-      loadError:"Bildirimler yüklenemedi. Haritayı daha sonra tekrar açın.",
-      storageNotice:"Bildirimler merkezi olarak saklanır ve tüm ziyaretçiler tarafından görülebilir.",
+      loadError:"Bildirimler alınamadı. Lütfen haritayı daha sonra tekrar açmayı deneyin.",
+      storageNotice:"Bildirimler merkezi olarak kaydedilir ve tüm ziyaretçiler tarafından görülebilir.",
       infoTitle:"Bu girişim hakkında",
-      infoText:"Rattenvanger van Haarlem, şehrimizdeki fare sorununu görünür kılmak için bağımsız bir mahalle girişimidir.",
-      info1:"Biz haşere kontrol şirketi değiliz ve fare yakalamıyoruz.",
-      info2:"Her zaman Spaarnelanden'e resmi bildirim yapın.",
-      info3:"Ev numarası, isim veya e-posta adresi istemiyoruz.",
-      info4:"Hesap gerekmez. Resmi e-postayı açın ve gözleminizi kaydedin.",
-      privacyNotice:"Harita genel eğilimleri göstermek içindir. Bildirimler resmi belediye verileri değildir.",
-      footerText:"Bağımsız bir mahalle girişimi.",
-      popupTotal:"Bildirilen toplam fare",
+      infoText:"Rattenvanger van Haarlem, şehrimizdeki fare sorununu görünür kılmayı amaçlayan bağımsız bir mahalle girişimidir.",
+      info1:"Biz bir haşere kontrol şirketi değiliz. Fare yakalamıyor veya sorunu kendimiz çözmüyoruz.",
+      info2:"Her zaman Spaarnelanden'e resmi bir bildirimde bulunun. Haritamız resmi bildirimin yerine geçmez.",
+      info3:"Gizlilik: Ev numarası, isim veya e-posta adresi istemiyoruz. Haritada yalnızca sokak düzeyindeki bilgiler gösterilir.",
+      info4:"Hesap oluşturmanız gerekmez. Önce resmi e-postayı açın, ardından gözleminizi haritamıza gönüllü olarak kaydedin.",
+      privacyNotice:"Harita, genel eğilimleri göstermek amacıyla hazırlanmıştır. Bildirimler resmi belediye verileri değildir.",
+      footerText:"Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
+      popupTotal:"Bildirilen toplam fare sayısı",
       popupReports:"Bildirim sayısı",
-      popupNote:"Bildirimlerin toplamı; benzersiz fare sayısı değildir."
+      popupNote:"Bu sayı farklı farelerin sayısı değil, bildirimlerin toplamıdır."
     },
 
     ar: {
-      subtitle:"هل رأيت فأراً؟ أبلغ عنه هنا!",
-      report:"الإبلاغ عن فأر", map:"خريطة الفئران في هارلم", info:"معلومات",
-      reportTitle:"هل رأيت فأراً؟",
-      reportIntro:"ساعد في إظهار مشاهدات الفئران في هارلم.",
-      officialFirst:"قم أولاً بتقديم بلاغ رسمي بنفسك لدى Spaarnelanden.",
-      officialExplain:"افتح البريد الإلكتروني مع نموذج الإبلاغ المحسّن وأرسله بنفسك.",
-      openEmail:"فتح نموذج الإبلاغ بالبريد",
-      emailLimit:"لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني.",
-      returnedLabel:"لقد عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
-      unlockMap:"المتابعة إلى الخريطة",
-      mapTitle:"خريطة الفئران في هارلم",
-      mapIntro:"اكتب اسم شارعك في هارلم لعرض المشاهدات.",
-      mapWarning:"الإجمالي لكل شارع هو مجموع بلاغات السكان خلال آخر 12 شهراً. قد تكون الفئران نفسها قد شوهدت من عدة أشخاص؛ لذلك ليس هذا عدداً للفئران الفريدة.",
-      legendTitle:"إجمالي الفئران المبلغ عنها لكل شارع (آخر 12 شهراً):",
-      band1:"1–4", band2:"5–9", band3:"10–19",
-      band4:"20–39", band5:"40–59", band6:"60–99", band7:"100 أو أكثر",
-      typeStreet:"اكتب اسم شارعك في هارلم:",
-      observationLabel:"كم فأراً رأيت إجمالاً خلال آخر 12 شهراً؟",
-      countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 فأراً كحد أقصى في كل بلاغ.",
-      consent:"أفهم أن بلاغي تطوعي وغير مؤكد ويغطي آخر 12 شهراً ويُعرض على مستوى الشارع فقط.",
+      languageLabel:"اختر اللغة",
+      navigationLabel:"القائمة الرئيسية",
+      mapAria:"خريطة تعرض بلاغات مشاهدة الجرذان حسب الشارع",
+      streetPlaceholder:"مثال: Parklaan",
+      subtitle:"هل رأيت جرذاً؟ أبلغ عنه هنا!",
+      report:"الإبلاغ عن جرذ",
+      map:"خريطة الجرذان في هارلم",
+      info:"معلومات",
+      reportTitle:"هل رأيت جرذاً؟",
+      reportIntro:"ساعدنا في توثيق مشاهدات الجرذان في هارلم على الخريطة.",
+      officialFirst:"يرجى أولاً تقديم بلاغ رسمي بنفسك إلى Spaarnelanden.",
+      officialExplain:"افتح نموذج البلاغ أدناه في تطبيق البريد الإلكتروني، واملأه ثم أرسل الرسالة بنفسك.",
+      openEmail:"فتح نموذج البلاغ عبر البريد الإلكتروني",
+      emailLimit:"لقد عدت إلى هذا الموقع. لا يمكننا التحقق مما إذا كنت قد أرسلت البريد الإلكتروني أو مما إذا كان قد تم استلامه.",
+      returnedLabel:"عدت إلى هذا الموقع بعد فتح رابط البريد الإلكتروني.",
+      unlockMap:"عرض الخريطة",
+      mapTitle:"خريطة الجرذان في هارلم",
+      mapIntro:"اكتب أدناه اسم أحد الشوارع في هارلم للاطلاع على البلاغات.",
+      mapWarning:"الإجمالي لكل شارع هو مجموع البلاغات التي قدمها السكان خلال الأشهر الاثني عشر الماضية. قد يكون أشخاص مختلفون قد شاهدوا الجرذان نفسها؛ لذلك لا يمثل هذا الرقم عدد الجرذان المختلفة.",
+      legendTitle:"إجمالي عدد الجرذان المبلّغ عنها في كل شارع (خلال آخر 12 شهراً):",
+      band1:"1–4 جرذان",
+      band2:"5–9 جرذان",
+      band3:"10–19 جرذاً",
+      band4:"20–39 جرذاً",
+      band5:"40–59 جرذاً",
+      band6:"60–99 جرذاً",
+      band7:"100 جرذ أو أكثر",
+      typeStreet:"اسم الشارع في هارلم:",
+      observationLabel:"كم جرذاً شاهدت إجمالاً خلال الأشهر الاثني عشر الماضية؟",
+      countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 جرذاً كحد أقصى في كل بلاغ.",
+      consent:"أفهم أن تقديم البلاغ طوعي وأن المعلومات لم يتم التحقق منها. ويغطي البلاغ الأشهر الاثني عشر الماضية، ولا تُعرض المعلومات إلا على مستوى الشارع.",
       submit:"تسجيل المشاهدة",
-      searching:"جاري البحث عن الشارع في هارلم...",
-      sending:"جارٍ حفظ البلاغ...",
-      saved:"تم حفظ المشاهدة مركزياً. شكراً لك!",
-      notFound:"تعذر العثور على هذا الشارع في هارلم. تحقق من الكتابة.",
-      invalidCount:"أدخل عدداً صحيحاً بين 1 و20.",
-      storageError:"تعذر حفظ البلاغ. حاول مرة أخرى لاحقاً.",
-      duplicateReport:"تم تقديم بلاغ مؤخراً من هذا المتصفح. حاول بعد 15 دقيقة.",
+      searching:"جارٍ البحث عن الشارع في هارلم...",
+      sending:"جارٍ حفظ البلاغ بشكل آمن...",
+      saved:"تم حفظ مشاهدتك. شكراً لك!",
+      notFound:"تعذّر العثور على هذا الشارع في هارلم. يرجى التحقق من كتابة الاسم.",
+      invalidCount:"أدخل عدداً صحيحاً من 1 إلى 20.",
+      storageError:"تعذّر حفظ البلاغ. يرجى المحاولة مرة أخرى لاحقاً.",
+      duplicateReport:"تم إرسال بلاغ من هذا المتصفح مؤخراً. يرجى المحاولة مرة أخرى بعد 15 دقيقة.",
       loadingReports:"جارٍ تحميل البلاغات...",
-      loadError:"تعذر تحميل البلاغات. حاول فتح الخريطة لاحقاً.",
-      storageNotice:"يتم حفظ البلاغات مركزياً ويمكن لجميع الزوار رؤيتها.",
+      loadError:"تعذّر تحميل البلاغات. يرجى محاولة فتح الخريطة مرة أخرى لاحقاً.",
+      storageNotice:"تُحفظ البلاغات مركزياً ويمكن لجميع زوار الموقع الاطلاع عليها.",
       infoTitle:"حول هذه المبادرة",
-      infoText:"Rattenvanger van Haarlem مبادرة مستقلة لإظهار مشكلة الفئران في مدينتنا.",
-      info1:"لسنا شركة مكافحة آفات ولا نقوم باصطياد الفئران.",
-      info2:"يرجى دائماً تقديم بلاغ رسمي إلى Spaarnelanden.",
-      info3:"لا نطلب أرقام المنازل أو الأسماء أو البريد الإلكتروني.",
-      info4:"لا تحتاج إلى حساب. افتح البريد الإلكتروني وسجل المشاهدة.",
-      privacyNotice:"الخريطة مخصصة لإظهار الأنماط العامة وليست بيانات بلدية رسمية.",
-      footerText:"مبادرة مستقلة من السكان.",
-      popupTotal:"إجمالي الفئران المُبلّغ عنها",
+      infoText:"Rattenvanger van Haarlem مبادرة مستقلة من السكان تهدف إلى إظهار مشكلة انتشار الجرذان في مدينتنا.",
+      info1:"لسنا شركة لمكافحة الآفات. لا نصطاد الجرذان ولا نتولى معالجة المشكلة بأنفسنا.",
+      info2:"يرجى دائماً تقديم بلاغ رسمي إلى Spaarnelanden. خريطتنا لا تحل محل البلاغ الرسمي.",
+      info3:"الخصوصية: لا نطلب أرقام المنازل أو الأسماء أو عناوين البريد الإلكتروني. تعرض الخريطة المعلومات على مستوى الشارع فقط.",
+      info4:"لا تحتاج إلى إنشاء حساب. افتح أولاً رسالة البريد الإلكتروني الرسمية، ثم سجّل مشاهدتك على خريطتنا طوعاً.",
+      privacyNotice:"تهدف الخريطة إلى إظهار الأنماط العامة. البلاغات ليست بيانات رسمية صادرة عن البلدية.",
+      footerText:"Rattenvanger van Haarlem مبادرة مستقلة من السكان.",
+      popupTotal:"إجمالي عدد الجرذان المُبلّغ عنها",
       popupReports:"عدد البلاغات",
-      popupNote:"مجموع البلاغات وليس عدد الفئران الفريدة."
+      popupNote:"هذا مجموع البلاغات وليس عدد الجرذان المختلفة."
     },
 
     ru: {
-      subtitle:"Увидели крысу? Сообщите здесь!",
-      report:"Сообщить о крысе", map:"Карта крыс Харлема", info:"Информация",
+      languageLabel:"Выберите язык",
+      navigationLabel:"Главное меню",
+      mapAria:"Карта сообщений о крысах по улицам",
+      streetPlaceholder:"Например: Parklaan",
+      subtitle:"Увидели крысу? Сообщите об этом здесь!",
+      report:"Сообщить о крысе",
+      map:"Карта крыс Харлема",
+      info:"Информация",
       reportTitle:"Увидели крысу?",
-      reportIntro:"Помогите сделать наблюдения за крысами в Харлеме заметными.",
-      officialFirst:"Сначала самостоятельно отправьте официальное сообщение в Spaarnelanden.",
-      officialExplain:"Откройте электронное письмо с улучшенной формой сообщения и отправьте его.",
-      openEmail:"Открыть форму сообщения",
-      emailLimit:"Мы не можем проверить отправку письма.",
-      returnedLabel:"Я вернулся на этот сайт после открытия ссылки электронной почты.",
-      unlockMap:"Перейти к карте",
+      reportIntro:"Помогите отметить на карте места, где в Харлеме замечали крыс.",
+      officialFirst:"Сначала самостоятельно подайте официальное сообщение в Spaarnelanden.",
+      officialExplain:"Откройте приведённую ниже форму в почтовом приложении, заполните её и самостоятельно отправьте письмо.",
+      openEmail:"Открыть форму сообщения по электронной почте",
+      emailLimit:"Вы вернулись на этот сайт. Мы не можем проверить, отправили ли вы письмо и было ли оно получено.",
+      returnedLabel:"Я вернулся(лась) на этот сайт после открытия ссылки на электронную почту.",
+      unlockMap:"Посмотреть карту",
       mapTitle:"Карта крыс Харлема",
-      mapIntro:"Введите название улицы в Харлеме.",
-      mapWarning:"Итог по улице — это сумма сообщений жителей за последние 12 месяцев. Одних и тех же крыс могли видеть разные жители, поэтому это не точное число уникальных крыс.",
-      legendTitle:"Общее число сообщённых крыс по улице (последние 12 месяцев):",
-      band1:"1–4", band2:"5–9", band3:"10–19",
-      band4:"20–39", band5:"40–59", band6:"60–99", band7:"100 или больше",
-      typeStreet:"Введите название вашей улицы в Харлеме:",
+      mapIntro:"Введите ниже название улицы в Харлеме, чтобы посмотреть сообщения о замеченных крысах.",
+      mapWarning:"Общее число по каждой улице — это сумма сообщений жителей за последние 12 месяцев. Одних и тех же крыс могли видеть разные люди, поэтому это число не отражает количество отдельных крыс.",
+      legendTitle:"Общее число крыс, о которых сообщили жители каждой улицы (за последние 12 месяцев):",
+      band1:"1–4 крысы",
+      band2:"5–9 крыс",
+      band3:"10–19 крыс",
+      band4:"20–39 крыс",
+      band5:"40–59 крыс",
+      band6:"60–99 крыс",
+      band7:"100 или больше",
+      typeStreet:"Название улицы в Харлеме:",
       observationLabel:"Сколько всего крыс вы видели за последние 12 месяцев?",
-      countHelp:"Укажите точное число. В одном сообщении можно указать не более 20 крыс.",
-      consent:"Я понимаю, что сообщение добровольное, не проверенное, охватывает последние 12 месяцев и отображается только на уровне улицы.",
+      countHelp:"Укажите точное количество. В одном сообщении можно указать не более 20 крыс.",
+      consent:"Я понимаю, что сообщение является добровольным и не проверяется. Оно относится к последним 12 месяцам, а информация отображается только на уровне улицы.",
       submit:"Зарегистрировать наблюдение",
       searching:"Поиск улицы в Харлеме...",
       sending:"Сохранение сообщения...",
-      saved:"Наблюдение сохранено централизованно. Спасибо!",
-      notFound:"Эту улицу не удалось найти в Харлеме. Проверьте написание.",
+      saved:"Ваше наблюдение сохранено. Спасибо!",
+      notFound:"Не удалось найти эту улицу в Харлеме. Проверьте правильность написания.",
       invalidCount:"Введите целое число от 1 до 20.",
-      storageError:"Не удалось сохранить сообщение. Попробуйте позже.",
-      duplicateReport:"С этого браузера недавно уже отправлялось сообщение. Попробуйте через 15 минут.",
+      storageError:"Не удалось сохранить сообщение. Пожалуйста, попробуйте позже.",
+      duplicateReport:"С этого браузера недавно уже отправляли сообщение. Повторите попытку через 15 минут.",
       loadingReports:"Загрузка сообщений...",
       loadError:"Не удалось загрузить сообщения. Попробуйте открыть карту позже.",
-      storageNotice:"Сообщения хранятся централизованно и видны всем посетителям.",
+      storageNotice:"Сообщения сохраняются централизованно и доступны всем посетителям сайта.",
       infoTitle:"Об этой инициативе",
-      infoText:"Rattenvanger van Haarlem — независимая инициатива жителей.",
-      info1:"Мы не занимаемся отловом крыс и не являемся службой дезинсекции.",
-      info2:"Всегда отправляйте официальное сообщение в Spaarnelanden.",
-      info3:"Мы не запрашиваем номера домов, имена или электронную почту.",
-      info4:"Аккаунт не нужен. Откройте официальное письмо и зарегистрируйте наблюдение.",
-      privacyNotice:"Карта показывает общие тенденции. Это не официальные муниципальные данные.",
-      footerText:"Независимая инициатива жителей.",
-      popupTotal:"Всего сообщено о крысах",
+      infoText:"Rattenvanger van Haarlem — независимая инициатива жителей, цель которой — сделать проблему крыс в нашем городе более заметной.",
+      info1:"Мы не являемся службой по борьбе с вредителями. Мы не ловим крыс и не устраняем проблему самостоятельно.",
+      info2:"Всегда подавайте официальное сообщение в Spaarnelanden. Наша карта не заменяет официальное сообщение.",
+      info3:"Конфиденциальность: мы не запрашиваем номера домов, имена или адреса электронной почты. На карте отображается только информация на уровне улиц.",
+      info4:"Регистрация не требуется. Сначала откройте официальное письмо, а затем добровольно добавьте своё наблюдение на карту.",
+      privacyNotice:"Карта предназначена для отображения общих закономерностей. Эти сообщения не являются официальными муниципальными данными.",
+      footerText:"Rattenvanger van Haarlem — независимая инициатива жителей.",
+      popupTotal:"Общее число крыс, о которых сообщили жители",
       popupReports:"Количество сообщений",
-      popupNote:"Сумма сообщений, а не число уникальных крыс."
+      popupNote:"Это сумма сообщений, а не количество отдельных крыс."
     },
 
     es: {
-      subtitle:"¿Viste una rata? ¡Repórtala aquí!",
-      report:"Reportar rata", map:"Mapa de ratas de Haarlem", info:"Información",
-      reportTitle:"¿Viste una rata?",
-      reportIntro:"Ayuda a hacer visibles los avistamientos en Haarlem.",
-      officialFirst:"Primero presenta un reporte oficial tú mismo en Spaarnelanden.",
-      officialExplain:"Abre el correo electrónico con el formulario mejorado y envíalo tú mismo.",
-      openEmail:"Abrir formulario por correo",
-      emailLimit:"No podemos verificar si enviaste el correo.",
-      returnedLabel:"He vuelto a este sitio después de abrir el enlace del correo.",
-      unlockMap:"Continuar al mapa",
+      languageLabel:"Seleccionar idioma",
+      navigationLabel:"Menú principal",
+      mapAria:"Mapa de avistamientos de ratas por calle",
+      streetPlaceholder:"Por ejemplo: Parklaan",
+      subtitle:"¿Has visto una rata? ¡Infórmanos aquí!",
+      report:"Informar sobre una rata",
+      map:"Mapa de ratas de Haarlem",
+      info:"Información",
+      reportTitle:"¿Has visto una rata?",
+      reportIntro:"Ayúdanos a localizar en el mapa los avistamientos de ratas en Haarlem.",
+      officialFirst:"Primero, presenta tú mismo un aviso oficial a Spaarnelanden.",
+      officialExplain:"Abre el formulario que aparece a continuación en tu aplicación de correo electrónico, complétalo y envía el mensaje tú mismo.",
+      openEmail:"Abrir el formulario por correo electrónico",
+      emailLimit:"Has vuelto a este sitio web. No podemos comprobar si has enviado el correo electrónico ni si ha sido recibido.",
+      returnedLabel:"He vuelto a este sitio web después de abrir el enlace del correo electrónico.",
+      unlockMap:"Ver el mapa",
       mapTitle:"Mapa de ratas de Haarlem",
-      mapIntro:"Escribe el nombre de tu calle en Haarlem.",
-      mapWarning:"El total por calle es la suma de los reportes de los residentes durante los últimos 12 meses. Varias personas pueden haber visto las mismas ratas; no es un recuento de ratas únicas.",
-      legendTitle:"Total de ratas reportadas por calle (últimos 12 meses):",
-      band1:"1–4 ratas", band2:"5–9 ratas", band3:"10–19 ratas",
-      band4:"20–39 ratas", band5:"40–59 ratas", band6:"60–99 ratas", band7:"100 o más",
-      typeStreet:"Escribe el nombre de tu calle en Haarlem:",
+      mapIntro:"Escribe a continuación el nombre de una calle de Haarlem para consultar los avistamientos.",
+      mapWarning:"El total de cada calle es la suma de los avisos enviados por los residentes durante los últimos 12 meses. Varias personas pueden haber visto las mismas ratas, por lo que esta cifra no representa el número de ratas diferentes.",
+      legendTitle:"Número total de ratas notificadas por calle (últimos 12 meses):",
+      band1:"1–4 ratas",
+      band2:"5–9 ratas",
+      band3:"10–19 ratas",
+      band4:"20–39 ratas",
+      band5:"40–59 ratas",
+      band6:"60–99 ratas",
+      band7:"100 o más",
+      typeStreet:"Nombre de la calle en Haarlem:",
       observationLabel:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
-      countHelp:"Introduce una cantidad exacta. Puedes reportar un máximo de 20 ratas por aviso.",
-      consent:"Entiendo que mi reporte es voluntario y no verificado, cubre los últimos 12 meses y se muestra únicamente a nivel de calle.",
+      countHelp:"Indica la cantidad exacta. Puedes comunicar un máximo de 20 ratas por aviso.",
+      consent:"Entiendo que mi aviso es voluntario y no ha sido verificado. Se refiere a los últimos 12 meses y la información se muestra únicamente a nivel de calle.",
       submit:"Registrar avistamiento",
-      searching:"Buscando calle en Haarlem...",
-      sending:"Guardando reporte...",
-      saved:"¡Avistamiento guardado centralmente. Gracias!",
-      notFound:"No se pudo encontrar esta calle en Haarlem. Comprueba la escritura.",
+      searching:"Buscando la calle en Haarlem...",
+      sending:"Guardando el aviso de forma segura...",
+      saved:"Tu avistamiento se ha guardado. ¡Gracias!",
+      notFound:"No se ha encontrado esta calle en Haarlem. Comprueba que el nombre esté escrito correctamente.",
       invalidCount:"Introduce un número entero entre 1 y 20.",
-      storageError:"No se pudo guardar el reporte. Inténtalo más tarde.",
-      duplicateReport:"Ya se ha enviado un reporte desde este navegador. Inténtalo de nuevo en 15 minutos.",
-      loadingReports:"Cargando reportes...",
-      loadError:"No se pudieron cargar los reportes. Intenta abrir el mapa más tarde.",
-      storageNotice:"Los reportes se guardan centralmente y son visibles para todos los visitantes.",
+      storageError:"No se ha podido guardar el aviso. Inténtalo de nuevo más tarde.",
+      duplicateReport:"Ya se ha enviado un aviso recientemente desde este navegador. Vuelve a intentarlo dentro de 15 minutos.",
+      loadingReports:"Cargando avisos...",
+      loadError:"No se han podido cargar los avisos. Intenta abrir el mapa de nuevo más tarde.",
+      storageNotice:"Los avisos se guardan de forma centralizada y están visibles para todos los visitantes.",
       infoTitle:"Sobre esta iniciativa",
-      infoText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
-      info1:"No somos una empresa de control de plagas ni capturamos ratas.",
-      info2:"Presenta siempre un reporte oficial a Spaarnelanden.",
-      info3:"No solicitamos números de casas, nombres ni correos electrónicos.",
-      info4:"No necesitas una cuenta. Abre el correo oficial y registra tu avistamiento.",
-      privacyNotice:"El mapa muestra tendencias generales. Los reportes no son datos municipales oficiales.",
+      infoText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente cuyo objetivo es hacer visible el problema de las ratas en nuestra ciudad.",
+      info1:"No somos una empresa de control de plagas. No capturamos ratas ni nos encargamos de resolver el problema.",
+      info2:"Presenta siempre un aviso oficial a Spaarnelanden. Nuestro mapa no sustituye a una notificación oficial.",
+      info3:"Privacidad: no solicitamos números de vivienda, nombres ni direcciones de correo electrónico. El mapa solo muestra información a nivel de calle.",
+      info4:"No necesitas crear una cuenta. Primero abre el correo oficial y después registra voluntariamente tu avistamiento en nuestro mapa.",
+      privacyNotice:"El mapa tiene como objetivo mostrar tendencias generales. Los avisos no son datos oficiales del ayuntamiento.",
       footerText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
-      popupTotal:"Total de ratas reportadas",
-      popupReports:"Número de reportes",
-      popupNote:"Suma de reportes, no recuento de ratas únicas."
+      popupTotal:"Número total de ratas notificadas",
+      popupReports:"Número de avisos",
+      popupNote:"Es la suma de los avisos, no el número de ratas diferentes."
     }
   };
 
   function tr(key) {
-    return T[currentLang]?.[key] || T.nl[key] || key;
+    return T[currentLang]?.[key] ?? key;
   }
 
   function callAppsScript(params) {
@@ -1212,7 +1278,30 @@ document.addEventListener("DOMContentLoaded", () => {
     $("language").value = currentLang;
 
     document.querySelectorAll("[data-t]").forEach(el => {
-      el.textContent = tr(el.dataset.t);
+      const key = el.dataset.t;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.textContent = translation;
+      }
+    });
+
+    document.querySelectorAll("[data-t-placeholder]").forEach(el => {
+      const key = el.dataset.tPlaceholder;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.placeholder = translation;
+      }
+    });
+
+    document.querySelectorAll("[data-t-aria]").forEach(el => {
+      const key = el.dataset.tAria;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.setAttribute("aria-label", translation);
+      }
     });
 
     updateOfficialEmailLink();
