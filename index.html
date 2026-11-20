@@ -625,12 +625,20 @@
         <p class="muted" id="countHelp" data-t="countHelpRats">Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
       </div>
 
-      <label class="check">
-        <input type="checkbox" id="consent">
-        <span data-t="consent">
-          Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.
-        </span>
-      </label>
+      <div class="check" style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-start">
+        <label class="check" style="margin:0;flex:1 1 280px">
+          <input type="checkbox" id="consent">
+          <span data-t="consent">
+            Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.
+          </span>
+        </label>
+        <label class="check" style="margin:0;flex:1 1 220px">
+          <input type="checkbox" id="truthful">
+          <span data-t="truthful">
+            Ik verklaar dat ik deze melding naar waarheid heb ingevuld.
+          </span>
+        </label>
+      </div>
 
       <div class="actions">
         <button type="button" id="submitReport" disabled data-t="submit">Waarneming registreren</button>
@@ -937,7 +945,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"Straatnaam in Haarlem (zonder huisnummer):",
       observationLabel:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
       countHelp:"Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
-      consent:"Ik begrijp dat mijn melding vrijwillig en niet gecontroleerd is, betrekking heeft op de afgelopen 12 maanden en algemeen op straatniveau wordt weergegeven.",
+      consent:"Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.",
+      truthful:"Ik verklaar dat ik deze melding naar waarheid heb ingevuld.",
       submit:"Waarneming registreren",
       searching:"Straat opzoeken in Haarlem...",
       sending:"Melding veilig opslaan...",
@@ -1026,7 +1035,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"Street name in Haarlem (without house number):",
       observationLabel:"How many rats have you seen in total during the past 12 months?",
       countHelp:"Enter the exact number. You can report a maximum of 20 rats per report.",
-      consent:"I understand that my report is voluntary and has not been verified. It covers the past 12 months and is displayed only at street level.",
+      consent:"I understand that my report is voluntary, is not verified, covers the past 12 months and is displayed at street level.",
+      truthful:"I declare that I have completed this report truthfully.",
       submit:"Register sighting",
       searching:"Looking up the street in Haarlem...",
       sending:"Saving your report securely...",
@@ -1115,7 +1125,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"Haarlem’deki sokak adı (kapı numarası olmadan):",
       observationLabel:"Son 12 ay içinde toplam kaç fare gördünüz?",
       countHelp:"Gördüğünüz farelerin tam sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
-      consent:"Bildirimimin gönüllü olduğunu ve doğrulanmadığını anlıyorum. Bildirimim son 12 ayı kapsar ve haritada yalnızca sokak düzeyinde gösterilir.",
+      consent:"Bildirimimin gönüllü olduğunu, doğrulanmadığını, son 12 ayı kapsadığını ve sokak düzeyinde gösterileceğini anlıyorum.",
+      truthful:"Bu bildirimi doğru bilgilerle doldurduğumu beyan ederim.",
       submit:"Gözlemi kaydet",
       searching:"Haarlem'deki sokak aranıyor...",
       sending:"Bildiriminiz güvenli bir şekilde kaydediliyor...",
@@ -1204,7 +1215,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"اسم الشارع في هارلم (من دون رقم المنزل):",
       observationLabel:"كم جرذاً شاهدت إجمالاً خلال الأشهر الاثني عشر الماضية؟",
       countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 جرذاً كحد أقصى في كل بلاغ.",
-      consent:"أفهم أن تقديم البلاغ طوعي وأن المعلومات لم يتم التحقق منها. ويغطي البلاغ الأشهر الاثني عشر الماضية، ولا تُعرض المعلومات إلا على مستوى الشارع.",
+      consent:"أفهم أن البلاغ طوعي ولم يتم التحقق منه، وأنه يتعلق بالأشهر الاثني عشر الماضية ويُعرض على مستوى الشارع.",
+      truthful:"أُقرّ بأنني ملأت هذا البلاغ بمعلومات صحيحة.",
       submit:"تسجيل المشاهدة",
       searching:"جارٍ البحث عن الشارع في هارلم...",
       sending:"جارٍ حفظ البلاغ بشكل آمن...",
@@ -1293,7 +1305,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"Название улицы в Харлеме (без номера дома):",
       observationLabel:"Сколько всего крыс вы видели за последние 12 месяцев?",
       countHelp:"Укажите точное количество. В одном сообщении можно указать не более 20 крыс.",
-      consent:"Я понимаю, что сообщение является добровольным и не проверяется. Оно относится к последним 12 месяцам, а информация отображается только на уровне улицы.",
+      consent:"Я понимаю, что сообщение является добровольным, не проверяется, относится к последним 12 месяцам и отображается на уровне улицы.",
+      truthful:"Подтверждаю, что заполнил(а) это сообщение правдиво.",
       submit:"Зарегистрировать наблюдение",
       searching:"Поиск улицы в Харлеме...",
       sending:"Сохранение сообщения...",
@@ -1382,7 +1395,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeStreet:"Nombre de la calle en Haarlem (sin número de casa):",
       observationLabel:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
       countHelp:"Indica la cantidad exacta. Puedes comunicar un máximo de 20 ratas por aviso.",
-      consent:"Entiendo que mi aviso es voluntario y no ha sido verificado. Se refiere a los últimos 12 meses y la información se muestra únicamente a nivel de calle.",
+      consent:"Entiendo que mi aviso es voluntario, no se verifica, se refiere a los últimos 12 meses y se muestra a nivel de calle.",
+      truthful:"Declaro que he rellenado este aviso con información veraz.",
       submit:"Registrar avistamiento",
       searching:"Buscando la calle en Haarlem...",
       sending:"Guardando el aviso de forma segura...",
@@ -1828,7 +1842,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const count = Number($("observation").value);
     const validCount =
       Number.isInteger(count) && count >= 1 && count <= 20;
-    const consent = $("consent").checked;
+    const consent = $("consent").checked && $("truthful").checked;
 
     $("submitReport").disabled =
       !hasStreet || !validCount || !consent || isSubmitting;
@@ -1843,7 +1857,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const count = Number($("observation").value);
     const category = $("category").value;
 
-    if (!streetName || !$("consent").checked) return;
+    if (!streetName || !$("consent").checked || !$("truthful").checked) return;
 
     if (!Number.isInteger(count) || count < 1 || count > 20) {
       message.className = "error";
@@ -1918,6 +1932,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       input.value = "";
       $("consent").checked = false;
+      $("truthful").checked = false;
       $("observation").value = "1";
 
     } catch (error) {
@@ -2015,6 +2030,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   $("observation").addEventListener("input", checkSubmitState);
   $("consent").addEventListener("change", checkSubmitState);
+  $("truthful").addEventListener("change", checkSubmitState);
   $("submitReport").addEventListener("click", submitReport);
 
   showPage("report");
