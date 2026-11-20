@@ -595,6 +595,8 @@
           <span class="legend-item"><i class="dot" style="background:#8e44ad"></i><span data-t="band5">40–59 ratten</span></span>
           <span class="legend-item"><i class="dot" style="background:#5b2c83"></i><span data-t="band6">60–99 ratten</span></span>
           <span class="legend-item"><i class="dot" style="background:#000000"></i><span data-t="band7">100 of meer</span></span>
+          <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #777"></i><span data-t="legendDroppings">Witte stip: rattenkeutels</span></span>
+          <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #222;width:16px;height:16px"></i><span data-t="legendBurrows">Grote witte stip: gangen of holen</span></span>
         </div>
       </div>
 
@@ -609,9 +611,18 @@
       </div>
 
       <div class="field">
-        <label for="observation" data-t="observationLabel">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
+        <label for="category" data-t="categoryLabel">Wat wil je melden?</label>
+        <select id="category">
+          <option value="rats" data-t="categoryRats">Ratten gezien (levend of dood)</option>
+          <option value="droppings" data-t="categoryDroppings">Rattenkeutels</option>
+          <option value="burrows" data-t="categoryBurrows">Gangen of holen</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="observation" id="observationLabel" data-t="observationRats">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
         <input type="number" id="observation" min="1" max="20" step="1" value="1" inputmode="numeric">
-        <p class="muted" data-t="countHelp">Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
+        <p class="muted" id="countHelp" data-t="countHelpRats">Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
       </div>
 
       <label class="check">
@@ -863,6 +874,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const T = {
     nl: {
+      categoryLabel:"Wat wil je melden?",
+      categoryRats:"Ratten gezien (levend of dood)",
+      categoryDroppings:"Rattenkeutels",
+      categoryBurrows:"Gangen of holen",
+      observationRats:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
+      observationDroppings:"Hoeveel plekken met rattenkeutels heb je gevonden?",
+      observationBurrows:"Hoeveel gangen of holen heb je gevonden?",
+      countHelpRats:"Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.",
+      countHelpDroppings:"Tel vindplaatsen met keutels van ongeveer 1,5 tot 2 cm lang. Kleine muizenkeutels tellen niet mee. Maximaal 20 vindplaatsen per melding.",
+      countHelpBurrows:"Tel openingen van ongeveer 5 cm of groter. Kleinere muizenholletjes tellen niet mee. Maximaal 20 openingen per melding.",
+      legendDroppings:"Witte stip: rattenkeutels",
+      legendBurrows:"Grote witte stip: gangen of holen",
+      popupCategoryRats:"Ratten gezien (levend of dood)",
+      popupCategoryDroppings:"Rattenkeutels",
+      popupCategoryBurrows:"Gangen of holen",
+      popupCount:"Aantal gemeld",
       languageLabel:"Taal kiezen",
       navigationLabel:"Hoofdnavigatie",
       mapAria:"Kaart met rattenwaarnemingen per straat",
@@ -936,6 +963,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     en: {
+      categoryLabel:"What would you like to report?",
+      categoryRats:"Rats seen (alive or dead)",
+      categoryDroppings:"Rat droppings",
+      categoryBurrows:"Burrows or holes",
+      observationRats:"How many rats have you seen in total during the past 12 months?",
+      observationDroppings:"How many places with rat droppings have you found?",
+      observationBurrows:"How many burrows or holes have you found?",
+      countHelpRats:"Enter the number of rats. You can report a maximum of 20 rats per report.",
+      countHelpDroppings:"Count locations with droppings about 1.5 to 2 cm long. Do not count smaller mouse droppings. Maximum 20 locations per report.",
+      countHelpBurrows:"Count openings about 5 cm wide or larger. Do not count smaller mouse holes. Maximum 20 openings per report.",
+      legendDroppings:"White dot: rat droppings",
+      legendBurrows:"Larger white dot: burrows or holes",
+      popupCategoryRats:"Rats seen (alive or dead)",
+      popupCategoryDroppings:"Rat droppings",
+      popupCategoryBurrows:"Burrows or holes",
+      popupCount:"Number reported",
       languageLabel:"Choose language",
       navigationLabel:"Main navigation",
       mapAria:"Map showing reported rat sightings by street",
@@ -1009,6 +1052,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     tr: {
+      categoryLabel:"Ne bildirmek istiyorsunuz?",
+      categoryRats:"Görülen fareler (canlı veya ölü)",
+      categoryDroppings:"Fare dışkısı",
+      categoryBurrows:"Tüneller veya delikler",
+      observationRats:"Son 12 ayda toplam kaç fare gördünüz?",
+      observationDroppings:"Fare dışkısı bulunan kaç yer tespit ettiniz?",
+      observationBurrows:"Kaç tünel veya delik buldunuz?",
+      countHelpRats:"Fare sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
+      countHelpDroppings:"Yaklaşık 1,5–2 cm uzunluğundaki dışkı bulunan yerleri sayın. Daha küçük fare dışkılarını saymayın. Her bildirimde en fazla 20 yer.",
+      countHelpBurrows:"Yaklaşık 5 cm veya daha geniş açıklıkları sayın. Daha küçük fare deliklerini saymayın. Her bildirimde en fazla 20 açıklık.",
+      legendDroppings:"Beyaz nokta: fare dışkısı",
+      legendBurrows:"Büyük beyaz nokta: tüneller veya delikler",
+      popupCategoryRats:"Görülen fareler (canlı veya ölü)",
+      popupCategoryDroppings:"Fare dışkısı",
+      popupCategoryBurrows:"Tüneller veya delikler",
+      popupCount:"Bildirilen sayı",
       languageLabel:"Dil seçin",
       navigationLabel:"Ana menü",
       mapAria:"Sokaklara göre fare gözlemlerini gösteren harita",
@@ -1082,6 +1141,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     ar: {
+      categoryLabel:"ما الذي تريد الإبلاغ عنه؟",
+      categoryRats:"جرذان شوهدت (حية أو ميتة)",
+      categoryDroppings:"فضلات الجرذان",
+      categoryBurrows:"جحور أو فتحات",
+      observationRats:"كم جرذاً شاهدت إجمالاً خلال الأشهر الاثني عشر الماضية؟",
+      observationDroppings:"كم موقعاً وجدت فيه فضلات جرذان؟",
+      observationBurrows:"كم جحراً أو فتحة وجدت؟",
+      countHelpRats:"أدخل عدد الجرذان. يمكنك الإبلاغ عن 20 جرذاً كحد أقصى في كل بلاغ.",
+      countHelpDroppings:"احسب المواقع التي توجد فيها فضلات بطول نحو 1.5 إلى 2 سم. لا تحتسب فضلات الفئران الأصغر. الحد الأقصى 20 موقعاً في البلاغ.",
+      countHelpBurrows:"احسب الفتحات التي يبلغ عرضها نحو 5 سم أو أكثر. لا تحتسب فتحات الفئران الأصغر. الحد الأقصى 20 فتحة في البلاغ.",
+      legendDroppings:"نقطة بيضاء: فضلات الجرذان",
+      legendBurrows:"نقطة بيضاء أكبر: جحور أو فتحات",
+      popupCategoryRats:"جرذان شوهدت (حية أو ميتة)",
+      popupCategoryDroppings:"فضلات الجرذان",
+      popupCategoryBurrows:"جحور أو فتحات",
+      popupCount:"العدد المُبلّغ عنه",
       languageLabel:"اختر اللغة",
       navigationLabel:"القائمة الرئيسية",
       mapAria:"خريطة تعرض بلاغات مشاهدة الجرذان حسب الشارع",
@@ -1155,6 +1230,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     ru: {
+      categoryLabel:"О чём вы хотите сообщить?",
+      categoryRats:"Замечены крысы (живые или мёртвые)",
+      categoryDroppings:"Крысиный помёт",
+      categoryBurrows:"Норы или отверстия",
+      observationRats:"Сколько всего крыс вы видели за последние 12 месяцев?",
+      observationDroppings:"В скольких местах вы обнаружили крысиный помёт?",
+      observationBurrows:"Сколько нор или отверстий вы обнаружили?",
+      countHelpRats:"Укажите количество крыс. В одном сообщении можно указать не более 20 крыс.",
+      countHelpDroppings:"Учитывайте места с помётом длиной примерно 1,5–2 см. Более мелкий мышиный помёт не учитывайте. Не более 20 мест в одном сообщении.",
+      countHelpBurrows:"Учитывайте отверстия шириной примерно 5 см или больше. Более мелкие мышиные норы не учитывайте. Не более 20 отверстий в одном сообщении.",
+      legendDroppings:"Белая точка: крысиный помёт",
+      legendBurrows:"Большая белая точка: норы или отверстия",
+      popupCategoryRats:"Замечены крысы (живые или мёртвые)",
+      popupCategoryDroppings:"Крысиный помёт",
+      popupCategoryBurrows:"Норы или отверстия",
+      popupCount:"Указанное количество",
       languageLabel:"Выберите язык",
       navigationLabel:"Главное меню",
       mapAria:"Карта сообщений о крысах по улицам",
@@ -1228,6 +1319,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     es: {
+      categoryLabel:"¿Qué quieres comunicar?",
+      categoryRats:"Ratas vistas (vivas o muertas)",
+      categoryDroppings:"Excrementos de rata",
+      categoryBurrows:"Madrigueras o agujeros",
+      observationRats:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
+      observationDroppings:"¿En cuántos lugares has encontrado excrementos de rata?",
+      observationBurrows:"¿Cuántas madrigueras o agujeros has encontrado?",
+      countHelpRats:"Indica el número de ratas. Puedes comunicar un máximo de 20 ratas por aviso.",
+      countHelpDroppings:"Cuenta los lugares con excrementos de unos 1,5 a 2 cm de largo. No cuentes los excrementos más pequeños de ratón. Máximo 20 lugares por aviso.",
+      countHelpBurrows:"Cuenta las aberturas de unos 5 cm de ancho o más. No cuentes los agujeros más pequeños de ratón. Máximo 20 aberturas por aviso.",
+      legendDroppings:"Punto blanco: excrementos de rata",
+      legendBurrows:"Punto blanco más grande: madrigueras o agujeros",
+      popupCategoryRats:"Ratas vistas (vivas o muertas)",
+      popupCategoryDroppings:"Excrementos de rata",
+      popupCategoryBurrows:"Madrigueras o agujeros",
+      popupCount:"Cantidad comunicada",
       languageLabel:"Seleccionar idioma",
       navigationLabel:"Menú principal",
       mapAria:"Mapa de avistamientos de ratas por calle",
@@ -1417,6 +1524,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const lng = Number(report.lng);
         const count = Number(report.count);
         const reportDate = new Date(report.date);
+        const category = ["rats", "droppings", "burrows"].includes(report.category)
+          ? report.category
+          : "rats";
 
         if (report.kind !== "exact12m") return;
 
@@ -1433,13 +1543,14 @@ document.addEventListener("DOMContentLoaded", () => {
           reportDate < twelveMonthsAgo
         ) return;
 
-        const key = normalizeStreet(name);
+        const key = normalizeStreet(name) + "|" + category;
 
         if (!grouped.has(key)) {
           grouped.set(key, {
             name,
             lat,
             lng,
+            category,
             total: count,
             reports: 1
           });
@@ -1496,6 +1607,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateOfficialEmailLink();
+    updateReportLabels();
 
     if (markersLayer) renderMapMarkers();
   }
@@ -1522,36 +1634,55 @@ document.addEventListener("DOMContentLoaded", () => {
     markersLayer.clearLayers();
 
     streets.forEach(street => {
+      // Ratten blijven kleurgecodeerd. Keutels en holen krijgen witte stippen.
+      const isRats = street.category === "rats";
+      const markerLat = street.lat;
+      const markerLng = street.lng + (
+        street.category === "droppings" ? -0.00012 :
+        street.category === "burrows" ? 0.00012 : 0
+      );
       const marker = L.circleMarker(
-        [street.lat, street.lng],
+        [markerLat, markerLng],
         {
-          radius: 11,
-          fillColor: getMarkerColor(street.total),
-          color: "#ffffff",
-          weight: 2.5,
+          radius: isRats ? 11 : (street.category === "burrows" ? 10 : 7),
+          fillColor: isRats ? getMarkerColor(street.total) : "#ffffff",
+          color: isRats ? "#ffffff" : (street.category === "burrows" ? "#222222" : "#777777"),
+          weight: isRats ? 2.5 : 2,
           opacity: 1,
-          fillOpacity: .94
+          fillOpacity: .98
         }
       );
 
       const popup = document.createElement("div");
+      const categoryKey = street.category === "droppings"
+        ? "popupCategoryDroppings"
+        : street.category === "burrows"
+          ? "popupCategoryBurrows"
+          : "popupCategoryRats";
 
       const title = document.createElement("strong");
       title.textContent = street.name;
 
-      const total = document.createElement("p");
-      total.textContent = tr("popupTotal") + ": " + street.total;
+      const category = document.createElement("p");
+      category.textContent = tr(categoryKey);
 
-      const band = document.createElement("p");
-      band.textContent = getColorBand(street.total);
+      const total = document.createElement("p");
+      total.textContent = tr("popupCount") + ": " + street.total;
 
       const reports = document.createElement("p");
       reports.textContent = tr("popupReports") + ": " + street.reports;
 
-      const explanation = document.createElement("small");
-      explanation.textContent = tr("popupNote");
+      popup.append(title, category, total, reports);
 
-      popup.append(title, total, band, reports, explanation);
+      if (isRats) {
+        const band = document.createElement("p");
+        band.textContent = getColorBand(street.total);
+        popup.appendChild(band);
+        const explanation = document.createElement("small");
+        explanation.textContent = tr("popupNote");
+        popup.appendChild(explanation);
+      }
+
       marker.bindPopup(popup);
       markersLayer.addLayer(marker);
     });
@@ -1660,6 +1791,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
+  function updateReportLabels() {
+    const category = $("category").value || "rats";
+    const labelKey = category === "droppings"
+      ? "observationDroppings"
+      : category === "burrows"
+        ? "observationBurrows"
+        : "observationRats";
+    const helpKey = category === "droppings"
+      ? "countHelpDroppings"
+      : category === "burrows"
+        ? "countHelpBurrows"
+        : "countHelpRats";
+
+    $("observationLabel").textContent = tr(labelKey);
+    $("countHelp").textContent = tr(helpKey);
+  }
+
   function checkSubmitState() {
     const hasStreet = $("streetInput").value.trim().length > 0;
     const count = Number($("observation").value);
@@ -1678,6 +1826,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = $("submitMessage");
     const streetName = input.value.trim();
     const count = Number($("observation").value);
+    const category = $("category").value;
 
     if (!streetName || !$("consent").checked) return;
 
@@ -1716,6 +1865,7 @@ document.addEventListener("DOMContentLoaded", () => {
         action: "add",
         street: streetInfo.name,
         count: String(count),
+        category: category,
         lat: String(streetInfo.lat),
         lng: String(streetInfo.lng),
         deviceId: deviceId
@@ -1844,6 +1994,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("streetInput").addEventListener("input", checkSubmitState);
+  $("category").addEventListener("change", () => {
+    updateReportLabels();
+    checkSubmitState();
+  });
   $("observation").addEventListener("input", checkSubmitState);
   $("consent").addEventListener("change", checkSubmitState);
   $("submitReport").addEventListener("click", submitReport);
