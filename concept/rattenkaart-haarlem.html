@@ -595,6 +595,37 @@
     [dir="rtl"] .notice{border-right-color:#A7663A}
     @media(max-width:700px){.rvh-brand-row{flex-direction:column;align-items:center}.rvh-brand{flex-direction:column;text-align:center;gap:10px}.rvh-brand img{width:84px;height:84px}.rvh-brand small{max-width:340px}.rvh-brand-row .lang-bar{width:100%;justify-content:center}.nav{padding-top:12px}}
 
+  
+/* Vormgeving gelijk aan de nieuwe homepage van Rattenvanger van Haarlem */
+:root{--red:#c62835;--red-dark:#a51f2b;--cream:#f5f7fa;--paper:#fff;--ink:#172b43;--muted:#536579;--green:#28794d;--line:#dbe3ec;--soft:#edf3f9;font-family:Arial,Helvetica,sans-serif}
+body{background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+section{border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px rgba(21,59,103,.06)}
+h1,h2,h3,h4{color:var(--blue,#153b67);letter-spacing:-.35px}
+.rvh-header{background:#fff;border-bottom:1px solid var(--line);padding:16px 0 12px}
+.rvh-brand img{border:4px solid #fff;box-shadow:0 3px 14px rgba(21,59,103,.14)}
+.rvh-brand strong{color:#153b67}
+.rvh-brand small{color:#536579}
+.legacy-tabs{gap:9px;padding:14px 0 20px;border-bottom:1px solid var(--line)}
+.legacy-tabs button{background:#fff;color:#153b67;border:1px solid #dbe3ec;border-radius:9px;padding:10px 16px;font-weight:700}
+.legacy-tabs button:hover:not(:disabled){background:#edf3f9;color:#153b67;border-color:#b7c8dc;transform:none;box-shadow:none}
+.legacy-tabs button[aria-current=page]{background:#153b67;color:#fff;border-color:#153b67}
+.choice-panel-full,.choice-panel{background:#fff;border:2px solid #c62835}
+.choice-official{border-color:#c62835}
+.choice-map{border-color:#153b67}
+.choice-number,.rules-number{background:#153b67}
+.choice-button{background:#153b67}
+.choice-button:hover:not(:disabled){background:#24588d}
+.notice{background:#edf3f9;border:1px solid #dbe3ec;border-left:4px solid #c62835;color:#172b43}
+[dir=rtl] .notice{border-right:4px solid #c62835}
+.hotspot-panel{background:#fff;border:2px solid #c62835;box-shadow:0 4px 18px rgba(21,59,103,.06)}
+.legend-box{background:#f5f7fa;border:1px solid #dbe3ec}
+.primary,button{border-radius:9px}
+.primary{background:#c62835}
+.primary:hover{background:#a51f2b}
+.field input,.field select,.mail-form-grid input,.mail-form-grid textarea{border-color:#cbd7e3;border-radius:9px}
+footer{border-top:1px solid #dbe3ec}
+@media(max-width:700px){.rvh-header{padding:12px 0}.legacy-tabs{justify-content:stretch}.legacy-tabs button{flex:1 1 auto}}
+
   </style>
 </head>
 
@@ -2294,7 +2325,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("truthful").addEventListener("change", checkSubmitState);
   $("submitReport").addEventListener("click", submitReport);
 
-  showPage("report");
+  const requestedPage = new URLSearchParams(window.location.search).get("page");
+  showPage(requestedPage === "map" ? "map" : "report");
   checkSubmitState();
 });
 </script>
