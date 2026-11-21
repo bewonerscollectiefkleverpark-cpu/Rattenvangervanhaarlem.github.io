@@ -2268,7 +2268,7 @@ document.addEventListener("DOMContentLoaded", () => {
       line(tr("mailSeenLine"),"seen"),
       line(tr("mailDateLine"),"date"),"",
       tr("mailRequest"),"",tr("mailRegards")
-    ].join("\\r\\n");
+    ].join("\r\n");
     const href = "mailto:info@spaarnelanden.nl?subject=" + encodeURIComponent(tr("mailSubject")) + "&body=" + encodeURIComponent(body);
     window.location.href = href;
   });
