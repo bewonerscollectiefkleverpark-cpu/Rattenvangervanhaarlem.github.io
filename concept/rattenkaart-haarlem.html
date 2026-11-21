@@ -19,15 +19,15 @@
   <style>
     :root {
       color-scheme: light;
-      --red: #a94338;
-      --red-dark: #87352d;
-      --cream: #f6f4ef;
+      --red: #D12435;
+      --red-dark: #9e1b2b;
+      --cream: #f5f8fc;
       --paper: #ffffff;
       --ink: #292c29;
       --muted: #72766f;
-      --green: #687b60;
-      --line: #e8e4dc;
-      --soft: #f2eee6;
+      --green: #A7663A;
+      --line: #dce6f0;
+      --soft: #edf4fb;
       font-family: 'Montserrat', sans-serif;
     }
 
@@ -104,7 +104,7 @@
     }
 
     #language:focus {
-      outline: 3px solid rgba(169,67,56,.18);
+      outline: 3px solid rgba(209,36,53,.18);
       outline-offset: 2px;
     }
 
@@ -286,7 +286,7 @@
     .choice-panel > h3 { margin:0 0 17px; text-align:center; font-size:clamp(20px,3vw,25px); font-weight:800; }
     .choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
     .choice-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:10px; border:2px solid var(--line); border-radius:14px; background:#fff; padding:20px; }
-    .choice-official { border-color:#a94338; }
+    .choice-official { border-color:#D12435; }
     .choice-map { border-color:#687b60; }
     .choice-number { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; color:white; background:var(--ink); font-size:18px; font-weight:800; }
     .choice-card > strong { font-size:15px; line-height:1.4; font-weight:800; }
@@ -368,7 +368,7 @@
     .field input:focus, .field select:focus {
       outline: none;
       border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(169,67,56,.10);
+      box-shadow: 0 0 0 3px rgba(209,36,53,.10);
     }
 
     .check {
@@ -561,49 +561,63 @@
       body.printing .poster-card.print-target img { display:block !important; width:100% !important; height:245mm !important; max-width:196mm !important; max-height:245mm !important; object-fit:contain !important; border:0 !important; border-radius:0 !important; background:#fff !important; }
     }
 
+  
+    .rvh-header{padding:22px 0 12px}
+    .rvh-brand-row{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1120px;margin:0 auto}
+    .rvh-brand{display:flex;align-items:center;gap:20px;text-decoration:none;min-width:0}
+    .rvh-brand img{width:92px;height:92px;object-fit:cover;border-radius:50%;border:4px solid #fff;box-shadow:0 4px 18px #172b4420}
+    .rvh-brand strong{display:block;font-size:clamp(1.65rem,3.8vw,2.55rem);line-height:1.15;letter-spacing:-.7px;color:var(--ink)}
+    .rvh-brand small{display:block;margin-top:10px;color:var(--muted);font-size:.98rem;line-height:1.5}
+    .rvh-brand-row .lang-bar{width:auto;flex:0 0 auto}
+    .nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:14px 0 18px;border-bottom:1px solid var(--line)}
+    .nav a{padding:9px 14px;border:1px solid #d7e3ef;border-radius:28px;text-decoration:none;font-weight:700;font-size:.84rem;background:#fff;color:var(--ink)}
+    .nav a:hover,.nav a[aria-current=page]{background:#D12435;color:#fff;border-color:#D12435}
+    .legacy-tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:16px 0 22px}
+    .legacy-tabs button{border-radius:28px;background:#eaf2fb;color:#263b52;border:1px solid #cbdced;font-size:.86rem;padding:10px 16px}
+    .legacy-tabs button[aria-current=page]{background:#A5C9ED;color:#1c2d42;border-color:#A5C9ED}
+    .choice-panel-full{border-color:#D12435;background:#fff8f8}
+    .choice-official{border-color:#D12435}
+    .choice-map{border-color:#A5C9ED}
+    .notice{border-left-color:#A7663A}
+    [dir="rtl"] .notice{border-right-color:#A7663A}
+    @media(max-width:700px){.rvh-brand-row{flex-direction:column;align-items:center}.rvh-brand{flex-direction:column;text-align:center;gap:10px}.rvh-brand img{width:84px;height:84px}.rvh-brand small{max-width:340px}.rvh-brand-row .lang-bar{width:100%;justify-content:center}.nav{padding-top:12px}}
+
   </style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <header>
+  <header class="rvh-header">
+  <div class="rvh-brand-row">
+    <a class="rvh-brand" href="index.html">
+      <img src="../IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem">
+      <span><strong>Rattenvanger van Haarlem</strong><small>Het onafhankelijke bewonersmeldpunt voor rattenoverlast</small></span>
+    </a>
     <div class="lang-bar">
       <select id="language" aria-label="Choose language" data-t-aria="languageLabel">
-        <option value="nl">🌐 Nederlands</option>
-        <option value="tr">🌐 Türkçe</option>
-        <option value="ar">🌐 العربية</option>
-        <option value="ru">🌐 Русский</option>
-        <option value="es">🌐 Español</option>
-        <option value="en">🌐 English</option>
+        <option value="nl">🌐 Nederlands</option><option value="tr">🌐 Türkçe</option><option value="ar">🌐 العربية</option><option value="ru">🌐 Русский</option><option value="es">🌐 Español</option><option value="en">🌐 English</option>
       </select>
     </div>
-
-    <div class="logo-card">
-      <img src="../IMG_0106.PNG"
-        alt="Rond logo Rattenvanger van Haarlem"
-        onerror="this.onerror=null;this.style.display='none';">
-    </div>
-
-    <div class="title-card">
-      <h1>Rattenvanger van Haarlem</h1>
-      <p data-t="subtitle">Zie je een rat? Meld het hier!</p>
-
-      <div class="rat-runway" aria-hidden="true">
-        <span class="running-rat rat-one">🐀</span>
-        <span class="running-rat rat-two">🐀</span>
-        <span class="running-rat rat-three">🐀</span>
-      </div>
-    </div>
-  </header>
-
-  <nav aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
-    <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
-    <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
-    <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
-    <button type="button" data-page="info" data-t="info">Informatie</button>
-    <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
-  </nav>
+  </div>
+</header>
+<nav class="nav wrap" aria-label="Hoofdnavigatie">
+<a href="index.html">Home</a>
+<a href="rattenkaart-haarlem.html">Melden & rattenkaart</a>
+<a href="ratten-in-de-tuin.html">Ratten in de tuin</a>
+<a href="rattenkeutels-herkennen.html">Keutels & holen</a>
+<a href="ratten-en-het-riool.html">Ratten en riool</a>
+<a href="veelgestelde-vragen.html">Veelgestelde vragen</a>
+<a href="over-het-initiatief.html">Over het initiatief</a>
+<a href="start-een-meldpunt.html">Start lokaal meldpunt</a>
+</nav>
+<nav class="legacy-tabs" aria-label="Meld- en kaartonderdelen" data-t-aria="navigationLabel">
+  <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
+  <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
+  <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
+  <button type="button" data-page="info" data-t="info">Informatie</button>
+  <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
+</nav>
 
   <main>
 
