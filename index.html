@@ -528,6 +528,7 @@
   <nav aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
     <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
     <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
+    <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
     <button type="button" data-page="info" data-t="info">Informatie</button>
     <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
   </nav>
@@ -687,6 +688,24 @@
           <img src="-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
           <button type="button" class="print-poster" data-print-poster="3" data-t="printPoster">Print deze poster</button>
         </article>
+      </div>
+    </section>
+
+    <section id="page-rules" class="hidden">
+      <h2 data-t="rulesTitle">Leefregels: houd ratten weg!</h2>
+      <p data-t="rulesIntro">Ratten kunnen ziektekiemen verspreiden. Via hun urine, keutels en besmet voedsel kunnen mensen ziek worden. Houd daarom samen de buurt schoon.</p>
+      <ul class="info-list">
+        <li data-t="rule1">Gooi geen brood of eten op straat. Ratten eten het ook.</li>
+        <li data-t="rule2">Voer geen vogels op de grond. Ratten komen op het voer af.</li>
+        <li data-t="rule3">Laat geen etensresten of dierenvoer buiten liggen.</li>
+        <li data-t="rule4">Gooi afval in de afvalbak.</li>
+        <li data-t="rule5">Ruim rommel en houtstapels op. Ratten verstoppen zich daar graag.</li>
+        <li data-t="rule6">Maak gaten en kieren dicht, zodat ratten niet naar binnen kunnen.</li>
+      </ul>
+      <div class="notice">
+        <strong data-t="rulesReportTitle">Zie je ratten? Meld het bij Spaarnelanden.</strong>
+        <p data-t="rulesReportExplain">Bovenaan deze pagina staat de knop ‘Mail Spaarnelanden’. Klik daarop om een officiële melding te doen. Volg de uitleg op die pagina.</p>
+        <button type="button" id="rulesReportButton" data-t="rulesReportButton">Naar Mail Spaarnelanden</button>
       </div>
     </section>
 
@@ -1422,6 +1441,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  Object.entries({"nl":{"rules":"Leefregels tegen ratten","rulesTitle":"Leefregels: houd ratten weg!","rulesIntro":"Ratten kunnen ziektekiemen verspreiden. Via hun urine, keutels en besmet voedsel kunnen mensen ziek worden. Houd daarom samen de buurt schoon.","rule1":"Gooi geen brood of eten op straat. Ratten eten het ook.","rule2":"Voer geen vogels op de grond. Ratten komen op het voer af.","rule3":"Laat geen etensresten of dierenvoer buiten liggen.","rule4":"Gooi afval in de afvalbak.","rule5":"Ruim rommel en houtstapels op. Ratten verstoppen zich daar graag.","rule6":"Maak gaten en kieren dicht, zodat ratten niet naar binnen kunnen.","rulesReportTitle":"Zie je ratten? Meld het bij Spaarnelanden.","rulesReportExplain":"Bovenaan deze pagina staat de knop ‘Mail Spaarnelanden’. Klik daarop om een officiële melding te doen. Volg de uitleg op die pagina.","rulesReportButton":"Naar Mail Spaarnelanden"},"en":{"rules":"Rat prevention rules","rulesTitle":"Simple rules: keep rats away!","rulesIntro":"Rats can spread germs. People can become ill through contact with rat urine, droppings or contaminated food. Help keep the neighbourhood clean.","rule1":"Do not throw bread or food onto the street. Rats eat it too.","rule2":"Do not feed birds on the ground. Rats are attracted to the food.","rule3":"Do not leave food scraps or pet food outside.","rule4":"Put rubbish in the bin.","rule5":"Clear away clutter and piles of wood. Rats hide there.","rule6":"Seal holes and gaps so rats cannot get inside.","rulesReportTitle":"Seen rats? Report them to Spaarnelanden.","rulesReportExplain":"At the top of this page, find the ‘Email Spaarnelanden’ button. Click it to make an official report and follow the instructions.","rulesReportButton":"Go to Email Spaarnelanden"},"tr":{"rules":"Farelardan korunma kuralları","rulesTitle":"Basit kurallar: Fareları uzak tutun!","rulesIntro":"Fareler mikrop yayabilir. İdrarları, dışkıları veya kirlettikleri yiyecekler insanları hasta edebilir. Mahallemizi temiz tutalım.","rule1":"Sokağa ekmek veya yiyecek atmayın. Fareler de bunları yer.","rule2":"Yerde kuşları beslemeyin. Yiyecekler fareleri çeker.","rule3":"Yiyecek artıklarını veya hayvan yemlerini dışarıda bırakmayın.","rule4":"Çöpleri çöp kutusuna atın.","rule5":"Dağınıklığı ve odun yığınlarını kaldırın. Fareler buralarda saklanır.","rule6":"Farelerin içeri girmemesi için delikleri ve aralıkları kapatın.","rulesReportTitle":"Fare gördünüz mü? Spaarnelanden’e bildirin.","rulesReportExplain":"Sayfanın üst kısmındaki ‘Spaarnelanden’e e-posta gönder’ düğmesine tıklayın. Resmî bildirim için yönergeleri izleyin.","rulesReportButton":"Spaarnelanden’e e-posta gönder"},"ar":{"rules":"قواعد للوقاية من الجرذان","rulesTitle":"قواعد بسيطة لإبعاد الجرذان","rulesIntro":"يمكن أن تنقل الجرذان الجراثيم. وقد يمرض الناس بسبب بولها أو فضلاتها أو الطعام الملوث. حافظوا معاً على نظافة الحي.","rule1":"لا ترموا الخبز أو الطعام في الشارع. فالجرذان تأكله أيضاً.","rule2":"لا تطعموا الطيور على الأرض. فالطعام يجذب الجرذان.","rule3":"لا تتركوا بقايا الطعام أو طعام الحيوانات في الخارج.","rule4":"ضعوا النفايات في حاوية القمامة.","rule5":"أزيلوا الفوضى وأكوام الخشب؛ فالجرذان تختبئ فيها.","rule6":"أغلقوا الثقوب والشقوق حتى لا تدخل الجرذان.","rulesReportTitle":"هل رأيتم جرذاناً؟ أبلغوا Spaarnelanden.","rulesReportExplain":"يوجد أعلى الصفحة زر «راسل سبارنيلاندن». اضغطوا عليه لتقديم بلاغ رسمي واتبعوا التعليمات.","rulesReportButton":"مراسلة Spaarnelanden"},"ru":{"rules":"Правила профилактики крыс","rulesTitle":"Простые правила: не привлекайте крыс!","rulesIntro":"Крысы могут распространять микробы. Люди могут заболеть при контакте с их мочой, помётом или заражённой едой. Поддерживайте чистоту вместе.","rule1":"Не бросайте хлеб и еду на улицу. Крысы тоже этим питаются.","rule2":"Не кормите птиц на земле. Еда привлекает крыс.","rule3":"Не оставляйте на улице остатки еды и корм для животных.","rule4":"Выбрасывайте мусор в контейнер.","rule5":"Убирайте хлам и штабеля дров. Там прячутся крысы.","rule6":"Заделывайте отверстия и щели, чтобы крысы не проникали внутрь.","rulesReportTitle":"Увидели крыс? Сообщите в Spaarnelanden.","rulesReportExplain":"Вверху страницы есть кнопка «Написать в Spaarnelanden». Нажмите её, чтобы отправить официальное сообщение, и следуйте инструкциям.","rulesReportButton":"Написать в Spaarnelanden"},"es":{"rules":"Normas para prevenir las ratas","rulesTitle":"Normas sencillas: ¡mantén alejadas a las ratas!","rulesIntro":"Las ratas pueden transmitir microbios. Las personas pueden enfermar por contacto con su orina, sus excrementos o alimentos contaminados. Mantengamos limpio el barrio.","rule1":"No tires pan ni comida a la calle. Las ratas también se la comen.","rule2":"No alimentes a los pájaros en el suelo. La comida atrae a las ratas.","rule3":"No dejes restos de comida ni pienso de animales fuera.","rule4":"Tira la basura al contenedor.","rule5":"Retira los trastos y las pilas de madera. Las ratas se esconden allí.","rule6":"Tapa los agujeros y las grietas para impedir que entren las ratas.","rulesReportTitle":"¿Has visto ratas? Comunícalo a Spaarnelanden.","rulesReportExplain":"En la parte superior de esta página está el botón «Enviar un correo a Spaarnelanden». Púlsalo para presentar un aviso oficial y sigue las instrucciones.","rulesReportButton":"Enviar un correo a Spaarnelanden"}}).forEach(([language, translations]) => Object.assign(T[language], translations));
+
+
   function tr(key) {
     return T[currentLang]?.[key] ?? T.nl[key] ?? key;
   }
@@ -1731,7 +1753,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function showPage(pageName) {
-    ["report", "map", "info", "posters"].forEach(name => {
+    ["report", "map", "rules", "info", "posters"].forEach(name => {
       $("page-" + name).classList.toggle("hidden", name !== pageName);
     });
 
@@ -2027,6 +2049,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
+  $("rulesReportButton").addEventListener("click", () => showPage("report"));
 
   $("returned").addEventListener("change", () => {
     $("unlockButton").disabled = !$("returned").checked;
