@@ -268,6 +268,21 @@
       margin-top: 20px;
     }
 
+    .choice-panel { background:#fffaf5; border:3px solid var(--red); border-radius:18px; padding:clamp(18px,3vw,28px); margin:22px 0 26px; box-shadow:0 5px 18px rgba(80,40,30,.08); }
+    .choice-panel > h3 { margin:0 0 17px; text-align:center; font-size:clamp(20px,3vw,25px); font-weight:800; }
+    .choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .choice-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:10px; border:2px solid var(--line); border-radius:14px; background:#fff; padding:20px; }
+    .choice-official { border-color:#a94338; }
+    .choice-map { border-color:#687b60; }
+    .choice-number { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; color:white; background:var(--ink); font-size:18px; font-weight:800; }
+    .choice-card > strong { font-size:15px; line-height:1.4; font-weight:800; }
+    .choice-card p { margin:0 0 5px; }
+    .choice-card .primary, .choice-button { margin-top:auto; }
+    .choice-button { background:var(--green); color:white; border-radius:12px; padding:13px 20px; font-weight:800; }
+    .choice-button:hover:not(:disabled) { background:#52654b; }
+    .choice-bottom { margin:18px 0 0; padding-top:14px; border-top:1px solid #eadbd2; font-weight:600; }
+    @media(max-width:650px) { .choice-grid { grid-template-columns:1fr; } .choice-card { padding:17px; } }
+
     .hidden { display: none !important; }
 
     #map {
@@ -536,16 +551,26 @@
   <main>
 
     <section id="page-report">
-      <h2 data-t="reportTitle">Een rat gezien?</h2>
-      <p data-t="reportIntro">Help mee om rattenoverlast in Haarlem in kaart te brengen.</p>
+      <h2 data-t="reportTitle">Zie je een rat? Meld het hier!</h2>
+      <p data-t="reportIntro"><strong>Deze pagina helpt je op twee manieren:</strong> vraag gratis hulp aan via Spaarnelanden of maak rattenoverlast zichtbaar op onze rattenkaart.</p>
 
-      <div class="notice">
-        <strong data-t="officialFirst">Doe eerst zelf een officiële melding bij Spaarnelanden.</strong>
-        <p data-t="officialExplain">Open het onderstaande meldformulier in je e-mailprogramma, vul het in en verstuur de e-mail zelf.</p>
-
-        <a class="primary" id="officialLink"
-          href="mailto:info@spaarnelanden.nl"
-          data-t="openEmail">E-mail met meldformulier openen</a>
+      <div class="choice-panel">
+        <h3 data-t="choiceTitle">Twee meldknoppen, twee verschillende doelen</h3>
+        <div class="choice-grid">
+          <div class="choice-card choice-official">
+            <span class="choice-number">1</span>
+            <strong data-t="choiceOfficialTitle">OFFICIËLE MELDING – GRATIS HULP</strong>
+            <p data-t="choiceOfficialText">Wil je dat er actie wordt ondernomen? Mail Spaarnelanden. Zij schakelen Anticimex in. Anticimex neemt contact met je op en komt gratis bij je langs.</p>
+            <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl" data-t="openEmail">Mail Spaarnelanden</a>
+          </div>
+          <div class="choice-card choice-map">
+            <span class="choice-number">2</span>
+            <strong data-t="choiceMapTitle">MELDING OP ONZE RATTENKAART</strong>
+            <p data-t="choiceMapText">Laat buurtbewoners zien waar je ratten, rattenkeutels of rattenholen hebt waargenomen. Je melding wordt zichtbaar op onze kaart. Dit is géén officiële melding en regelt geen hulp.</p>
+            <button type="button" class="choice-button" id="mapChoiceButton" data-t="choiceMapButton">Meld op de rattenkaart</button>
+          </div>
+        </div>
+        <p class="choice-bottom" data-t="choiceBottom"><strong>Ons advies:</strong> gebruik beide knoppen. Mail Spaarnelanden voor gratis hulp én meld je waarneming op de kaart, zodat heel Haarlem zicht krijgt op de hotspots.</p>
       </div>
 
       <div class="notice official-route">
@@ -1444,6 +1469,16 @@ document.addEventListener("DOMContentLoaded", () => {
   Object.entries({"nl":{"rules":"Leefregels tegen ratten","rulesTitle":"Leefregels: houd ratten weg!","rulesIntro":"Ratten kunnen ziektekiemen verspreiden. Via hun urine, keutels en besmet voedsel kunnen mensen ziek worden. Houd daarom samen de buurt schoon.","rule1":"Gooi geen brood of eten op straat. Ratten eten het ook.","rule2":"Voer geen vogels op de grond. Ratten komen op het voer af.","rule3":"Laat geen etensresten of dierenvoer buiten liggen.","rule4":"Gooi afval in de afvalbak.","rule5":"Ruim rommel en houtstapels op. Ratten verstoppen zich daar graag.","rule6":"Maak gaten en kieren dicht, zodat ratten niet naar binnen kunnen.","rulesReportTitle":"Zie je ratten? Meld het bij Spaarnelanden.","rulesReportExplain":"Bovenaan deze pagina staat de knop ‘Mail Spaarnelanden’. Klik daarop om een officiële melding te doen. Volg de uitleg op die pagina.","rulesReportButton":"Naar Mail Spaarnelanden"},"en":{"rules":"Rat prevention rules","rulesTitle":"Simple rules: keep rats away!","rulesIntro":"Rats can spread germs. People can become ill through contact with rat urine, droppings or contaminated food. Help keep the neighbourhood clean.","rule1":"Do not throw bread or food onto the street. Rats eat it too.","rule2":"Do not feed birds on the ground. Rats are attracted to the food.","rule3":"Do not leave food scraps or pet food outside.","rule4":"Put rubbish in the bin.","rule5":"Clear away clutter and piles of wood. Rats hide there.","rule6":"Seal holes and gaps so rats cannot get inside.","rulesReportTitle":"Seen rats? Report them to Spaarnelanden.","rulesReportExplain":"At the top of this page, find the ‘Email Spaarnelanden’ button. Click it to make an official report and follow the instructions.","rulesReportButton":"Go to Email Spaarnelanden"},"tr":{"rules":"Farelardan korunma kuralları","rulesTitle":"Basit kurallar: Fareları uzak tutun!","rulesIntro":"Fareler mikrop yayabilir. İdrarları, dışkıları veya kirlettikleri yiyecekler insanları hasta edebilir. Mahallemizi temiz tutalım.","rule1":"Sokağa ekmek veya yiyecek atmayın. Fareler de bunları yer.","rule2":"Yerde kuşları beslemeyin. Yiyecekler fareleri çeker.","rule3":"Yiyecek artıklarını veya hayvan yemlerini dışarıda bırakmayın.","rule4":"Çöpleri çöp kutusuna atın.","rule5":"Dağınıklığı ve odun yığınlarını kaldırın. Fareler buralarda saklanır.","rule6":"Farelerin içeri girmemesi için delikleri ve aralıkları kapatın.","rulesReportTitle":"Fare gördünüz mü? Spaarnelanden’e bildirin.","rulesReportExplain":"Sayfanın üst kısmındaki ‘Spaarnelanden’e e-posta gönder’ düğmesine tıklayın. Resmî bildirim için yönergeleri izleyin.","rulesReportButton":"Spaarnelanden’e e-posta gönder"},"ar":{"rules":"قواعد للوقاية من الجرذان","rulesTitle":"قواعد بسيطة لإبعاد الجرذان","rulesIntro":"يمكن أن تنقل الجرذان الجراثيم. وقد يمرض الناس بسبب بولها أو فضلاتها أو الطعام الملوث. حافظوا معاً على نظافة الحي.","rule1":"لا ترموا الخبز أو الطعام في الشارع. فالجرذان تأكله أيضاً.","rule2":"لا تطعموا الطيور على الأرض. فالطعام يجذب الجرذان.","rule3":"لا تتركوا بقايا الطعام أو طعام الحيوانات في الخارج.","rule4":"ضعوا النفايات في حاوية القمامة.","rule5":"أزيلوا الفوضى وأكوام الخشب؛ فالجرذان تختبئ فيها.","rule6":"أغلقوا الثقوب والشقوق حتى لا تدخل الجرذان.","rulesReportTitle":"هل رأيتم جرذاناً؟ أبلغوا Spaarnelanden.","rulesReportExplain":"يوجد أعلى الصفحة زر «راسل سبارنيلاندن». اضغطوا عليه لتقديم بلاغ رسمي واتبعوا التعليمات.","rulesReportButton":"مراسلة Spaarnelanden"},"ru":{"rules":"Правила профилактики крыс","rulesTitle":"Простые правила: не привлекайте крыс!","rulesIntro":"Крысы могут распространять микробы. Люди могут заболеть при контакте с их мочой, помётом или заражённой едой. Поддерживайте чистоту вместе.","rule1":"Не бросайте хлеб и еду на улицу. Крысы тоже этим питаются.","rule2":"Не кормите птиц на земле. Еда привлекает крыс.","rule3":"Не оставляйте на улице остатки еды и корм для животных.","rule4":"Выбрасывайте мусор в контейнер.","rule5":"Убирайте хлам и штабеля дров. Там прячутся крысы.","rule6":"Заделывайте отверстия и щели, чтобы крысы не проникали внутрь.","rulesReportTitle":"Увидели крыс? Сообщите в Spaarnelanden.","rulesReportExplain":"Вверху страницы есть кнопка «Написать в Spaarnelanden». Нажмите её, чтобы отправить официальное сообщение, и следуйте инструкциям.","rulesReportButton":"Написать в Spaarnelanden"},"es":{"rules":"Normas para prevenir las ratas","rulesTitle":"Normas sencillas: ¡mantén alejadas a las ratas!","rulesIntro":"Las ratas pueden transmitir microbios. Las personas pueden enfermar por contacto con su orina, sus excrementos o alimentos contaminados. Mantengamos limpio el barrio.","rule1":"No tires pan ni comida a la calle. Las ratas también se la comen.","rule2":"No alimentes a los pájaros en el suelo. La comida atrae a las ratas.","rule3":"No dejes restos de comida ni pienso de animales fuera.","rule4":"Tira la basura al contenedor.","rule5":"Retira los trastos y las pilas de madera. Las ratas se esconden allí.","rule6":"Tapa los agujeros y las grietas para impedir que entren las ratas.","rulesReportTitle":"¿Has visto ratas? Comunícalo a Spaarnelanden.","rulesReportExplain":"En la parte superior de esta página está el botón «Enviar un correo a Spaarnelanden». Púlsalo para presentar un aviso oficial y sigue las instrucciones.","rulesReportButton":"Enviar un correo a Spaarnelanden"}}).forEach(([language, translations]) => Object.assign(T[language], translations));
 
 
+  const choiceTranslations = {
+    nl:{choiceTitle:"Twee meldknoppen, twee verschillende doelen",choiceOfficialTitle:"OFFICIËLE MELDING – GRATIS HULP",choiceOfficialText:"Wil je dat er actie wordt ondernomen? Mail Spaarnelanden. Zij schakelen Anticimex in. Anticimex neemt contact met je op en komt gratis bij je langs.",choiceMapTitle:"MELDING OP ONZE RATTENKAART",choiceMapText:"Laat buurtbewoners zien waar je ratten, rattenkeutels of rattenholen hebt waargenomen. Je melding wordt zichtbaar op onze kaart. Dit is géén officiële melding en regelt geen hulp.",choiceMapButton:"Meld op de rattenkaart",choiceBottom:"Ons advies: gebruik beide knoppen. Mail Spaarnelanden voor gratis hulp én meld je waarneming op de kaart, zodat heel Haarlem zicht krijgt op de hotspots.",reportIntro:"Deze pagina helpt je op twee manieren: vraag gratis hulp aan via Spaarnelanden of maak rattenoverlast zichtbaar op onze rattenkaart.",openEmail:"Mail Spaarnelanden"},
+    en:{choiceTitle:"Two reporting buttons, two different purposes",choiceOfficialTitle:"OFFICIAL REPORT – FREE HELP",choiceOfficialText:"Want action to be taken? Email Spaarnelanden. They will involve Anticimex, who will contact you and visit free of charge.",choiceMapTitle:"REPORT ON OUR RAT MAP",choiceMapText:"Show local residents where you have seen rats, rat droppings or rat burrows. Your report will appear on our map. This is not an official report and does not arrange assistance.",choiceMapButton:"Report on the rat map",choiceBottom:"Our advice: use both buttons. Email Spaarnelanden for free help and add your observation to the map so Haarlem can see where hotspots are emerging.",reportIntro:"This page helps in two ways: request free assistance through Spaarnelanden or make rat nuisance visible on our rat map.",openEmail:"Email Spaarnelanden"},
+    tr:{choiceTitle:"İki bildirim düğmesi, iki farklı amaç",choiceOfficialTitle:"RESMÎ BİLDİRİM – ÜCRETSİZ YARDIM",choiceOfficialText:"Müdahale edilmesini mi istiyorsunuz? Spaarnelanden'e e-posta gönderin. Anticimex sizinle iletişime geçer ve ücretsiz olarak ziyaret eder.",choiceMapTitle:"FARE HARİTAMIZA BİLDİRİN",choiceMapText:"Fareleri, fare dışkılarını veya fare yuvalarını nerede gördüğünüzü komşularınıza gösterin. Bildiriminiz haritamızda görünür. Bu resmî bir bildirim değildir ve yardım talebi oluşturmaz.",choiceMapButton:"Haritaya bildirim ekle",choiceBottom:"Önerimiz: iki düğmeyi de kullanın. Ücretsiz yardım için Spaarnelanden'e e-posta gönderin ve mahallenin sıcak noktaları görebilmesi için gözleminizi haritaya ekleyin.",reportIntro:"Bu sayfa iki şekilde yardımcı olur: Spaarnelanden aracılığıyla ücretsiz yardım isteyin veya fare sorununu haritamızda görünür kılın.",openEmail:"Spaarnelanden'e e-posta gönder"},
+    ar:{choiceTitle:"زران للإبلاغ، ولكل منهما هدف مختلف",choiceOfficialTitle:"بلاغ رسمي – مساعدة مجانية",choiceOfficialText:"هل تريد اتخاذ إجراء؟ أرسل رسالة إلى Spaarnelanden. ستتواصل Anticimex معك وتزورك مجانًا.",choiceMapTitle:"الإبلاغ على خريطة الجرذان",choiceMapText:"أخبر سكان الحي بالمكان الذي شاهدت فيه الجرذان أو فضلاتها أو جحورها. سيظهر بلاغك على خريطتنا. هذا ليس بلاغًا رسميًا ولا يطلب المساعدة.",choiceMapButton:"أبلغ على الخريطة",choiceBottom:"ننصحك باستخدام الزرين: أرسل بلاغًا إلى Spaarnelanden للحصول على مساعدة مجانية، وسجّل مشاهدتك على الخريطة لإظهار بؤر المشكلة في هارلم.",reportIntro:"تساعدك هذه الصفحة بطريقتين: اطلب مساعدة مجانية عبر Spaarnelanden أو ساهم في إظهار مشكلة الجرذان على خريطتنا.",openEmail:"راسل Spaarnelanden"},
+    ru:{choiceTitle:"Две кнопки сообщения — две разные цели",choiceOfficialTitle:"ОФИЦИАЛЬНОЕ ОБРАЩЕНИЕ — ПОМОЩЬ БЕСПЛАТНО",choiceOfficialText:"Хотите, чтобы приняли меры? Напишите в Spaarnelanden. Они подключат Anticimex, специалисты свяжутся с вами и бесплатно приедут.",choiceMapTitle:"СООБЩИТЬ НА КАРТУ КРЫС",choiceMapText:"Покажите соседям, где вы видели крыс, их помёт или норы. Ваше сообщение появится на нашей карте. Это не официальное обращение и не запрос на помощь.",choiceMapButton:"Добавить на карту",choiceBottom:"Советуем использовать обе кнопки: напишите в Spaarnelanden для бесплатной помощи и добавьте наблюдение на карту, чтобы показать проблемные места Харлема.",reportIntro:"Эта страница помогает двумя способами: запросить бесплатную помощь через Spaarnelanden или показать проблему крыс на нашей карте.",openEmail:"Написать в Spaarnelanden"},
+    es:{choiceTitle:"Dos botones para avisar, dos objetivos distintos",choiceOfficialTitle:"AVISO OFICIAL – AYUDA GRATUITA",choiceOfficialText:"¿Quieres que se actúe? Envía un correo a Spaarnelanden. Ellos contactarán con Anticimex, que te llamará y acudirá gratis.",choiceMapTitle:"AVISA EN NUESTRO MAPA DE RATAS",choiceMapText:"Muestra a tus vecinos dónde has visto ratas, excrementos o madrigueras. Tu aviso aparecerá en nuestro mapa. No es un aviso oficial ni solicita asistencia.",choiceMapButton:"Avisar en el mapa",choiceBottom:"Nuestro consejo: utiliza ambos botones. Escribe a Spaarnelanden para recibir ayuda gratuita y añade tu observación al mapa para mostrar los puntos problemáticos de Haarlem.",reportIntro:"Esta página te ayuda de dos maneras: solicita ayuda gratuita a través de Spaarnelanden o haz visible el problema de las ratas en nuestro mapa.",openEmail:"Enviar un correo a Spaarnelanden"}
+  };
+  Object.entries(choiceTranslations).forEach(([language, translations]) => Object.assign(T[language], translations));
+
   function tr(key) {
     return T[currentLang]?.[key] ?? T.nl[key] ?? key;
   }
@@ -2051,6 +2086,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   $("rulesReportButton").addEventListener("click", () => showPage("report"));
+  $("mapChoiceButton").addEventListener("click", () => showPage("map"));
 
   $("returned").addEventListener("change", () => {
     $("unlockButton").disabled = !$("returned").checked;
