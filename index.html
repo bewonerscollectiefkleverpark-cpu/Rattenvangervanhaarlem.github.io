@@ -422,6 +422,11 @@
     .hotspot-emphasis{font-weight:800;font-size:1.05rem}
     @media(max-width:680px){.responsibility-grid{grid-template-columns:1fr}}
 
+    .reporting-fatigue-banner{margin:16px 0 22px;padding:16px 20px;border:3px solid var(--red);border-radius:14px;background:#fff0eb;color:var(--red-dark);text-align:center;font-size:clamp(21px,3.5vw,29px);font-weight:900;line-height:1.25;box-shadow:0 5px 16px rgba(80,40,30,.08)}
+    .reporting-fatigue-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
+    .reporting-fatigue-panel h3{margin:0 0 12px;color:var(--red-dark);font-size:clamp(23px,3vw,29px);line-height:1.25}
+    .reporting-fatigue-panel p,.reporting-fatigue-panel li{line-height:1.6}
+    .reporting-fatigue-panel .fatigue-callout{font-size:1.2rem;font-weight:900;color:var(--red-dark)}
     .privacy-panel{margin:26px 0;padding:clamp(20px,3.5vw,32px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 7px 24px rgba(80,40,30,.10)}
     .privacy-heading{display:flex;align-items:center;gap:14px;margin-bottom:12px}
     .privacy-symbol{display:grid;place-items:center;flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:#f4ded7;font-size:26px}
@@ -602,6 +607,7 @@
 
     <section id="page-report">
       <h2 data-t="reportTitle">Zie je een rat? Meld het hier!</h2>
+      <div class="reporting-fatigue-banner" role="note">Meld iedere keer opnieuw!</div>
       <div class="choice-panel choice-panel-full">
         <p class="choice-intro" data-t="choiceIntro">Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!</p>
         <div class="choice-grid">
@@ -751,6 +757,21 @@
 
       <div class="notice" data-t="privacyNotice">
         De kaart is bedoeld om algemene patronen en mogelijke rattenhotspots zichtbaar te maken. De meldingen zijn afkomstig van bewoners en zijn geen officiële gemeentelijke gegevens.
+      </div>
+
+      <div class="reporting-fatigue-panel">
+        <h3>Laat rattenoverlast niet uit beeld verdwijnen!</h3>
+        <p class="fatigue-callout">Meld iedere keer opnieuw. Ook als je al eerder hebt gemeld!</p>
+        <p>Veel bewoners raken ontmoedigd wanneer ze steeds ratten zien, maar weinig resultaat merken. Daardoor stoppen ze met melden. Dat is begrijpelijk, maar zo ontstaat een vertekend beeld: als bewoners niet meer melden, lijkt de overlast op papier kleiner dan zij werkelijk is.</p>
+        <ul class="info-list">
+          <li>Zie je opnieuw ratten? Doe opnieuw een officiële melding bij Spaarnelanden.</li>
+          <li>Vind je nieuwe rattenkeutels of rattenholen? Meld ook die.</li>
+          <li>Blijf melden, ook als je denkt dat het geen verschil maakt. Iedere melding telt.</li>
+        </ul>
+        <p><strong>Laat Spaarnelanden zien hoe groot de overlast werkelijk is. Blijf melden en laat je niet ontmoedigen!</strong></p>
+        <h3>Maak Haarlem wakker: deel deze website!</h3>
+        <p>Stuur deze website door naar je buren, deel hem in buurtapps en plaats hem op je sociale media. Moedig iedereen aan om rattenoverlast officieel te melden én de waarneming vrijwillig op onze rattenkaart te zetten.</p>
+        <p class="fatigue-callout">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
       </div>
     </section>
 
