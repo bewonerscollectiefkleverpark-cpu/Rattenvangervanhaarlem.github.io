@@ -30,8 +30,8 @@ h2{font-size:clamp(1.45rem,5vw,2rem);line-height:1.15;margin:0 0 10px;color:var(
 <main>
 <h2 id="title">Zie je een rat of sporen?</h2>
 <p class="intro" id="intro">Meld elke nieuwe waarneming. Dat kan heel eenvoudig via de twee knoppen hieronder.</p>
-<a class="action" href="rattenkaart-haarlem.html?page=report" id="report">1. Meld bij Spaarnelanden<small id="reportSub">Geef een nieuwe rattenmelding door</small></a>
-<a class="action map" href="rattenkaart-haarlem.html?page=map" id="map">2. Bekijk en vul de rattenkaart in<small id="mapSub">Maak zichtbaar waar ratten zijn gezien</small></a>
+<a class="action" href="rattenkaart-haarlem.html?page=report" id="report"><span id="reportText">1. Meld bij Spaarnelanden</span><small id="reportSub">Geef een nieuwe rattenmelding door</small></a>
+<a class="action map" href="rattenkaart-haarlem.html?page=map" id="map"><span id="mapText">2. Bekijk en vul de rattenkaart in</span><small id="mapSub">Maak zichtbaar waar ratten zijn gezien</small></a>
 <div class="note"><strong id="remember">Belangrijk: doe allebei.</strong> <span id="note">Meld elke nieuwe rat of elk nieuw spoor bij Spaarnelanden én zet die waarneming op de bewonerskaart. De kaart vervangt de officiële melding niet.</span></div>
 </main>
 <footer id="footer">Onafhankelijk bewonersinitiatief · Haarlem</footer>
@@ -46,7 +46,7 @@ tr:{language:"Dil",tagline:"Birlikte fare sorununu görünür kılıyoruz.",titl
 ar:{language:"اللغة",tagline:"معًا نجعل مشكلة الجرذان واضحة للجميع.",title:"هل رأيت جرذًا أو آثارًا له؟",intro:"أبلغ عن كل مشاهدة جديدة. استخدم الزرين أدناه.",report:"1. أبلغ Spaarnelanden",reportSub:"إرسال بلاغ جديد عن الجرذان",map:"2. شاهد خريطة الجرذان وأضف إليها",mapSub:"أظهر الأماكن التي شوهدت فيها الجرذان",remember:"مهم: قم بالأمرين.",note:"أبلغ Spaarnelanden عن كل جرذ جديد أو أثر جديد، وسجّل المشاهدة أيضًا على خريطة السكان. الخريطة لا تغني عن البلاغ الرسمي.",footer:"مبادرة مستقلة من السكان · هارلم"}
 };
 const select=document.getElementById('language');
-function setLanguage(lang){const t=translations[lang]||translations.nl;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';for(const id of ['languageLabel','tagline','title','intro','report','reportSub','map','mapSub','remember','note','footer']){const el=document.getElementById(id);if(el)el.textContent=t[id]}select.value=lang}
+function setLanguage(lang){const t=translations[lang]||translations.nl;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';for(const id of ['languageLabel','tagline','title','intro','reportText','reportSub','mapText','mapSub','remember','note','footer']){const el=document.getElementById(id);if(el)el.textContent=t[id]}select.value=lang}
 select.addEventListener('change',e=>setLanguage(e.target.value));setLanguage('nl');
 </script>
 </body>
