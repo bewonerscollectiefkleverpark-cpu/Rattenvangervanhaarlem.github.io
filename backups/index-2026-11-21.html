@@ -1,0 +1,2243 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ef">
+  <title>Rattenvanger van Haarlem</title>
+  <meta name="description" content="Help rattenoverlast in Haarlem zichtbaar te maken. Doe een officiële melding en registreer je waarneming.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --red: #a94338;
+      --red-dark: #87352d;
+      --cream: #f6f4ef;
+      --paper: #ffffff;
+      --ink: #292c29;
+      --muted: #72766f;
+      --green: #687b60;
+      --line: #e8e4dc;
+      --soft: #f2eee6;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 21px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--red);
+      color: white;
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--red-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(80,40,30,.12);
+    }
+
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    a { color: inherit; }
+
+    .wrap {
+      max-width: 1040px;
+      margin: auto;
+      padding: 24px;
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding: 12px 0 20px;
+    }
+
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    #language {
+      min-width: 175px;
+      padding: 11px 15px 11px 40px;
+      border: 1px solid #ded8cc;
+      background-color: white;
+      color: var(--ink);
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24' fill='none' stroke='%23a94338' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 13px center;
+      box-shadow: 0 2px 8px rgba(40,35,25,.04);
+    }
+
+    #language:focus {
+      outline: 3px solid rgba(169,67,56,.18);
+      outline-offset: 2px;
+    }
+
+    #language option { background: white; color: var(--ink); }
+
+    .logo-card {
+      width: 260px;
+      height: 260px;
+      padding: 0;
+      margin: 8px auto 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 50%;
+      background: transparent;
+      border: 4px solid white;
+      box-shadow: 0 5px 22px rgba(40,35,25,.12);
+    }
+
+    .logo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: 50%;
+    }
+
+    .title-card {
+      width: 100%;
+      text-align: center;
+      padding: 8px 12px 4px;
+    }
+
+    h1 {
+      font-size: clamp(27px, 4vw, 38px);
+      line-height: 1.2;
+      letter-spacing: -.8px;
+      margin: 0 0 8px;
+      font-weight: 800;
+    }
+
+    .title-card p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .rat-runway {
+      position: relative;
+      height: 30px;
+      max-width: 430px;
+      margin: 12px auto 0;
+      overflow: hidden;
+      border-bottom: 1px solid #e6dfd3;
+    }
+
+    .running-rat {
+      position: absolute;
+      bottom: 0;
+      left: -45px;
+      font-size: 21px;
+      line-height: 1;
+      animation: rat-walk 12s linear infinite;
+    }
+
+    .rat-two { animation-delay: 4s; font-size: 18px; }
+    .rat-three { animation-delay: 8s; font-size: 20px; }
+
+    @keyframes rat-walk {
+      from { transform: translateX(0); }
+      to { transform: translateX(500px); }
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      padding: 12px 0 25px;
+    }
+
+    nav button {
+      background: transparent;
+      color: #555a53;
+      border: 1px solid #dedbd3;
+      border-radius: 30px;
+      font-size: 14px;
+      padding: 10px 20px;
+      box-shadow: none;
+    }
+
+    nav button:hover:not(:disabled) {
+      background: white;
+      color: var(--red);
+      border-color: #d8b7ae;
+      box-shadow: none;
+    }
+
+    nav button[aria-current="page"] {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    main { padding: 0 0 42px; }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(22px, 4vw, 38px);
+      margin-bottom: 22px;
+      box-shadow: 0 5px 24px rgba(40,35,25,.035);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(23px, 4vw, 30px);
+      line-height: 1.3;
+      letter-spacing: -.4px;
+    }
+
+    h3 { margin: 22px 0 8px; }
+    p { margin: 8px 0 14px; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    .notice {
+      background: #f8f4ed;
+      border: 1px solid #eee5d7;
+      border-left: 4px solid var(--green);
+      border-radius: 13px;
+      padding: 18px 20px;
+      margin: 22px 0;
+    }
+
+    [dir="rtl"] .notice {
+      border-left: 1px solid #eee5d7;
+      border-right: 4px solid var(--green);
+    }
+
+    .primary {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      background: var(--red);
+      color: white;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-weight: 700;
+      margin-top: 7px;
+      transition: background .2s;
+    }
+
+    .primary:hover { background: var(--red-dark); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .choice-panel-full { background:#fffaf5; border:3px solid var(--red); border-radius:18px; padding:clamp(18px,3vw,30px); margin:20px 0 26px; box-shadow:0 5px 18px rgba(80,40,30,.08); }
+    .choice-panel-full .choice-intro { font-size:1.08rem; font-weight:700; margin:0 0 20px; }
+    .choice-panel-full .choice-grid { align-items:stretch; }
+    .choice-panel-full .choice-card { height:100%; box-sizing:border-box; }
+    .choice-panel-full .choice-card h3 { margin:0; font-size:1.2rem; font-weight:800; }
+    .choice-panel-full .choice-card > strong { font-size:1rem; }
+    .choice-panel-full .choice-card p { line-height:1.55; }
+    .choice-panel-full .choice-warning { background:#fff0e9; border-left:4px solid var(--red); padding:12px; border-radius:8px; }
+    .choice-panel-full .choice-why { margin-top:22px; padding-top:18px; border-top:2px solid #eadbd2; }
+    .choice-panel-full .choice-why h3 { margin:0 0 8px; font-size:1.2rem; font-weight:800; }
+    .choice-panel-full .choice-why p { margin:8px 0; }
+    .choice-panel-full .choice-slogan { font-weight:800; font-size:1.08rem; }
+    .choice-panel { background:#fffaf5; border:3px solid var(--red); border-radius:18px; padding:clamp(18px,3vw,28px); margin:22px 0 26px; box-shadow:0 5px 18px rgba(80,40,30,.08); }
+    .choice-panel > h3 { margin:0 0 17px; text-align:center; font-size:clamp(20px,3vw,25px); font-weight:800; }
+    .choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .choice-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:10px; border:2px solid var(--line); border-radius:14px; background:#fff; padding:20px; }
+    .choice-official { border-color:#a94338; }
+    .choice-map { border-color:#687b60; }
+    .choice-number { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; color:white; background:var(--ink); font-size:18px; font-weight:800; }
+    .choice-card > strong { font-size:15px; line-height:1.4; font-weight:800; }
+    .choice-card p { margin:0 0 5px; }
+    .choice-card .primary, .choice-button { margin-top:auto; }
+    .choice-button { background:var(--green); color:white; border-radius:12px; padding:13px 20px; font-weight:800; }
+    .choice-button:hover:not(:disabled) { background:#52654b; }
+    .choice-bottom { margin:18px 0 0; padding-top:14px; border-top:1px solid #eadbd2; font-weight:600; }
+    @media(max-width:650px) { .choice-grid { grid-template-columns:1fr; } .choice-card { padding:17px; } }
+
+    .hidden { display: none !important; }
+
+    #map {
+      height: 58vh;
+      min-height: 350px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      margin: 22px 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .legend-box {
+      background: #f8f6f1;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+
+    .legend-title {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,.12);
+      flex: none;
+    }
+
+    .field { margin: 19px 0; }
+
+    .field label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #dedbd3;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      transition: border .2s, box-shadow .2s;
+    }
+
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(169,67,56,.10);
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin: 18px 0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .check input {
+      width: 19px;
+      height: 19px;
+      flex: none;
+      margin-top: 3px;
+      accent-color: var(--red);
+    }
+
+    .error {
+      color: var(--red);
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .success {
+      color: #52764c;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .rules-action-panel { margin:26px 0; padding:clamp(18px,3vw,28px); border:3px solid var(--red); border-radius:18px; background:linear-gradient(145deg,#fffaf5 0%,#fff 72%); box-shadow:0 7px 22px rgba(75,45,30,.09); }
+    .rules-action-heading { max-width:760px; margin-bottom:20px; }
+    .rules-action-kicker { display:inline-block; padding:6px 10px; border-radius:999px; background:#f8e5dc; color:#8d3025; font-size:12px; font-weight:900; letter-spacing:.07em; }
+    .rules-action-heading h3 { margin:12px 0 7px; font-size:clamp(23px,3vw,30px); line-height:1.15; }
+    .rules-action-heading p { margin:0; font-size:16px; line-height:1.55; }
+    .rules-action-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+    .rules-action-card { display:flex; align-items:flex-start; gap:13px; min-width:0; padding:16px; border:1px solid #eadbd2; border-radius:14px; background:#fff; }
+    .rules-number { display:flex; flex:0 0 38px; width:38px; height:38px; align-items:center; justify-content:center; border-radius:50%; background:var(--red); color:#fff; font-size:19px; font-weight:900; }
+    .rules-action-card h4 { margin:2px 0 5px; font-size:16px; line-height:1.3; }
+    .rules-action-card p { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+    @media(max-width:680px) { .rules-action-grid { grid-template-columns:1fr; } .rules-action-card { padding:14px; } }
+    .responsibility-panel{margin:26px 0;padding:clamp(18px,3vw,28px);border:2px solid #687b60;border-radius:18px;background:#f7faf5}
+    .responsibility-panel h3{margin:0 0 10px;font-size:clamp(21px,3vw,27px);line-height:1.25}
+    .responsibility-panel p{line-height:1.6}
+    .responsibility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+    .responsibility-card{padding:17px;border:1px solid #dce5d7;border-radius:13px;background:#fff}
+    .responsibility-card h4{margin:0 0 7px;font-size:17px}
+    .responsibility-card p{margin:0;font-size:14px}
+    .hotspot-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
+    .hotspot-panel h3{margin:0 0 10px;font-size:clamp(22px,3vw,28px);line-height:1.25}
+    .hotspot-panel p{line-height:1.65}
+    .hotspot-emphasis{font-weight:800;font-size:1.05rem}
+    @media(max-width:680px){.responsibility-grid{grid-template-columns:1fr}}
+
+    .reporting-fatigue-banner{margin:16px 0 22px;padding:16px 20px;border:3px solid var(--red);border-radius:14px;background:#fff0eb;color:var(--red-dark);text-align:center;font-size:clamp(21px,3.5vw,29px);font-weight:900;line-height:1.25;box-shadow:0 5px 16px rgba(80,40,30,.08)}
+    .reporting-fatigue-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
+    .reporting-fatigue-panel h3{margin:0 0 12px;color:var(--red-dark);font-size:clamp(23px,3vw,29px);line-height:1.25}
+    .reporting-fatigue-panel p,.reporting-fatigue-panel li{line-height:1.6}
+    .reporting-fatigue-panel .fatigue-callout{font-size:1.2rem;font-weight:900;color:var(--red-dark)}
+    .privacy-panel{margin:26px 0;padding:clamp(20px,3.5vw,32px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 7px 24px rgba(80,40,30,.10)}
+    .privacy-heading{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+    .privacy-symbol{display:grid;place-items:center;flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:#f4ded7;font-size:26px}
+    .privacy-kicker{margin:0 0 3px;color:var(--red-dark);font-size:12px;font-weight:900;letter-spacing:.1em}
+    .privacy-heading h3{margin:0;font-size:clamp(22px,3.5vw,29px);line-height:1.2}
+    .privacy-lead{margin:14px 0 18px;font-size:17px;font-weight:700;line-height:1.55}
+    .privacy-list{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+    .privacy-list li{position:relative;padding:12px 14px 12px 43px;border:1px solid #eadbd2;border-radius:11px;background:#fff;line-height:1.55}
+    .privacy-list li:before{content:"✓";position:absolute;left:14px;top:11px;color:#52764c;font-size:19px;font-weight:900}
+    .privacy-caveat{margin:19px 0 0;padding:13px 15px;border-left:4px solid #9a713d;border-radius:8px;background:#f7f0e4;color:#554936;font-size:13px;line-height:1.55}
+    [dir="rtl"] .privacy-list li{padding:12px 43px 12px 14px}
+    [dir="rtl"] .privacy-list li:before{left:auto;right:14px}
+    [dir="rtl"] .privacy-caveat{border-left:0;border-right:4px solid #9a713d}
+
+    .info-list {
+      padding-left: 23px;
+      margin: 18px 0 22px;
+    }
+
+    .info-list li {
+      margin-bottom: 13px;
+      line-height: 1.65;
+    }
+
+    footer {
+      padding: 20px 4px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .haarlem-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .haarlem-badge::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    [dir="rtl"] { text-align: right; }
+    [dir="rtl"] .lang-bar { justify-content: flex-start; }
+
+    [dir="rtl"] nav,
+    [dir="rtl"] .actions {
+      flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] #map { direction: ltr; }
+
+    @media(max-width:560px) {
+      .wrap { padding: 14px; }
+      header { padding: 8px 0 14px; }
+
+      .logo-card {
+        width: 220px;
+        height: 220px;
+      }
+
+      .title-card { padding: 8px 4px; }
+
+      #map {
+        height: 54vh;
+        min-height: 320px;
+      }
+
+      nav { gap: 7px; }
+
+      nav button {
+        padding: 10px 13px;
+        font-size: 13px;
+      }
+
+      #language { max-width: 100%; }
+      section { border-radius: 16px; }
+
+      footer {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .running-rat {
+        animation: none;
+        display: none;
+      }
+
+      button { transition: none; }
+    }
+
+    .poster-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:18px; margin-top:22px; }
+    .poster-card { min-width:0; padding:16px; border:1px solid var(--line); border-radius:16px; background:#fff; display:flex; flex-direction:column; gap:12px; }
+    .poster-card h3 { margin:0; }
+    .poster-card img { display:block; width:100%; height:340px; object-fit:contain; background:#f8f6f1; border:1px solid var(--line); border-radius:8px; }
+    .poster-card button { margin-top:auto; }
+    .poster-print-instruction { font-size:15px; }
+
+    @media print {
+      @page { size:A4 portrait; margin:7mm; }
+      html, body { width:210mm !important; min-height:0 !important; margin:0 !important; padding:0 !important; background:#fff !important; }
+      body.printing * { visibility:hidden !important; }
+      body.printing #page-posters,
+      body.printing #page-posters .print-target,
+      body.printing #page-posters .print-target *,
+      body.printing #page-posters .poster-print-instruction,
+      body.printing #page-posters .poster-print-instruction * { visibility:visible !important; }
+      body.printing .wrap { width:auto !important; max-width:none !important; margin:0 !important; padding:0 !important; }
+      body.printing #page-posters { display:block !important; position:absolute !important; top:0 !important; left:0 !important; width:100% !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; background:#fff !important; }
+      body.printing #page-posters > h2,
+      body.printing #page-posters > p,
+      body.printing #page-posters > .poster-grid > .poster-card:not(.print-target) { display:none !important; }
+      body.printing #page-posters .poster-grid { display:block !important; margin:0 !important; }
+      body.printing #page-posters .poster-print-instruction { display:block !important; margin:0 0 3mm !important; padding:2mm 3mm !important; font-size:9pt !important; line-height:1.25 !important; border-radius:0 !important; }
+      body.printing #page-posters .poster-card.print-target { display:flex !important; width:100% !important; height:auto !important; max-height:270mm !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; gap:0 !important; align-items:center !important; justify-content:center !important; break-inside:avoid !important; page-break-inside:avoid !important; }
+      body.printing .poster-card.print-target h3,
+      body.printing .poster-card.print-target button { display:none !important; }
+      body.printing .poster-card.print-target img { display:block !important; width:100% !important; height:245mm !important; max-width:196mm !important; max-height:245mm !important; object-fit:contain !important; border:0 !important; border-radius:0 !important; background:#fff !important; }
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="lang-bar">
+      <select id="language" aria-label="Choose language" data-t-aria="languageLabel">
+        <option value="nl">🌐 Nederlands</option>
+        <option value="tr">🌐 Türkçe</option>
+        <option value="ar">🌐 العربية</option>
+        <option value="ru">🌐 Русский</option>
+        <option value="es">🌐 Español</option>
+        <option value="en">🌐 English</option>
+      </select>
+    </div>
+
+    <div class="logo-card">
+      <img src="IMG_0106.PNG"
+        alt="Rond logo Rattenvanger van Haarlem"
+        onerror="this.onerror=null;this.style.display='none';">
+    </div>
+
+    <div class="title-card">
+      <h1>Rattenvanger van Haarlem</h1>
+      <p data-t="subtitle">Zie je een rat? Meld het hier!</p>
+
+      <div class="rat-runway" aria-hidden="true">
+        <span class="running-rat rat-one">🐀</span>
+        <span class="running-rat rat-two">🐀</span>
+        <span class="running-rat rat-three">🐀</span>
+      </div>
+    </div>
+  </header>
+
+  <nav aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
+    <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
+    <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
+    <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
+    <button type="button" data-page="info" data-t="info">Informatie</button>
+    <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
+  </nav>
+
+  <main>
+
+    <section id="page-report">
+      <h2 data-t="reportTitle">Zie je een rat? Meld het hier!</h2>
+      <div class="reporting-fatigue-banner" role="note">Meld iedere keer opnieuw!</div>
+      <div class="choice-panel choice-panel-full">
+        <p class="choice-intro" data-t="choiceIntro">Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!</p>
+        <div class="choice-grid">
+          <div class="choice-card choice-official">
+            <span class="choice-number">1</span>
+            <h3 data-t="choiceOfficialHeading">Knop: Mail Spaarnelanden</h3>
+            <strong data-t="choiceOfficialLead">Voor een officiële melding en gratis hulp aan huis.</strong>
+            <p data-t="choiceOfficialHow">Klik op deze knop om een e-mail aan Spaarnelanden te openen. Vul je gegevens aan en verstuur de e-mail zelf.</p>
+            <p><strong data-t="choiceAfter">Daarna gaat het als volgt:</strong></p>
+            <ul class="info-list">
+              <li data-t="choiceStep1">Spaarnelanden schakelt Anticimex in.</li>
+              <li data-t="choiceStep2">Anticimex neemt contact met je op.</li>
+              <li data-t="choiceStep3">Een medewerker komt bij je langs en helpt je gratis bij de aanpak van de rattenoverlast.</li>
+              <li data-t="choiceStep4">Vraag bij het bezoek ook om een gratis rooktest om mogelijke ingangen en looproutes van ratten op te sporen.</li>
+            </ul>
+            <p><strong data-t="choiceUnlimited">Sinds november 2026 kun je hiervoor onbeperkt vaak gratis hulp krijgen.</strong></p>
+            <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl" data-t="openEmail">Mail Spaarnelanden</a>
+          </div>
+          <div class="choice-card choice-map">
+            <span class="choice-number">2</span>
+            <h3 data-t="choiceMapHeading">Knop: Meld op de rattenkaart</h3>
+            <strong data-t="choiceMapLead">Om buurtbewoners te laten zien waar rattenoverlast voorkomt.</strong>
+            <p data-t="choiceMapHow">Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.</p>
+            <p data-t="choiceMapVisible">Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.</p>
+            <p class="choice-warning"><strong data-t="choiceMapWarning">Let op:</strong> <span data-t="choiceMapWarningText">een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.</span></p>
+            <button type="button" class="choice-button" id="mapChoiceButton" data-t="choiceMapButton">Meld op de rattenkaart</button>
+          </div>
+        </div>
+        <div class="choice-why">
+          <h3 data-t="choiceWhyTitle">Waarom twee knoppen?</h3>
+          <p data-t="choiceWhyText">De officiële meldingen geven toegang tot hulp. De rattenkaart maakt de overlast zichtbaar voor de buurt. Door beide te gebruiken, help je jezelf én je medebuurtbewoners.</p>
+          <p class="choice-slogan" data-t="choiceSlogan">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
+        </div>
+      </div>
+      <p class="muted" data-t="emailLimit">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
+      <label class="check"><input type="checkbox" id="returned"><span data-t="returnedLabel">Ik heb de e-mail geopend en ben teruggekeerd naar deze website.</span></label>
+      <div class="actions"><button type="button" id="unlockButton" disabled data-t="unlockMap">Bekijk de kaart</button></div>
+    </section>
+
+    <section id="page-map" class="hidden">
+      <h2 data-t="mapTitle">Rattenkaart Haarlem</h2>
+      <p data-t="mapIntro">Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.</p>
+
+      <div class="notice" data-t="mapWarning">
+        Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden.
+        Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.
+      </div>
+
+      <div class="notice">
+        <strong data-t="dotTitle">Wat betekent de stip op de kaart?</strong>
+        <p data-t="dotExplanation">De stip wordt op een willekeurige plek binnen de betreffende straat weergegeven. De locatie van de stip geeft dus niet aan waar de ratten daadwerkelijk zijn gezien. De stip toont het totaal aantal meldingen van rattenoverlast voor de hele straat.</p>
+      </div>
+
+      <div class="legend-box">
+        <span class="legend-title" data-t="legendTitle">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
+        <div class="legend">
+          <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span data-t="band1">1–4 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span data-t="band2">5–9 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#e67e22"></i><span data-t="band3">10–19 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#c0392b"></i><span data-t="band4">20–39 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#8e44ad"></i><span data-t="band5">40–59 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#5b2c83"></i><span data-t="band6">60–99 ratten</span></span>
+          <span class="legend-item"><i class="dot" style="background:#000000"></i><span data-t="band7">100 of meer</span></span>
+          <span class="legend-item"><i class="dot" style="background:#8b4513;border:2px solid #ffffff"></i><span data-t="legendDroppings">Bruine stip: rattenkeutels</span></span>
+          <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #222;width:16px;height:16px"></i><span data-t="legendBurrows">Grote witte stip: gangen of holen</span></span>
+        </div>
+      </div>
+
+      <div id="map" aria-label="Kaart met rattenwaarnemingen per straat" data-t-aria="mapAria"></div>
+
+      <div class="field">
+        <label for="streetInput" data-t="typeStreet">Straatnaam in Haarlem:</label>
+        <input type="text" id="streetInput"
+          placeholder="Bijvoorbeeld: Parklaan"
+          data-t-placeholder="streetPlaceholder"
+          maxlength="100" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="category" data-t="categoryLabel">Wat wil je melden?</label>
+        <select id="category">
+          <option value="rats" data-t="categoryRats">Ratten gezien (levend of dood)</option>
+          <option value="droppings" data-t="categoryDroppings">Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)</option>
+          <option value="burrows" data-t="categoryBurrows">Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="observation" id="observationLabel" data-t="observationRats">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
+        <input type="number" id="observation" min="1" max="20" step="1" value="1" inputmode="numeric">
+        <p class="muted" id="countHelp" data-t="countHelpRats">Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
+      </div>
+
+      <div class="check" style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-start">
+        <label class="check" style="margin:0;flex:1 1 280px">
+          <input type="checkbox" id="consent">
+          <span data-t="consent">
+            Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.
+          </span>
+        </label>
+        <label class="check" style="margin:0;flex:1 1 220px">
+          <input type="checkbox" id="truthful">
+          <span data-t="truthful">
+            Ik verklaar dat ik deze melding naar waarheid heb ingevuld.
+          </span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="submitReport" disabled data-t="submit">Waarneming registreren</button>
+      </div>
+
+      <p id="submitMessage" role="status" aria-live="polite"></p>
+
+      <p class="muted" data-t="storageNotice">
+        Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.
+      </p>
+    </section>
+
+    <section id="page-info" class="hidden">
+      <h2 data-t="infoTitle">Over dit initiatief</h2>
+      <p data-t="infoText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.</p>
+
+      <ul class="info-list">
+        <li data-t="info1">Wij zijn geen ongediertebestrijders. We vangen geen ratten en bestrijden de overlast niet zelf.</li>
+        <li data-t="info2">Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt die officiële melding niet.</li>
+        <li data-t="info4">Je hebt geen account nodig. Doe eerst de officiële melding en registreer daarna – als je dat wilt – vrijwillig je waarneming op onze bewonerskaart.</li>
+      </ul>
+
+      <div class="privacy-panel">
+        <div class="privacy-heading">
+          <span class="privacy-symbol" aria-hidden="true">🔒</span>
+          <div>
+            <p class="privacy-kicker" data-t="privacyKicker">JOUW PRIVACY</p>
+            <h3 data-t="privacyTitle">Wij verzamelen geen privégegevens</h3>
+          </div>
+        </div>
+        <p class="privacy-lead" data-t="privacyIntro">De kaart registreert alleen waarnemingen op straatniveau. Er wordt geen naam of persoon aan een melding gekoppeld.</p>
+        <ul class="privacy-list">
+          <li data-t="privacy1"><strong>Wij geven geen persoonsgegevens door</strong> aan de gemeente, Spaarnelanden, Anticimex of andere organisaties.</li>
+          <li data-t="privacy2"><strong>Wij vragen en bewaren geen namen, huisnummers of e-mailadressen</strong> in onze meldingenadministratie.</li>
+          <li data-t="privacy3"><strong>Alleen straatniveau:</strong> de kaart toont de straat en het soort waarneming, niet het exacte huis of de bewoner.</li>
+          <li data-t="privacy4"><strong>Geen account nodig:</strong> je registreert je waarneming vrijwillig en zonder je naam eraan te koppelen.</li>
+        </ul>
+        <p class="privacy-caveat" data-t="privacyCaveat">Let op: onze website en de gebruikte hosting- en Google-diensten kunnen technische loggegevens verwerken. We kunnen daarom niet beloven dat er bij deze diensten helemaal geen technische gegevens worden geregistreerd.</p>
+      </div>
+
+      <div class="notice" data-t="privacyNotice">
+        De kaart is bedoeld om algemene patronen en mogelijke rattenhotspots zichtbaar te maken. De meldingen zijn afkomstig van bewoners en zijn geen officiële gemeentelijke gegevens.
+      </div>
+
+      <div class="reporting-fatigue-panel">
+        <h3>Laat rattenoverlast niet uit beeld verdwijnen!</h3>
+        <p class="fatigue-callout">Meld iedere keer opnieuw. Ook als je al eerder hebt gemeld!</p>
+        <p>Veel bewoners raken ontmoedigd wanneer ze steeds ratten zien, maar weinig resultaat merken. Daardoor stoppen ze met melden. Dat is begrijpelijk, maar zo ontstaat een vertekend beeld: als bewoners niet meer melden, lijkt de overlast op papier kleiner dan zij werkelijk is.</p>
+        <ul class="info-list">
+          <li>Zie je opnieuw ratten? Doe opnieuw een officiële melding bij Spaarnelanden.</li>
+          <li>Vind je nieuwe rattenkeutels of rattenholen? Meld ook die.</li>
+          <li>Blijf melden, ook als je denkt dat het geen verschil maakt. Iedere melding telt.</li>
+        </ul>
+        <p><strong>Laat Spaarnelanden zien hoe groot de overlast werkelijk is. Blijf melden en laat je niet ontmoedigen!</strong></p>
+        <h3>Maak Haarlem wakker: deel deze website!</h3>
+        <p>Stuur deze website door naar je buren, deel hem in buurtapps en plaats hem op je sociale media. Moedig iedereen aan om rattenoverlast officieel te melden én de waarneming vrijwillig op onze rattenkaart te zetten.</p>
+        <p class="fatigue-callout">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
+      </div>
+    </section>
+
+    <section id="page-posters" class="hidden">
+      <h2 data-t="postersTitle">Posters om te printen</h2>
+      <p data-t="postersIntro">Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.</p>
+      <div class="notice poster-print-instruction"><strong data-t="posterInstruction">Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.</strong></div>
+      <div class="poster-grid">
+        <article class="poster-card" id="poster-card-1">
+          <h3 data-t="posterOne">Poster 1</h3>
+          <img src="poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="1" data-t="printPoster">Print deze poster</button>
+        </article>
+        <article class="poster-card" id="poster-card-2">
+          <h3 data-t="posterTwo">Poster 2</h3>
+          <img src="Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="2" data-t="printPoster">Print deze poster</button>
+        </article>
+        <article class="poster-card" id="poster-card-3">
+          <h3 data-t="posterThree">Poster 3</h3>
+          <img src="-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <button type="button" class="print-poster" data-print-poster="3" data-t="printPoster">Print deze poster</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="page-rules" class="hidden">
+      <h2 data-t="rulesTitle">Leefregels: houd ratten weg!</h2>
+      <p data-t="rulesIntro">Ratten kunnen ziektekiemen verspreiden. Via hun urine, keutels en besmet voedsel kunnen mensen ziek worden. Houd daarom samen de buurt schoon.</p>
+      <div class="rules-action-panel">
+        <div class="rules-action-heading">
+          <span class="rules-action-kicker" data-t="rulesDoYourPart">DIT KUNNEN WE SAMEN DOEN</span>
+          <h3 data-t="rulesWhatCanWeDo">Wat kunnen wij zelf doen?</h3>
+          <p data-t="rulesActionIntro">Iedere bewoner kan helpen. Met deze eenvoudige regels maken we onze buurt minder aantrekkelijk voor ratten.</p>
+        </div>
+        <div class="rules-action-grid">
+          <article class="rules-action-card"><span class="rules-number">1</span><div><h4 data-t="ruleTitle1">Gooi geen eten op straat</h4><p data-t="ruleText1">Gooi geen brood of etensresten op straat. Ratten komen af op voedsel.</p></div></article>
+          <article class="rules-action-card"><span class="rules-number">2</span><div><h4 data-t="ruleTitle2">Voer vogels niet op de grond</h4><p data-t="ruleText2">Wat vogels laten liggen, eten ratten ook.</p></div></article>
+          <article class="rules-action-card"><span class="rules-number">3</span><div><h4 data-t="ruleTitle3">Laat geen dierenvoer buiten staan</h4><p data-t="ruleText3">Haal voerbakken en etensresten na het voeren weer naar binnen.</p></div></article>
+          <article class="rules-action-card"><span class="rules-number">4</span><div><h4 data-t="ruleTitle4">Gooi afval in een afgesloten bak</h4><p data-t="ruleText4">Zet geen vuilniszakken naast de afvalbak.</p></div></article>
+          <article class="rules-action-card"><span class="rules-number">5</span><div><h4 data-t="ruleTitle5">Houd tuinen en schuren netjes</h4><p data-t="ruleText5">Haal rommel en grote stapels hout weg waar ratten zich kunnen verstoppen.</p></div></article>
+          <article class="rules-action-card"><span class="rules-number">6</span><div><h4 data-t="ruleTitle6">Maak gaten en kieren dicht</h4><p data-t="ruleText6">Ratten kunnen door kleine openingen naar binnen komen.</p></div></article>
+        </div>
+      </div>
+      <div class="responsibility-panel">
+        <h3 data-t="sewerTitle">En het riool? Wat is de taak van de gemeente?</h3>
+        <p data-t="sewerIntro">Ratten kunnen via het riool en via beschadigde of open verbindingen op plekken komen waar mensen wonen. Daarom is goed beheer van het openbare riool belangrijk.</p>
+        <div class="responsibility-grid">
+          <article class="responsibility-card"><h4 data-t="sewerMunicipalityTitle">De gemeente</h4><p data-t="sewerMunicipalityText">De gemeente is verantwoordelijk voor het beheer en onderhoud van het openbare riool. Bij meldingen over schade, lekkage of andere problemen moet worden onderzocht wat er aan de hand is en moet het openbare riool waar nodig worden hersteld.</p></article>
+          <article class="responsibility-card"><h4 data-t="sewerResidentTitle">Bewoners en eigenaren</h4><p data-t="sewerResidentText">De riolering op eigen terrein en de aansluiting vanaf de woning vallen meestal onder de verantwoordelijkheid van de eigenaar. Bij twijfel is het verstandig dit bij de gemeente of verhuurder na te vragen.</p></article>
+        </div>
+        <p data-t="sewerSmokeTest"><strong>Tip:</strong> Vraag bij je officiële melding aan Spaarnelanden ook om een gratis rooktest. Daarmee kan worden onderzocht of er een ongewenste verbinding of opening is waardoor rioollucht of ratten zich kunnen verplaatsen.</p>
+      </div>
+      <div class="hotspot-panel">
+        <h3 data-t="hotspotTitle">Waarom is onze hotspotkaart zo belangrijk?</h3>
+        <p class="hotspot-emphasis" data-t="hotspotLead">Wat niet vanzelf zichtbaar wordt, brengen bewoners samen in beeld.</p>
+        <p data-t="hotspotText">Iedere melding op onze kaart helpt om te laten zien in welke straten ratten worden gezien, waar keutels liggen en waar holen zitten. Zo worden patronen en terugkerende plekken zichtbaar die je met losse meldingen gemakkelijk over het hoofd ziet.</p>
+        <p data-t="hotspotCall">De kaart maakt het probleem zichtbaar voor iedereen — bewoners én gemeente. Met die gezamenlijke informatie kunnen we gerichter aandacht vragen en de gemeente aanspreken op onderzoek en passende maatregelen. De gemeente publiceert niet altijd zelf een compleet straatbeeld; daarom verzamelen bewoners hun waarnemingen hier.</p>
+        <p data-t="hotspotCaveat">Het is een bewonerskaart, geen officiële gemeentelijke registratie. Meld ratten daarom óók altijd officieel bij Spaarnelanden.</p>
+      </div>
+      <div class="notice">
+        <strong data-t="rulesReportTitle">Zie je ratten? Meld het bij Spaarnelanden.</strong>
+        <p data-t="rulesReportExplain">Bovenaan deze pagina staat de knop ‘Mail Spaarnelanden’. Klik daarop om een officiële melding te doen. Volg de uitleg op die pagina.</p>
+        <button type="button" id="rulesReportButton" data-t="rulesReportButton">Naar Mail Spaarnelanden</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span class="haarlem-badge">Haarlem</span>
+    <span data-t="footerText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+  </footer>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+"use strict";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const $ = id => document.getElementById(id);
+
+  const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxMmRvtWUyTQWamuxKI84Iu7hNEQ2_UMskCrVge3zbL4c3FxpwNQegwwqCaXZ7fF7DJ/exec";
+
+  const LANGUAGE_KEY = "rvh-language";
+  const DEVICE_KEY = "rvh-device-id";
+
+  let currentLang = "nl";
+  let mapInstance = null;
+  let markersLayer = null;
+  let streets = [];
+  let isSubmitting = false;
+  let callbackCounter = 0;
+
+  function getDeviceId() {
+    try {
+      let id = localStorage.getItem(DEVICE_KEY);
+
+      if (!id) {
+        id = (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : "rvh-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+
+        localStorage.setItem(DEVICE_KEY, id);
+      }
+
+      return id;
+    } catch (error) {
+      return "";
+    }
+  }
+
+  const EMAIL_HELP = {
+    en: {
+      seen: "What did I see?",
+      count: "Number of rats:",
+      description: "Description of the sighting:",
+      date: "Date and time of the sighting:",
+      where: "Where did I see the rats?",
+      location: "Street and house number or exact location:",
+      reporter: "Details of the person reporting",
+      name: "Name:",
+      phone: "Telephone number:",
+      email: "Email address:",
+      request: "I request that you send me a confirmation of receipt and inform me what action will be taken in response to this report."
+    },
+    tr: {
+      seen: "Ne gördüm?",
+      count: "Fare sayısı:",
+      description: "Gözlemin açıklaması:",
+      date: "Gözlemin tarihi ve saati:",
+      where: "Fareleri nerede gördüm?",
+      location: "Sokak adı ve kapı numarası veya tam konum:",
+      reporter: "Bildirimde bulunan kişinin bilgileri",
+      name: "Adı soyadı:",
+      phone: "Telefon numarası:",
+      email: "E-posta adresi:",
+      request: "Bu bildirimin alındığına dair onay göndermenizi ve bu bildirim üzerine hangi işlemin yapılacağını bana bildirmenizi rica ediyorum."
+    },
+    ar: {
+      seen: "ماذا شاهدت؟",
+      count: "عدد الجرذان:",
+      description: "وصف المشاهدة:",
+      date: "تاريخ ووقت المشاهدة:",
+      where: "أين شاهدت الجرذان؟",
+      location: "اسم الشارع ورقم المنزل أو الموقع الدقيق:",
+      reporter: "بيانات مقدّم البلاغ",
+      name: "الاسم الكامل:",
+      phone: "رقم الهاتف:",
+      email: "البريد الإلكتروني:",
+      request: "أرجو إرسال تأكيد باستلام هذا البلاغ وإبلاغي بالإجراء الذي سيتم اتخاذه بناءً عليه."
+    },
+    ru: {
+      seen: "Что я увидел(а)?",
+      count: "Количество крыс:",
+      description: "Описание наблюдения:",
+      date: "Дата и время наблюдения:",
+      where: "Где я увидел(а) крыс?",
+      location: "Название улицы и номер дома или точное местоположение:",
+      reporter: "Данные заявителя",
+      name: "Имя и фамилия:",
+      phone: "Номер телефона:",
+      email: "Адрес электронной почты:",
+      request: "Прошу подтвердить получение этого сообщения и сообщить мне, какие меры будут приняты в связи с ним."
+    },
+    es: {
+      seen: "¿Qué he visto?",
+      count: "Número de ratas:",
+      description: "Descripción del avistamiento:",
+      date: "Fecha y hora del avistamiento:",
+      where: "¿Dónde he visto las ratas?",
+      location: "Nombre de la calle y número o ubicación exacta:",
+      reporter: "Datos de la persona que presenta el aviso",
+      name: "Nombre y apellidos:",
+      phone: "Número de teléfono:",
+      email: "Correo electrónico:",
+      request: "Solicito que me envíen una confirmación de recepción y me informen de qué medidas se tomarán en respuesta a este aviso."
+    }
+  };
+
+  function updateOfficialEmailLink() {
+    const helper = EMAIL_HELP[currentLang] || null;
+
+    function translated(key) {
+      return helper ? " (" + helper[key] + ")" : "";
+    }
+
+    const lines = [
+      "Geachte medewerkers van Spaarnelanden,",
+      "",
+      "Hierbij wil ik melding maken van rattenoverlast in Haarlem.",
+      "",
+      "==================================================",
+      "1. WAT HEB IK GEZIEN?" + translated("seen"),
+      "==================================================",
+      "",
+      "Aantal waargenomen ratten:" + translated("count"),
+      "",
+      "__________________________________________________",
+      "",
+      "Beschrijving van de waarneming:" + translated("description"),
+      "",
+      "__________________________________________________",
+      "",
+      "Datum en tijdstip van waarneming:" + translated("date"),
+      "",
+      "__________________________________________________",
+      "",
+      "==================================================",
+      "2. WAAR HEB IK DE RATTEN GEZIEN?" + translated("where"),
+      "==================================================",
+      "",
+      "Straat en huisnummer of exacte locatie:" + translated("location"),
+      "",
+      "__________________________________________________",
+      "",
+      "==================================================",
+      "3. GEGEVENS VAN DE MELDER" + translated("reporter"),
+      "==================================================",
+      "",
+      "Naam:" + translated("name"),
+      "",
+      "__________________________________________________",
+      "",
+      "Telefoonnummer:" + translated("phone"),
+      "",
+      "__________________________________________________",
+      "",
+      "E-mailadres:" + translated("email"),
+      "",
+      "__________________________________________________",
+      "",
+      "==================================================",
+      "4. VERZOEK OM ONTVANGSTBEVESTIGING EN TERUGKOPPELING",
+      "==================================================",
+      "",
+      "Ik verzoek u mij een ontvangstbevestiging te sturen en mij terug te koppelen welke actie naar aanleiding van deze melding wordt ondernomen.",
+      helper ? "(" + helper.request + ")" : "",
+      "",
+      "Met vriendelijke groet,",
+      "",
+      "__________________________________________________"
+    ];
+
+    const subject = "Melding rattenoverlast – Haarlem";
+    const body = lines.join("\r\n");
+
+    $("officialLink").href =
+      "mailto:info@spaarnelanden.nl" +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+  }
+
+  const T = {
+    nl: {
+      categoryLabel:"Wat wil je melden?",
+      categoryRats:"Ratten gezien (levend of dood)",
+      categoryDroppings:"Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)",
+      categoryBurrows:"Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)",
+      observationRats:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
+      observationDroppings:"Hoeveel plekken met rattenkeutels heb je gevonden?",
+      observationBurrows:"Hoeveel gangen of holen heb je gevonden?",
+      countHelpRats:"Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.",
+      countHelpDroppings:"Tel vindplaatsen met keutels van ongeveer 1,5 tot 2 cm lang. Kleine muizenkeutels tellen niet mee. Maximaal 20 vindplaatsen per melding.",
+      countHelpBurrows:"Tel openingen van ongeveer 5 cm of groter. Kleinere muizenholletjes tellen niet mee. Maximaal 20 openingen per melding.",
+      legendDroppings:"Bruine stip: rattenkeutels",
+      legendBurrows:"Grote witte stip: gangen of holen",
+      popupCategoryRats:"Ratten gezien (levend of dood)",
+      popupCategoryDroppings:"Rattenkeutels",
+      popupCategoryBurrows:"Gangen of holen",
+      popupCount:"Aantal gemeld",
+      languageLabel:"Taal kiezen",
+      navigationLabel:"Hoofdnavigatie",
+      mapAria:"Kaart met rattenwaarnemingen per straat",
+      streetPlaceholder:"Bijvoorbeeld: Parklaan",
+      subtitle:"Zie je een rat? Meld het hier!",
+      report:"Mail Spaarnelanden",
+      map:"Rattenkaart: waar zijn de hotspots?",
+      info:"Informatie",
+      posters:"Posters om te printen",
+      postersTitle:"Posters om te printen",
+      postersIntro:"Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.",
+      posterInstruction:"Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.",
+      posterOne:"Poster 1",
+      posterTwo:"Poster 2",
+      posterThree:"Poster 3",
+      printPoster:"Print deze poster",
+      routeTitle:"Wat gebeurt er na je melding?",
+      routeStep1:"Je stuurt je e-mail met de officiële melding naar Spaarnelanden.",
+      routeStep2:"Spaarnelanden schakelt Anticimex in.",
+      routeStep3:"Anticimex belt je om de situatie te bespreken en een afspraak te maken.",
+      routeStep4:"Een medewerker van Anticimex komt bij je langs. De hulp en bezoeken zijn gratis.",
+      routeSmoke:"Vraag ook om een gratis rooktest. Daarmee kan worden onderzocht of er via het riool een verbinding is die de rattenoverlast veroorzaakt.",
+      route2026:"Vanaf november 2026: onbeperkt gratis hulp. Waar voorheen maximaal drie gratis bezoeken mogelijk waren, kun je vanaf november 2026 zo vaak als nodig gratis hulp van Anticimex krijgen. Je betaalt hiervoor niets.",
+      reportTitle:"Een rat gezien?",
+      reportIntro:"Help mee om rattenoverlast in Haarlem in kaart te brengen.",
+      officialFirst:"Doe eerst zelf een officiële melding bij Spaarnelanden.",
+      officialExplain:"Open het onderstaande meldformulier in je e-mailprogramma, vul het in en verstuur de e-mail zelf.",
+      openEmail:"E-mail met meldformulier openen",
+      emailLimit:"Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.",
+      returnedLabel:"Ik heb de e-mail geopend en ben teruggekeerd naar deze website.",
+      unlockMap:"Bekijk de kaart",
+      mapTitle:"Rattenkaart: waar zijn de hotspots?",
+      mapIntro:"Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.",
+      mapWarning:"Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden. Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.",
+      dotTitle:"Wat betekent de stip op de kaart?",
+      dotExplanation:"De stip wordt op een willekeurige plek binnen de betreffende straat weergegeven. De locatie van de stip geeft dus niet aan waar de ratten daadwerkelijk zijn gezien. De stip toont het totaal aantal meldingen van rattenoverlast voor de hele straat.",
+      legendTitle:"Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):",
+      band1:"1–4 ratten",
+      band2:"5–9 ratten",
+      band3:"10–19 ratten",
+      band4:"20–39 ratten",
+      band5:"40–59 ratten",
+      band6:"60–99 ratten",
+      band7:"100 of meer",
+      typeStreet:"Straatnaam in Haarlem (zonder huisnummer):",
+      observationLabel:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
+      countHelp:"Vul het exacte aantal in. Je kunt per melding maximaal 20 ratten doorgeven.",
+      consent:"Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.",
+      truthful:"Ik verklaar dat ik deze melding naar waarheid heb ingevuld.",
+      submit:"Waarneming registreren",
+      searching:"Straat opzoeken in Haarlem...",
+      sending:"Melding veilig opslaan...",
+      saved:"Je waarneming is centraal opgeslagen. Bedankt!",
+      notFound:"Deze straat kon niet worden gevonden in Haarlem. Controleer de spelling.",
+      invalidCount:"Vul een heel getal in tussen 1 en 20.",
+      storageError:"De melding kon niet worden opgeslagen. Probeer het later opnieuw.",
+      duplicateReport:"Je hebt vanaf deze browser onlangs al een melding gedaan. Probeer het over 15 minuten opnieuw.",
+      loadingReports:"Meldingen worden opgehaald...",
+      loadError:"De meldingen konden niet worden opgehaald. Probeer de kaart later opnieuw te openen.",
+      storageNotice:"Meldingen worden centraal opgeslagen en zijn zichtbaar voor alle bezoekers.",
+      infoTitle:"Over dit initiatief",
+      infoText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief om rattenoverlast in onze stad zichtbaar te maken.",
+      info1:"Wij zijn geen ongediertebestrijders. We vangen geen ratten en bestrijden de overlast niet zelf.",
+      info2:"Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt geen officiële melding.",
+      info3:"Privacy: we vragen geen huisnummers, namen of e-mailadressen. De kaart toont alleen gegevens op straatniveau.",
+      info4:"Je hebt geen account nodig. Open eerst de officiële e-mail en registreer daarna vrijwillig je waarneming op onze kaart.",
+      privacyNotice:"De kaart is bedoeld om algemene patronen zichtbaar te maken. De meldingen zijn geen officiële gemeentelijke gegevens.",
+      footerText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",
+      popupTotal:"Totaal aantal gemelde ratten",
+      popupReports:"Aantal meldingen",
+      popupNote:"Optelsom van meldingen, geen telling van unieke ratten."
+    },
+
+    en: {
+      categoryLabel:"What would you like to report?",
+      categoryRats:"Rats seen (alive or dead)",
+      categoryDroppings:"Rat droppings (1.5–2 cm long; not mouse droppings)",
+      categoryBurrows:"Burrows or holes (opening about 5 cm wide or larger; not mouse holes)",
+      observationRats:"How many rats have you seen in total during the past 12 months?",
+      observationDroppings:"How many places with rat droppings have you found?",
+      observationBurrows:"How many burrows or holes have you found?",
+      countHelpRats:"Enter the number of rats. You can report a maximum of 20 rats per report.",
+      countHelpDroppings:"Count locations with droppings about 1.5 to 2 cm long. Do not count smaller mouse droppings. Maximum 20 locations per report.",
+      countHelpBurrows:"Count openings about 5 cm wide or larger. Do not count smaller mouse holes. Maximum 20 openings per report.",
+      legendDroppings:"Brown dot: rat droppings",
+      legendBurrows:"Larger white dot: burrows or holes",
+      popupCategoryRats:"Rats seen (alive or dead)",
+      popupCategoryDroppings:"Rat droppings",
+      popupCategoryBurrows:"Burrows or holes",
+      popupCount:"Number reported",
+      languageLabel:"Choose language",
+      navigationLabel:"Main navigation",
+      mapAria:"Map showing reported rat sightings by street",
+      streetPlaceholder:"For example: Parklaan",
+      subtitle:"Seen a rat? Report it here!",
+      report:"Email Spaarnelanden",
+      map:"Rat map: where are the hotspots?",
+      info:"Information",
+      posters:"Posters to print",
+      postersTitle:"Posters to print",
+      postersIntro:"Choose a poster and print it separately. Each poster is scaled to fit on no more than one A4 page.",
+      posterInstruction:"Print this poster and hang it inside the meter cupboard. That way, you will always have Spaarnelanden’s phone number handy to report rat problems.",
+      posterOne:"Poster 1",
+      posterTwo:"Poster 2",
+      posterThree:"Poster 3",
+      printPoster:"Print this poster",
+      routeTitle:"What happens after you report it?",
+      routeStep1:"You send your official report by email to Spaarnelanden.",
+      routeStep2:"Spaarnelanden contacts Anticimex.",
+      routeStep3:"Anticimex calls you to discuss the situation and arrange an appointment.",
+      routeStep4:"An Anticimex employee visits you. The assistance and visits are free of charge.",
+      routeSmoke:"Also ask for a free smoke test. This can help determine whether a connection through the sewer is contributing to the rat problem.",
+      route2026:"From November 2026: unlimited free assistance. Previously, a maximum of three visits were free. From November 2026, you can receive as many Anticimex visits as needed at no cost.",
+      reportTitle:"Seen a rat?",
+      reportIntro:"Help us map rat sightings in Haarlem.",
+      officialFirst:"First, submit an official report to Spaarnelanden yourself.",
+      officialExplain:"Open the report form below in your email app, fill it in and send the email yourself.",
+      openEmail:"Open email report form",
+      emailLimit:"After opening the email, return to this website. We cannot verify whether you actually sent the email or whether Spaarnelanden received it.",
+      returnedLabel:"I have opened the email and returned to this website.",
+      unlockMap:"View the map",
+      mapTitle:"Rat map: where are the hotspots?",
+      mapIntro:"Enter the name of a street in Haarlem below to view reported sightings.",
+      mapWarning:"The total for each street is the sum of residents' reports from the past 12 months. The same rats may have been seen by several residents, so this is not a count of individual rats.",
+      dotTitle:"What does the dot on the map mean?",
+      dotExplanation:"The dot is shown at a random location within the street concerned. Its position does not indicate where the rats were actually seen. The dot shows the total number of rat reports for the entire street.",
+      legendTitle:"Total number of rats reported per street (past 12 months):",
+      band1:"1–4 rats",
+      band2:"5–9 rats",
+      band3:"10–19 rats",
+      band4:"20–39 rats",
+      band5:"40–59 rats",
+      band6:"60–99 rats",
+      band7:"100 or more",
+      typeStreet:"Street name in Haarlem (without house number):",
+      observationLabel:"How many rats have you seen in total during the past 12 months?",
+      countHelp:"Enter the exact number. You can report a maximum of 20 rats per report.",
+      consent:"I understand that my report is voluntary, is not verified, covers the past 12 months and is displayed at street level.",
+      truthful:"I declare that I have completed this report truthfully.",
+      submit:"Register sighting",
+      searching:"Looking up the street in Haarlem...",
+      sending:"Saving your report securely...",
+      saved:"Your sighting has been saved. Thank you!",
+      notFound:"This street could not be found in Haarlem. Please check the spelling.",
+      invalidCount:"Enter a whole number between 1 and 20.",
+      storageError:"Your report could not be saved. Please try again later.",
+      duplicateReport:"A report was recently submitted from this browser. Please try again in 15 minutes.",
+      loadingReports:"Loading reports...",
+      loadError:"The reports could not be retrieved. Please try opening the map again later.",
+      storageNotice:"Reports are stored centrally and are visible to all visitors.",
+      infoTitle:"About this initiative",
+      infoText:"Rattenvanger van Haarlem is an independent residents' initiative that aims to make rat problems in our city visible.",
+      info1:"We are not a pest-control service. We do not catch rats or deal with the problem ourselves.",
+      info2:"Always submit an official report to Spaarnelanden. Our map does not replace an official report.",
+      info3:"Privacy: we do not ask for house numbers, names or email addresses. The map only displays information at street level.",
+      info4:"You do not need an account. First open the official email, then voluntarily register your sighting on our map.",
+      privacyNotice:"The map is intended to show general patterns. The reports are not official municipal data.",
+      footerText:"Rattenvanger van Haarlem is an independent residents' initiative.",
+      popupTotal:"Total number of rats reported",
+      popupReports:"Number of reports",
+      popupNote:"The sum of reports, not a count of individual rats."
+    },
+
+    tr: {
+      categoryLabel:"Ne bildirmek istiyorsunuz?",
+      categoryRats:"Görülen fareler (canlı veya ölü)",
+      categoryDroppings:"Sıçan dışkısı (1,5–2 cm uzunluğunda; fare dışkısı değil)",
+      categoryBurrows:"Tüneller veya yuvalar (açıklık yaklaşık 5 cm veya daha geniş; küçük fare delikleri değil)",
+      observationRats:"Son 12 ayda toplam kaç fare gördünüz?",
+      observationDroppings:"Fare dışkısı bulunan kaç yer tespit ettiniz?",
+      observationBurrows:"Kaç tünel veya delik buldunuz?",
+      countHelpRats:"Fare sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
+      countHelpDroppings:"Yaklaşık 1,5–2 cm uzunluğundaki dışkı bulunan yerleri sayın. Daha küçük fare dışkılarını saymayın. Her bildirimde en fazla 20 yer.",
+      countHelpBurrows:"Yaklaşık 5 cm veya daha geniş açıklıkları sayın. Daha küçük fare deliklerini saymayın. Her bildirimde en fazla 20 açıklık.",
+      legendDroppings:"Kahverengi nokta: sıçan dışkısı",
+      legendBurrows:"Büyük beyaz nokta: tüneller veya delikler",
+      popupCategoryRats:"Görülen fareler (canlı veya ölü)",
+      popupCategoryDroppings:"Fare dışkısı",
+      popupCategoryBurrows:"Tüneller veya delikler",
+      popupCount:"Bildirilen sayı",
+      languageLabel:"Dil seçin",
+      navigationLabel:"Ana menü",
+      mapAria:"Sokaklara göre fare gözlemlerini gösteren harita",
+      streetPlaceholder:"Örneğin: Parklaan",
+      subtitle:"Fare gördünüz mü? Buradan bildirin!",
+      report:"Spaarnelanden’e e-posta gönder",
+      map:"Fare haritası: yoğunluk nerede?",
+      info:"Bilgi",
+      posters:"Yazdırılacak afişler",
+      postersTitle:"Yazdırılacak afişler",
+      postersIntro:"Bir afiş seçin ve ayrı olarak yazdırın. Her afiş en fazla bir A4 sayfasına sığacak şekilde ayarlanır.",
+      posterInstruction:"Bu afişi yazdırın ve sayaç dolabına asın. Böylece fare sorununu bildirmek için Spaarnelanden’in telefon numarası her zaman elinizin altında olur.",
+      posterOne:"Afiş 1",
+      posterTwo:"Afiş 2",
+      posterThree:"Afiş 3",
+      printPoster:"Bu afişi yazdır",
+      routeTitle:"Bildirimden sonra ne olur?",
+      routeStep1:"Resmî bildiriminizi Spaarnelanden'e e-posta ile gönderirsiniz.",
+      routeStep2:"Spaarnelanden, Anticimex ile iletişime geçer.",
+      routeStep3:"Anticimex durumu görüşmek ve randevu ayarlamak için sizi telefonla arar.",
+      routeStep4:"Anticimex'ten bir görevli adresinizi ziyaret eder. Yardım ve ziyaretler ücretsizdir.",
+      routeSmoke:"Ayrıca ücretsiz bir duman testi de talep edin. Bu test, kanalizasyon yoluyla fare sorununa neden olabilecek bir bağlantı olup olmadığını araştırmaya yardımcı olur.",
+      route2026:"Kasım 2026'dan itibaren: sınırsız ücretsiz yardım. Önceden en fazla üç ziyaret ücretsizdi. Kasım 2026'dan itibaren ihtiyaç duyduğunuz kadar Anticimex ziyareti ücretsiz olacaktır.",
+      reportTitle:"Fare gördünüz mü?",
+      reportIntro:"Haarlem'deki fare gözlemlerini haritada göstermemize yardımcı olun.",
+      officialFirst:"Önce Spaarnelanden'e kendiniz resmi bir bildirimde bulunun.",
+      officialExplain:"Aşağıdaki bildirim formunu e-posta uygulamanızda açın, doldurun ve e-postayı kendiniz gönderin.",
+      openEmail:"Bildirim formunu e-postayla aç",
+      emailLimit:"E-postayı açtıktan sonra bu web sitesine geri dönün. E-postayı gerçekten gönderip göndermediğinizi veya Spaarnelanden'in e-postayı alıp almadığını kontrol edemiyoruz.",
+      returnedLabel:"E-postayı açtım ve bu web sitesine geri döndüm.",
+      unlockMap:"Haritayı görüntüle",
+      mapTitle:"Fare haritası: yoğunluk nerede?",
+      mapIntro:"Gözlemleri görmek için aşağıya Haarlem'deki bir sokağın adını yazın.",
+      mapWarning:"Her sokak için gösterilen toplam sayı, son 12 ayda sakinler tarafından yapılan bildirimlerin toplamıdır. Aynı fareler birden fazla kişi tarafından görülmüş olabilir. Bu nedenle sayı, farklı farelerin sayısını göstermez.",
+      dotTitle:"Haritadaki nokta ne anlama geliyor?",
+      dotExplanation:"Nokta, ilgili sokak içinde rastgele bir yerde gösterilir. Konumu, farelerin gerçekte nerede görüldüğünü belirtmez. Nokta, sokağın tamamı için yapılan toplam fare bildirimlerini gösterir.",
+      legendTitle:"Sokak başına bildirilen toplam fare sayısı (son 12 ay):",
+      band1:"1–4 fare",
+      band2:"5–9 fare",
+      band3:"10–19 fare",
+      band4:"20–39 fare",
+      band5:"40–59 fare",
+      band6:"60–99 fare",
+      band7:"100 veya daha fazla",
+      typeStreet:"Haarlem’deki sokak adı (kapı numarası olmadan):",
+      observationLabel:"Son 12 ay içinde toplam kaç fare gördünüz?",
+      countHelp:"Gördüğünüz farelerin tam sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz.",
+      consent:"Bildirimimin gönüllü olduğunu, doğrulanmadığını, son 12 ayı kapsadığını ve sokak düzeyinde gösterileceğini anlıyorum.",
+      truthful:"Bu bildirimi doğru bilgilerle doldurduğumu beyan ederim.",
+      submit:"Gözlemi kaydet",
+      searching:"Haarlem'deki sokak aranıyor...",
+      sending:"Bildiriminiz güvenli bir şekilde kaydediliyor...",
+      saved:"Gözleminiz kaydedildi. Teşekkür ederiz!",
+      notFound:"Bu sokak Haarlem'de bulunamadı. Lütfen yazımını kontrol edin.",
+      invalidCount:"1 ile 20 arasında tam sayı girin.",
+      storageError:"Bildiriminiz kaydedilemedi. Lütfen daha sonra tekrar deneyin.",
+      duplicateReport:"Bu tarayıcıdan yakın zamanda bir bildirim gönderildi. Lütfen 15 dakika sonra tekrar deneyin.",
+      loadingReports:"Bildirimler yükleniyor...",
+      loadError:"Bildirimler alınamadı. Lütfen haritayı daha sonra tekrar açmayı deneyin.",
+      storageNotice:"Bildirimler merkezi olarak kaydedilir ve tüm ziyaretçiler tarafından görülebilir.",
+      infoTitle:"Bu girişim hakkında",
+      infoText:"Rattenvanger van Haarlem, şehrimizdeki fare sorununu görünür kılmayı amaçlayan bağımsız bir mahalle girişimidir.",
+      info1:"Biz bir haşere kontrol şirketi değiliz. Fare yakalamıyor veya sorunu kendimiz çözmüyoruz.",
+      info2:"Her zaman Spaarnelanden'e resmi bir bildirimde bulunun. Haritamız resmi bildirimin yerine geçmez.",
+      info3:"Gizlilik: Ev numarası, isim veya e-posta adresi istemiyoruz. Haritada yalnızca sokak düzeyindeki bilgiler gösterilir.",
+      info4:"Hesap oluşturmanız gerekmez. Önce resmi e-postayı açın, ardından gözleminizi haritamıza gönüllü olarak kaydedin.",
+      privacyNotice:"Harita, genel eğilimleri göstermek amacıyla hazırlanmıştır. Bildirimler resmi belediye verileri değildir.",
+      footerText:"Rattenvanger van Haarlem bağımsız bir mahalle girişimidir.",
+      popupTotal:"Bildirilen toplam fare sayısı",
+      popupReports:"Bildirim sayısı",
+      popupNote:"Bu sayı farklı farelerin sayısı değil, bildirimlerin toplamıdır."
+    },
+
+    ar: {
+      categoryLabel:"ما الذي تريد الإبلاغ عنه؟",
+      categoryRats:"جرذان شوهدت (حية أو ميتة)",
+      categoryDroppings:"فضلات الجرذان (بطول 1.5–2 سم؛ وليست فضلات الفئران الصغيرة)",
+      categoryBurrows:"أنفاق أو جحور (فتحة بعرض نحو 5 سم أو أكثر؛ وليست جحور الفئران الصغيرة)",
+      observationRats:"كم جرذاً شاهدت إجمالاً خلال الأشهر الاثني عشر الماضية؟",
+      observationDroppings:"كم موقعاً وجدت فيه فضلات جرذان؟",
+      observationBurrows:"كم جحراً أو فتحة وجدت؟",
+      countHelpRats:"أدخل عدد الجرذان. يمكنك الإبلاغ عن 20 جرذاً كحد أقصى في كل بلاغ.",
+      countHelpDroppings:"احسب المواقع التي توجد فيها فضلات بطول نحو 1.5 إلى 2 سم. لا تحتسب فضلات الفئران الأصغر. الحد الأقصى 20 موقعاً في البلاغ.",
+      countHelpBurrows:"احسب الفتحات التي يبلغ عرضها نحو 5 سم أو أكثر. لا تحتسب فتحات الفئران الأصغر. الحد الأقصى 20 فتحة في البلاغ.",
+      legendDroppings:"نقطة بنية: فضلات الجرذان",
+      legendBurrows:"نقطة بيضاء أكبر: جحور أو فتحات",
+      popupCategoryRats:"جرذان شوهدت (حية أو ميتة)",
+      popupCategoryDroppings:"فضلات الجرذان",
+      popupCategoryBurrows:"جحور أو فتحات",
+      popupCount:"العدد المُبلّغ عنه",
+      languageLabel:"اختر اللغة",
+      navigationLabel:"القائمة الرئيسية",
+      mapAria:"خريطة تعرض بلاغات مشاهدة الجرذان حسب الشارع",
+      streetPlaceholder:"مثال: Parklaan",
+      subtitle:"هل رأيت جرذاً؟ أبلغ عنه هنا!",
+      report:"راسل سبارنيلاندن",
+      map:"خريطة الجرذان: أين تتركز البلاغات؟",
+      info:"معلومات",
+      posters:"ملصقات للطباعة",
+      postersTitle:"ملصقات للطباعة",
+      postersIntro:"اختر ملصقاً واطبعه بشكل منفصل. يتم ضبط حجم كل ملصق ليتناسب مع صفحة A4 واحدة كحد أقصى.",
+      posterInstruction:"اطبع هذا الملصق وعلّقه داخل خزانة العدادات. وهكذا سيبقى رقم هاتف Spaarnelanden متاحاً لك دائماً للإبلاغ عن مشكلة الجرذان.",
+      posterOne:"الملصق 1",
+      posterTwo:"الملصق 2",
+      posterThree:"الملصق 3",
+      printPoster:"اطبع هذا الملصق",
+      routeTitle:"ماذا يحدث بعد إرسال البلاغ؟",
+      routeStep1:"ترسل بلاغك الرسمي عبر البريد الإلكتروني إلى Spaarnelanden.",
+      routeStep2:"تتواصل Spaarnelanden مع Anticimex.",
+      routeStep3:"تتصل بك Anticimex لمناقشة الوضع وتحديد موعد.",
+      routeStep4:"يزورك أحد موظفي Anticimex. المساعدة والزيارات مجانية.",
+      routeSmoke:"اطلب أيضاً اختبار دخان مجانياً. يمكن أن يساعد هذا الاختبار في معرفة ما إذا كان هناك اتصال عبر شبكة الصرف الصحي يساهم في مشكلة الجرذان.",
+      route2026:"اعتباراً من نوفمبر 2026: مساعدة مجانية بلا حدّ لعدد الزيارات. كان الحد سابقاً ثلاث زيارات مجانية كحد أقصى. واعتباراً من نوفمبر 2026 يمكنك الحصول على زيارات Anticimex المجانية كلما دعت الحاجة، دون أي تكلفة.",
+      reportTitle:"هل رأيت جرذاً؟",
+      reportIntro:"ساعدنا في توثيق مشاهدات الجرذان في هارلم على الخريطة.",
+      officialFirst:"يرجى أولاً تقديم بلاغ رسمي بنفسك إلى Spaarnelanden.",
+      officialExplain:"افتح نموذج البلاغ أدناه في تطبيق البريد الإلكتروني، واملأه ثم أرسل الرسالة بنفسك.",
+      openEmail:"فتح نموذج البلاغ عبر البريد الإلكتروني",
+      emailLimit:"بعد فتح رسالة البريد الإلكتروني، عُد إلى هذا الموقع. لا يمكننا التحقق مما إذا كنت قد أرسلت الرسالة بالفعل أو مما إذا كانت Spaarnelanden قد استلمتها.",
+      returnedLabel:"لقد فتحت رسالة البريد الإلكتروني وعدت إلى هذا الموقع.",
+      unlockMap:"عرض الخريطة",
+      mapTitle:"خريطة الجرذان: أين تتركز البلاغات؟",
+      mapIntro:"اكتب أدناه اسم أحد الشوارع في هارلم للاطلاع على البلاغات.",
+      mapWarning:"الإجمالي لكل شارع هو مجموع البلاغات التي قدمها السكان خلال الأشهر الاثني عشر الماضية. قد يكون أشخاص مختلفون قد شاهدوا الجرذان نفسها؛ لذلك لا يمثل هذا الرقم عدد الجرذان المختلفة.",
+      dotTitle:"ماذا تعني النقطة على الخريطة؟",
+      dotExplanation:"تُعرض النقطة في موقع عشوائي داخل الشارع المعني. ولا يشير موقعها إلى المكان الذي شوهدت فيه الجرذان فعلياً. بل تعرض النقطة إجمالي بلاغات الجرذان في الشارع بأكمله.",
+      legendTitle:"إجمالي عدد الجرذان المبلّغ عنها في كل شارع (خلال آخر 12 شهراً):",
+      band1:"1–4 جرذان",
+      band2:"5–9 جرذان",
+      band3:"10–19 جرذاً",
+      band4:"20–39 جرذاً",
+      band5:"40–59 جرذاً",
+      band6:"60–99 جرذاً",
+      band7:"100 جرذ أو أكثر",
+      typeStreet:"اسم الشارع في هارلم (من دون رقم المنزل):",
+      observationLabel:"كم جرذاً شاهدت إجمالاً خلال الأشهر الاثني عشر الماضية؟",
+      countHelp:"أدخل العدد الدقيق. يمكنك الإبلاغ عن 20 جرذاً كحد أقصى في كل بلاغ.",
+      consent:"أفهم أن البلاغ طوعي ولم يتم التحقق منه، وأنه يتعلق بالأشهر الاثني عشر الماضية ويُعرض على مستوى الشارع.",
+      truthful:"أُقرّ بأنني ملأت هذا البلاغ بمعلومات صحيحة.",
+      submit:"تسجيل المشاهدة",
+      searching:"جارٍ البحث عن الشارع في هارلم...",
+      sending:"جارٍ حفظ البلاغ بشكل آمن...",
+      saved:"تم حفظ مشاهدتك. شكراً لك!",
+      notFound:"تعذّر العثور على هذا الشارع في هارلم. يرجى التحقق من كتابة الاسم.",
+      invalidCount:"أدخل عدداً صحيحاً من 1 إلى 20.",
+      storageError:"تعذّر حفظ البلاغ. يرجى المحاولة مرة أخرى لاحقاً.",
+      duplicateReport:"تم إرسال بلاغ من هذا المتصفح مؤخراً. يرجى المحاولة مرة أخرى بعد 15 دقيقة.",
+      loadingReports:"جارٍ تحميل البلاغات...",
+      loadError:"تعذّر تحميل البلاغات. يرجى محاولة فتح الخريطة مرة أخرى لاحقاً.",
+      storageNotice:"تُحفظ البلاغات مركزياً ويمكن لجميع زوار الموقع الاطلاع عليها.",
+      infoTitle:"حول هذه المبادرة",
+      infoText:"Rattenvanger van Haarlem مبادرة مستقلة من السكان تهدف إلى إظهار مشكلة انتشار الجرذان في مدينتنا.",
+      info1:"لسنا شركة لمكافحة الآفات. لا نصطاد الجرذان ولا نتولى معالجة المشكلة بأنفسنا.",
+      info2:"يرجى دائماً تقديم بلاغ رسمي إلى Spaarnelanden. خريطتنا لا تحل محل البلاغ الرسمي.",
+      info3:"الخصوصية: لا نطلب أرقام المنازل أو الأسماء أو عناوين البريد الإلكتروني. تعرض الخريطة المعلومات على مستوى الشارع فقط.",
+      info4:"لا تحتاج إلى إنشاء حساب. افتح أولاً رسالة البريد الإلكتروني الرسمية، ثم سجّل مشاهدتك على خريطتنا طوعاً.",
+      privacyNotice:"تهدف الخريطة إلى إظهار الأنماط العامة. البلاغات ليست بيانات رسمية صادرة عن البلدية.",
+      footerText:"Rattenvanger van Haarlem مبادرة مستقلة من السكان.",
+      popupTotal:"إجمالي عدد الجرذان المُبلّغ عنها",
+      popupReports:"عدد البلاغات",
+      popupNote:"هذا مجموع البلاغات وليس عدد الجرذان المختلفة."
+    },
+
+    ru: {
+      categoryLabel:"О чём вы хотите сообщить?",
+      categoryRats:"Замечены крысы (живые или мёртвые)",
+      categoryDroppings:"Крысиный помёт (длиной 1,5–2 см; не мышиный помёт)",
+      categoryBurrows:"Ходы или норы (отверстие около 5 см или шире; не маленькие мышиные норы)",
+      observationRats:"Сколько всего крыс вы видели за последние 12 месяцев?",
+      observationDroppings:"В скольких местах вы обнаружили крысиный помёт?",
+      observationBurrows:"Сколько нор или отверстий вы обнаружили?",
+      countHelpRats:"Укажите количество крыс. В одном сообщении можно указать не более 20 крыс.",
+      countHelpDroppings:"Учитывайте места с помётом длиной примерно 1,5–2 см. Более мелкий мышиный помёт не учитывайте. Не более 20 мест в одном сообщении.",
+      countHelpBurrows:"Учитывайте отверстия шириной примерно 5 см или больше. Более мелкие мышиные норы не учитывайте. Не более 20 отверстий в одном сообщении.",
+      legendDroppings:"Коричневая точка: крысиный помёт",
+      legendBurrows:"Большая белая точка: норы или отверстия",
+      popupCategoryRats:"Замечены крысы (живые или мёртвые)",
+      popupCategoryDroppings:"Крысиный помёт",
+      popupCategoryBurrows:"Норы или отверстия",
+      popupCount:"Указанное количество",
+      languageLabel:"Выберите язык",
+      navigationLabel:"Главное меню",
+      mapAria:"Карта сообщений о крысах по улицам",
+      streetPlaceholder:"Например: Parklaan",
+      subtitle:"Увидели крысу? Сообщите об этом здесь!",
+      report:"Написать в Spaarnelanden",
+      map:"Карта крыс: где больше всего сообщений?",
+      info:"Информация",
+      posters:"Плакаты для печати",
+      postersTitle:"Плакаты для печати",
+      postersIntro:"Выберите плакат и распечатайте его отдельно. Каждый плакат масштабируется так, чтобы поместиться максимум на одном листе A4.",
+      posterInstruction:"Распечатайте этот плакат и повесьте его в шкафу со счётчиками. Так номер телефона Spaarnelanden всегда будет под рукой, чтобы сообщить о проблеме с крысами.",
+      posterOne:"Плакат 1",
+      posterTwo:"Плакат 2",
+      posterThree:"Плакат 3",
+      printPoster:"Распечатать этот плакат",
+      routeTitle:"Что происходит после отправки сообщения?",
+      routeStep1:"Вы отправляете официальное сообщение по электронной почте в Spaarnelanden.",
+      routeStep2:"Spaarnelanden привлекает Anticimex.",
+      routeStep3:"Сотрудники Anticimex звонят вам, чтобы обсудить ситуацию и договориться о визите.",
+      routeStep4:"Специалист Anticimex приезжает к вам. Помощь и визиты бесплатны.",
+      routeSmoke:"Также попросите провести бесплатный дымовой тест. Он поможет выяснить, есть ли связь через канализацию, которая может быть причиной проблемы с крысами.",
+      route2026:"С ноября 2026 года: неограниченная бесплатная помощь. Раньше бесплатно предоставлялось не более трёх визитов. С ноября 2026 года вы сможете бесплатно получать визиты Anticimex столько раз, сколько потребуется.",
+      reportTitle:"Увидели крысу?",
+      reportIntro:"Помогите отметить на карте места, где в Харлеме замечали крыс.",
+      officialFirst:"Сначала самостоятельно подайте официальное сообщение в Spaarnelanden.",
+      officialExplain:"Откройте приведённую ниже форму в почтовом приложении, заполните её и самостоятельно отправьте письмо.",
+      openEmail:"Открыть форму сообщения по электронной почте",
+      emailLimit:"После открытия письма вернитесь на этот сайт. Мы не можем проверить, отправили ли вы письмо и получило ли его Spaarnelanden.",
+      returnedLabel:"Я открыл(а) письмо и вернулся(лась) на этот сайт.",
+      unlockMap:"Посмотреть карту",
+      mapTitle:"Карта крыс: где больше всего сообщений?",
+      mapIntro:"Введите ниже название улицы в Харлеме, чтобы посмотреть сообщения о замеченных крысах.",
+      mapWarning:"Общее число по каждой улице — это сумма сообщений жителей за последние 12 месяцев. Одних и тех же крыс могли видеть разные люди, поэтому это число не отражает количество отдельных крыс.",
+      dotTitle:"Что означает точка на карте?",
+      dotExplanation:"Точка отображается в случайном месте на соответствующей улице. Её положение не указывает, где именно были замечены крысы. Точка показывает общее количество сообщений о крысах по всей улице.",
+      legendTitle:"Общее число крыс, о которых сообщили жители каждой улицы (за последние 12 месяцев):",
+      band1:"1–4 крысы",
+      band2:"5–9 крыс",
+      band3:"10–19 крыс",
+      band4:"20–39 крыс",
+      band5:"40–59 крыс",
+      band6:"60–99 крыс",
+      band7:"100 или больше",
+      typeStreet:"Название улицы в Харлеме (без номера дома):",
+      observationLabel:"Сколько всего крыс вы видели за последние 12 месяцев?",
+      countHelp:"Укажите точное количество. В одном сообщении можно указать не более 20 крыс.",
+      consent:"Я понимаю, что сообщение является добровольным, не проверяется, относится к последним 12 месяцам и отображается на уровне улицы.",
+      truthful:"Подтверждаю, что заполнил(а) это сообщение правдиво.",
+      submit:"Зарегистрировать наблюдение",
+      searching:"Поиск улицы в Харлеме...",
+      sending:"Сохранение сообщения...",
+      saved:"Ваше наблюдение сохранено. Спасибо!",
+      notFound:"Не удалось найти эту улицу в Харлеме. Проверьте правильность написания.",
+      invalidCount:"Введите целое число от 1 до 20.",
+      storageError:"Не удалось сохранить сообщение. Пожалуйста, попробуйте позже.",
+      duplicateReport:"С этого браузера недавно уже отправляли сообщение. Повторите попытку через 15 минут.",
+      loadingReports:"Загрузка сообщений...",
+      loadError:"Не удалось загрузить сообщения. Попробуйте открыть карту позже.",
+      storageNotice:"Сообщения сохраняются централизованно и доступны всем посетителям сайта.",
+      infoTitle:"Об этой инициативе",
+      infoText:"Rattenvanger van Haarlem — независимая инициатива жителей, цель которой — сделать проблему крыс в нашем городе более заметной.",
+      info1:"Мы не являемся службой по борьбе с вредителями. Мы не ловим крыс и не устраняем проблему самостоятельно.",
+      info2:"Всегда подавайте официальное сообщение в Spaarnelanden. Наша карта не заменяет официальное сообщение.",
+      info3:"Конфиденциальность: мы не запрашиваем номера домов, имена или адреса электронной почты. На карте отображается только информация на уровне улиц.",
+      info4:"Регистрация не требуется. Сначала откройте официальное письмо, а затем добровольно добавьте своё наблюдение на карту.",
+      privacyNotice:"Карта предназначена для отображения общих закономерностей. Эти сообщения не являются официальными муниципальными данными.",
+      footerText:"Rattenvanger van Haarlem — независимая инициатива жителей.",
+      popupTotal:"Общее число крыс, о которых сообщили жители",
+      popupReports:"Количество сообщений",
+      popupNote:"Это сумма сообщений, а не количество отдельных крыс."
+    },
+
+    es: {
+      categoryLabel:"¿Qué quieres comunicar?",
+      categoryRats:"Ratas vistas (vivas o muertas)",
+      categoryDroppings:"Excrementos de rata (de 1,5–2 cm; no de ratón)",
+      categoryBurrows:"Galerías o madrigueras (abertura de unos 5 cm o más; no agujeros de ratón)",
+      observationRats:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
+      observationDroppings:"¿En cuántos lugares has encontrado excrementos de rata?",
+      observationBurrows:"¿Cuántas madrigueras o agujeros has encontrado?",
+      countHelpRats:"Indica el número de ratas. Puedes comunicar un máximo de 20 ratas por aviso.",
+      countHelpDroppings:"Cuenta los lugares con excrementos de unos 1,5 a 2 cm de largo. No cuentes los excrementos más pequeños de ratón. Máximo 20 lugares por aviso.",
+      countHelpBurrows:"Cuenta las aberturas de unos 5 cm de ancho o más. No cuentes los agujeros más pequeños de ratón. Máximo 20 aberturas por aviso.",
+      legendDroppings:"Punto marrón: excrementos de rata",
+      legendBurrows:"Punto blanco más grande: madrigueras o agujeros",
+      popupCategoryRats:"Ratas vistas (vivas o muertas)",
+      popupCategoryDroppings:"Excrementos de rata",
+      popupCategoryBurrows:"Madrigueras o agujeros",
+      popupCount:"Cantidad comunicada",
+      languageLabel:"Seleccionar idioma",
+      navigationLabel:"Menú principal",
+      mapAria:"Mapa de avistamientos de ratas por calle",
+      streetPlaceholder:"Por ejemplo: Parklaan",
+      subtitle:"¿Has visto una rata? ¡Infórmanos aquí!",
+      report:"Enviar un correo a Spaarnelanden",
+      map:"Mapa de ratas: ¿dónde están los focos?",
+      info:"Información",
+      posters:"Carteles para imprimir",
+      postersTitle:"Carteles para imprimir",
+      postersIntro:"Elige un cartel e imprímelo por separado. Cada cartel se ajusta para ocupar como máximo una página A4.",
+      posterInstruction:"Imprime este cartel y cuélgalo en el armario de contadores. Así tendrás siempre a mano el teléfono de Spaarnelanden para avisar de la presencia de ratas.",
+      posterOne:"Cartel 1",
+      posterTwo:"Cartel 2",
+      posterThree:"Cartel 3",
+      printPoster:"Imprimir este cartel",
+      routeTitle:"¿Qué ocurre después de enviar el aviso?",
+      routeStep1:"Envías tu aviso oficial por correo electrónico a Spaarnelanden.",
+      routeStep2:"Spaarnelanden contacta con Anticimex.",
+      routeStep3:"Anticimex te llama para hablar de la situación y concertar una cita.",
+      routeStep4:"Un empleado de Anticimex acude a tu domicilio. La asistencia y las visitas son gratuitas.",
+      routeSmoke:"Pide también una prueba de humo gratuita. Esta prueba puede ayudar a averiguar si existe una conexión a través del alcantarillado que contribuya al problema de las ratas.",
+      route2026:"A partir de noviembre de 2026: asistencia gratuita sin límite de visitas. Antes se ofrecían como máximo tres visitas gratuitas. Desde noviembre de 2026 podrás recibir visitas gratuitas de Anticimex tantas veces como sea necesario.",
+      reportTitle:"¿Has visto una rata?",
+      reportIntro:"Ayúdanos a localizar en el mapa los avistamientos de ratas en Haarlem.",
+      officialFirst:"Primero, presenta tú mismo un aviso oficial a Spaarnelanden.",
+      officialExplain:"Abre el formulario que aparece a continuación en tu aplicación de correo electrónico, complétalo y envía el mensaje tú mismo.",
+      openEmail:"Abrir el formulario por correo electrónico",
+      emailLimit:"Después de abrir el correo electrónico, vuelve a este sitio web. No podemos comprobar si realmente has enviado el mensaje ni si Spaarnelanden lo ha recibido.",
+      returnedLabel:"He abierto el correo electrónico y he vuelto a este sitio web.",
+      unlockMap:"Ver el mapa",
+      mapTitle:"Mapa de ratas: ¿dónde están los focos?",
+      mapIntro:"Escribe a continuación el nombre de una calle de Haarlem para consultar los avistamientos.",
+      mapWarning:"El total de cada calle es la suma de los avisos enviados por los residentes durante los últimos 12 meses. Varias personas pueden haber visto las mismas ratas, por lo que esta cifra no representa el número de ratas diferentes.",
+      dotTitle:"¿Qué significa el punto del mapa?",
+      dotExplanation:"El punto se muestra en un lugar aleatorio de la calle correspondiente. Su ubicación no indica dónde se vieron realmente las ratas. El punto muestra el número total de avisos sobre ratas registrados en toda la calle.",
+      legendTitle:"Número total de ratas notificadas por calle (últimos 12 meses):",
+      band1:"1–4 ratas",
+      band2:"5–9 ratas",
+      band3:"10–19 ratas",
+      band4:"20–39 ratas",
+      band5:"40–59 ratas",
+      band6:"60–99 ratas",
+      band7:"100 o más",
+      typeStreet:"Nombre de la calle en Haarlem (sin número de casa):",
+      observationLabel:"¿Cuántas ratas has visto en total durante los últimos 12 meses?",
+      countHelp:"Indica la cantidad exacta. Puedes comunicar un máximo de 20 ratas por aviso.",
+      consent:"Entiendo que mi aviso es voluntario, no se verifica, se refiere a los últimos 12 meses y se muestra a nivel de calle.",
+      truthful:"Declaro que he rellenado este aviso con información veraz.",
+      submit:"Registrar avistamiento",
+      searching:"Buscando la calle en Haarlem...",
+      sending:"Guardando el aviso de forma segura...",
+      saved:"Tu avistamiento se ha guardado. ¡Gracias!",
+      notFound:"No se ha encontrado esta calle en Haarlem. Comprueba que el nombre esté escrito correctamente.",
+      invalidCount:"Introduce un número entero entre 1 y 20.",
+      storageError:"No se ha podido guardar el aviso. Inténtalo de nuevo más tarde.",
+      duplicateReport:"Ya se ha enviado un aviso recientemente desde este navegador. Vuelve a intentarlo dentro de 15 minutos.",
+      loadingReports:"Cargando avisos...",
+      loadError:"No se han podido cargar los avisos. Intenta abrir el mapa de nuevo más tarde.",
+      storageNotice:"Los avisos se guardan de forma centralizada y están visibles para todos los visitantes.",
+      infoTitle:"Sobre esta iniciativa",
+      infoText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente cuyo objetivo es hacer visible el problema de las ratas en nuestra ciudad.",
+      info1:"No somos una empresa de control de plagas. No capturamos ratas ni nos encargamos de resolver el problema.",
+      info2:"Presenta siempre un aviso oficial a Spaarnelanden. Nuestro mapa no sustituye a una notificación oficial.",
+      info3:"Privacidad: no solicitamos números de vivienda, nombres ni direcciones de correo electrónico. El mapa solo muestra información a nivel de calle.",
+      info4:"No necesitas crear una cuenta. Primero abre el correo oficial y después registra voluntariamente tu avistamiento en nuestro mapa.",
+      privacyNotice:"El mapa tiene como objetivo mostrar tendencias generales. Los avisos no son datos oficiales del ayuntamiento.",
+      footerText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",
+      popupTotal:"Número total de ratas notificadas",
+      popupReports:"Número de avisos",
+      popupNote:"Es la suma de los avisos, no el número de ratas diferentes."
+    }
+  };
+
+  Object.entries({"nl":{"rules":"Leefregels tegen ratten","rulesTitle":"Leefregels: houd ratten weg!","rulesIntro":"Ratten kunnen ziektekiemen verspreiden. Via hun urine, keutels en besmet voedsel kunnen mensen ziek worden. Houd daarom samen de buurt schoon.","rule1":"Gooi geen brood of eten op straat. Ratten eten het ook.","rule2":"Voer geen vogels op de grond. Ratten komen op het voer af.","rule3":"Laat geen etensresten of dierenvoer buiten liggen.","rule4":"Gooi afval in de afvalbak.","rule5":"Ruim rommel en houtstapels op. Ratten verstoppen zich daar graag.","rule6":"Maak gaten en kieren dicht, zodat ratten niet naar binnen kunnen.","rulesReportTitle":"Zie je ratten? Meld het bij Spaarnelanden.","rulesReportExplain":"Bovenaan deze pagina staat de knop ‘Mail Spaarnelanden’. Klik daarop om een officiële melding te doen. Volg de uitleg op die pagina.","rulesReportButton":"Naar Mail Spaarnelanden"},"en":{"rules":"Rat prevention rules","rulesTitle":"Simple rules: keep rats away!","rulesIntro":"Rats can spread germs. People can become ill through contact with rat urine, droppings or contaminated food. Help keep the neighbourhood clean.","rule1":"Do not throw bread or food onto the street. Rats eat it too.","rule2":"Do not feed birds on the ground. Rats are attracted to the food.","rule3":"Do not leave food scraps or pet food outside.","rule4":"Put rubbish in the bin.","rule5":"Clear away clutter and piles of wood. Rats hide there.","rule6":"Seal holes and gaps so rats cannot get inside.","rulesReportTitle":"Seen rats? Report them to Spaarnelanden.","rulesReportExplain":"At the top of this page, find the ‘Email Spaarnelanden’ button. Click it to make an official report and follow the instructions.","rulesReportButton":"Go to Email Spaarnelanden"},"tr":{"rules":"Farelardan korunma kuralları","rulesTitle":"Basit kurallar: Fareları uzak tutun!","rulesIntro":"Fareler mikrop yayabilir. İdrarları, dışkıları veya kirlettikleri yiyecekler insanları hasta edebilir. Mahallemizi temiz tutalım.","rule1":"Sokağa ekmek veya yiyecek atmayın. Fareler de bunları yer.","rule2":"Yerde kuşları beslemeyin. Yiyecekler fareleri çeker.","rule3":"Yiyecek artıklarını veya hayvan yemlerini dışarıda bırakmayın.","rule4":"Çöpleri çöp kutusuna atın.","rule5":"Dağınıklığı ve odun yığınlarını kaldırın. Fareler buralarda saklanır.","rule6":"Farelerin içeri girmemesi için delikleri ve aralıkları kapatın.","rulesReportTitle":"Fare gördünüz mü? Spaarnelanden’e bildirin.","rulesReportExplain":"Sayfanın üst kısmındaki ‘Spaarnelanden’e e-posta gönder’ düğmesine tıklayın. Resmî bildirim için yönergeleri izleyin.","rulesReportButton":"Spaarnelanden’e e-posta gönder"},"ar":{"rules":"قواعد للوقاية من الجرذان","rulesTitle":"قواعد بسيطة لإبعاد الجرذان","rulesIntro":"يمكن أن تنقل الجرذان الجراثيم. وقد يمرض الناس بسبب بولها أو فضلاتها أو الطعام الملوث. حافظوا معاً على نظافة الحي.","rule1":"لا ترموا الخبز أو الطعام في الشارع. فالجرذان تأكله أيضاً.","rule2":"لا تطعموا الطيور على الأرض. فالطعام يجذب الجرذان.","rule3":"لا تتركوا بقايا الطعام أو طعام الحيوانات في الخارج.","rule4":"ضعوا النفايات في حاوية القمامة.","rule5":"أزيلوا الفوضى وأكوام الخشب؛ فالجرذان تختبئ فيها.","rule6":"أغلقوا الثقوب والشقوق حتى لا تدخل الجرذان.","rulesReportTitle":"هل رأيتم جرذاناً؟ أبلغوا Spaarnelanden.","rulesReportExplain":"يوجد أعلى الصفحة زر «راسل سبارنيلاندن». اضغطوا عليه لتقديم بلاغ رسمي واتبعوا التعليمات.","rulesReportButton":"مراسلة Spaarnelanden"},"ru":{"rules":"Правила профилактики крыс","rulesTitle":"Простые правила: не привлекайте крыс!","rulesIntro":"Крысы могут распространять микробы. Люди могут заболеть при контакте с их мочой, помётом или заражённой едой. Поддерживайте чистоту вместе.","rule1":"Не бросайте хлеб и еду на улицу. Крысы тоже этим питаются.","rule2":"Не кормите птиц на земле. Еда привлекает крыс.","rule3":"Не оставляйте на улице остатки еды и корм для животных.","rule4":"Выбрасывайте мусор в контейнер.","rule5":"Убирайте хлам и штабеля дров. Там прячутся крысы.","rule6":"Заделывайте отверстия и щели, чтобы крысы не проникали внутрь.","rulesReportTitle":"Увидели крыс? Сообщите в Spaarnelanden.","rulesReportExplain":"Вверху страницы есть кнопка «Написать в Spaarnelanden». Нажмите её, чтобы отправить официальное сообщение, и следуйте инструкциям.","rulesReportButton":"Написать в Spaarnelanden"},"es":{"rules":"Normas para prevenir las ratas","rulesTitle":"Normas sencillas: ¡mantén alejadas a las ratas!","rulesIntro":"Las ratas pueden transmitir microbios. Las personas pueden enfermar por contacto con su orina, sus excrementos o alimentos contaminados. Mantengamos limpio el barrio.","rule1":"No tires pan ni comida a la calle. Las ratas también se la comen.","rule2":"No alimentes a los pájaros en el suelo. La comida atrae a las ratas.","rule3":"No dejes restos de comida ni pienso de animales fuera.","rule4":"Tira la basura al contenedor.","rule5":"Retira los trastos y las pilas de madera. Las ratas se esconden allí.","rule6":"Tapa los agujeros y las grietas para impedir que entren las ratas.","rulesReportTitle":"¿Has visto ratas? Comunícalo a Spaarnelanden.","rulesReportExplain":"En la parte superior de esta página está el botón «Enviar un correo a Spaarnelanden». Púlsalo para presentar un aviso oficial y sigue las instrucciones.","rulesReportButton":"Enviar un correo a Spaarnelanden"}}).forEach(([language, translations]) => Object.assign(T[language], translations));
+
+
+  const reportTitleTranslations = {"nl":"Rattenoverlast melden in Haarlem","en":"Report rat problems in Haarlem","tr":"Haarlem'de fare sorununu bildirin","ar":"الإبلاغ عن مشكلة الجرذان في هارلم","ru":"Сообщить о крысах в Харлеме","es":"Informar sobre ratas en Haarlem"};
+  Object.entries(reportTitleTranslations).forEach(([language, title]) => { T[language].reportTitle = title; });
+
+  const choiceTranslations = {
+    nl:{choiceTitle:"Twee meldknoppen, twee verschillende doelen",choiceOfficialTitle:"OFFICIËLE MELDING – GRATIS HULP",choiceOfficialText:"Wil je dat er actie wordt ondernomen? Mail Spaarnelanden. Zij schakelen Anticimex in. Anticimex neemt contact met je op en komt gratis bij je langs.",choiceMapTitle:"MELDING OP ONZE RATTENKAART",choiceMapText:"Laat buurtbewoners zien waar je ratten, rattenkeutels of rattenholen hebt waargenomen. Je melding wordt zichtbaar op onze kaart. Dit is géén officiële melding en regelt geen hulp.",choiceMapButton:"Meld op de rattenkaart",choiceBottom:"Ons advies: gebruik beide knoppen. Mail Spaarnelanden voor gratis hulp én meld je waarneming op de kaart, zodat heel Haarlem zicht krijgt op de hotspots.",reportIntro:"Deze pagina helpt je op twee manieren: vraag gratis hulp aan via Spaarnelanden of maak rattenoverlast zichtbaar op onze rattenkaart.",openEmail:"Mail Spaarnelanden"},
+    en:{choiceTitle:"Two reporting buttons, two different purposes",choiceOfficialTitle:"OFFICIAL REPORT – FREE HELP",choiceOfficialText:"Want action to be taken? Email Spaarnelanden. They will involve Anticimex, who will contact you and visit free of charge.",choiceMapTitle:"REPORT ON OUR RAT MAP",choiceMapText:"Show local residents where you have seen rats, rat droppings or rat burrows. Your report will appear on our map. This is not an official report and does not arrange assistance.",choiceMapButton:"Report on the rat map",choiceBottom:"Our advice: use both buttons. Email Spaarnelanden for free help and add your observation to the map so Haarlem can see where hotspots are emerging.",reportIntro:"This page helps in two ways: request free assistance through Spaarnelanden or make rat nuisance visible on our rat map.",openEmail:"Email Spaarnelanden"},
+    tr:{choiceTitle:"İki bildirim düğmesi, iki farklı amaç",choiceOfficialTitle:"RESMÎ BİLDİRİM – ÜCRETSİZ YARDIM",choiceOfficialText:"Müdahale edilmesini mi istiyorsunuz? Spaarnelanden'e e-posta gönderin. Anticimex sizinle iletişime geçer ve ücretsiz olarak ziyaret eder.",choiceMapTitle:"FARE HARİTAMIZA BİLDİRİN",choiceMapText:"Fareleri, fare dışkılarını veya fare yuvalarını nerede gördüğünüzü komşularınıza gösterin. Bildiriminiz haritamızda görünür. Bu resmî bir bildirim değildir ve yardım talebi oluşturmaz.",choiceMapButton:"Haritaya bildirim ekle",choiceBottom:"Önerimiz: iki düğmeyi de kullanın. Ücretsiz yardım için Spaarnelanden'e e-posta gönderin ve mahallenin sıcak noktaları görebilmesi için gözleminizi haritaya ekleyin.",reportIntro:"Bu sayfa iki şekilde yardımcı olur: Spaarnelanden aracılığıyla ücretsiz yardım isteyin veya fare sorununu haritamızda görünür kılın.",openEmail:"Spaarnelanden'e e-posta gönder"},
+    ar:{choiceTitle:"زران للإبلاغ، ولكل منهما هدف مختلف",choiceOfficialTitle:"بلاغ رسمي – مساعدة مجانية",choiceOfficialText:"هل تريد اتخاذ إجراء؟ أرسل رسالة إلى Spaarnelanden. ستتواصل Anticimex معك وتزورك مجانًا.",choiceMapTitle:"الإبلاغ على خريطة الجرذان",choiceMapText:"أخبر سكان الحي بالمكان الذي شاهدت فيه الجرذان أو فضلاتها أو جحورها. سيظهر بلاغك على خريطتنا. هذا ليس بلاغًا رسميًا ولا يطلب المساعدة.",choiceMapButton:"أبلغ على الخريطة",choiceBottom:"ننصحك باستخدام الزرين: أرسل بلاغًا إلى Spaarnelanden للحصول على مساعدة مجانية، وسجّل مشاهدتك على الخريطة لإظهار بؤر المشكلة في هارلم.",reportIntro:"تساعدك هذه الصفحة بطريقتين: اطلب مساعدة مجانية عبر Spaarnelanden أو ساهم في إظهار مشكلة الجرذان على خريطتنا.",openEmail:"راسل Spaarnelanden"},
+    ru:{choiceTitle:"Две кнопки сообщения — две разные цели",choiceOfficialTitle:"ОФИЦИАЛЬНОЕ ОБРАЩЕНИЕ — ПОМОЩЬ БЕСПЛАТНО",choiceOfficialText:"Хотите, чтобы приняли меры? Напишите в Spaarnelanden. Они подключат Anticimex, специалисты свяжутся с вами и бесплатно приедут.",choiceMapTitle:"СООБЩИТЬ НА КАРТУ КРЫС",choiceMapText:"Покажите соседям, где вы видели крыс, их помёт или норы. Ваше сообщение появится на нашей карте. Это не официальное обращение и не запрос на помощь.",choiceMapButton:"Добавить на карту",choiceBottom:"Советуем использовать обе кнопки: напишите в Spaarnelanden для бесплатной помощи и добавьте наблюдение на карту, чтобы показать проблемные места Харлема.",reportIntro:"Эта страница помогает двумя способами: запросить бесплатную помощь через Spaarnelanden или показать проблему крыс на нашей карте.",openEmail:"Написать в Spaarnelanden"},
+    es:{choiceTitle:"Dos botones para avisar, dos objetivos distintos",choiceOfficialTitle:"AVISO OFICIAL – AYUDA GRATUITA",choiceOfficialText:"¿Quieres que se actúe? Envía un correo a Spaarnelanden. Ellos contactarán con Anticimex, que te llamará y acudirá gratis.",choiceMapTitle:"AVISA EN NUESTRO MAPA DE RATAS",choiceMapText:"Muestra a tus vecinos dónde has visto ratas, excrementos o madrigueras. Tu aviso aparecerá en nuestro mapa. No es un aviso oficial ni solicita asistencia.",choiceMapButton:"Avisar en el mapa",choiceBottom:"Nuestro consejo: utiliza ambos botones. Escribe a Spaarnelanden para recibir ayuda gratuita y añade tu observación al mapa para mostrar los puntos problemáticos de Haarlem.",reportIntro:"Esta página te ayuda de dos maneras: solicita ayuda gratuita a través de Spaarnelanden o haz visible el problema de las ratas en nuestro mapa.",openEmail:"Enviar un correo a Spaarnelanden"}
+  };
+  Object.entries(choiceTranslations).forEach(([language, translations]) => Object.assign(T[language], translations));
+
+  const fullChoiceTranslations = {"nl":{"choiceIntro":"Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!","choiceOfficialHeading":"Knop: Mail Spaarnelanden","choiceOfficialLead":"Voor een officiële melding en gratis hulp aan huis.","choiceOfficialHow":"Klik op deze knop om een e-mail aan Spaarnelanden te openen. Vul je gegevens aan en verstuur de e-mail zelf.","choiceAfter":"Daarna gaat het als volgt:","choiceStep1":"Spaarnelanden schakelt Anticimex in.","choiceStep2":"Anticimex neemt contact met je op.","choiceStep3":"Een medewerker komt bij je langs en helpt je gratis bij de aanpak van de rattenoverlast.","choiceStep4":"Vraag bij het bezoek ook om een gratis rooktest om mogelijke ingangen en looproutes van ratten op te sporen.","choiceUnlimited":"Sinds november 2026 kun je hiervoor onbeperkt vaak gratis hulp krijgen.","choiceMapHeading":"Knop: Meld op de rattenkaart","choiceMapLead":"Om buurtbewoners te laten zien waar rattenoverlast voorkomt.","choiceMapHow":"Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.","choiceMapVisible":"Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.","choiceMapWarning":"Let op:","choiceMapWarningText":"een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.","choiceMapButton":"Meld op de rattenkaart","choiceWhyTitle":"Waarom twee knoppen?","choiceWhyText":"De officiële meldingen geven toegang tot hulp. De rattenkaart maakt de overlast zichtbaar voor de buurt. Door beide te gebruiken, help je jezelf én je medebuurtbewoners.","choiceSlogan":"Samen maken we zichtbaar wat anders onzichtbaar blijft.","openEmail":"Mail Spaarnelanden"},"en":{"choiceIntro":"This website has two different reporting buttons. Each has its own purpose. You can use both!","choiceOfficialHeading":"Button: Email Spaarnelanden","choiceOfficialLead":"For an official report and free help at home.","choiceOfficialHow":"Click to open an email to Spaarnelanden. Add your details and send the email yourself.","choiceAfter":"What happens next:","choiceStep1":"Spaarnelanden contacts Anticimex.","choiceStep2":"Anticimex contacts you.","choiceStep3":"A staff member visits and helps you tackle the rat problem free of charge.","choiceStep4":"Also ask for a free smoke test to investigate possible rat entry points and routes.","choiceUnlimited":"Since November 2026, you can receive free assistance as often as needed.","choiceMapHeading":"Button: Report on the rat map","choiceMapLead":"To show local residents where rat problems are occurring.","choiceMapHow":"Have you seen a rat, found rat droppings or discovered a rat burrow? Report it using this button.","choiceMapVisible":"Your observation will appear on our rat map. Residents can see which streets have reports and where hotspots may be developing.","choiceMapWarning":"Please note:","choiceMapWarningText":"a report on the rat map is not an official report to Spaarnelanden. If you want Spaarnelanden and Anticimex to take action, also use the Email Spaarnelanden button.","choiceMapButton":"Report on the rat map","choiceWhyTitle":"Why two buttons?","choiceWhyText":"Official reports provide access to assistance. The rat map makes the problem visible to the neighbourhood. Using both helps you and your neighbours.","choiceSlogan":"Together, we make visible what would otherwise remain unseen.","openEmail":"Email Spaarnelanden"},"tr":{"choiceIntro":"Bu web sitesinde iki farklı bildirim düğmesi bulunur. Her birinin amacı farklıdır. İkisini de kullanabilirsiniz!","choiceOfficialHeading":"Düğme: Spaarnelanden'e e-posta gönder","choiceOfficialLead":"Resmî bildirim ve evinizde ücretsiz yardım için.","choiceOfficialHow":"Spaarnelanden'e e-posta açmak için bu düğmeye tıklayın. Bilgilerinizi ekleyip e-postayı kendiniz gönderin.","choiceAfter":"Sonrasında süreç şöyle işler:","choiceStep1":"Spaarnelanden, Anticimex'i görevlendirir.","choiceStep2":"Anticimex sizinle iletişime geçer.","choiceStep3":"Bir görevli evinize gelir ve fare sorunuyla mücadelede ücretsiz yardım eder.","choiceStep4":"Farelerin olası giriş noktalarını ve geçiş yollarını araştırmak için ücretsiz duman testi de isteyin.","choiceUnlimited":"Kasım 2026'dan itibaren gerektiği kadar ücretsiz yardım alabilirsiniz.","choiceMapHeading":"Düğme: Fare haritasına bildirin","choiceMapLead":"Mahalle sakinlerine fare sorununun nerelerde görüldüğünü göstermek için.","choiceMapHow":"Fare gördünüz mü, dışkı veya yuva buldunuz mu? Bu düğmeyle bildirin.","choiceMapVisible":"Gözleminiz fare haritamızda görünür. Haarlem sakinleri bildirimlerin hangi sokaklarda olduğunu ve olası yoğunluk noktalarını görebilir.","choiceMapWarning":"Dikkat:","choiceMapWarningText":"haritaya yapılan bildirim Spaarnelanden'e resmî bildirim değildir. Spaarnelanden ve Anticimex'in harekete geçmesini istiyorsanız Spaarnelanden'e e-posta düğmesini de kullanın.","choiceMapButton":"Fare haritasına bildir","choiceWhyTitle":"Neden iki düğme var?","choiceWhyText":"Resmî bildirimler yardım almanızı sağlar. Fare haritası sorunu mahalle için görünür kılar. İkisini de kullanarak kendinize ve komşularınıza yardımcı olursunuz.","choiceSlogan":"Birlikte, görünmeyeni görünür kılıyoruz.","openEmail":"Spaarnelanden'e e-posta gönder"},"ar":{"choiceIntro":"يوجد على هذا الموقع زران مختلفان للإبلاغ، ولكل منهما هدفه الخاص. يمكنك استخدام كليهما!","choiceOfficialHeading":"الزر: مراسلة Spaarnelanden","choiceOfficialLead":"لتقديم بلاغ رسمي والحصول على مساعدة مجانية في المنزل.","choiceOfficialHow":"اضغط لفتح رسالة بريد إلكتروني إلى Spaarnelanden. أضف بياناتك وأرسل الرسالة بنفسك.","choiceAfter":"ماذا يحدث بعد ذلك؟","choiceStep1":"تتواصل Spaarnelanden مع Anticimex.","choiceStep2":"تتصل بك Anticimex.","choiceStep3":"يزورك موظف ويساعدك مجانًا في معالجة مشكلة الجرذان.","choiceStep4":"اطلب أيضًا اختبار دخان مجانيًا للبحث عن مداخل الجرذان ومساراتها المحتملة.","choiceUnlimited":"منذ نوفمبر 2026 يمكنك الحصول على مساعدة مجانية كلما دعت الحاجة.","choiceMapHeading":"الزر: أبلغ على خريطة الجرذان","choiceMapLead":"لإظهار أماكن انتشار الجرذان لسكان الحي.","choiceMapHow":"هل رأيت جرذًا أو وجدت فضلات أو جحرًا؟ أرسل بلاغك عبر هذا الزر.","choiceMapVisible":"سيظهر بلاغك على خريطتنا، ليتمكن سكان هارلم من معرفة الشوارع التي ترد منها البلاغات والبؤر المحتملة.","choiceMapWarning":"تنبيه:","choiceMapWarningText":"الإبلاغ على الخريطة ليس بلاغًا رسميًا لدى Spaarnelanden. إذا أردت تدخل Spaarnelanden وAnticimex، فاستخدم أيضًا زر مراسلة Spaarnelanden.","choiceMapButton":"أبلغ على الخريطة","choiceWhyTitle":"لماذا يوجد زران؟","choiceWhyText":"تتيح البلاغات الرسمية الحصول على المساعدة، بينما تجعل الخريطة المشكلة مرئية للجيران. باستخدام الزرين تساعد نفسك وجيرانك.","choiceSlogan":"معًا نجعل ما لا يُرى مرئيًا.","openEmail":"راسل Spaarnelanden"},"ru":{"choiceIntro":"На этом сайте есть две разные кнопки для сообщений. У каждой своя цель. Вы можете воспользоваться обеими!","choiceOfficialHeading":"Кнопка: написать в Spaarnelanden","choiceOfficialLead":"Для официального обращения и бесплатной помощи на дому.","choiceOfficialHow":"Нажмите, чтобы открыть письмо в Spaarnelanden. Добавьте свои данные и отправьте письмо самостоятельно.","choiceAfter":"Что произойдёт после этого:","choiceStep1":"Spaarnelanden привлекает Anticimex.","choiceStep2":"Anticimex связывается с вами.","choiceStep3":"Специалист приезжает и бесплатно помогает справиться с проблемой крыс.","choiceStep4":"Также попросите провести бесплатный дымовой тест, чтобы найти возможные входы и пути передвижения крыс.","choiceUnlimited":"С ноября 2026 года бесплатную помощь можно получать столько раз, сколько потребуется.","choiceMapHeading":"Кнопка: сообщить на карту крыс","choiceMapLead":"Чтобы показать соседям, где встречаются крысы.","choiceMapHow":"Увидели крысу, нашли помёт или нору? Сообщите об этом с помощью этой кнопки.","choiceMapVisible":"Ваше наблюдение появится на нашей карте. Жители Харлема смогут увидеть улицы, откуда поступают сообщения, и возможные очаги проблемы.","choiceMapWarning":"Внимание:","choiceMapWarningText":"сообщение на карте не является официальным обращением в Spaarnelanden. Чтобы Spaarnelanden и Anticimex приняли меры, также воспользуйтесь кнопкой «Написать в Spaarnelanden».","choiceMapButton":"Сообщить на карту","choiceWhyTitle":"Зачем нужны две кнопки?","choiceWhyText":"Официальные обращения дают возможность получить помощь. Карта показывает проблему соседям. Используя обе кнопки, вы помогаете себе и окружающим.","choiceSlogan":"Вместе мы делаем видимым то, что обычно скрыто.","openEmail":"Написать в Spaarnelanden"},"es":{"choiceIntro":"En esta web hay dos botones distintos para avisar. Cada uno tiene un objetivo diferente. ¡Puedes utilizar los dos!","choiceOfficialHeading":"Botón: Enviar un correo a Spaarnelanden","choiceOfficialLead":"Para presentar un aviso oficial y recibir ayuda gratuita en casa.","choiceOfficialHow":"Haz clic para abrir un correo a Spaarnelanden. Añade tus datos y envía tú mismo el mensaje.","choiceAfter":"¿Qué ocurre después?","choiceStep1":"Spaarnelanden contacta con Anticimex.","choiceStep2":"Anticimex se pone en contacto contigo.","choiceStep3":"Un empleado acude a tu domicilio y te ayuda gratis a abordar el problema de las ratas.","choiceStep4":"Solicita también una prueba de humo gratuita para localizar posibles entradas y recorridos de las ratas.","choiceUnlimited":"Desde noviembre de 2026 puedes recibir ayuda gratuita tantas veces como sea necesario.","choiceMapHeading":"Botón: Avisar en el mapa de ratas","choiceMapLead":"Para mostrar a los vecinos dónde hay problemas de ratas.","choiceMapHow":"¿Has visto una rata, encontrado excrementos o descubierto una madriguera? Avísanos con este botón.","choiceMapVisible":"Tu observación aparecerá en nuestro mapa. Los vecinos de Haarlem podrán ver en qué calles se reciben avisos y dónde pueden surgir focos.","choiceMapWarning":"Atención:","choiceMapWarningText":"un aviso en el mapa no es una notificación oficial a Spaarnelanden. Si quieres que Spaarnelanden y Anticimex actúen, utiliza también el botón de correo a Spaarnelanden.","choiceMapButton":"Avisar en el mapa","choiceWhyTitle":"¿Por qué hay dos botones?","choiceWhyText":"Los avisos oficiales permiten recibir ayuda. El mapa hace visible el problema para el vecindario. Al utilizar ambos, te ayudas a ti y a tus vecinos.","choiceSlogan":"Juntos hacemos visible lo que de otro modo permanecería oculto.","openEmail":"Enviar correo a Spaarnelanden"}};
+  Object.entries(fullChoiceTranslations).forEach(([language, values]) => Object.assign(T[language], values));
+
+  const rulesActionTranslations = {"nl":{"rulesDoYourPart":"DIT KUNNEN WE SAMEN DOEN","rulesWhatCanWeDo":"Wat kunnen wij zelf doen?","rulesActionIntro":"Iedere bewoner kan helpen. Met deze eenvoudige regels maken we onze buurt minder aantrekkelijk voor ratten.","ruleTitle1":"Gooi geen eten op straat","ruleText1":"Gooi geen brood of etensresten op straat. Ratten komen af op voedsel.","ruleTitle2":"Voer vogels niet op de grond","ruleText2":"Wat vogels laten liggen, eten ratten ook.","ruleTitle3":"Laat geen dierenvoer buiten staan","ruleText3":"Haal voerbakken en etensresten na het voeren weer naar binnen.","ruleTitle4":"Gooi afval in een afgesloten bak","ruleText4":"Zet geen vuilniszakken naast de afvalbak.","ruleTitle5":"Houd tuinen en schuren netjes","ruleText5":"Haal rommel en grote stapels hout weg waar ratten zich kunnen verstoppen.","ruleTitle6":"Maak gaten en kieren dicht","ruleText6":"Ratten kunnen door kleine openingen naar binnen komen."},"en":{"rulesDoYourPart":"WE CAN ALL HELP","rulesWhatCanWeDo":"What can we do ourselves?","rulesActionIntro":"Every resident can help. These simple steps make our neighbourhood less attractive to rats.","ruleTitle1":"Do not leave food in the street","ruleText1":"Do not throw bread or food scraps outside. Rats are attracted to food.","ruleTitle2":"Do not feed birds on the ground","ruleText2":"Rats will eat the food birds leave behind.","ruleTitle3":"Do not leave pet food outside","ruleText3":"Bring food bowls and leftovers inside after feeding.","ruleTitle4":"Put rubbish in a closed bin","ruleText4":"Do not leave rubbish bags next to the bin.","ruleTitle5":"Keep gardens and sheds tidy","ruleText5":"Remove clutter and large piles of wood where rats can hide.","ruleTitle6":"Seal holes and gaps","ruleText6":"Rats can get inside through small openings."},"tr":{"rulesDoYourPart":"HEPİMİZ KATKI SAĞLAYABİLİRİZ","rulesWhatCanWeDo":"Biz kendimiz ne yapabiliriz?","rulesActionIntro":"Her mahalle sakini yardımcı olabilir. Bu basit kurallar mahallemizi fareler için daha az çekici hale getirir.","ruleTitle1":"Sokağa yiyecek atmayın","ruleText1":"Sokağa ekmek veya yemek artığı atmayın. Fareler yiyeceğe gelir.","ruleTitle2":"Kuşları yerde beslemeyin","ruleText2":"Kuşların geride bıraktığı yiyecekleri fareler de yer.","ruleTitle3":"Evcil hayvan mamasını dışarıda bırakmayın","ruleText3":"Besleme bittikten sonra mama kaplarını ve artıkları içeri alın.","ruleTitle4":"Çöpleri kapalı bir çöp kutusuna atın","ruleText4":"Çöp poşetlerini kutunun yanına bırakmayın.","ruleTitle5":"Bahçeyi ve depoyu düzenli tutun","ruleText5":"Farelerin saklanabileceği dağınıklığı ve büyük odun yığınlarını kaldırın.","ruleTitle6":"Delikleri ve aralıkları kapatın","ruleText6":"Fareler küçük açıklıklardan içeri girebilir."},"ar":{"rulesDoYourPart":"يمكننا جميعًا المساعدة","rulesWhatCanWeDo":"ماذا يمكننا أن نفعل بأنفسنا؟","rulesActionIntro":"يمكن لكل ساكن أن يساعد. هذه الخطوات البسيطة تجعل حيّنا أقل جاذبية للجرذان.","ruleTitle1":"لا تترك الطعام في الشارع","ruleText1":"لا ترمِ الخبز أو بقايا الطعام في الشارع. فالجرذان تنجذب إلى الطعام.","ruleTitle2":"لا تطعم الطيور على الأرض","ruleText2":"الطعام الذي تتركه الطيور تأكله الجرذان أيضًا.","ruleTitle3":"لا تترك طعام الحيوانات الأليفة في الخارج","ruleText3":"أعد أوعية الطعام والبقايا إلى الداخل بعد إطعام الحيوانات.","ruleTitle4":"ضع النفايات في حاوية مغلقة","ruleText4":"لا تترك أكياس القمامة بجانب الحاوية.","ruleTitle5":"حافظ على ترتيب الحدائق والمخازن","ruleText5":"أزل الفوضى وأكوام الخشب الكبيرة التي قد تختبئ فيها الجرذان.","ruleTitle6":"أغلق الثقوب والفجوات","ruleText6":"يمكن للجرذان الدخول عبر فتحات صغيرة."},"ru":{"rulesDoYourPart":"КАЖДЫЙ МОЖЕТ ПОМОЧЬ","rulesWhatCanWeDo":"Что мы можем сделать сами?","rulesActionIntro":"Каждый житель может помочь. Эти простые правила сделают наш район менее привлекательным для крыс.","ruleTitle1":"Не оставляйте еду на улице","ruleText1":"Не выбрасывайте на улицу хлеб и остатки еды. Крыс привлекает пища.","ruleTitle2":"Не кормите птиц на земле","ruleText2":"Крысы тоже едят корм, который оставляют птицы.","ruleTitle3":"Не оставляйте корм для животных снаружи","ruleText3":"После кормления убирайте миски и остатки еды в помещение.","ruleTitle4":"Выбрасывайте мусор в закрытый контейнер","ruleText4":"Не оставляйте мусорные пакеты рядом с контейнером.","ruleTitle5":"Поддерживайте порядок в саду и сарае","ruleText5":"Убирайте хлам и большие поленницы, где могут прятаться крысы.","ruleTitle6":"Заделывайте отверстия и щели","ruleText6":"Крысы могут проникать внутрь через небольшие отверстия."},"es":{"rulesDoYourPart":"TODOS PODEMOS AYUDAR","rulesWhatCanWeDo":"¿Qué podemos hacer nosotros?","rulesActionIntro":"Cada vecino puede ayudar. Estas sencillas medidas hacen que nuestro barrio resulte menos atractivo para las ratas.","ruleTitle1":"No dejes comida en la calle","ruleText1":"No tires pan ni restos de comida. La comida atrae a las ratas.","ruleTitle2":"No alimentes a los pájaros en el suelo","ruleText2":"Las ratas también comen lo que dejan los pájaros.","ruleTitle3":"No dejes comida para mascotas fuera","ruleText3":"Después de darles de comer, guarda los cuencos y los restos dentro.","ruleTitle4":"Tira la basura en un contenedor cerrado","ruleText4":"No dejes bolsas de basura junto al contenedor.","ruleTitle5":"Mantén ordenados jardines y cobertizos","ruleText5":"Retira trastos y grandes montones de madera donde puedan esconderse las ratas.","ruleTitle6":"Cierra agujeros y rendijas","ruleText6":"Las ratas pueden entrar por aberturas pequeñas."}};
+  Object.entries(rulesActionTranslations).forEach(([language, values]) => Object.assign(T[language], values));
+
+  const rulesCivicTranslations={nl:{sewerTitle:"En het riool? Wat is de taak van de gemeente?",sewerIntro:"Ratten kunnen via het riool en via beschadigde of open verbindingen op plekken komen waar mensen wonen. Daarom is goed beheer van het openbare riool belangrijk.",sewerMunicipalityTitle:"De gemeente",sewerMunicipalityText:"De gemeente is verantwoordelijk voor het beheer en onderhoud van het openbare riool. Bij meldingen over schade, lekkage of andere problemen moet worden onderzocht wat er aan de hand is en moet het openbare riool waar nodig worden hersteld.",sewerResidentTitle:"Bewoners en eigenaren",sewerResidentText:"De riolering op eigen terrein en de aansluiting vanaf de woning vallen meestal onder de verantwoordelijkheid van de eigenaar. Bij twijfel is het verstandig dit bij de gemeente of verhuurder na te vragen.",sewerSmokeTest:"Tip: Vraag bij je officiële melding aan Spaarnelanden ook om een gratis rooktest. Daarmee kan worden onderzocht of er een ongewenste verbinding of opening is waardoor rioollucht of ratten zich kunnen verplaatsen.",hotspotTitle:"Waarom is onze hotspotkaart zo belangrijk?",hotspotLead:"Wat niet vanzelf zichtbaar wordt, brengen bewoners samen in beeld.",hotspotText:"Iedere melding op onze kaart helpt om te laten zien in welke straten ratten worden gezien, waar keutels liggen en waar holen zitten. Zo worden patronen en terugkerende plekken zichtbaar die je met losse meldingen gemakkelijk over het hoofd ziet.",hotspotCall:"De kaart maakt het probleem zichtbaar voor iedereen — bewoners én gemeente. Met die gezamenlijke informatie kunnen we gerichter aandacht vragen en de gemeente aanspreken op onderzoek en passende maatregelen. De gemeente publiceert niet altijd zelf een compleet straatbeeld; daarom verzamelen bewoners hun waarnemingen hier.",hotspotCaveat:"Het is een bewonerskaart, geen officiële gemeentelijke registratie. Meld ratten daarom óók altijd officieel bij Spaarnelanden."},en:{sewerTitle:"What about the sewer? What is the municipality responsible for?",sewerIntro:"Rats can travel through sewers and damaged or open connections to places where people live. That is why proper management of the public sewer is important.",sewerMunicipalityTitle:"The municipality",sewerMunicipalityText:"The municipality is responsible for managing and maintaining the public sewer. Reports of damage, leaks or other problems should be investigated, and defects in the public sewer should be repaired where necessary.",sewerResidentTitle:"Residents and property owners",sewerResidentText:"Sewer pipes on private property and the connection from a home are generally the property owner's responsibility. If in doubt, check with the municipality or landlord.",sewerSmokeTest:"Tip: When making your official report to Spaarnelanden, also ask for a free smoke test. It can help identify an unwanted connection or opening through which sewer air or rats may travel.",hotspotTitle:"Why is our hotspot map so important?",hotspotLead:"Residents are bringing together information that would otherwise remain out of sight.",hotspotText:"Every report helps show which streets have rat sightings, droppings or burrows. Together, these reports reveal patterns and recurring locations that can be easy to miss when reports are viewed separately.",hotspotCall:"The map makes the problem visible to everyone — residents and the municipality. This shared information helps us ask for focused attention and call on the municipality to investigate and take appropriate action. The municipality does not always publish a complete street-by-street picture, so residents collect their observations here.",hotspotCaveat:"This is a residents' map, not an official municipal register. Always report rats to Spaarnelanden through the official channel as well."},tr:{sewerTitle:"Peki kanalizasyon? Belediyenin görevi nedir?",sewerIntro:"Fareler kanalizasyon ve hasarlı ya da açık bağlantılar üzerinden insanların yaşadığı yerlere ulaşabilir. Bu nedenle kamu kanalizasyonunun iyi yönetilmesi önemlidir.",sewerMunicipalityTitle:"Belediye",sewerMunicipalityText:"Belediye, kamu kanalizasyonunun yönetiminden ve bakımından sorumludur. Hasar, sızıntı veya başka sorunlar bildirildiğinde durum araştırılmalı ve kamu kanalizasyonundaki kusurlar gerektiğinde onarılmalıdır.",sewerResidentTitle:"Sakinler ve mülk sahipleri",sewerResidentText:"Özel mülkteki kanalizasyon boruları ve evin bağlantısı genellikle mülk sahibinin sorumluluğundadır. Emin değilseniz belediyeye veya ev sahibinize danışın.",sewerSmokeTest:"İpucu: Spaarnelanden'e resmi bildirim yaparken ücretsiz duman testi de isteyin. Bu test, kanalizasyondan hava veya fare geçişine yol açabilecek istenmeyen bir bağlantı ya da açıklığı bulmaya yardımcı olabilir.",hotspotTitle:"Sıcak nokta haritamız neden bu kadar önemli?",hotspotLead:"Normalde görünmeyen durumu sakinler birlikte görünür hale getiriyor.",hotspotText:"Haritadaki her bildirim, hangi sokaklarda fare görüldüğünü, dışkı veya yuva bulunduğunu göstermeye yardımcı olur. Bildirimler bir araya gelince tekrar eden yerler ve sorun örüntüleri ortaya çıkar.",hotspotCall:"Harita sorunu herkes için görünür kılar — hem sakinler hem belediye için. Bu ortak bilgilerle belediyeden belirli yerleri incelemesini ve uygun önlemleri almasını isteyebiliriz. Belediye her zaman sokak sokak eksiksiz bir tablo yayımlamadığı için gözlemlerimizi burada topluyoruz.",hotspotCaveat:"Bu bir sakin haritasıdır, resmi belediye kaydı değildir. Fareleri ayrıca resmi kanaldan Spaarnelanden'e bildirin."},ar:{sewerTitle:"ماذا عن الصرف الصحي؟ وما مسؤولية البلدية؟",sewerIntro:"يمكن للفئران الانتقال عبر شبكة الصرف الصحي ومن خلال الوصلات التالفة أو المفتوحة إلى أماكن سكن الناس. لذلك فإن إدارة شبكة الصرف العامة وصيانتها أمر مهم.",sewerMunicipalityTitle:"البلدية",sewerMunicipalityText:"البلدية مسؤولة عن إدارة شبكة الصرف الصحي العامة وصيانتها. وينبغي التحقيق في البلاغات المتعلقة بالتلف أو التسرب أو المشكلات الأخرى، وإصلاح العيوب في الشبكة العامة عند الحاجة.",sewerResidentTitle:"السكان ومُلّاك العقارات",sewerResidentText:"تقع أنابيب الصرف داخل الملكية الخاصة والتوصيلات من المنزل عمومًا ضمن مسؤولية المالك. عند الشك، يُرجى الاستفسار من البلدية أو المؤجّر.",sewerSmokeTest:"نصيحة: عند تقديم البلاغ الرسمي إلى Spaarnelanden، اطلب أيضًا اختبار دخان مجانيًا. يمكن أن يساعد ذلك في اكتشاف وصلة أو فتحة غير مرغوب فيها قد تسمح بمرور هواء الصرف أو الفئران.",hotspotTitle:"لماذا خريطة البؤر الساخنة مهمة جدًا؟",hotspotLead:"يجمع السكان المعلومات ويُظهرون ما قد يبقى غير مرئي لولا ذلك.",hotspotText:"يساعد كل بلاغ في إظهار الشوارع التي شوهدت فيها الفئران أو وُجدت فيها فضلاتها أو جحورها. وعند جمع البلاغات تظهر الأنماط والأماكن المتكررة التي قد لا نلاحظها عند النظر إلى كل بلاغ على حدة.",hotspotCall:"تجعل الخريطة المشكلة مرئية للجميع — للسكان والبلدية. وتساعدنا هذه المعلومات المشتركة على المطالبة بالاهتمام بمواقع محددة ودعوة البلدية إلى التحقيق واتخاذ الإجراءات المناسبة. لا تنشر البلدية دائمًا صورة كاملة لكل شارع، لذلك يجمع السكان ملاحظاتهم هنا.",hotspotCaveat:"هذه خريطة أنشأها السكان وليست سجلًا رسميًا للبلدية. أبلغوا أيضًا عن الفئران رسميًا إلى Spaarnelanden."},ru:{sewerTitle:"А что с канализацией? За что отвечает муниципалитет?",sewerIntro:"Крысы могут проникать в жилые места через канализацию, а также через повреждённые или открытые соединения. Поэтому важно правильно управлять общественной канализационной сетью и обслуживать её.",sewerMunicipalityTitle:"Муниципалитет",sewerMunicipalityText:"Муниципалитет отвечает за управление и обслуживание общественной канализации. Сообщения о повреждениях, утечках и других проблемах должны проверяться, а дефекты общественной сети — устраняться при необходимости.",sewerResidentTitle:"Жители и владельцы недвижимости",sewerResidentText:"Канализационные трубы на частной территории и подключение дома, как правило, находятся в ответственности владельца. Если вы не уверены, уточните это в муниципалитете или у арендодателя.",sewerSmokeTest:"Совет: при официальном обращении в Spaarnelanden попросите также провести бесплатный дымовой тест. Он помогает обнаружить нежелательное соединение или отверстие, через которое могут проходить канализационный воздух или крысы.",hotspotTitle:"Почему наша карта очагов так важна?",hotspotLead:"Жители вместе показывают то, что иначе остаётся вне поля зрения.",hotspotText:"Каждое сообщение помогает показать улицы, где видели крыс, находили помёт или норы. Вместе сообщения выявляют повторяющиеся места и закономерности, которые легко упустить, рассматривая жалобы по отдельности.",hotspotCall:"Карта делает проблему видимой для всех — жителей и муниципалитета. Эта общая информация помогает требовать внимания к конкретным местам и призывать муниципалитет к проверке и необходимым мерам. Муниципалитет не всегда публикует полную картину по каждой улице, поэтому жители собирают наблюдения здесь.",hotspotCaveat:"Это карта жителей, а не официальный муниципальный реестр. Также обязательно сообщайте о крысах официально в Spaarnelanden."},es:{sewerTitle:"¿Y el alcantarillado? ¿Cuál es la responsabilidad del ayuntamiento?",sewerIntro:"Las ratas pueden desplazarse por el alcantarillado y por conexiones dañadas o abiertas hasta lugares habitados. Por eso es importante gestionar y mantener bien la red pública de alcantarillado.",sewerMunicipalityTitle:"El ayuntamiento",sewerMunicipalityText:"El ayuntamiento es responsable de la gestión y el mantenimiento del alcantarillado público. Deben investigarse los avisos de daños, fugas u otros problemas y repararse los defectos de la red pública cuando sea necesario.",sewerResidentTitle:"Residentes y propietarios",sewerResidentText:"Las tuberías de saneamiento dentro de una propiedad privada y la conexión de la vivienda suelen ser responsabilidad del propietario. En caso de duda, consulta al ayuntamiento o al arrendador.",sewerSmokeTest:"Consejo: al presentar tu aviso oficial a Spaarnelanden, pide también una prueba de humo gratuita. Puede ayudar a detectar una conexión o abertura no deseada por la que puedan pasar aire del alcantarillado o ratas.",hotspotTitle:"¿Por qué es tan importante nuestro mapa de puntos críticos?",hotspotLead:"Los vecinos reúnen información y hacen visible lo que de otro modo quedaría oculto.",hotspotText:"Cada aviso ayuda a mostrar en qué calles se ven ratas, dónde hay excrementos y dónde hay madrigueras. Al reunir los avisos aparecen patrones y lugares recurrentes que pueden pasar desapercibidos si se miran por separado.",hotspotCall:"El mapa hace visible el problema para todos: vecinos y ayuntamiento. Esta información compartida nos permite pedir atención en lugares concretos y exigir al ayuntamiento que investigue y tome medidas adecuadas. El ayuntamiento no siempre publica una visión completa calle por calle; por eso los vecinos reunimos aquí nuestras observaciones.",hotspotCaveat:"Es un mapa vecinal, no un registro oficial del ayuntamiento. Comunica también siempre las ratas oficialmente a Spaarnelanden."}};
+  Object.entries(rulesCivicTranslations).forEach(([language,values])=>Object.assign(T[language],values));
+
+  const privacyTranslations = {
+    nl: {infoText:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.",info2:"Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt die officiële melding niet.",info4:"Je hebt geen account nodig. Doe eerst de officiële melding en registreer daarna – als je dat wilt – vrijwillig je waarneming op onze bewonerskaart.",privacyKicker:"JOUW PRIVACY",privacyTitle:"Wij verzamelen geen privégegevens",privacyIntro:"De kaart registreert alleen waarnemingen op straatniveau. Er wordt geen naam of persoon aan een melding gekoppeld.",privacy1:"Wij geven geen persoonsgegevens door aan de gemeente, Spaarnelanden, Anticimex of andere organisaties.",privacy2:"Wij vragen en bewaren geen namen, huisnummers of e-mailadressen in onze meldingenadministratie.",privacy3:"Alleen straatniveau: de kaart toont de straat en het soort waarneming, niet het exacte huis of de bewoner.",privacy4:"Geen account nodig: je registreert je waarneming vrijwillig en zonder je naam eraan te koppelen.",privacyCaveat:"Let op: onze website en de gebruikte hosting- en Google-diensten kunnen technische loggegevens verwerken. We kunnen daarom niet beloven dat er bij deze diensten helemaal geen technische gegevens worden geregistreerd.",privacyNotice:"De kaart is bedoeld om algemene patronen en mogelijke rattenhotspots zichtbaar te maken. De meldingen zijn afkomstig van bewoners en zijn geen officiële gemeentelijke gegevens."},
+    en: {infoText:"Rattenvanger van Haarlem is an independent residents’ initiative. We want to make rat problems in Haarlem visible, so residents can see together where rats, droppings and burrows are reported.",info2:"Always make an official report to Spaarnelanden. Our map does not replace that official report.",info4:"You do not need an account. Make the official report first, then – if you wish – voluntarily add your observation to our community map.",privacyKicker:"YOUR PRIVACY",privacyTitle:"We do not collect personal details",privacyIntro:"The map records observations at street level only. No name or individual is linked to a report.",privacy1:"We do not pass on personal data to the municipality, Spaarnelanden, Anticimex or any other organisation.",privacy2:"We do not ask for or store names, house numbers or email addresses in our report records.",privacy3:"Street level only: the map shows the street and type of observation, not an exact home or resident.",privacy4:"No account needed: you add an observation voluntarily without attaching your name.",privacyCaveat:"Please note: our website and the hosting and Google services we use may process technical log data. We therefore cannot promise that these services record no technical data at all.",privacyNotice:"The map is intended to show general patterns and possible rat hotspots. Reports come from residents and are not official municipal data."},
+    tr: {infoText:"Haarlem Fare Gözlem Haritası, şehirdeki fare sorununu görünür kılmak için oluşturulmuş bağımsız bir mahalle sakinleri girişimidir. Amacımız, farelerin, dışkılarının ve yuvalarının nerelerde görüldüğünü birlikte gösterebilmektir.",info2:"Her zaman Spaarnelanden'e resmi bildirimde bulunun. Haritamız resmi bildirimin yerini tutmaz.",info4:"Hesap açmanız gerekmez. Önce resmi bildirimi yapın; ardından isterseniz gözleminizi gönüllü olarak mahalle haritamıza ekleyin.",privacyKicker:"GİZLİLİĞİNİZ",privacyTitle:"Özel bilgilerinizi toplamıyoruz",privacyIntro:"Harita yalnızca sokak düzeyindeki gözlemleri kaydeder. Hiçbir bildirim bir ad veya kişiyle ilişkilendirilmez.",privacy1:"Kişisel verileri belediyeye, Spaarnelanden'e, Anticimex'e veya başka kuruluşlara aktarmıyoruz.",privacy2:"Bildirim kayıtlarımızda ad, ev numarası veya e-posta adresi istemiyor ve saklamıyoruz.",privacy3:"Yalnızca sokak düzeyi: harita sokağı ve gözlem türünü gösterir; belirli bir evi veya sakini göstermez.",privacy4:"Hesap gerekmez: gözleminizi adınızı eklemeden gönüllü olarak kaydedebilirsiniz.",privacyCaveat:"Lütfen dikkat: web sitemiz ve kullandığımız barındırma ve Google hizmetleri teknik günlük verilerini işleyebilir. Bu nedenle bu hizmetlerin hiçbir teknik veri kaydetmediğini garanti edemeyiz.",privacyNotice:"Harita genel örüntüleri ve olası fare yoğunluğu noktalarını göstermeyi amaçlar. Bildirimler mahalle sakinlerinden gelir ve resmi belediye verisi değildir."},
+    ar: {infoText:"راتنفانغر فان هارلم مبادرة مستقلة من السكان تهدف إلى إظهار مشكلة الجرذان في المدينة، حتى يتمكن السكان معًا من معرفة الشوارع التي تُرصد فيها الجرذان وفضلاتها وجحورها.",info2:"قدّم دائمًا بلاغًا رسميًا إلى Spaarnelanden. خريطتنا لا تحل محل البلاغ الرسمي.",info4:"لا تحتاج إلى حساب. قدّم البلاغ الرسمي أولًا، ثم أضف مشاهدتك طوعًا إلى خريطة السكان إذا رغبت.",privacyKicker:"خصوصيتك",privacyTitle:"لا نجمع بياناتك الشخصية",privacyIntro:"تسجّل الخريطة المشاهدات على مستوى الشارع فقط. ولا يُربط أي بلاغ باسم شخص أو بهويته.",privacy1:"لا نمرّر البيانات الشخصية إلى البلدية أو Spaarnelanden أو Anticimex أو أي جهة أخرى.",privacy2:"لا نطلب الأسماء أو أرقام المنازل أو عناوين البريد الإلكتروني ولا نحفظها في سجل البلاغات لدينا.",privacy3:"على مستوى الشارع فقط: تعرض الخريطة اسم الشارع ونوع المشاهدة، وليس منزلًا محددًا أو ساكنًا.",privacy4:"لا حاجة إلى حساب: يمكنك تسجيل المشاهدة طوعًا دون ربطها باسمك.",privacyCaveat:"تنبيه: قد يعالج موقعنا وخدمات الاستضافة وGoogle التي نستخدمها بيانات السجلات التقنية. لذلك لا يمكننا ضمان عدم تسجيل هذه الخدمات لأي بيانات تقنية إطلاقًا.",privacyNotice:"تهدف الخريطة إلى إظهار الأنماط العامة والمواقع المحتملة لانتشار الجرذان. البلاغات مقدمة من السكان وليست بيانات بلدية رسمية."},
+    ru: {infoText:"«Крысолов Харлема» — независимая инициатива жителей, цель которой — сделать проблему крыс в городе заметной, чтобы вместе видеть, где встречаются крысы, их помёт и норы.",info2:"Всегда подавайте официальное сообщение в Spaarnelanden. Наша карта не заменяет официальное обращение.",info4:"Учётная запись не нужна. Сначала подайте официальное обращение, а затем, если хотите, добровольно добавьте наблюдение на нашу карту жителей.",privacyKicker:"ВАША КОНФИДЕНЦИАЛЬНОСТЬ",privacyTitle:"Мы не собираем личные данные",privacyIntro:"На карте отмечаются только наблюдения на уровне улицы. Сообщение не связывается с именем или конкретным человеком.",privacy1:"Мы не передаём персональные данные муниципалитету, Spaarnelanden, Anticimex или другим организациям.",privacy2:"В нашей базе сообщений мы не запрашиваем и не храним имена, номера домов или адреса электронной почты.",privacy3:"Только уровень улицы: карта показывает улицу и тип наблюдения, но не конкретный дом или жильца.",privacy4:"Регистрация не нужна: вы можете добровольно добавить наблюдение без указания имени.",privacyCaveat:"Обратите внимание: наш сайт, хостинг и используемые сервисы Google могут обрабатывать технические журналы. Поэтому мы не можем обещать, что эти сервисы вообще не регистрируют технические данные.",privacyNotice:"Карта помогает увидеть общие закономерности и возможные очаги распространения крыс. Сообщения поступают от жителей и не являются официальными муниципальными данными."},
+    es: {infoText:"Rattenvanger van Haarlem es una iniciativa vecinal independiente que busca hacer visible el problema de las ratas en Haarlem, para que los vecinos puedan ver dónde se observan ratas, excrementos y madrigueras.",info2:"Presenta siempre una notificación oficial a Spaarnelanden. Nuestro mapa no sustituye esa notificación oficial.",info4:"No necesitas una cuenta. Primero presenta la notificación oficial y después, si quieres, añade voluntariamente tu observación a nuestro mapa vecinal.",privacyKicker:"TU PRIVACIDAD",privacyTitle:"No recopilamos datos personales",privacyIntro:"El mapa registra únicamente observaciones a nivel de calle. Ninguna notificación se vincula a un nombre o a una persona.",privacy1:"No comunicamos datos personales al ayuntamiento, Spaarnelanden, Anticimex ni a ninguna otra organización.",privacy2:"No pedimos ni guardamos nombres, números de casa ni direcciones de correo electrónico en nuestro registro de avisos.",privacy3:"Solo a nivel de calle: el mapa muestra la calle y el tipo de observación, no una vivienda concreta ni a sus residentes.",privacy4:"No necesitas una cuenta: puedes registrar tu observación voluntariamente y sin asociarla a tu nombre.",privacyCaveat:"Atención: nuestro sitio web y los servicios de alojamiento y Google que utilizamos pueden procesar registros técnicos. Por eso no podemos garantizar que esos servicios no registren ningún dato técnico.",privacyNotice:"El mapa sirve para mostrar patrones generales y posibles focos de ratas. Los avisos proceden de vecinos y no son datos oficiales del ayuntamiento."}
+  };
+  Object.entries(privacyTranslations).forEach(([language,values])=>Object.assign(T[language],values));
+
+  function tr(key) {
+    return T[currentLang]?.[key] ?? T.nl[key] ?? key;
+  }
+
+  /*
+   * Taalkeuze wordt opgeslagen voordat de pagina wordt vertaald.
+   * Daardoor blijft de keuze bewaard als de bezoeker terugkeert
+   * vanuit het e-mailprogramma of de pagina opnieuw opent.
+   */
+  function saveLanguage(language) {
+    if (!T[language]) return false;
+
+    try {
+      localStorage.setItem(LANGUAGE_KEY, language);
+      return true;
+    } catch (error) {
+      console.warn("Taalvoorkeur kon niet worden opgeslagen.", error);
+      return false;
+    }
+  }
+
+  function readSavedLanguage() {
+    try {
+      const saved = localStorage.getItem(LANGUAGE_KEY);
+      return T[saved] ? saved : "nl";
+    } catch (error) {
+      console.warn("Taalvoorkeur kon niet worden gelezen.", error);
+      return "nl";
+    }
+  }
+
+  function callAppsScript(params) {
+    return new Promise((resolve, reject) => {
+      const callbackName =
+        "rvhCallback_" + Date.now() + "_" + (++callbackCounter);
+
+      const script = document.createElement("script");
+      const query = new URLSearchParams(params);
+      query.set("callback", callbackName);
+
+      let finished = false;
+      let timeout;
+
+      const cleanup = () => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        script.remove();
+      };
+
+      const finish = (callback, value) => {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        callback(value);
+      };
+
+      window[callbackName] = data => finish(resolve, data);
+
+      script.onerror = () =>
+        finish(reject, new Error("De meldingenserver kon niet worden bereikt."));
+
+      timeout = setTimeout(() => {
+        finish(reject, new Error("De verbinding duurde te lang."));
+      }, 20000);
+
+      script.src = APPS_SCRIPT_URL + "?" + query.toString();
+      document.head.appendChild(script);
+    });
+  }
+
+  function normalizeStreet(value) {
+    return String(value || "")
+      .trim()
+      .toLocaleLowerCase("nl")
+      .replace(/\s+/g, " ");
+  }
+
+  function getMarkerColor(total) {
+    if (total >= 100) return "#000000";
+    if (total >= 60) return "#5b2c83";
+    if (total >= 40) return "#8e44ad";
+    if (total >= 20) return "#c0392b";
+    if (total >= 10) return "#e67e22";
+    if (total >= 5) return "#f1c40f";
+    if (total >= 1) return "#2ecc71";
+    return "#8b918d";
+  }
+
+  function getColorBand(total) {
+    if (total >= 100) return tr("band7");
+    if (total >= 60) return tr("band6");
+    if (total >= 40) return tr("band5");
+    if (total >= 20) return tr("band4");
+    if (total >= 10) return tr("band3");
+    if (total >= 5) return tr("band2");
+    return tr("band1");
+  }
+
+  async function loadCentralReports() {
+    try {
+      const result = await callAppsScript({});
+
+      if (!result || result.success !== true || !Array.isArray(result.reports)) {
+        throw new Error("Ongeldig antwoord van de meldingenserver.");
+      }
+
+      const grouped = new Map();
+      const twelveMonthsAgo = new Date();
+      twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+
+      result.reports.forEach(report => {
+        const name = String(report.street || "").trim();
+        const lat = Number(report.lat);
+        const lng = Number(report.lng);
+        const count = Number(report.count);
+        const reportDate = new Date(report.date);
+        const category = ["rats", "droppings", "burrows"].includes(report.category)
+          ? report.category
+          : "rats";
+
+        if (report.kind !== "exact12m") return;
+
+        if (
+          !name ||
+          !Number.isInteger(count) ||
+          count < 1 ||
+          count > 20 ||
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lng) ||
+          lat < 52.2 || lat > 52.6 ||
+          lng < 4.4 || lng > 4.9 ||
+          isNaN(reportDate.getTime()) ||
+          reportDate < twelveMonthsAgo
+        ) return;
+
+        const key = normalizeStreet(name) + "|" + category;
+
+        if (!grouped.has(key)) {
+          grouped.set(key, {
+            name,
+            lat,
+            lng,
+            category,
+            total: count,
+            reports: 1
+          });
+        } else {
+          const street = grouped.get(key);
+          street.total += count;
+          street.reports += 1;
+        }
+      });
+
+      streets = Array.from(grouped.values());
+      renderMapMarkers();
+      return true;
+
+    } catch (error) {
+      console.error("Fout bij ophalen meldingen:", error);
+      return false;
+    }
+  }
+
+  function applyLanguage() {
+    if (!T[currentLang]) currentLang = "nl";
+
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+    $("language").value = currentLang;
+
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const key = el.dataset.t;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.textContent = translation;
+      }
+    });
+
+    document.querySelectorAll("[data-t-placeholder]").forEach(el => {
+      const key = el.dataset.tPlaceholder;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.placeholder = translation;
+      }
+    });
+
+    document.querySelectorAll("[data-t-aria]").forEach(el => {
+      const key = el.dataset.tAria;
+      const translation = T[currentLang][key];
+
+      if (translation !== undefined) {
+        el.setAttribute("aria-label", translation);
+      }
+    });
+
+    updateOfficialEmailLink();
+    updateReportLabels();
+
+    if (markersLayer) renderMapMarkers();
+  }
+
+  function initMap() {
+    if (mapInstance || !window.L) return;
+
+    mapInstance = L.map("map", {
+      scrollWheelZoom: false
+    }).setView([52.3892, 4.6375], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mapInstance);
+
+    markersLayer = L.layerGroup().addTo(mapInstance);
+    mapInstance.on("zoomend", renderMapMarkers);
+    renderMapMarkers();
+  }
+
+  function renderMapMarkers() {
+    if (!markersLayer || !window.L) return;
+
+    markersLayer.clearLayers();
+
+    // Gebruik echte geografische cirkels in meters, geen verschuiving in pixels.
+    // Daardoor blijven meldingen op hun straat liggen en schalen de stippen
+    // vanzelf mee wanneer de kaart in- of uitgezoomd wordt.
+    const categoryStyle = {
+      rats: {
+        radius: 28,
+        fillColor: street => getMarkerColor(street.total),
+        color: "#ffffff",
+        weight: 2.5
+      },
+      droppings: {
+        radius: 18,
+        fillColor: "#8b4513",
+        color: "#ffffff",
+        weight: 2
+      },
+      burrows: {
+        radius: 9,
+        fillColor: "#ffffff",
+        color: "#222222",
+        weight: 2
+      }
+    };
+
+    // Grote cirkels eerst tekenen; kleinere categorieën blijven daardoor
+    // zichtbaar als meldingen voor dezelfde straat op dezelfde coördinaat staan.
+    const orderedStreets = [...streets].sort((a, b) =>
+      categoryStyle[b.category].radius - categoryStyle[a.category].radius
+    );
+
+    orderedStreets.forEach(street => {
+      const isRats = street.category === "rats";
+      const style = categoryStyle[street.category];
+      const marker = L.circle(
+        [street.lat, street.lng],
+        {
+          radius: style.radius,
+          fillColor: typeof style.fillColor === "function"
+            ? style.fillColor(street)
+            : style.fillColor,
+          color: style.color,
+          weight: style.weight,
+          opacity: 1,
+          fillOpacity: .82
+        }
+      );
+
+      const popup = document.createElement("div");
+      const categoryKey = street.category === "droppings"
+        ? "popupCategoryDroppings"
+        : street.category === "burrows"
+          ? "popupCategoryBurrows"
+          : "popupCategoryRats";
+
+      const title = document.createElement("strong");
+      title.textContent = street.name;
+
+      const category = document.createElement("p");
+      category.textContent = tr(categoryKey);
+
+      const total = document.createElement("p");
+      total.textContent = tr("popupCount") + ": " + street.total;
+
+      const reports = document.createElement("p");
+      reports.textContent = tr("popupReports") + ": " + street.reports;
+
+      popup.append(title, category, total, reports);
+
+      if (isRats) {
+        const band = document.createElement("p");
+        band.textContent = getColorBand(street.total);
+        popup.appendChild(band);
+        const explanation = document.createElement("small");
+        explanation.textContent = tr("popupNote");
+        popup.appendChild(explanation);
+      }
+
+      marker.bindPopup(popup);
+      markersLayer.addLayer(marker);
+    });
+  }
+
+  async function showPage(pageName) {
+    ["report", "map", "rules", "info", "posters"].forEach(name => {
+      $("page-" + name).classList.toggle("hidden", name !== pageName);
+    });
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      if (btn.dataset.page === pageName) {
+        btn.setAttribute("aria-current", "page");
+      } else {
+        btn.removeAttribute("aria-current");
+      }
+    });
+
+    if (pageName === "map") {
+      initMap();
+
+      $("submitMessage").className = "";
+      $("submitMessage").textContent = tr("loadingReports");
+
+      const loaded = await loadCentralReports();
+
+      if (!loaded) {
+        $("submitMessage").className = "error";
+        $("submitMessage").textContent = tr("loadError");
+      } else {
+        $("submitMessage").textContent = "";
+      }
+
+      setTimeout(() => {
+        if (mapInstance) mapInstance.invalidateSize();
+      }, 150);
+
+      renderMapMarkers();
+    }
+  }
+
+  async function findStreetViaPDOK(rawInput) {
+    const cleanName = rawInput
+      .replace(/[0-9]+.*$/, "")
+      .trim();
+
+    if (!cleanName) return null;
+
+    const base = "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free";
+
+    const queries = [
+      { q: cleanName + " 5", type: "adres" },
+      { q: cleanName, type: "weg" }
+    ];
+
+    for (const search of queries) {
+      try {
+        const params = new URLSearchParams({
+          q: search.q,
+          fq: search.type === "adres"
+            ? "gemeentenaam:Haarlem AND type:adres"
+            : "gemeentenaam:Haarlem AND type:weg",
+          rows: "5",
+          fl: "straatnaam,centroide_ll,type"
+        });
+
+        const response = await fetch(base + "?" + params.toString(), {
+          signal: AbortSignal.timeout(12000)
+        });
+
+        if (!response.ok) continue;
+
+        const data = await response.json();
+        const docs = data?.response?.docs || [];
+
+        for (const doc of docs) {
+          if (!doc.centroide_ll) continue;
+
+          const match = doc.centroide_ll.match(
+            /POINT\(([-0-9.]+)\s+([-0-9.]+)\)/
+          );
+
+          if (!match) continue;
+
+          const lng = Number(match[1]);
+          const lat = Number(match[2]);
+
+          if (
+            !Number.isFinite(lat) ||
+            !Number.isFinite(lng) ||
+            lat < 52.2 || lat > 52.6 ||
+            lng < 4.4 || lng > 4.9
+          ) continue;
+
+          return {
+            name: doc.straatnaam || cleanName,
+            lat,
+            lng
+          };
+        }
+      } catch (error) {
+        console.error("PDOK zoekfout:", error);
+      }
+    }
+
+    return null;
+  }
+
+  function updateReportLabels() {
+    const category = $("category").value || "rats";
+    const labelKey = category === "droppings"
+      ? "observationDroppings"
+      : category === "burrows"
+        ? "observationBurrows"
+        : "observationRats";
+    const helpKey = category === "droppings"
+      ? "countHelpDroppings"
+      : category === "burrows"
+        ? "countHelpBurrows"
+        : "countHelpRats";
+
+    $("observationLabel").textContent = tr(labelKey);
+    $("countHelp").textContent = tr(helpKey);
+  }
+
+  function checkSubmitState() {
+    const hasStreet = $("streetInput").value.trim().length > 0;
+    const count = Number($("observation").value);
+    const validCount =
+      Number.isInteger(count) && count >= 1 && count <= 20;
+    const consent = $("consent").checked && $("truthful").checked;
+
+    $("submitReport").disabled =
+      !hasStreet || !validCount || !consent || isSubmitting;
+  }
+
+  async function submitReport() {
+    if (isSubmitting) return;
+
+    const input = $("streetInput");
+    const message = $("submitMessage");
+    const streetName = input.value.trim();
+    const count = Number($("observation").value);
+    const category = $("category").value;
+
+    if (!streetName || !$("consent").checked || !$("truthful").checked) return;
+
+    if (!Number.isInteger(count) || count < 1 || count > 20) {
+      message.className = "error";
+      message.textContent = tr("invalidCount");
+      return;
+    }
+
+    const deviceId = getDeviceId();
+
+    if (!deviceId) {
+      message.className = "error";
+      message.textContent = tr("storageError");
+      return;
+    }
+
+    isSubmitting = true;
+    checkSubmitState();
+
+    message.className = "";
+    message.textContent = tr("searching");
+
+    try {
+      const streetInfo = await findStreetViaPDOK(streetName);
+
+      if (!streetInfo) {
+        message.className = "error";
+        message.textContent = tr("notFound");
+        return;
+      }
+
+      message.textContent = tr("sending");
+
+      const result = await callAppsScript({
+        action: "add",
+        street: streetInfo.name,
+        count: String(count),
+        category: category,
+        lat: String(streetInfo.lat),
+        lng: String(streetInfo.lng),
+        deviceId: deviceId
+      });
+
+      if (!result || result.success !== true) {
+        message.className = "error";
+
+        if (
+          String(result?.message || "").toLowerCase().includes("15") ||
+          String(result?.message || "").toLowerCase().includes("cooldown") ||
+          String(result?.message || "").toLowerCase().includes("recent")
+        ) {
+          message.textContent = tr("duplicateReport");
+        } else {
+          message.textContent = result?.message || tr("storageError");
+        }
+        return;
+      }
+
+      message.className = "success";
+      message.textContent = tr("saved");
+
+      const loaded = await loadCentralReports();
+
+      if (!loaded) {
+        console.warn("Melding is opgeslagen, maar de kaart kon niet worden vernieuwd.");
+      }
+
+      if (mapInstance) {
+        mapInstance.setView([streetInfo.lat, streetInfo.lng], 16);
+      }
+
+      renderMapMarkers();
+
+      input.value = "";
+      $("consent").checked = false;
+      $("truthful").checked = false;
+      $("observation").value = "1";
+
+    } catch (error) {
+      console.error("Fout bij versturen melding:", error);
+      message.className = "error";
+      message.textContent = tr("storageError");
+
+    } finally {
+      isSubmitting = false;
+      checkSubmitState();
+    }
+  }
+
+  /*
+   * Bij een taalkeuze eerst opslaan en daarna vertalen.
+   */
+  $("language").addEventListener("change", event => {
+    const selectedLanguage = event.target.value;
+
+    if (!T[selectedLanguage]) {
+      event.target.value = currentLang;
+      return;
+    }
+
+    saveLanguage(selectedLanguage);
+    currentLang = selectedLanguage;
+    applyLanguage();
+  });
+
+  /*
+   * Als de bezoeker terugkeert naar het tabblad, halen we de
+   * opgeslagen taal opnieuw op. Zo valt de pagina niet terug
+   * op Nederlands na terugkeer uit het e-mailprogramma.
+   */
+  window.addEventListener("pageshow", () => {
+    currentLang = readSavedLanguage();
+    applyLanguage();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      currentLang = readSavedLanguage();
+      applyLanguage();
+    }
+  });
+
+  /*
+   * Als de taal in een ander tabblad wordt gewijzigd,
+   * wordt deze pagina ook bijgewerkt.
+   */
+  window.addEventListener("storage", event => {
+    if (event.key === LANGUAGE_KEY) {
+      currentLang = T[event.newValue] ? event.newValue : "nl";
+      applyLanguage();
+    }
+  });
+
+  currentLang = readSavedLanguage();
+  applyLanguage();
+
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.addEventListener("click", () => showPage(btn.dataset.page));
+  });
+
+  document.querySelectorAll("[data-print-poster]").forEach(button => {
+    button.addEventListener("click", () => {
+      const card = $("poster-card-" + button.dataset.printPoster);
+      if (!card) return;
+      document.querySelectorAll(".poster-card").forEach(item => item.classList.remove("print-target"));
+      card.classList.add("print-target");
+      document.body.classList.add("printing");
+      const finishPrint = () => {
+        document.body.classList.remove("printing");
+        card.classList.remove("print-target");
+        window.removeEventListener("afterprint", finishPrint);
+      };
+      window.addEventListener("afterprint", finishPrint);
+      window.print();
+    });
+  });
+
+
+  $("rulesReportButton").addEventListener("click", () => showPage("report"));
+  $("mapChoiceButton").addEventListener("click", () => showPage("map"));
+  $("mapChoiceButton").addEventListener("click", () => showPage("map"));
+
+  $("returned").addEventListener("change", () => {
+    $("unlockButton").disabled = !$("returned").checked;
+  });
+
+  $("unlockButton").addEventListener("click", () => {
+    if ($("returned").checked) showPage("map");
+  });
+
+  $("streetInput").addEventListener("input", checkSubmitState);
+  $("category").addEventListener("change", () => {
+    updateReportLabels();
+    checkSubmitState();
+  });
+  $("observation").addEventListener("input", checkSubmitState);
+  $("consent").addEventListener("change", checkSubmitState);
+  $("truthful").addEventListener("change", checkSubmitState);
+  $("submitReport").addEventListener("click", submitReport);
+
+  showPage("report");
+  checkSubmitState();
+});
+</script>
+
+</body>
+</html>
