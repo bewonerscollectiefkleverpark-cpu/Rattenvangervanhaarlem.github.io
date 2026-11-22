@@ -167,9 +167,18 @@ e.preventDefault();
 const lang=document.getElementById("language").value||"nl",w=reportWords[lang]||reportWords.nl;
 const d=new FormData(e.currentTarget);
 const subject=lang==="nl"?"Nieuwe melding rattenoverlast Haarlem":"Rat nuisance report - Haarlem";
-const body=["Name: "+d.get("name"),"Phone: "+d.get("phone"),"Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\\n");
-document.getElementById("mailStatus").textContent=w[6];
-window.location.href="mailto:info@spaarnelanden.nl?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const body=["Name: "+d.get("name"),"Phone: "+d.get("phone"),"Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\r\n");
+const mailto="mailto:info@spaarnelanden.nl?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const status=document.getElementById("mailStatus");
+status.textContent=w[6]+" ";
+const fallback=document.createElement("a");
+fallback.href=mailto;
+fallback.textContent=lang==="nl"?"Klik hier als je e-mail niet vanzelf opent.":"Click here if your email does not open automatically.";
+fallback.style.display="inline-block";
+fallback.style.fontWeight="800";
+fallback.style.textDecoration="underline";
+status.appendChild(fallback);
+window.location.href=mailto;
 });
 
 const translations={
