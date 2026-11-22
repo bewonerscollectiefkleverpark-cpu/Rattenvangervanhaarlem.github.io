@@ -298,7 +298,7 @@
     @media(max-width:650px) { .choice-grid { grid-template-columns:1fr; } .choice-card { padding:17px; } }
 
 
-    .official-mail-form{margin-top:20px;padding:18px;background:#f5f8fc;border:1px solid var(--line);border-radius:14px}
+    .official-mail-form{margin-top:20px;padding:18px;background:#f4efe5;border:1px solid var(--line);border-radius:14px}
     .official-mail-form h4{font-size:1.08rem;margin:0 0 6px}
     .official-mail-form p{font-size:.9rem;margin:0 0 14px;color:var(--muted)}
     .mail-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -622,7 +622,7 @@ h1,h2,h3,h4{color:var(--blue,#153b67);letter-spacing:-.35px}
 .primary,button{border-radius:9px}
 .primary{background:#c62835}
 .primary:hover{background:#a51f2b}
-.field input,.field select,.mail-form-grid input,.mail-form-grid textarea{border-color:#cbd7e3;border-radius:9px}
+.field input,.field select,.mail-form-grid input,.mail-form-grid textarea{border-color:#dfd5c5;border-radius:9px}
 footer{border-top:1px solid #dbe3ec}
 @media(max-width:700px){.rvh-header{padding:12px 0}.legacy-tabs{justify-content:stretch}.legacy-tabs button{flex:1 1 auto}}
 
@@ -637,6 +637,28 @@ footer{border-top:1px solid #dbe3ec}
 .choice-button:hover:not(:disabled){background:#24588d}
 .rules-action-panel{background:#fff;border-color:#c62835;box-shadow:0 4px 18px rgba(21,59,103,.06)}
 .rules-action-kicker{background:#edf3f9;color:#153b67}
+
+  
+/* Definitieve warme sepia/ivoor-kleurstelling voor de volledige rattenkaart */
+:root{--red:#8a7252;--red-dark:#514431;--green:#8a7252;--cream:#f4efe5;--paper:#fffdf8;--ink:#29251f;--muted:#756b5c;--line:#dfd5c5;--soft:#eee7da}
+body{background:#f4efe5!important;color:#29251f}
+header,.section,.choice-card,.responsibility-card{background:#fffdf8!important}
+.legacy-tabs button{background:#eee7da!important;color:#514431!important;border:1px solid #dfd5c5!important}
+.legacy-tabs button[aria-current=page]{background:#514431!important;color:#fff!important;border-color:#514431!important}
+.choice-panel-full,.choice-panel,.hotspot-panel,.reporting-fatigue-panel,.privacy-panel,.rules-action-panel{background:#f8f4eb!important;border-color:#8a7252!important}
+.choice-official,.choice-map{border-color:#8a7252!important}
+.choice-number,.rules-number,.choice-button{background:#514431!important;color:#fff!important}
+.choice-button:hover:not(:disabled){background:#29231b!important}
+.notice,.legend-box,.official-mail-form,.responsibility-panel{background:#f4efe5!important;border-color:#dfd5c5!important;color:#29251f!important}
+.notice{border-left:4px solid #8a7252!important}
+[dir=rtl] .notice{border-left:1px solid #dfd5c5!important;border-right:4px solid #8a7252!important}
+.primary,button{background:#8a7252!important;color:#fff!important;border-color:#8a7252!important}
+.primary:hover,button:hover:not(:disabled){background:#514431!important}
+.field input,.field select,.mail-form-grid input,.mail-form-grid textarea{border-color:#cfc2ab!important}
+.rules-action-kicker{background:#eee7da!important;color:#514431!important}
+.responsibility-panel{border:2px solid #8a7252!important}
+.responsibility-panel h3,.responsibility-card h4{color:#514431!important}
+footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 
   </style>
 </head>
