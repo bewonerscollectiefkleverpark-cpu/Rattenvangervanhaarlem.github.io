@@ -4,3 +4,27 @@
 
 /* Haarlemse kleurstelling en consequente navigatie */
 .top{background:#263548}.nav a{border-color:#d3e1ef}.nav a:hover,.nav a[aria-current=page]{background:#D12435;border-color:#D12435}.hero{background:linear-gradient(120deg,#fff 0%,#eef5fc 100%)}.callout{background:#fff0f1}.tile.green{background:#f1f7fc;border-color:#A5C9ED}.note{background:#f2f6fb;border-left-color:#A7663A}.footer{background:#263548}
+
+
+/* Rattenvanger van Haarlem — gedeelde warme sepia/ivoor-stijl voor alle verdiepende pagina's */
+:root{--red:#8a7252;--red2:#514431;--ink:#29251f;--muted:#756b5c;--cream:#f4efe5;--paper:#fffdf8;--line:#dfd5c5;--green:#6d604d;--soft:#f1eadc;--max:1120px}
+body{background:#f4efe5;color:#29251f}
+.top{background:#29231b;color:#f5efe4}
+.top a{color:#fff}
+.sitehead{padding-top:20px}
+.brand img{width:150px;height:150px;border:6px solid #8a7252;box-shadow:0 4px 18px rgba(41,35,27,.14)}
+.brandname{color:#29231b}
+.brandtag{color:#756b5c}
+.nav a{background:#eee7da;border:1px solid #dfd5c5;color:#514431;border-radius:10px}
+.nav a:hover,.nav a[aria-current=page]{background:#514431;color:#fff;border-color:#514431}
+.hero{background:linear-gradient(118deg,#29231b 0%,#514431 100%);border-color:#514431;color:#fff;box-shadow:0 12px 34px rgba(48,38,25,.08)}
+.hero h1,.hero p{color:#fff}
+.eyebrow{color:#d5c19a}
+.section,.content,.faq,.panel,.card{background:#fffdf8;border-color:#e2d8c8;box-shadow:0 8px 28px rgba(48,38,25,.045)}
+h1,h2,h3{color:#29231b}
+.btn{background:#b32632;border-color:#b32632;color:#fff}
+.btn.secondary{background:#514431;border-color:#514431;color:#fff}
+.callout,.notice,.tip{background:#f4efe5;border-color:#dfd5c5}
+footer,.footer{background:#29231b;color:#f5efe4}
+footer a,.footer a{color:#e5d4b5}
+@media(max-width:720px){.brand img{width:112px;height:112px}.brand{gap:12px}.nav{gap:6px}.nav a{font-size:.82rem;padding:8px 10px}}
