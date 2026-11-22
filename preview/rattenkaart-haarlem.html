@@ -677,8 +677,8 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 </header>
 
 <nav class="legacy-tabs" aria-label="Meld- en kaartonderdelen" data-t-aria="navigationLabel">
-  <button type="button" data-page="report" data-t="report" aria-current="page">Rat melden</button>
-  <button type="button" data-page="map" data-t="map">Rattenkaart Haarlem</button>
+  <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
+  <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
   <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
   <button type="button" data-page="info" data-t="info">Informatie</button>
   <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
@@ -2364,6 +2364,8 @@ document.addEventListener("DOMContentLoaded", () => {
       $("streetInput").scrollIntoView({ behavior: "smooth", block: "center" });
       $("streetInput").focus({ preventScroll: true });
     });
+  } else if (["rules", "info", "posters"].includes(requestedPage)) {
+    showPage(requestedPage);
   } else {
     showPage("report");
   }
