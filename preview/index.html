@@ -79,6 +79,17 @@ footer a{color:#e5d4b5}
 .image-credits a{color:#b9b1a5}
 @media(max-width:720px){.photo-grid{grid-template-columns:1fr}.photo-card img{width:104px;height:82px}.photo-credit{margin-bottom:-20px!important}}
 </style>
+<style>
+/* Leesbaarheid op telefoons: voorkom automatische donkere modus en verhoog tekstcontrast */
+:root{color-scheme:light;--ink:#29251f;--muted:#554b40}
+html,body{color:#29251f!important;background-color:#f4efe5}
+body,main,section,article,p,li,label,h1,h2,h3,h4,strong{ text-shadow:none }
+.lead,.brand p,.form-note,.share-note,.illustration-card span,.image-credits{color:#554b40!important}
+.report-form label{color:#29231b!important}
+.report-form input,.report-form select,.report-form textarea{color:#29251f!important;background:#fff!important}
+.nav a{color:#29231b}
+.card,.section,.alert,.step,.free,.proof,.share,.illustration-card{color:#29251f}
+</style>
 </head>
 <body>
 <div class="top"><div class="wrap"><strong data-i="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-i="language">Taal</span><select id="language" aria-label="Kies taal"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div>
