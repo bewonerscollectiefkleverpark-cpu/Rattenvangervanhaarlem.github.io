@@ -679,8 +679,8 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 <nav class="legacy-tabs" aria-label="Meld- en kaartonderdelen" data-t-aria="navigationLabel">
   <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
   <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
-  <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
-  <button type="button" data-page="info" data-t="info">Informatie</button>
+  <a class="standalone-tab" href="leefregels.html">Leefregels tegen ratten</a>
+  <a class="standalone-tab" href="over-dit-initiatief.html">Informatie</a>
   <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
 </nav>
 
@@ -2393,3 +2393,5 @@ document.addEventListener("DOMContentLoaded", () => {
 </style>
 </body>
 </html>
+
+<style id="rvh-standalone-tab-links">.legacy-tabs .standalone-tab{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:30px;font-size:14px;padding:10px 20px;font-weight:700;background:#f4efe5;color:#514431;border:1px solid #dedbd3}.legacy-tabs .standalone-tab:hover{background:white;color:#8a7252;border-color:#b9a384}</style>
