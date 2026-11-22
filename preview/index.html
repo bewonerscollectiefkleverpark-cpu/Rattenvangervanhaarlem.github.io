@@ -147,7 +147,7 @@ footer a{color:#e5d4b5}
 <a class="share-btn share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbewonerscollectiefkleverpark-cpu.github.io%2FRattenvangervanhaarlem.github.io%2Fpreview%2F" target="_blank" rel="noopener"><span aria-hidden="true">f</span> Facebook</a>
 <a class="share-btn share-instagram" href="https://www.instagram.com/" aria-label="Open Instagram om de website te delen"><span aria-hidden="true">◎</span> Instagram</a>
 <a class="share-btn share-tiktok" href="https://www.tiktok.com/" aria-label="Open TikTok om de website te delen"><span aria-hidden="true">♪</span> TikTok</a>
-<a class="share-btn share-signal" href="sgnl://send?text=Rattenvanger%20van%20Haarlem%3A%20https%3A%2F%2Fbewonerscollectiefkleverpark-cpu.github.io%2FRattenvangervanhaarlem.github.io%2Fpreview%2F" aria-label="Open Signal met de websitelink"><span aria-hidden="true">➤</span> Signal</a>
+<button class="share-btn share-signal" type="button" id="shareSignal" aria-label="Deel de websitelink via het deelvenster, kies Signal"><span aria-hidden="true">➤</span> Signal</button>
 <div class="rvh-manual-link"><strong>Websiteadres — handmatig kopiëren</strong><p>Houd de onderstaande link ingedrukt (of sleep eroverheen op een computer) en kies <b>Kopiëren</b>. Open daarna Instagram, TikTok of Signal en plak de link zelf.</p><div class="rvh-url" dir="ltr">https://tinyurl.com/rattenvangervanhaarlem</div></div>
 </div></div></section>
 </main>
@@ -162,23 +162,34 @@ tr:["Fareyi veya izleri nerede gördünüz?","Bunu ne zaman gördünüz?","Ne g�
 ar:["أين رأيت الجرذ أو آثاره؟","متى رأيت ذلك؟","ماذا رأيت؟","تفاصيل إضافية (اختياري)","","ضع البلاغ في رسالة بريد إلكتروني","رسالة البريد جاهزة. راجع محتواها واضغط إرسال بنفسك.","الشارع أو رقم المنزل أو المكان","مثل عدد الجرذان أو المكان بالتحديد.","اسمك","رقم هاتفك","أدخل اسمك ورقم هاتفك لكي تتمكن Anticimex من التواصل معك. لا يحتفظ موقع Rattenvanger van Haarlem بهذه البيانات؛ بل تُدرج فقط في البريد الإلكتروني المرسل إلى Spaarnelanden. راجع البريد وأرسله بنفسك."]
 };
 function translateReportForm(lang){const w=reportWords[lang]||reportWords.nl;const indexes={location:0,date:1,type:2,details:3,submit:5,privacy:11,name:9,phone:10};document.querySelectorAll("[data-form]").forEach(el=>{const i=indexes[el.dataset.form];if(i!==undefined)el.textContent=w[i]});document.getElementById("reportLocation").placeholder=w[7];document.getElementById("reportDetails").placeholder=w[8];}
+document.getElementById("shareSignal").addEventListener("click",async()=>{
+const shareData={title:"Rattenvanger van Haarlem",text:"Bekijk de rattenhotspotkaart en meld nieuwe waarnemingen.",url:"https://tinyurl.com/rattenvangervanhaarlem"};
+const note=document.createElement("p");note.className="share-note";note.setAttribute("role","status");
+const old=document.getElementById("signalShareStatus");if(old)old.remove();
+try{if(navigator.share){await navigator.share(shareData)}else{note.textContent="Delen wordt niet ondersteund in deze browser. Selecteer de websitelink hieronder en kies Kopiëren; plak hem daarna in Signal." ;document.querySelector("#delen .socials").appendChild(note)}}
+catch(err){if(err.name!=="AbortError"){note.textContent="Signal kon niet automatisch worden geopend. Kopieer de websitelink hieronder en plak deze in Signal.";document.querySelector("#delen .socials").appendChild(note)}}
+});
 document.getElementById("officialReportForm").addEventListener("submit",e=>{
 e.preventDefault();
 const lang=document.getElementById("language").value||"nl",w=reportWords[lang]||reportWords.nl;
 const d=new FormData(e.currentTarget);
 const subject=lang==="nl"?"Nieuwe melding rattenoverlast Haarlem":"Rat nuisance report - Haarlem";
 const body=["Name: "+d.get("name"),"Phone: "+d.get("phone"),"Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\r\n");
-const mailto="mailto:info@spaarnelanden.nl?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const to="info@spaarnelanden.nl";
+const mailto="mailto:"+to+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const gmail="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(to)+"&su="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const outlook="https://outlook.office.com/mail/deeplink/compose?to="+encodeURIComponent(to)+"&subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 const status=document.getElementById("mailStatus");
-status.textContent=w[6]+" ";
-const fallback=document.createElement("a");
-fallback.href=mailto;
-fallback.textContent=lang==="nl"?"Klik hier als je e-mail niet vanzelf opent.":"Click here if your email does not open automatically.";
-fallback.style.display="inline-block";
-fallback.style.fontWeight="800";
-fallback.style.textDecoration="underline";
-status.appendChild(fallback);
-window.location.href=mailto;
+status.replaceChildren();
+const intro=document.createElement("span");
+intro.textContent=lang==="nl"?"Je melding is ingevuld. Kies hieronder je e-mailprogramma; controleer de tekst en druk daarna zelf op Verzenden.":"Your report is filled in. Choose your email service below, review the message and press Send yourself.";
+status.appendChild(intro);
+const options=document.createElement("div");
+options.style.cssText="display:flex;flex-wrap:wrap;gap:9px;margin-top:10px";
+[[lang==="nl"?"Open e-mailapp":"Open email app",mailto],[ "Gmail",gmail],["Outlook",outlook]].forEach(([label,url])=>{
+const a=document.createElement("a");a.href=url;a.textContent=label;a.style.cssText="display:inline-block;background:#514431;color:#fff;padding:11px 14px;border-radius:8px;font-weight:800;text-decoration:none";if(url!==mailto){a.target="_blank";a.rel="noopener"}options.appendChild(a);
+});
+status.appendChild(options);
 });
 
 const translations={
