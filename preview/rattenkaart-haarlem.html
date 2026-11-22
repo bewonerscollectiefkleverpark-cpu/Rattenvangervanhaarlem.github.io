@@ -667,7 +667,7 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 .logo,.rvh-brand img{width:160px;height:160px;aspect-ratio:1/1;object-fit:cover!important;object-position:center!important;flex:none;display:block;border-radius:50%!important;clip-path:circle(50% at 50% 50%)!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:hidden}
 @media(max-width:720px){.logo,.rvh-brand img{width:120px;height:120px}}
 </style>
-<style id="rvh-home-footer-button">.home-footer{display:inline-flex;align-items:center;justify-content:center;padding:9px 22px;border:1px solid #e5d4b5;border-radius:24px;color:#fff!important;text-decoration:none;font-weight:800;letter-spacing:.06em}.home-footer:hover{background:#514431}</style></head>
+<style id="rvh-home-footer-button">.home-footer{display:inline-flex;align-items:center;justify-content:center;padding:9px 22px;border:1px solid #e5d4b5;border-radius:24px;color:#fff!important;text-decoration:none;font-weight:800;letter-spacing:.06em}.home-footer:hover{background:#514431}</style><style id="rvh-identical-footer">footer{background:#29231b!important;color:#f5efe4!important;padding:28px 0!important;margin-top:30px!important;border:0!important}footer a{color:#e5d4b5!important}footer .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}footer .small{font-size:.88rem;color:#d8cbb6!important}footer p{margin:8px 0}</style></head>
 
 <body>
 <div class="top rvh-top"><div class="wrap rvh-top-inner"><strong>Onafhankelijk bewonersinitiatief · Haarlem</strong><div class="lang-bar"><select id="language" aria-label="Kies taal" data-t-aria="languageLabel"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></div></div></div>
@@ -681,15 +681,7 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
   </div>
 </header>
 
-<nav class="legacy-tabs" aria-label="Meld- en kaartonderdelen" data-t-aria="navigationLabel">
-  <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
-  <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
-  <a class="standalone-tab" href="leefregels.html" data-t="rules">Leefregels tegen ratten</a>
-  <a class="standalone-tab" href="over-dit-initiatief.html" data-t="info">Over dit initiatief</a>
-  <a class="standalone-tab" href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a>
-  <a class="standalone-tab" href="../concept/ratten-en-het-riool.html">Ratten en het riool</a>
-  <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
-</nav>
+<nav class="legacy-tabs" aria-label="Hoofdnavigatie"><a href="index.html#melden" data-rvh-nav="report">Melden</a><a href="rattenkaart-haarlem.html?page=map" data-rvh-nav="map">Rattenkaart</a><a href="index.html#aanpak" data-rvh-nav="approach">Hoe werkt het?</a><a href="index.html#sporen" data-rvh-nav="signs">Welke sporen melden?</a><a href="index.html#delen" data-rvh-nav="share">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters" data-rvh-nav="posters">Posters om te printen</a><a href="over-dit-initiatief.html" data-rvh-nav="about">Over dit initiatief</a><a href="leefregels.html" data-rvh-nav="rules">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html" data-rvh-nav="faq">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html" data-rvh-nav="sewer">Ratten en het riool</a></nav>
 
   <main>
 
@@ -942,7 +934,7 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 
   </main>
 
-  <footer><div class="rvh-foot-wrap"><div><strong>Rattenvanger van Haarlem</strong><p class="rvh-foot-small" data-t="footerText">Onafhankelijk bewonersinitiatief. Geen gemeentelijke dienst. Bewonerswaarnemingen zijn geen officiële gemeentelijke meldingen.</p></div><div><a class="home-footer" href="./" data-t="homeButton">HOME</a><p class="rvh-foot-small">Fouten op de website? Mail: <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a></p></div><span class="rvh-foot-small">Conceptpreview · niet definitief</span></div></footer>
+  <footer><div class="wrap foot"><div><strong>Rattenvanger van Haarlem</strong><p class="small" data-t="footerText">Onafhankelijk bewonersinitiatief. Geen gemeentelijke dienst. Bewonerswaarnemingen zijn geen officiële gemeentelijke meldingen.</p></div><div><a class="home-footer" href="./" data-t="homeButton">HOME</a><p class="small"><span data-t="contactTitle">Fouten op de website? Mail:</span> <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a></p></div><span class="small">Conceptpreview · niet definitief</span></div></footer>
 
 </div>
 
@@ -2402,7 +2394,9 @@ document.addEventListener("DOMContentLoaded", () => {
 .legacy-tabs button[aria-current="page"],.legacy-tabs button:hover:not(:disabled){background:#514431!important;color:#fff!important;border-color:#514431!important}
 @media(max-width:720px){.rvh-top-inner{flex-direction:column;align-items:flex-start}.rvh-brand-row{padding:16px 0!important}.rvh-brand img{width:120px!important;height:120px!important}.rvh-brand{gap:14px!important}.rvh-brand strong{font-size:1.5rem!important}.rvh-brand small{font-size:.88rem!important}.legacy-tabs{padding-bottom:12px!important}}
 </style>
-</body>
+<script id="rvh-unified-navigation">
+(()=>{const labels={"nl":["Melden","Rattenkaart","Hoe werkt het?","Welke sporen melden?","Deel de website","Posters om te printen","Over dit initiatief","Leefregels tegen ratten","Veelgestelde vragen","Ratten en het riool"],"en":["Report","Rat map","How does it work?","Which signs should I report?","Share the website","Posters to print","About this initiative","Rat prevention rules","Frequently asked questions","Rats and the sewer"],"de":["Melden","Rattenkarte","Wie funktioniert es?","Welche Spuren melden?","Website teilen","Poster zum Ausdrucken","Über die Initiative","Regeln gegen Ratten","Häufige Fragen","Ratten und Kanalisation"],"fr":["Signaler","Carte des rats","Comment ça marche ?","Quels indices signaler ?","Partager le site","Affiches à imprimer","À propos de l’initiative","Règles contre les rats","Questions fréquentes","Rats et égouts"],"tr":["Bildir","Fare haritası","Nasıl çalışır?","Hangi izler bildirilmeli?","Web sitesini paylaş","Yazdırılabilir posterler","Bu girişim hakkında","Farelere karşı kurallar","Sık sorulan sorular","Fareler ve kanalizasyon"],"ar":["الإبلاغ","خريطة الجرذان","كيف يعمل؟","ما الآثار التي يجب الإبلاغ عنها؟","شارك الموقع","ملصقات للطباعة","عن هذه المبادرة","قواعد للحد من الجرذان","الأسئلة الشائعة","الجرذان والصرف الصحي"]};const keys=["report","map","approach","signs","share","posters","about","rules","faq","sewer"];const select=document.getElementById("language");function apply(){const lang=(select&&select.value)||localStorage.getItem("rvh-language")||"nl";const row=labels[lang]||labels.nl;document.querySelectorAll("[data-rvh-nav]").forEach(el=>{const i=keys.indexOf(el.dataset.rvhNav);if(i>=0)el.textContent=row[i]})}apply();if(select)select.addEventListener("change",apply);window.addEventListener("storage",e=>{if(e.key==="rvh-language")apply()});})();
+</script></body>
 </html>
 
 <style id="rvh-standalone-tab-links">.legacy-tabs .standalone-tab{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:30px;font-size:14px;padding:10px 20px;font-weight:700;background:#f4efe5;color:#514431;border:1px solid #dedbd3}.legacy-tabs .standalone-tab:hover{background:white;color:#8a7252;border-color:#b9a384}</style>
