@@ -661,6 +661,7 @@ header,.section,.choice-card,.responsibility-card{background:#fffdf8!important}
 footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 
   </style>
+<style id="rvh-final-palette">:root{--red:#8a7252!important;--red-dark:#514431!important;--cream:#f4efe5!important;--paper:#fffdf8!important;--ink:#29251f!important;--muted:#756b5c!important;--green:#8a7252!important;--line:#dfd5c5!important;--soft:#eee7da!important}body{background:#f4efe5!important;color:#29251f!important}header,.title-card,.section,section,.choice-card,.responsibility-card,.poster-card{background:#fffdf8!important;color:#29251f!important}nav button{background:#eee7da!important;color:#514431!important;border:1px solid #dfd5c5!important}nav button[aria-current=page]{background:#514431!important;color:#fff!important;border-color:#514431!important}nav button:hover:not(:disabled){background:#514431!important;color:#fff!important}.choice-panel-full,.choice-panel,.rules-action-panel,.hotspot-panel,.reporting-fatigue-panel,.privacy-panel,.responsibility-panel{background:#f8f4eb!important;border-color:#8a7252!important;color:#29251f!important}.choice-official,.choice-map{border-color:#8a7252!important}.choice-number,.rules-number,.choice-button,.primary,button{background:#514431!important;color:#fff!important;border-color:#514431!important}.choice-button:hover:not(:disabled),.primary:hover,button:hover:not(:disabled){background:#29231b!important}.notice,.legend-box,.official-mail-form,.rules-action-kicker{background:#eee7da!important;border-color:#dfd5c5!important;color:#514431!important}.notice{border-left:4px solid #8a7252!important}[dir=rtl] .notice{border-left:1px solid #dfd5c5!important;border-right:4px solid #8a7252!important}.field input,.field select,.mail-form-grid input,.mail-form-grid textarea,#language{border-color:#cfc2ab!important}.responsibility-panel h3,.responsibility-card h4,.rules-action-heading h3,.privacy-heading h3{color:#514431!important}footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}</style>
 </head>
 
 <body>
@@ -788,8 +789,8 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
         <label for="category" data-t="categoryLabel">Wat wil je melden?</label>
         <select id="category">
           <option value="rats" data-t="categoryRats">Ratten gezien (levend of dood)</option>
-          <option value="droppings" data-t="categoryDroppings">Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)</option>
-          <option value="burrows" data-t="categoryBurrows">Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)</option>
+          <option value="droppings" data-t="categoryDroppings">Rattenkeutels (13–19 mm lang; geen muizenkeutels)</option>
+          <option value="burrows" data-t="categoryBurrows">Gangen of holen (opening van circa 7–12 cm breed; geen muizenholletjes)</option>
         </select>
       </div>
 
@@ -1131,14 +1132,14 @@ document.addEventListener("DOMContentLoaded", () => {
     nl: {
       categoryLabel:"Wat wil je melden?",
       categoryRats:"Ratten gezien (levend of dood)",
-      categoryDroppings:"Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)",
-      categoryBurrows:"Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)",
+      categoryDroppings:"Rattenkeutels (13–19 mm lang; geen muizenkeutels)",
+      categoryBurrows:"Gangen of holen (opening van circa 7–12 cm breed; geen muizenholletjes)",
       observationRats:"Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?",
       observationDroppings:"Hoeveel plekken met rattenkeutels heb je gevonden?",
       observationBurrows:"Hoeveel gangen of holen heb je gevonden?",
       countHelpRats:"Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.",
       countHelpDroppings:"Tel vindplaatsen met keutels van ongeveer 1,5 tot 2 cm lang. Kleine muizenkeutels tellen niet mee. Maximaal 20 vindplaatsen per melding.",
-      countHelpBurrows:"Tel openingen van ongeveer 5 cm of groter. Kleinere muizenholletjes tellen niet mee. Maximaal 20 openingen per melding.",
+      countHelpBurrows:"Tel openingen van ongeveer 7–12 cm breed. Kleinere muizenholletjes tellen niet mee. Maximaal 20 openingen per melding.",
       legendDroppings:"Bruine stip: rattenkeutels",
       legendBurrows:"Grote witte stip: gangen of holen",
       popupCategoryRats:"Ratten gezien (levend of dood)",
@@ -1222,13 +1223,13 @@ document.addEventListener("DOMContentLoaded", () => {
       categoryLabel:"What would you like to report?",
       categoryRats:"Rats seen (alive or dead)",
       categoryDroppings:"Rat droppings (1.5–2 cm long; not mouse droppings)",
-      categoryBurrows:"Burrows or holes (opening about 5 cm wide or larger; not mouse holes)",
+      categoryBurrows:"Burrows or holes (opening about 7–12 cm wide; not mouse holes)",
       observationRats:"How many rats have you seen in total during the past 12 months?",
       observationDroppings:"How many places with rat droppings have you found?",
       observationBurrows:"How many burrows or holes have you found?",
       countHelpRats:"Enter the number of rats. You can report a maximum of 20 rats per report.",
       countHelpDroppings:"Count locations with droppings about 1.5 to 2 cm long. Do not count smaller mouse droppings. Maximum 20 locations per report.",
-      countHelpBurrows:"Count openings about 5 cm wide or larger. Do not count smaller mouse holes. Maximum 20 openings per report.",
+      countHelpBurrows:"Count openings about 7–12 cm wide. Do not count smaller mouse holes. Maximum 20 openings per report.",
       legendDroppings:"Brown dot: rat droppings",
       legendBurrows:"Larger white dot: burrows or holes",
       popupCategoryRats:"Rats seen (alive or dead)",
