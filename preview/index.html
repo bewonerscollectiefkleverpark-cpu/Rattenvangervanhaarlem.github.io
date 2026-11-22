@@ -89,13 +89,17 @@ footer a{color:#e5d4b5}
 <section class="section" id="melden"><h2 data-i="twoWays">Twee stappen. Twee verschillende doelen.</h2><p class="lead" data-i="twoWaysLead">De officiële melding zorgt dat Spaarnelanden de overlast kan opvolgen. De bewonerskaart maakt waarnemingen voor buurtgenoten zichtbaar. De kaart vervangt de officiële melding niet.</p><div class="cards"><article class="card official"><h3 data-i="officialTitle">1. Meld officieel bij Spaarnelanden</h3><p data-i="officialText">Stuur een e-mail met de plek, datum en wat je hebt gezien. Meld iedere nieuwe waarneming opnieuw, ook wanneer je eerder al contact hebt gehad.</p><form id="officialReportForm" class="report-form">
 <label for="reportLocation" data-form="location">Waar heb je de rat of sporen gezien?</label>
 <input id="reportLocation" name="location" required placeholder="Straat, huisnummer of plek">
+<label for="reportName" data-form="name">Je naam</label>
+<input id="reportName" name="name" autocomplete="name" required placeholder="Voor- en achternaam">
+<label for="reportPhone" data-form="phone">Je telefoonnummer</label>
+<input id="reportPhone" name="phone" type="tel" autocomplete="tel" required placeholder="06 ...">
 <label for="reportDate" data-form="date">Wanneer heb je dit gezien?</label>
 <input id="reportDate" name="date" type="date" required>
 <label for="reportType" data-form="type">Wat heb je gezien?</label>
 <select id="reportType" name="type" required><option value="">Kies wat je hebt gezien</option><option>Een rat</option><option>Rattenkeutels</option><option>Een hol</option><option>Knaagsporen</option><option>Iets anders</option></select>
 <label for="reportDetails" data-form="details">Extra uitleg (optioneel)</label>
 <textarea id="reportDetails" name="details" rows="3" placeholder="Bijvoorbeeld: hoeveel ratten of waar precies?"></textarea>
-<p class="form-note" data-form="privacy">Vul geen naam of telefoonnummer in. Controleer je melding in je e-mail voordat je deze verstuurt.</p>
+<p class="form-note" data-form="privacy">Vul je naam en telefoonnummer in, zodat Anticimex contact met je kan opnemen. Rattenvanger van Haarlem slaat deze gegevens niet op. Je gegevens worden alleen meegestuurd in de e-mail aan Spaarnelanden. Controleer de e-mail voordat je deze verstuurt.</p>
 <button class="btn" type="submit" data-form="submit">Zet mijn melding in een e-mail</button>
 <p id="mailStatus" class="form-status" role="status" aria-live="polite"></p>
 </form></article><article class="card map"><h3 data-i="mapTitle">2. Zet de waarneming op de bewonerskaart</h3><p data-i="mapText">Registreer ratten, nieuwe keutels, holen en knaagsporen. Zo ontstaat een onafhankelijk bewonersoverzicht van meldingen per straat.</p><a class="btn secondary" href="../concept/rattenkaart-haarlem.html?page=map" data-i="mapButton">Bekijk kaart en registreer</a></article></div></section>
@@ -121,7 +125,7 @@ ar:["أين رأيت الجرذ أو آثاره؟","متى رأيت ذلك؟","�
 };
 function translateReportForm(lang){
 const w=reportWords[lang]||reportWords.nl;
-document.querySelectorAll("[data-form]").forEach(el=>{const i=({location:0,date:1,type:2,details:3,privacy:4,submit:5})[el.dataset.form];if(i!==undefined)el.textContent=w[i]});
+document.querySelectorAll("[data-form]").forEach(el=>{const i=({location:0,date:1,type:2,details:3,privacy:11,submit:5,name:9,phone:10})[el.dataset.form,"Je naam","Je telefoonnummer","Vul je naam en telefoonnummer in, zodat Anticimex contact met je kan opnemen. Rattenvanger van Haarlem slaat deze gegevens niet op. Je gegevens worden alleen meegestuurd in de e-mail aan Spaarnelanden. Controleer de e-mail voordat je deze verstuurt.","Your name","Your phone number","Enter your name and phone number so Anticimex can contact you. Rattenvanger van Haarlem does not store these details. They are included only in the email to Spaarnelanden. Check the email before sending it.","Ihr Name","Ihre Telefonnummer","Geben Sie Ihren Namen und Ihre Telefonnummer an, damit Anticimex Sie kontaktieren kann. Rattenvanger van Haarlem speichert diese Angaben nicht. Sie werden nur in der E-Mail an Spaarnelanden übermittelt. Prüfen Sie die E-Mail vor dem Versand.","Votre nom","Votre numéro de téléphone","Indiquez votre nom et votre numéro de téléphone afin qu’Anticimex puisse vous contacter. Rattenvanger van Haarlem ne conserve pas ces données. Elles sont uniquement incluses dans l’e-mail envoyé à Spaarnelanden. Vérifiez l’e-mail avant de l’envoyer.","Adınız","Telefon numaranız","Anticimex'in sizinle iletişime geçebilmesi için adınızı ve telefon numaranızı girin. Rattenvanger van Haarlem bu bilgileri saklamaz. Bilgiler yalnızca Spaarnelanden'e gönderilecek e-postaya eklenir. Göndermeden önce e-postayı kontrol edin.","اسمك","رقم هاتفك","أدخل اسمك ورقم هاتفك حتى تتمكن Anticimex من التواصل معك. لا يحتفظ Rattenvanger van Haarlem بهذه البيانات. تُرفق فقط برسالة البريد الإلكتروني المرسلة إلى Spaarnelanden. راجع الرسالة قبل إرسالها."];if(i!==undefined)el.textContent=w[i]});
 document.getElementById("reportLocation").placeholder=w[7];
 document.getElementById("reportDetails").placeholder=w[8];
 }
@@ -130,7 +134,7 @@ e.preventDefault();
 const lang=document.getElementById("language").value||"nl",w=reportWords[lang]||reportWords.nl;
 const d=new FormData(e.currentTarget);
 const subject=lang==="nl"?"Nieuwe melding rattenoverlast Haarlem":"Rat nuisance report - Haarlem";
-const body=["Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\\n");
+const body=["Name: "+d.get("name"),"Phone: "+d.get("phone"),"Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\\n");
 document.getElementById("mailStatus").textContent=w[6];
 window.location.href="mailto:info@spaarnelanden.nl?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 });
