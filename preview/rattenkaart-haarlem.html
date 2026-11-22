@@ -679,8 +679,8 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
 <nav class="legacy-tabs" aria-label="Meld- en kaartonderdelen" data-t-aria="navigationLabel">
   <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
   <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
-  <a class="standalone-tab" href="leefregels.html">Leefregels tegen ratten</a>
-  <a class="standalone-tab" href="over-dit-initiatief.html">Informatie</a>
+  <a class="standalone-tab" href="leefregels.html" data-t="rules">Leefregels tegen ratten</a>
+  <a class="standalone-tab" href="over-dit-initiatief.html" data-t="info">Informatie</a>
   <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
 </nav>
 
@@ -2364,8 +2364,12 @@ document.addEventListener("DOMContentLoaded", () => {
       $("streetInput").scrollIntoView({ behavior: "smooth", block: "center" });
       $("streetInput").focus({ preventScroll: true });
     });
-  } else if (["rules", "info", "posters"].includes(requestedPage)) {
-    showPage(requestedPage);
+  } else if (requestedPage === "rules") {
+    window.location.replace("leefregels.html");
+  } else if (requestedPage === "info") {
+    window.location.replace("over-dit-initiatief.html");
+  } else if (requestedPage === "posters") {
+    showPage("posters");
   } else {
     showPage("report");
   }
