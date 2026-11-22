@@ -2340,7 +2340,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("rulesReportButton").addEventListener("click", () => showPage("report"));
-  $("mapChoiceButton").addEventListener("click", () => showPage("map"));
+  $("mapChoiceButton").addEventListener("click", async () => {
+    await showPage("map");
+    $("streetInput").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("streetInput").focus({ preventScroll: true });
+  });
 
   $("returned").addEventListener("change", () => {
     $("unlockButton").disabled = !$("returned").checked;
@@ -2361,7 +2365,16 @@ document.addEventListener("DOMContentLoaded", () => {
   $("submitReport").addEventListener("click", submitReport);
 
   const requestedPage = new URLSearchParams(window.location.search).get("page");
-  showPage(requestedPage === "map" ? "map" : "report");
+  if (requestedPage === "map") {
+    showPage("map");
+  } else if (requestedPage === "report") {
+    showPage("map").then(() => {
+      $("streetInput").scrollIntoView({ behavior: "smooth", block: "center" });
+      $("streetInput").focus({ preventScroll: true });
+    });
+  } else {
+    showPage("report");
+  }
   checkSubmitState();
 });
 </script>
