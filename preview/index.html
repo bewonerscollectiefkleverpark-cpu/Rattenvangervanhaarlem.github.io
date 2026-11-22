@@ -331,9 +331,29 @@ async function copyExactWebsiteLink(){
   if(!copied){window.prompt("Kopieer alleen deze websitelink:",RVH_SHARE_URL);return false;}
   return true;
 }
-async function copySiteLink(){
-  const copied=await copyExactWebsiteLink();
-  alert(copied?"De websitelink is gekopieerd. Plak deze in je bericht.":"Kopieer de link uit het venster dat is geopend.");
+function copySiteLink(){
+  let panel=document.getElementById("rvh-copy-panel");
+  if(!panel){
+    panel=document.createElement("div");
+    panel.id="rvh-copy-panel";
+    panel.setAttribute("role","dialog");
+    panel.setAttribute("aria-label","Websitelink kopiëren");
+    panel.style.cssText="position:fixed;z-index:99999;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,480px);padding:22px;background:#f4efe5;color:#29231b;border:2px solid #8a7252;border-radius:14px;box-shadow:0 12px 40px #0006;font:16px Arial,sans-serif";
+    panel.innerHTML='<strong style="display:block;margin-bottom:12px">Dit is de juiste websitelink</strong><input id="rvh-copy-field" readonly aria-label="Websitelink" style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #8a7252;border-radius:8px;font-size:14px;margin-bottom:12px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="rvh-copy-now" type="button" style="padding:11px 16px;background:#514431;color:white;border:0;border-radius:8px;font-weight:bold">Kopieer link</button><button id="rvh-copy-close" type="button" style="padding:11px 16px;background:#ddd2c1;color:#29231b;border:0;border-radius:8px">Sluiten</button></div><p id="rvh-copy-status" aria-live="polite" style="margin:12px 0 0;font-size:14px">Tik op Kopieer link. Lukt dat niet? Houd de geselecteerde link ingedrukt en kies Kopieer.</p>';
+    document.body.appendChild(panel);
+    document.getElementById("rvh-copy-field").value=RVH_SHARE_URL;
+    document.getElementById("rvh-copy-close").addEventListener("click",()=>panel.remove());
+    document.getElementById("rvh-copy-now").addEventListener("click",async()=>{
+      const field=document.getElementById("rvh-copy-field");
+      field.focus();field.select();field.setSelectionRange(0,field.value.length);
+      let ok=false;
+      try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(RVH_SHARE_URL);ok=true;}}catch(e){}
+      if(!ok){try{ok=document.execCommand("copy");}catch(e){}}
+      document.getElementById("rvh-copy-status").textContent=ok?"De websitelink is gekopieerd. Plak hem in WhatsApp, Facebook of een bericht.":"De link staat geselecteerd. Houd de link ingedrukt en kies Kopieer.";
+    });
+  }
+  const field=document.getElementById("rvh-copy-field");
+  field.value=RVH_SHARE_URL;field.focus();field.select();field.setSelectionRange(0,field.value.length);
 }
 async function copyAndOpen(url){
   await copyExactWebsiteLink();
