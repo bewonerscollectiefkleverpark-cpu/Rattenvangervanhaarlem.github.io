@@ -53,6 +53,19 @@ footer a{color:#e5d4b5}
 .signal-art{width:64px;height:64px;display:block;margin:0 auto 8px;color:#8a7252}
 @media(max-width:720px){.hero{min-height:0;background-position:62% center}.hero h2,.hero p{max-width:100%}.illustration-row{grid-template-columns:1fr}.illustration-card{min-height:88px}}
 </style>
+<style>
+/* Rode actiekleuren: Spaarnelanden eerst, bewonerskaart als tweede keuze */
+.hero{background-image:linear-gradient(90deg,rgba(35,27,22,.96) 0%,rgba(48,34,29,.88) 48%,rgba(48,34,29,.28) 100%),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-size:cover;background-position:center 48%}
+.hero-illustration{display:none!important}
+.hero .actions .btn:first-child,.card.official .btn{background:#b32632;border-color:#b32632;color:#fff}
+.hero .actions .btn:nth-child(2),.card.map .btn{background:#87434a;border-color:#87434a;color:#fff;box-shadow:0 3px 0 #653239}
+.hero .actions .btn:nth-child(2):hover,.card.map .btn:hover{background:#73383e;border-color:#73383e}
+.illustration-card svg,.signal-art{display:none!important}
+.illustration-card{min-height:82px}
+.photo-credit{font-size:.72rem;color:#e9dfd1;margin:10px 0 0;position:relative;z-index:1}
+.photo-credit a{color:#fff;text-decoration:underline}
+@media(max-width:720px){.hero{background-image:linear-gradient(90deg,rgba(35,27,22,.94),rgba(48,34,29,.65)),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-position:62% center}}
+</style>
 </head>
 <body>
 <div class="top"><div class="wrap"><strong data-i="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-i="language">Taal</span><select id="language" aria-label="Kies taal"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div>
@@ -120,16 +133,4 @@ function applyLanguage(lang){const dict=translations[lang]||translations.nl;tran
 const selector=document.getElementById("language");selector.addEventListener("change",()=>applyLanguage(selector.value));let saved="nl";try{saved=localStorage.getItem("rvh-preview-language")||"nl"}catch(e){}applyLanguage(saved);
 </script>
 </body></html>
-<style>
-/* Rode actiekleuren: Spaarnelanden eerst, bewonerskaart als tweede keuze */
-.hero{background-image:linear-gradient(90deg,rgba(35,27,22,.96) 0%,rgba(48,34,29,.88) 48%,rgba(48,34,29,.28) 100%),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-size:cover;background-position:center 48%}
-.hero-illustration{display:none!important}
-.hero .actions .btn:first-child,.card.official .btn{background:#b32632;border-color:#b32632;color:#fff}
-.hero .actions .btn:nth-child(2),.card.map .btn{background:#87434a;border-color:#87434a;color:#fff;box-shadow:0 3px 0 #653239}
-.hero .actions .btn:nth-child(2):hover,.card.map .btn:hover{background:#73383e;border-color:#73383e}
-.illustration-card svg,.signal-art{display:none!important}
-.illustration-card{min-height:82px}
-.photo-credit{font-size:.72rem;color:#e9dfd1;margin:10px 0 0;position:relative;z-index:1}
-.photo-credit a{color:#fff;text-decoration:underline}
-@media(max-width:720px){.hero{background-image:linear-gradient(90deg,rgba(35,27,22,.94),rgba(48,34,29,.65)),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-position:62% center}}
-</style>
+
