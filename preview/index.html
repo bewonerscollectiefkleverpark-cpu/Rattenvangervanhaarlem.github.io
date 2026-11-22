@@ -171,25 +171,26 @@ catch(err){if(err.name!=="AbortError"){note.textContent="Signal kon niet automat
 });
 document.getElementById("officialReportForm").addEventListener("submit",e=>{
 e.preventDefault();
-const lang=document.getElementById("language").value||"nl",w=reportWords[lang]||reportWords.nl;
+const lang=document.getElementById("language").value||"nl";
 const d=new FormData(e.currentTarget);
 const subject=lang==="nl"?"Nieuwe melding rattenoverlast Haarlem":"Rat nuisance report - Haarlem";
 const body=["Name: "+d.get("name"),"Phone: "+d.get("phone"),"Location: "+d.get("location"),"Date: "+d.get("date"),"Observation: "+d.get("type"),"Details: "+(d.get("details")||"-")].join("\r\n");
 const to="info@spaarnelanden.nl";
-const mailto="mailto:"+to+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 const gmail="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(to)+"&su="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 const outlook="https://outlook.office.com/mail/deeplink/compose?to="+encodeURIComponent(to)+"&subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+const mailto="mailto:"+to+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 const status=document.getElementById("mailStatus");
 status.replaceChildren();
-const intro=document.createElement("span");
-intro.textContent=lang==="nl"?"Je melding is ingevuld. Kies hieronder je e-mailprogramma; controleer de tekst en druk daarna zelf op Verzenden.":"Your report is filled in. Choose your email service below, review the message and press Send yourself.";
+const intro=document.createElement("p");
+intro.textContent=lang==="nl"?"Je melding is ingevuld. Gmail wordt geopend met je melding. Gebruik hieronder Outlook of je eigen e-mailapp als je Gmail niet gebruikt. Controleer de tekst en druk zelf op Verzenden.":"Your report is filled in. Gmail will open with your report. Use Outlook or your own email app below if you do not use Gmail. Review the message and press Send yourself.";
 status.appendChild(intro);
 const options=document.createElement("div");
 options.style.cssText="display:flex;flex-wrap:wrap;gap:9px;margin-top:10px";
-[[lang==="nl"?"Open e-mailapp":"Open email app",mailto],[ "Gmail",gmail],["Outlook",outlook]].forEach(([label,url])=>{
-const a=document.createElement("a");a.href=url;a.textContent=label;a.style.cssText="display:inline-block;background:#514431;color:#fff;padding:11px 14px;border-radius:8px;font-weight:800;text-decoration:none";if(url!==mailto){a.target="_blank";a.rel="noopener"}options.appendChild(a);
+[[lang==="nl"?"Mail openen (Gmail)":"Open email (Gmail)",gmail],["Outlook",outlook],[lang==="nl"?"Andere e-mailapp":"Other email app",mailto]].forEach(([label,url])=>{
+const a=document.createElement("a");a.href=url;a.textContent=label;a.style.cssText="display:inline-block;background:#514431;color:#fff;padding:12px 15px;border-radius:8px;font-weight:800;text-decoration:none";if(url!==mailto){a.target="_blank";a.rel="noopener"}options.appendChild(a);
 });
 status.appendChild(options);
+window.open(gmail,"_blank","noopener");
 });
 
 const translations={
