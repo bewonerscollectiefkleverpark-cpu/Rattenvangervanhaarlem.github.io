@@ -313,6 +313,9 @@
     .hidden { display: none !important; }
 
     #map {
+      display: block;
+      position: relative;
+      width: 100%;
       height: 58vh;
       min-height: 350px;
       border-radius: 16px;
@@ -1268,6 +1271,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentLang = "nl";
   let mapInstance = null;
   let markersLayer = null;
+  let leafletLoadPromise = null;
   let streets = [];
   let isSubmitting = false;
   let callbackCounter = 0;
@@ -2372,7 +2376,9 @@ document.addEventListener("DOMContentLoaded", () => {
           ? report.category
           : "rats";
 
-        if (report.kind !== "exact12m") return;
+        // Oude meldingen uit eerdere versies kunnen nog geen kind-veld hebben.
+        // Neem die mee zolang de datum binnen de getoonde periode valt.
+        if (report.kind && report.kind !== "exact12m") return;
 
         if (
           !name ||
@@ -2672,10 +2678,33 @@ Object.assign(T.ar,{posterAltOne:"ملصق عن مشكلة الجرذان في �
     if (markersLayer) renderMapMarkers();
   }
 
-  function initMap() {
-    if (mapInstance || !window.L) return;
+  function ensureLeaflet() {
+    if (window.L) return Promise.resolve();
 
-    mapInstance = L.map("map", {
+    if (!leafletLoadPromise) {
+      leafletLoadPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js";
+        script.onload = () => window.L
+          ? resolve()
+          : reject(new Error("Leaflet is geladen, maar niet beschikbaar."));
+        script.onerror = () => reject(new Error("De kaartbibliotheek kon niet worden geladen."));
+        document.head.appendChild(script);
+      });
+    }
+
+    return leafletLoadPromise;
+  }
+
+  async function initMap() {
+    if (mapInstance) return;
+
+    await ensureLeaflet();
+
+    const mapElement = $("map");
+    if (!mapElement) throw new Error("Het kaartvenster ontbreekt op de pagina.");
+
+    mapInstance = L.map(mapElement, {
       scrollWheelZoom: false
     }).setView([52.3892, 4.6375], 13);
 
@@ -2790,10 +2819,19 @@ Object.assign(T.ar,{posterAltOne:"ملصق عن مشكلة الجرذان في �
     });
 
     if (pageName === "map") {
-      initMap();
-
       $("submitMessage").className = "";
       $("submitMessage").textContent = tr("loadingReports");
+
+      try {
+        await initMap();
+        requestAnimationFrame(() => {
+          if (mapInstance) mapInstance.invalidateSize();
+        });
+      } catch (error) {
+        console.error("Fout bij initialiseren van de kaart:", error);
+        $("submitMessage").className = "error";
+        $("submitMessage").textContent = tr("loadError");
+      }
 
       const loaded = await loadCentralReports();
 
