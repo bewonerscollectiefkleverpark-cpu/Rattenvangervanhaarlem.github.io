@@ -759,7 +759,93 @@ footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
 .page-main>.hero h1,.page-main>.hero h2{font-size:clamp(2rem,4vw,3rem)!important;line-height:1.12!important;max-width:850px!important}
 .page-main>.hero p{font-size:clamp(1.05rem,2vw,1.25rem)!important;line-height:1.6!important;max-width:850px!important;color:#514a40!important}
 @media(max-width:720px){.page-main>.hero{padding:24px!important}}
-</style></head>
+</style><style id="rvh-standalone-tab-links">.legacy-tabs .standalone-tab{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:30px;font-size:14px;padding:10px 20px;font-weight:700;background:#f4efe5;color:#514431;border:1px solid #dedbd3}.legacy-tabs .standalone-tab:hover{background:white;color:#8a7252;border-color:#b9a384}</style>
+<style id="rvh-footer-exact-homepage">
+/* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
+footer{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  background:#29231b!important;
+  color:#f5efe4!important;
+  padding:26px 0!important;
+  margin:30px 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-footer-inner{
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  gap:20px!important;
+  flex-wrap:wrap!important;
+  box-sizing:border-box!important;
+}
+.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
+.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
+.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
+.site-footer-inner a{color:#fff!important}
+.site-footer-inner .home-footer{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;
+  color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important
+}
+.site-footer-inner .home-footer:hover{background:#514431!important}
+@media(max-width:650px){
+  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
+}
+</style>
+<style id="rvh-poster-page-frame-alignment">
+/* De posterpagina heeft een extra .wrap rond de kop; laat de kop exact even breed zijn als op de homepage. */
+.top .rvh-top-inner{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important}
+.wrap > .site-header{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+@media(max-width:650px){.top .rvh-top-inner{width:calc(100vw - 28px)!important}.wrap > .site-header{width:calc(100vw - 28px)!important}}
+</style>
+<style id="rvh-poster-content-frame-width">
+/* Het posterkader sluit exact aan op de breedte van het kader erboven. */
+#page-posters{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+@media(max-width:650px){#page-posters{width:calc(100vw - 28px)!important}}
+</style>
+<style id="rvh-header-full-width">
+/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
+.site-header,.wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  .site-header .site-header-inner{width:calc(100% - 28px)!important}
+}
+</style>
+</head>
 
 <body>
 <div class="top rvh-top"><div class="wrap rvh-top-inner"><strong data-t="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><div class="lang-bar"><select id="language" aria-label="Kies taal" data-t-aria="languageLabel"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></div></div></div>
@@ -2936,94 +3022,3 @@ document.addEventListener("DOMContentLoaded",()=>{const labels={"nl":["Melden","
 
 </body>
 </html>
-
-<style id="
-<style id="rvh-footer-exact-homepage">
-/* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
-footer{
-  display:block!important;
-  width:100vw!important;
-  max-width:100vw!important;
-  position:relative!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  box-sizing:border-box!important;
-  background:#29231b!important;
-  color:#f5efe4!important;
-  padding:26px 0!important;
-  margin:30px 0 0!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-.site-footer-inner{
-  width:min(1120px,calc(100% - 32px))!important;
-  max-width:1120px!important;
-  margin:0 auto!important;
-  display:flex!important;
-  justify-content:space-between!important;
-  align-items:flex-start!important;
-  gap:20px!important;
-  flex-wrap:wrap!important;
-  box-sizing:border-box!important;
-}
-.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
-.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
-.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
-.site-footer-inner a{color:#fff!important}
-.site-footer-inner .home-footer{
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;
-  padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;
-  color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important
-}
-.site-footer-inner .home-footer:hover{background:#514431!important}
-@media(max-width:650px){
-  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
-}
-</style>
-rvh-standalone-tab-links">.legacy-tabs .standalone-tab{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:30px;font-size:14px;padding:10px 20px;font-weight:700;background:#f4efe5;color:#514431;border:1px solid #dedbd3}.legacy-tabs .standalone-tab:hover{background:white;color:#8a7252;border-color:#b9a384}</style>
-
-<style id="rvh-poster-page-frame-alignment">
-/* De posterpagina heeft een extra .wrap rond de kop; laat de kop exact even breed zijn als op de homepage. */
-.top .rvh-top-inner{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important}
-.wrap > .site-header{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
-@media(max-width:650px){.top .rvh-top-inner{width:calc(100vw - 28px)!important}.wrap > .site-header{width:calc(100vw - 28px)!important}}
-</style>
-
-<style id="rvh-poster-content-frame-width">
-/* Het posterkader sluit exact aan op de breedte van het kader erboven. */
-#page-posters{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
-@media(max-width:650px){#page-posters{width:calc(100vw - 28px)!important}}
-</style>
-
-<style id="rvh-header-full-width">
-/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
-.site-header,.wrap > .site-header{
-  display:block!important;
-  width:100vw!important;
-  max-width:100vw!important;
-  min-height:0!important;
-  position:relative!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  box-sizing:border-box!important;
-  margin:18px 0 24px!important;
-  padding:18px 0!important;
-  background:#eee7da!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-.site-header .site-header-inner{
-  display:block!important;
-  width:min(1120px,calc(100% - 32px))!important;
-  max-width:1120px!important;
-  margin:0 auto!important;
-  padding:0!important;
-  box-sizing:border-box!important;
-}
-@media(max-width:650px){
-  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
-  .site-header .site-header-inner{width:calc(100% - 28px)!important}
-}
-</style>
