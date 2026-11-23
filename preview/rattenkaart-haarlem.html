@@ -737,52 +737,6 @@ footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
 
 
 
-<style id="rvh-match-home-exact-layout">
-/* Posterpagina: kop gelijk aan de homepage. */
-.wrap > .site-header{
-  display:block!important;
-  width:min(1120px,calc(100vw - 32px))!important;
-  max-width:1120px!important;
-  position:relative!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  box-sizing:border-box!important;
-  margin:18px 0 24px!important;
-  padding:18px!important;
-  background:#eee7da!important;
-  border:1px solid #dfd5c5!important;
-  border-radius:0!important;
-  box-shadow:0 3px 12px rgba(55,43,28,.07)!important;
-}
-.wrap > .site-header .site-header-inner{
-  width:100%!important;
-  max-width:none!important;
-  margin:0 auto!important;
-  padding:0!important;
-  box-sizing:border-box!important;
-}
-.site-footer-inner{
-  width:calc(100% - 32px)!important;
-  max-width:1120px!important;
-  margin:0 auto!important;
-  display:flex!important;
-  justify-content:space-between!important;
-  align-items:flex-start!important;
-  gap:20px!important;
-  flex-wrap:wrap!important;
-  box-sizing:border-box!important;
-}
-.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
-.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
-.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
-.site-footer-inner a{color:#fff!important}
-.site-footer-inner .home-footer{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important}
-.site-footer-inner .home-footer:hover{background:#514431!important}
-@media(max-width:650px){
-  .wrap > .site-header{width:calc(100vw - 28px)!important;margin:14px 0 20px!important;padding:14px!important}
-  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
-}
-</style>
 <style id="rvh-footer-exact-homepage">
 /* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
 footer{
@@ -1041,37 +995,24 @@ main #page-posters{
 
 
 
-<style id="rvh-rattenkaart-shared-header-structure">
-/* De kop op de rattenkaart gebruikt dezelfde directe body-structuur en maatvoering als de homepage. */
-.site-header{
-  display:block!important;
-  width:min(1120px,calc(100% - 32px))!important;
-  max-width:1120px!important;
-  min-height:0!important;
-  box-sizing:border-box!important;
-  margin:18px auto 24px!important;
-  padding:18px!important;
-  background:#eee7da!important;
-  border:1px solid #dfd5c5!important;
-  border-radius:0!important;
-  box-shadow:0 3px 12px rgba(55,43,28,.07)!important;
-}
-.site-header .site-header-inner{
+
+<style id="rvh-rattenkaart-header-spacing-clean">
+/* De titel en paginanavigatie staan compact bij elkaar, zonder oude header-afstanden. */
+.site-header-inner{
   display:flex!important;
   flex-direction:column!important;
   align-items:stretch!important;
-  gap:12px!important;
-  width:100%!important;
-  max-width:none!important;
-  margin:0 auto!important;
-  padding:0!important;
-  box-sizing:border-box!important;
+  gap:0!important;
 }
-@media(max-width:650px){
-  .site-header{width:calc(100% - 28px)!important;padding:14px!important;margin:14px auto 20px!important}
+.site-brand{
+  align-self:flex-start!important;
+  margin:0 0 4px!important;
+}
+.site-header .rvh-global-nav{
+  margin:0!important;
+  padding:8px 0 12px!important;
 }
 </style>
-
 </head>
 
 <body>
