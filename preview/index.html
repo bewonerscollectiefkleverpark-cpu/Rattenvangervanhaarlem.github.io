@@ -154,7 +154,58 @@ ar:{subject:"بلاغ جديد عن مشكلة الجرذان في هارلم",l
 };
 document.querySelectorAll("#officialReportForm").forEach(form=>form.addEventListener("submit",e=>{e.preventDefault();const d=new FormData(e.currentTarget);const lang=document.getElementById("language")?.value||"nl";const mail=reportMailTemplates[lang]||reportMailTemplates.nl;const values=[d.get("name"),d.get("phone"),d.get("email"),d.get("location"),d.get("date"),d.get("type"),d.get("details")||"-"];const body=mail.labels.map((label,i)=>label+(values[i]||"-")).join("\r\n");window.location.href="mailto:info@spaarnelanden.nl?subject="+encodeURIComponent(mail.subject)+"&body="+encodeURIComponent(body); }));
 
-async function shareWebsite(platform){const url="https://bewonerscollectiefkleverpark-cpu.github.io/Rattenvangervanhaarlem.github.io/preview/";const title="Rattenvanger van Haarlem";const lang=document.getElementById("language")?.value||"nl";const text=({nl:"Zie je een rat of nieuwe sporen? Meld het bij Spaarnelanden en registreer dezelfde waarneming op de Rattenkaart van Haarlem.",en:"Have you seen a rat or fresh signs? Report it to Spaarnelanden and add the same sighting to the Haarlem Rat Map.",de:"Haben Sie eine Ratte oder neue Spuren gesehen? Melden Sie dies bei Spaarnelanden und tragen Sie dieselbe Beobachtung in die Rattenkarte von Haarlem ein.",fr:"Avez-vous vu un rat ou de nouvelles traces ? Signalez-le à Spaarnelanden et ajoutez la même observation à la carte des rats de Haarlem.",tr:"Bir sıçan veya yeni izler mi gördünüz? Spaarnelanden’e bildirin ve aynı gözlemi Haarlem Sıçan Haritası’na ekleyin.",ar:"هل رأيت جرذًا أو آثارًا جديدة؟ أبلغ Spaarnelanden وأضف المشاهدة نفسها إلى خريطة الجرذان في هارلم."})[lang]||"Have you seen a rat or fresh signs? Report it to Spaarnelanden and add the same sighting to the Haarlem Rat Map.";const status=document.getElementById("shareStatus");try{if(navigator.share){await navigator.share({title,text,url});if(status)status.textContent=({nl:"Deelmenu geopend.",en:"Share menu opened.",de:"Teilen-Menü geöffnet.",fr:"Menu de partage ouvert.",tr:"Paylaşım menüsü açıldı.",ar:"تم فتح قائمة المشاركة."})[document.getElementById("language")?.value||"nl"]||"Share menu opened.";}else{await navigator.clipboard.writeText(url);if(status)status.textContent=({nl:"Websitelink gekopieerd. Plak deze in "+platform+".",en:"Website link copied. Paste it into "+platform+".",de:"Website-Link kopiert. Fügen Sie ihn in "+platform+" ein.",fr:"Lien du site copié. Collez-le dans "+platform+".",tr:"Web sitesi bağlantısı kopyalandı. "+platform+" içine yapıştırın.",ar:"تم نسخ رابط الموقع. الصقه في "+platform+"."})[document.getElementById("language")?.value||"nl"];}}catch(error){if(error&&error.name==="AbortError")return;try{await navigator.clipboard.writeText(url);if(status)status.textContent=({nl:"Websitelink gekopieerd. Plak deze in "+platform+".",en:"Website link copied. Paste it into "+platform+".",de:"Website-Link kopiert. Fügen Sie ihn in "+platform+" ein.",fr:"Lien du site copié. Collez-le dans "+platform+".",tr:"Web sitesi bağlantısı kopyalandı. "+platform+" içine yapıştırın.",ar:"تم نسخ رابط الموقع. الصقه في "+platform+"."})[document.getElementById("language")?.value||"nl"];}catch(copyError){if(status)status.textContent="Copy this link: "+url;}}}
+async function shareWebsite(platform){
+  const url="https://bewonerscollectiefkleverpark-cpu.github.io/Rattenvangervanhaarlem.github.io/preview/";
+  const title="Rattenvanger van Haarlem";
+  const lang=document.getElementById("language")?.value||"nl";
+  const message=({
+    nl:"Zie je een rat of nieuwe sporen? Meld het bij Spaarnelanden en registreer dezelfde waarneming op de Rattenkaart van Haarlem. "+url,
+    en:"Have you seen a rat or fresh signs? Report it to Spaarnelanden and add the same sighting to the Haarlem Rat Map. "+url,
+    de:"Haben Sie eine Ratte oder neue Spuren gesehen? Melden Sie dies bei Spaarnelanden und tragen Sie dieselbe Beobachtung in die Rattenkarte von Haarlem ein. "+url,
+    fr:"Avez-vous vu un rat ou de nouvelles traces ? Signalez-le à Spaarnelanden et ajoutez la même observation à la carte des rats de Haarlem. "+url,
+    tr:"Bir sıçan veya yeni izler mi gördünüz? Spaarnelanden’e bildirin ve aynı gözlemi Haarlem Sıçan Haritası’na ekleyin. "+url,
+    ar:"هل رأيت جرذًا أو آثارًا جديدة؟ أبلغ Spaarnelanden وأضف المشاهدة نفسها إلى خريطة الجرذان في هارلم. "+url
+  })[lang]||url;
+  const status=document.getElementById("shareStatus");
+  const messages={
+    nl:"De tekst en websitelink zijn gekopieerd. Plak ze in "+platform+".",
+    en:"The message and website link have been copied. Paste them into "+platform+".",
+    de:"Text und Website-Link wurden kopiert. Fügen Sie sie in "+platform+" ein.",
+    fr:"Le texte et le lien ont été copiés. Collez-les dans "+platform+".",
+    tr:"Mesaj ve web sitesi bağlantısı kopyalandı. "+platform+" içine yapıştırın.",
+    ar:"تم نسخ النص ورابط الموقع. الصقهما في "+platform+"."
+  };
+  let copied=false;
+  try{
+    if(navigator.clipboard&&window.isSecureContext){
+      await navigator.clipboard.writeText(message);
+      copied=true;
+    }
+  }catch(e){}
+  if(!copied){
+    const field=document.createElement("textarea");
+    field.value=message;
+    field.setAttribute("readonly","");
+    field.style.position="fixed";
+    field.style.opacity="0";
+    field.style.left="-9999px";
+    document.body.appendChild(field);
+    field.select();
+    try{copied=document.execCommand("copy");}catch(e){}
+    field.remove();
+  }
+  if(status) status.textContent=copied?(messages[lang]||messages.en):message;
+  const targets={
+    Instagram:"https://www.instagram.com/",
+    TikTok:"https://www.tiktok.com/upload",
+    Signal:"sgnl://send?text="+encodeURIComponent(message)
+  };
+  const target=targets[platform];
+  if(target){
+    const opened=window.open(target,"_blank","noopener,noreferrer");
+    if(!opened&&platform==="Signal") window.location.href=target;
+  }
+}
 
 const translations={
 nl:{freeBadge:"100% GRATIS",ratDetail:"Een levende of dode rat. Overdag of ’s nachts.",droppingsDetail:"Alleen keutels van circa 13–19 mm: ongeveer 1,5–2 cm lang. Muizenkeutels (circa 4–8 mm) horen hier nadrukkelijk NIET bij.",burrowDetail:"Een duidelijke opening van ongeveer 7–12 cm breed, meestal met uitgegraven aarde. Geen kleine muizengaatjes.",gnawDetail:"Duidelijke, forse knaagschade aan bijvoorbeeld hout, kabels of verpakkingen. Twijfel je of het ratten zijn? Meld het dan niet als rattenbewijs.",ratOnly:"LET OP: deze kaart en meldcategorie zijn uitsluitend bedoeld voor ratten. Geen muizen en geen muizensporen. De maten hieronder helpen het verschil te zien; bij twijfel laat je de soort eerst controleren.",freeTitle:"Sinds november 2026: onbeperkt gratis bezoeken",freeText:"De eerdere limiet van drie gratis bezoeken van Anticimex is vervallen. Bewoners kunnen nu onbeperkt gratis bezoeken aanvragen. De melding, de aanpak en de bezoeken van Anticimex zijn volgens deze regeling 100% gratis.",smokeTitle:"Vraag bij het bezoek ook om de GRATIS rookproef.",smokeText:"Vraag dit rechtstreeks aan de medewerker van Anticimex wanneer die bij je aan de deur is. Ook de rookproef is gratis. Deze kan helpen mogelijke open verbindingen of lekkages in het riool op te sporen.",strap:"Onafhankelijk bewonersinitiatief · Haarlem",language:"Taal",tagline:"Samen maken we rattenoverlast zichtbaar",navReport:"Mail Spaarnelanden",navMap:"Rattenkaart: waar zijn de hotspots?",navApproach:"Leefregels tegen ratten",navSigns:"Informatie",navWebsiteShare:"Deel de website",navShare:"Posters om te printen",eyebrow:"Bewonersinitiatief voor heel Haarlem",heroTitle:"Zie je een rat of een spoor? Meld het. Elke keer opnieuw.",heroText:"Iedere nieuwe waarneming telt. Door steeds opnieuw te melden, krijgt Haarlem een beter beeld van waar en wanneer rattenoverlast voorkomt.",heroOfficial:"Meld bij Spaarnelanden",heroMap:"Bekijk de rattenkaart",repeatVerb:"Meld",repeatTitle:"هل رأيت جرذًا أو آثارًا جديدة؟",repeatText:" Spaarnelanden وعلى خريطة السكان.",twoWays:"Twee stappen. Twee verschillende doelen.",twoWaysLead:"De gemeente laat bewoners te vaak zelf uitzoeken waar ze moeten melden, wie de melding opvolgt en wanneer Anticimex ingrijpt. Daarom zijn wij in dit gat gesprongen. Doe altijd eerst een officiële melding via het e-mailformulier op deze homepage. Vul je naam en telefoonnummer in, zodat Anticimex je kan terugbellen. Rattenvanger van Haarlem slaat die gegevens niet op. Zet daarna uitdrukkelijk dezelfde waarneming op onze onafhankelijke rattenhotspotkaart. Die toont meldingen uitsluitend op straatniveau, nooit op huisnummer of exact adres.",officialTitle:"1. Meld officieel bij Spaarnelanden",officialText:"Stuur een e-mail met de plek, datum en wat je hebt gezien. Meld iedere nieuwe waarneming opnieuw, ook wanneer je eerder al contact hebt gehad.",mailButton:"Open e-mail aan Spaarnelanden",mapTitle:"2. Zet de waarneming op de bewonerskaart",mapText:"Help mee om zichtbaar te maken waar rattenoverlast zich opstapelt. Zet precies dezelfde nieuwe waarneming op onze onafhankelijke rattenhotspotkaart. De kaart bundelt meldingen uitsluitend op straatniveau, absoluut niet op huisnummer of exact adres.",mapButton:"Help andere bewoners: meld op de hotspotkaart",routeTitle:"Wat gebeurt er na je officiële melding?",step1:"Je meldt de overlast bij Spaarnelanden.",step2:"Spaarnelanden schakelt Anticimex in; Anticimex neemt contact met je op.",step3:"Anticimex komt langs om de situatie te bekijken.",freeTitle:"Sinds november 2026: onbeperkt gratis bezoeken",freeText:"De eerdere limiet van drie gratis bezoeken van Anticimex is vervallen. Bewoners kunnen nu onbeperkt gratis bezoeken aanvragen. De melding, de aanpak en de bezoeken van Anticimex zijn volgens deze regeling 100% gratis.",smokeTitle:"Vraag bij het bezoek ook om de GRATIS rookproef.",smokeText:"Vraag dit rechtstreeks aan de medewerker van Anticimex wanneer die bij je aan de deur is. Ook de rookproef is gratis. Deze kan helpen mogelijke open verbindingen of lekkages in het riool op te sporen.",signalsTitle:"Niet alleen een rat melden: meld ieder nieuw spoor",signalsLead:"Meld elke nieuwe aanwijzing officieel bij Spaarnelanden én registreer die ook op de bewonerskaart. Ook als je eerder al hebt gemeld.",rat:"Een rat gezien",burrow:"Een nieuw hol",gnaw:"Nieuwe knaagsporen",droppings:"Nieuwe keutels",keyRats:"Ratten",keyDroppings:"Keutels",keyBurrows:"Holen",shareTitle:"Help mee om Haarlem wakker te houden",shareText:"Meldingsmoeheid kan ervoor zorgen dat de cijfers de werkelijke overlast niet laten zien. Blijf nieuwe sporen melden, vertel het aan je buren en deel deze website.",shareWhatsApp:"Deel via WhatsApp",shareNote:"Deel via het deelmenu van je apparaat. Als dat niet beschikbaar is, wordt de websitelink gekopieerd zodat je die zelf kunt plakken.",contactTitle:"Fouten op de website? Mail:",footerText:"Onafhankelijk bewonersinitiatief. Geen gemeentelijke dienst. Bewonerswaarnemingen zijn geen officiële gemeentelijke meldingen.",faq:"Veelgestelde vragen",sewer:"Ratten en het riool"},
