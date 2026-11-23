@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
  const hs=main.querySelectorAll("section h2");if(hs[1])hs[1].textContent=l[12];
  const ps=main.querySelectorAll("section p");if(ps[1])ps[1].textContent=l[13];
  const bs=main.querySelectorAll("section a.btn");if(bs[0])bs[0].textContent=l[14];if(bs[1])bs[1].textContent=l[15];
- document.documentElement.lang=lang.value;document.documentElement.dir=lang.value==="ar"?"rtl":"ltr";
+ document.title=a[2]+" | Rattenvanger van Haarlem";const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=a[3];document.documentElement.lang=lang.value;document.documentElement.dir=lang.value==="ar"?"rtl":"ltr";
  };
  lang?.addEventListener("change",apply);apply();window.addEventListener("load",apply);
 });
