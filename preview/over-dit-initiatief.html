@@ -82,6 +82,36 @@ footer{display:block!important;width:100%!important;box-sizing:border-box;backgr
  .site-nav a{font-size:.82rem;padding:8px 9px;min-height:38px}
  .site-footer-inner{width:calc(100% - 28px);flex-direction:column;gap:12px}
 }
+
+
+/* Shared Choice 1 palette: warm white, sand, chocolate and restrained Haarlem red */
+:root{--rvh-ink:#29231b;--rvh-sand:#eee7da;--rvh-paper:#fbfaf7;--rvh-white:#fff;--rvh-line:#e5ddd0;--rvh-shadow:0 5px 18px rgba(55,43,28,.10);--rvh-shadow-hover:0 8px 24px rgba(55,43,28,.15)}
+html{background:var(--rvh-paper)}
+body{background:var(--rvh-paper)!important;color:#302a22}
+.top{background:var(--rvh-ink)!important;color:#fff!important}
+.site-header{background:var(--rvh-sand)!important;border:1px solid #dfd5c5!important;box-shadow:0 3px 12px rgba(55,43,28,.07)}
+.site-brand{color:var(--rvh-ink)!important}
+.site-brand small{color:#756b5c!important}
+.site-nav{background:#f7f3eb!important;border:1px solid #dfd5c5!important}
+.site-nav a{background:#fff!important;color:#514431!important;border:1px solid #e5ddd0!important}
+.site-nav a:hover,.site-nav a:focus-visible{background:#514431!important;color:#fff!important}
+main{background:transparent}
+.hero,.section,.card,.choice-panel-full,.choice-panel,.choice-card,.choice-why,.choice-warning,.logo-card,.title-card,.legend-box,.photo-card,.illustration-card,.rat-id-grid>*,.mail-form-grid,.step,.faq-item,.info-card,.content-card,.panel,.notice,.callout,.poster-card,.map-card{
+ box-shadow:var(--rvh-shadow);
+}
+.card,.choice-card,.logo-card,.title-card,.legend-box,.photo-card,.illustration-card,.rat-id-grid>*,.step,.faq-item,.info-card,.content-card,.panel,.notice,.callout,.poster-card,.map-card{
+ background:var(--rvh-white);
+ border-color:var(--rvh-line);
+}
+.hero{background:#fff;border-color:var(--rvh-line)}
+.section{background:transparent}
+.choice-panel-full,.choice-panel{background:#f3eee5;border:1px solid #e4dacb;border-radius:16px}
+.choice-card{border:1px solid var(--rvh-line);border-radius:14px}
+footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
+@media(hover:hover){
+ .card:hover,.choice-card:hover,.photo-card:hover,.illustration-card:hover,.info-card:hover,.content-card:hover,.poster-card:hover,.map-card:hover{box-shadow:var(--rvh-shadow-hover);transform:translateY(-1px)}
+}
+
 </style></head><body><div class="top"><div class="wrap"><strong data-k="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-k="language">Taal</span><select id="language" aria-label="Kies taal" data-k-aria="languageAria"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div><header class="site-header"><div class="site-header-inner"><a class="site-brand" href="" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav" aria-label="Hoofdnavigatie"><a href="index.html#melden">Melden</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="index.html#aanpak">Hoe werkt het?</a><a href="index.html#sporen">Informatie</a><a href="index.html#delen">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters">Posters om te printen</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a></nav></div></header><main class="wrap page-main"><section class="hero"><div class="eyebrow">Rattenvanger van Haarlem</div><h2 data-k="aboutTitle">Over dit initiatief</h2><p data-k="aboutIntro">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.</p></section>
  <section class="section"><p class="callout" data-k="notPest">Wij zijn geen ongediertebestrijders. We vangen geen ratten en bestrijden de overlast niet zelf.</p><p class="" data-k="official">Doe altijd een officiële melding bij Spaarnelanden. Onze kaart vervangt die officiële melding niet.</p><p class="" data-k="voluntary">Je hebt geen account nodig. Doe eerst de officiële melding bij Spaarnelanden. Registreer daarna dezelfde waarneming vrijwillig op onze bewonerskaart. Dat is niet verplicht, maar wel heel belangrijk: de gemeente Haarlem geeft geen openbaar overzicht van rattenoverlast per straat.</p></section>
  <section class="section privacy"><div class="privacy-icon">🔒</div><div class="eyebrow" data-k="privacy">JOUW PRIVACY</div><h2 class="" data-k="privacyTitle">Wij verzamelen geen privégegevens</h2><p class="lead" data-k="privacyLead">De kaart registreert alleen waarnemingen op straatniveau. Er wordt geen naam of persoon aan een melding gekoppeld.</p><ul><li data-k="privacy1">Wij geven geen persoonsgegevens door aan de gemeente, Spaarnelanden, Anticimex of andere organisaties.</li><li data-k="privacy2">Wij vragen en bewaren geen namen, huisnummers of e-mailadressen in onze meldingenadministratie.</li><li data-k="privacy3">Alleen straatniveau: de kaart toont de straat en het soort waarneming, niet het exacte huis of de bewoner.</li><li data-k="privacy4">Geen account nodig: je registreert je waarneming vrijwillig en zonder je naam eraan te koppelen.</li></ul><p class="note" data-k="technical">Let op: onze website en de gebruikte hosting- en Google-diensten kunnen technische loggegevens verwerken. We kunnen daarom niet beloven dat er bij deze diensten helemaal geen technische gegevens worden geregistreerd.</p><p class="" data-k="mapNature">De kaart brengt vrijwillige bewonerswaarnemingen samen en laat zien waar rattenoverlast voorkomt. De gemeente Haarlem publiceert geen openbaar overzicht van rattenoverlast per straat. Daarom is iedere registratie belangrijk. De kaart is geen officiële gemeentelijke registratie.</p></section>
