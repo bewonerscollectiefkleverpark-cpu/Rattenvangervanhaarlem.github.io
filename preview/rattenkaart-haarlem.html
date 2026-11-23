@@ -2821,7 +2821,9 @@ Object.assign(T.ar,{posterAltOne:"ملصق عن مشكلة الجرذان في �
   } else if (requestedPage === "posters") {
     showPage("posters");
   } else {
-    showPage("report");
+    // Deze URL is de rattenkaartpagina: open de kaart standaard.
+    // De meldroute blijft bereikbaar via de navigatie en de meldknoppen.
+    showPage("map");
   }
   checkSubmitState();
 });
