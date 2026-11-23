@@ -131,6 +131,159 @@ footer{
   .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
 }
 </style>
+
+<style id="rvh-homepage-design-system-2026">
+/* Gedeeld ontwerp: inhoudelijke pagina's volgen de homepage als visuele hoofdreferentie. */
+:root{
+  --rvh-ink:#29231b;
+  --rvh-sand:#eee7da;
+  --rvh-paper:#f4efe5;
+  --rvh-white:#fffdf8;
+  --rvh-line:#e2d8c8;
+  --rvh-muted:#756b5c;
+  --rvh-brown:#514431;
+  --rvh-shadow:0 12px 34px rgba(48,38,25,.045);
+}
+html{background:var(--rvh-paper)!important}
+body{
+  background:var(--rvh-paper)!important;
+  color:#29251f!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  line-height:1.6!important;
+}
+main{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0 0 42px!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+}
+main>section:not(.hero),
+main>.section,
+main>section.section{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  background:#fffdf8!important;
+  color:#29251f!important;
+  border:1px solid #e2d8c8!important;
+  border-radius:18px!important;
+  padding:clamp(20px,3vw,32px)!important;
+  margin:20px auto!important;
+  box-shadow:0 12px 34px rgba(48,38,25,.045)!important;
+}
+main>section h1,main>section h2,main>section h3,
+main>.section h1,main>.section h2,main>.section h3{
+  color:#29231b!important;
+  text-shadow:none!important;
+}
+main>section h2,main>.section h2{
+  font-size:clamp(1.55rem,3vw,2.1rem)!important;
+  line-height:1.2!important;
+  margin:0 0 12px!important;
+}
+main p,main li{color:inherit}
+main .lead,main .muted,main .form-note,main .small{color:#756b5c}
+main .hero{
+  background:#fffdf8!important;
+  color:#29231b!important;
+  border:1px solid #e5ddd0!important;
+  border-radius:18px!important;
+  box-shadow:0 5px 18px rgba(55,43,28,.10)!important;
+}
+main .hero h1,main .hero h2,main .hero h3,main .hero p{color:#29231b!important;text-shadow:none!important}
+main .card,main .choice-card,main .faq-item,main .info-card,
+main .content-card,main .photo-card,main .illustration-card,
+main .poster-card,main .map-card,main .step,main .panel,
+main .notice,main .callout,main .legend-box,main .title-card{
+  box-sizing:border-box;
+  background:#fffdf8!important;
+  color:#29251f!important;
+  border-color:#e2d8c8!important;
+  border-radius:14px;
+  box-shadow:0 5px 18px rgba(55,43,28,.10);
+}
+main .choice-panel-full,main .choice-panel,main .choice-why,
+main .choice-warning,main .privacy-panel,main .responsibility-panel{
+  background:#f3eee5!important;
+  color:#29251f!important;
+  border-color:#e2d8c8!important;
+}
+main button,main .primary,main .choice-button{
+  background:#514431!important;
+  color:#fff!important;
+  border:1px solid #514431!important;
+  border-radius:10px!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:800!important;
+}
+main button:hover:not(:disabled),main .primary:hover,main .choice-button:hover:not(:disabled){
+  background:#29231b!important;
+  border-color:#29231b!important;
+}
+main .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:14px 19px;
+  border-radius:12px;
+  background:#b32632!important;
+  border:2px solid #b32632!important;
+  color:#fff!important;
+  font-weight:800;
+}
+main .btn.secondary{
+  background:#514431!important;
+  border-color:#514431!important;
+  color:#fff!important;
+}
+main input,main select,main textarea{
+  max-width:100%;
+  box-sizing:border-box;
+  border:1px solid #cfc2ab!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:#29251f!important;
+  font:inherit;
+}
+main input:focus,main select:focus,main textarea:focus{
+  outline:3px solid rgba(138,114,82,.20);
+  outline-offset:1px;
+}
+main .eyebrow{color:#8a7252!important}
+main .notice,main .legend-box{
+  background:#eee7da!important;
+  border-color:#dfd5c5!important;
+  color:#514431!important;
+}
+main #page-posters{
+  width:100%!important;
+  max-width:100%!important;
+  position:static!important;
+  left:auto!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+  margin:20px 0!important;
+  background:#fffdf8!important;
+  border:1px solid #e2d8c8!important;
+  border-radius:18px!important;
+  padding:clamp(20px,3vw,32px)!important;
+  box-shadow:0 12px 34px rgba(48,38,25,.045)!important;
+}
+@media(max-width:650px){
+  main{width:calc(100% - 28px)!important}
+  main>section:not(.hero),main>.section,main>section.section{
+    padding:20px!important;
+    border-radius:16px!important;
+    margin:16px auto!important;
+  }
+  main #page-posters{padding:18px!important;margin:16px 0!important}
+}
+</style>
+
 </head><body><div class="top"><div class="wrap"><strong data-shared="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-shared="language">Taal</span><select id="language" aria-label="Kies taal" data-shared-aria="languageAria"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div><header class="site-header"><div class="site-header-inner"><a class="site-brand" href="" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav" aria-label="Hoofdnavigatie"><a href="index.html#melden">Melden</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="index.html#aanpak">Hoe werkt het?</a><a href="index.html#sporen">Informatie</a><a href="index.html#delen">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters">Posters om te printen</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a></nav></div></header><main class="wrap">
 <section class="section faq"><div class="eyebrow" data-page="eyebrow">Antwoorden</div><h1 class="page-title" data-page="title">Veelgestelde vragen over rattenoverlast</h1>
 <details open><summary data-page="q1">Waar meld ik een rat in Haarlem officieel?</summary><p data-page="a1">Vul altijd eerst het officiële meldformulier op onze <a href="../preview/index.html#melden">homepage</a> in. Het formulier zet je melding, naam en telefoonnummer in een e-mail aan Spaarnelanden. Controleer de e-mail en druk zelf op verzenden. Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief en vervangt de officiële melding niet.</p></details>
