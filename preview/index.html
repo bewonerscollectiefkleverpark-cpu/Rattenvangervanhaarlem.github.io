@@ -168,11 +168,11 @@ async function shareWebsite(platform){
   })[lang]||url;
   const status=document.getElementById("shareStatus");
   const messages={
-    nl:"De tekst en websitelink zijn gekopieerd. Plak ze in "+platform+".",
-    en:"The message and website link have been copied. Paste them into "+platform+".",
-    de:"Text und Website-Link wurden kopiert. Fügen Sie sie in "+platform+" ein.",
-    fr:"Le texte et le lien ont été copiés. Collez-les dans "+platform+".",
-    tr:"Mesaj ve web sitesi bağlantısı kopyalandı. "+platform+" içine yapıştırın.",
+    nl:platform==="Signal"?"De tekst en websitelink zijn gekopieerd. Open Signal zelf en plak het bericht in je gesprek.":"De tekst en websitelink zijn gekopieerd. Plak ze in "+platform+".",
+    en:platform==="Signal"?"The message and website link have been copied. Open Signal and paste the message into your chat.":"The message and website link have been copied. Paste them into "+platform+".",
+    de:platform==="Signal"?"Text und Website-Link wurden kopiert. Öffnen Sie Signal und fügen Sie die Nachricht in Ihren Chat ein.":"Text und Website-Link wurden kopiert. Fügen Sie sie in "+platform+" ein.",
+    fr:platform==="Signal"?"Le texte et le lien ont été copiés. Ouvrez Signal et collez le message dans votre conversation.":"Le texte et le lien ont été copiés. Collez-les dans "+platform+".",
+    tr:platform==="Signal"?"Mesaj ve web sitesi bağlantısı kopyalandı. Signal uygulamasını açıp mesajı sohbetinize yapıştırın.":"Mesaj ve web sitesi bağlantısı kopyalandı. "+platform+" içine yapıştırın.",
     ar:"تم نسخ النص ورابط الموقع. الصقهما في "+platform+"."
   };
   let copied=false;
@@ -198,12 +198,10 @@ async function shareWebsite(platform){
   const targets={
     Instagram:"https://www.instagram.com/",
     TikTok:"https://www.tiktok.com/upload",
-    Signal:"sgnl://send?text="+encodeURIComponent(message)
   };
   const target=targets[platform];
   if(target){
     const opened=window.open(target,"_blank","noopener,noreferrer");
-    if(!opened&&platform==="Signal") window.location.href=target;
   }
 }
 
