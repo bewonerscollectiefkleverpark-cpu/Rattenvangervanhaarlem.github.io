@@ -342,7 +342,51 @@ Object.assign(translations.ar,{"logoAlt":"شعار راتنفانغر فان ه�
 function applyLanguage(lang){const dict=translations[lang]||translations.nl;translateReportForm(lang);document.title=dict.documentTitle;const metaDescription=document.querySelector('meta[name="description"]');if(metaDescription)metaDescription.content=dict.metaDescription;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";document.querySelectorAll("[data-i]").forEach(el=>{const key=el.dataset.i;if(dict[key])el.textContent=dict[key]});document.querySelectorAll("[data-i-alt]").forEach(el=>{const key=el.dataset.iAlt;if(dict[key])el.alt=dict[key]});document.querySelectorAll("[data-i-aria]").forEach(el=>{const key=el.dataset.iAria;if(dict[key])el.setAttribute("aria-label",dict[key])});document.getElementById("language").value=lang;try{localStorage.setItem("rvh-language",lang)}catch(e){}}
 const selector=document.getElementById("language");selector.addEventListener("change",()=>applyLanguage(selector.value));let saved="nl";try{saved=localStorage.getItem("rvh-language")||"nl"}catch(e){}const requestedLanguage=new URLSearchParams(window.location.search).get("lang");if(requestedLanguage&&translations[requestedLanguage])saved=requestedLanguage;applyLanguage(saved);
 </script>
-</body></html>
+</body></
+<style id="rvh-footer-exact-homepage">
+/* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
+footer{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  background:#29231b!important;
+  color:#f5efe4!important;
+  padding:26px 0!important;
+  margin:30px 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-footer-inner{
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  gap:20px!important;
+  flex-wrap:wrap!important;
+  box-sizing:border-box!important;
+}
+.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
+.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
+.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
+.site-footer-inner a{color:#fff!important}
+.site-footer-inner .home-footer{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;
+  color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important
+}
+.site-footer-inner .home-footer:hover{background:#514431!important}
+@media(max-width:650px){
+  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
+}
+</style>
+html>
 
 
 <style>
