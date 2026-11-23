@@ -1086,6 +1086,28 @@ main #page-posters{
   }
   main #page-posters{padding:18px!important;margin:16px 0!important}
 }
+
+
+/* Eén vaste hoofdnavigatie op alle pagina's. */
+.site-header-inner{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+.site-brand{align-self:flex-start}
+.rvh-global-nav{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;margin:8px 0 0!important;padding:14px 0 18px!important;border-top:1px solid #e2d8c8!important;border-bottom:1px solid #e2d8c8!important;box-sizing:border-box!important}
+.rvh-global-nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:42px!important;padding:9px 14px!important;border:1px solid #d8cbb8!important;border-radius:11px!important;background:#fffdf8!important;color:#29231b!important;text-decoration:none!important;font-size:.9rem!important;font-weight:800!important;line-height:1.25!important;box-sizing:border-box!important}
+.rvh-global-nav a:hover,.rvh-global-nav a:focus-visible{background:#514431!important;border-color:#514431!important;color:#fff!important}
+.rvh-global-nav a.rvh-nav-mail{background:#b32632!important;border-color:#b32632!important;color:#fff!important}
+.rvh-global-nav a.rvh-nav-mail:hover,.rvh-global-nav a.rvh-nav-mail:focus-visible{background:#8f1d27!important;border-color:#8f1d27!important}
+#page-posters.rvh-posters-page{overflow:hidden!important}
+#page-posters.rvh-posters-page>h2{font-size:clamp(2rem,4vw,2.8rem)!important;line-height:1.12!important;margin:0 0 10px!important;letter-spacing:-.035em!important}
+#page-posters.rvh-posters-page>p{max-width:760px!important;margin:0 0 20px!important;font-size:1.04rem!important;color:#62594d!important}
+#page-posters .poster-print-instruction{display:flex!important;align-items:flex-start!important;gap:12px!important;margin:20px 0 26px!important;padding:18px 20px!important;border:1px solid #e2d8c8!important;border-left:5px solid #b32632!important;border-radius:12px!important;background:#f4efe5!important;color:#514431!important;font-size:1rem!important;line-height:1.55!important}
+#page-posters .poster-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr))!important;gap:20px!important;margin:0!important;align-items:stretch!important}
+#page-posters .poster-card{display:flex!important;flex-direction:column!important;gap:14px!important;min-width:0!important;padding:18px!important;border:1px solid #e2d8c8!important;border-radius:16px!important;background:#fffdf8!important;box-shadow:0 8px 24px rgba(48,38,25,.07)!important}
+#page-posters .poster-card h3{margin:0!important;color:#29231b!important;font-size:1.15rem!important}
+#page-posters .poster-card img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:3/4!important;max-height:520px!important;object-fit:contain!important;margin:0!important;padding:8px!important;border:1px solid #e2d8c8!important;border-radius:10px!important;background:#f4efe5!important;box-sizing:border-box!important}
+#page-posters .poster-card .print-poster{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:48px!important;margin-top:auto!important;padding:12px 16px!important;border:1px solid #b32632!important;border-radius:10px!important;background:#b32632!important;color:#fff!important;font-weight:800!important}
+#page-posters .poster-card .print-poster:hover{background:#8f1d27!important;border-color:#8f1d27!important}
+@media(max-width:700px){.rvh-global-nav{justify-content:stretch!important}.rvh-global-nav a{flex:1 1 145px!important;text-align:center!important}.rvh-global-nav a.rvh-nav-mail{flex-basis:100%!important}#page-posters .poster-card{padding:14px!important}}
+
 </style>
 
 </head>
@@ -1093,7 +1115,7 @@ main #page-posters{
 <body>
 <div class="top rvh-top"><div class="wrap rvh-top-inner"><strong data-t="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><div class="lang-bar"><select id="language" aria-label="Kies taal" data-t-aria="languageLabel"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></div></div></div>
 <div class="wrap">
-<header class="site-header"><div class="site-header-inner"><a class="site-brand" href="" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav" aria-label="Hoofdnavigatie"><a href="index.html#melden">Melden</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="index.html#aanpak">Hoe werkt het?</a><a href="index.html#sporen">Informatie</a><a href="index.html#delen">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters">Posters om te printen</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a></nav></div></header>
+<header class="site-header"><div class="site-header-inner"><a class="site-brand" href="index.html" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav rvh-global-nav" aria-label="Hoofdnavigatie"><a href="index.html">Homepage</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="rattenkaart-haarlem.html?page=posters">Posters</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels</a><a href="../concept/ratten-melden-haarlem.html">Ratten melden</a><a href="../concept/ratten-in-de-tuin.html">Ratten in de tuin</a><a href="../concept/rattenkeutels-herkennen.html">Rattenkeutels herkennen</a><a href="../concept/start-een-meldpunt.html">Start een meldpunt</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a><a class="rvh-nav-mail" href="index.html#melden">Spaarnelanden mailen</a></nav></div></header>
 
 <main>
 
@@ -1281,24 +1303,24 @@ main #page-posters{
       </div>
     </section>
 
-    <section id="page-posters" class="section hidden">
-      <h2 data-t="postersTitle">Posters om te printen</h2>
+    <section id="page-posters" class="section hidden rvh-posters-page" aria-labelledby="posters-heading">
+      <h2 id="posters-heading" data-t="postersTitle">Posters om te printen</h2>
       <p data-t="postersIntro">Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.</p>
       <div class="notice poster-print-instruction"><strong data-t="posterInstruction">Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.</strong></div>
       <div class="poster-grid">
         <article class="poster-card" id="poster-card-1">
           <h3 data-t="posterOne">Poster 1</h3>
-          <img src="../poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" data-t-alt="posterAltOne" loading="lazy">
+          <img src="../poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" data-t-alt="posterAltOne" loading="eager">
           <button type="button" class="print-poster" data-print-poster="1" data-t="printPoster">Print deze poster</button>
         </article>
         <article class="poster-card" id="poster-card-2">
           <h3 data-t="posterTwo">Poster 2</h3>
-          <img src="../Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="lazy">
+          <img src="../Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="eager">
           <button type="button" class="print-poster" data-print-poster="2" data-t="printPoster">Print deze poster</button>
         </article>
         <article class="poster-card" id="poster-card-3">
           <h3 data-t="posterThree">Poster 3</h3>
-          <img src="../-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="lazy">
+          <img src="../-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="eager">
           <button type="button" class="print-poster" data-print-poster="3" data-t="printPoster">Print deze poster</button>
         </article>
       </div>
