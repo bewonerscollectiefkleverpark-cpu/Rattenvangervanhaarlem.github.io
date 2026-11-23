@@ -2938,3 +2938,10 @@ document.addEventListener("DOMContentLoaded",()=>{const labels={"nl":["Melden","
 </html>
 
 <style id="rvh-standalone-tab-links">.legacy-tabs .standalone-tab{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:30px;font-size:14px;padding:10px 20px;font-weight:700;background:#f4efe5;color:#514431;border:1px solid #dedbd3}.legacy-tabs .standalone-tab:hover{background:white;color:#8a7252;border-color:#b9a384}</style>
+
+<style id="rvh-poster-page-frame-alignment">
+/* De posterpagina heeft een extra .wrap rond de kop; laat de kop exact even breed zijn als op de homepage. */
+.top .rvh-top-inner{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important}
+.wrap > .site-header{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+@media(max-width:650px){.top .rvh-top-inner{width:calc(100vw - 28px)!important}.wrap > .site-header{width:calc(100vw - 28px)!important}}
+</style>
