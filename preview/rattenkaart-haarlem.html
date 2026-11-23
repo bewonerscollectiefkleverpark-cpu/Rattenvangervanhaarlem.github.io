@@ -1138,6 +1138,30 @@ body > .wrap > .site-header .site-brand img{
 }
 </style>
 
+
+<style id="rvh-rattenkaart-navigation-width-fix">
+/* De kaartpagina mag de gedeelde kop en navigatie niet in de oude 1040px-wrapper opsluiten. */
+body > .wrap{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+/* De inhoud blijft op dezelfde maximale breedte als de homepage. */
+body > .wrap > main{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0 0 42px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  body > .wrap > main{width:calc(100% - 28px)!important}
+}
+</style>
+
 </head>
 
 <body>
