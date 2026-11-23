@@ -1047,12 +1047,74 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function updateOfficialEmailLink() {
-    const helper = EMAIL_HELP[currentLang] || null;
+    if (currentLang === "en") {
+      const lines = [
+        "Dear Spaarnelanden team,",
+        "",
+        "I would like to report a rat problem in Haarlem.",
+        "",
+        "==================================================",
+        "1. WHAT DID I SEE?",
+        "==================================================",
+        "",
+        "Number of rats seen:",
+        "",
+        "__________________________________________________",
+        "",
+        "Description of the sighting:",
+        "",
+        "__________________________________________________",
+        "",
+        "Date and time of the sighting:",
+        "",
+        "__________________________________________________",
+        "",
+        "==================================================",
+        "2. WHERE DID I SEE THE RATS?",
+        "==================================================",
+        "",
+        "Street and house number or exact location:",
+        "",
+        "__________________________________________________",
+        "",
+        "==================================================",
+        "3. REPORTER DETAILS",
+        "==================================================",
+        "",
+        "Name:",
+        "",
+        "__________________________________________________",
+        "",
+        "Phone number:",
+        "",
+        "__________________________________________________",
+        "",
+        "Email address:",
+        "",
+        "__________________________________________________",
+        "",
+        "==================================================",
+        "4. REQUEST FOR CONFIRMATION AND FOLLOW-UP",
+        "==================================================",
+        "",
+        "Please confirm receipt of this report and let me know what action will be taken in response.",
+        "",
+        "Kind regards,",
+        "",
+        "__________________________________________________"
+      ];
+      const subject = T.en.mailSubject || "Rat problem report – Haarlem";
+      $("officialLink").href =
+        "mailto:info@spaarnelanden.nl" +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(lines.join("\\r\\n"));
+      return;
+    }
 
+    const helper = EMAIL_HELP[currentLang] || null;
     function translated(key) {
       return helper ? " (" + helper[key] + ")" : "";
     }
-
     const lines = [
       "Geachte medewerkers van Spaarnelanden,",
       "",
@@ -1109,14 +1171,11 @@ document.addEventListener("DOMContentLoaded", () => {
       "",
       "__________________________________________________"
     ];
-
     const subject = "Melding rattenoverlast – Haarlem";
-    const body = lines.join("\r\n");
-
     $("officialLink").href =
       "mailto:info@spaarnelanden.nl" +
       "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(body);
+      "&body=" + encodeURIComponent(lines.join("\\r\\n"));
   }
 
   const T = {
