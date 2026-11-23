@@ -1155,10 +1155,42 @@ main #page-posters{
 }
 </style>
 
+
+<style id="rvh-header-full-width">
+/* Exact dezelfde schermbrede zandkleurige hoofdbalk als op de homepage. */
+.site-header,.wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  .site-header .site-header-inner{width:calc(100% - 28px)!important}
+}
+</style>
 </head>
 
 <body>
-<div class="top"><div class="wrap"><strong data-t="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span>Taal</span><select id="language" aria-label="Kies taal" data-t-aria="languageLabel"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div>
+<div class="top"><div class="wrap"><strong data-i="strap" data-t="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-i="language">Taal</span><select id="language" aria-label="Kies taal" data-t-aria="languageLabel"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div>
 <header class="site-header"><div class="site-header-inner"><a class="site-brand" href="index.html" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav rvh-global-nav" aria-label="Hoofdnavigatie"><a href="index.html">Homepage</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels</a><a href="../concept/ratten-melden-haarlem.html">Ratten melden</a><a href="../concept/ratten-in-de-tuin.html">Ratten in de tuin</a><a href="../concept/rattenkeutels-herkennen.html">Rattenkeutels herkennen</a><a href="../concept/start-een-meldpunt.html">Start een meldpunt</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a><a class="rvh-nav-mail" href="index.html#melden">Spaarnelanden mailen</a></nav></div></header>
 
 <main class="wrap page-main">
