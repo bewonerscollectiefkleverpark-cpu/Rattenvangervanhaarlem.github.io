@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#29231b">
 <title>Rattenvanger van Haarlem | Bewoners maken overlast zichtbaar</title>
 <meta name="description" content="Meld iedere nieuwe rattenwaarneming officieel bij Spaarnelanden en registreer sporen op de onafhankelijke bewonerskaart van Haarlem.">
-<style>
+<style id="rvh-core-styles">
 :root{--blue:#29231b;--blue2:#514431;--red:#8a7252;--gold:#c8b48f;--cream:#f4efe5;--ink:#29251f;--muted:#756b5c;--line:#dfd5c5;--green:#6d604d;--white:#fff;font-family:Arial,Helvetica,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);line-height:1.6}a{color:inherit}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{background:var(--blue);color:#fff;font-size:.9rem}.top .wrap{display:flex;justify-content:space-between;gap:14px;padding:9px 0;align-items:center}.top strong{letter-spacing:.04em}.language{display:flex;align-items:center;gap:8px}.language select{font:inherit;border-radius:8px;padding:7px;border:1px solid #b7c8dc;background:#fff;color:var(--ink)}header{background:#fff;border-bottom:1px solid var(--line)}.head{display:flex;align-items:center;gap:18px;padding:20px 0}.logo{width:160px;height:160px;object-fit:cover;object-position:center;flex:none;display:block;border-radius:50%;padding:0;border:6px solid #8a7252;background:#f3ecdf;box-shadow:0 2px 12px #29231b20}.brand h1{font-size:clamp(1.65rem,4vw,2.45rem);line-height:1.05;margin:0;color:var(--blue);letter-spacing:-.04em}.brand p{margin:8px 0 0;color:var(--muted);font-weight:600}.nav{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 16px}.nav a{padding:9px 13px;border-radius:9px;text-decoration:none;font-weight:700;background:#eee7da;color:var(--blue)}.nav a:hover{background:var(--blue);color:#fff}.hero{margin:26px auto 20px;background:linear-gradient(125deg,#29231b,#514431);color:#fff;border-radius:22px;padding:clamp(26px,5vw,58px);position:relative;overflow:hidden}.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:#d5c19a}.hero h2{font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.04;letter-spacing:-.04em;max-width:800px;margin:12px 0 18px}.hero p{font-size:clamp(1.05rem,2vw,1.25rem);max-width:760px;color:#f5efe4}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:800;border-radius:12px;padding:14px 19px;background:var(--red);color:#fff;border:2px solid var(--red);min-height:52px}.btn.secondary{background:#fff;color:var(--blue);border-color:#fff}.btn:hover{filter:brightness(.94)}.alert{background:#fff;border:2px solid var(--red);border-radius:16px;padding:20px;margin:20px auto;color:var(--ink)}.alert h3{margin:0 0 7px;color:var(--red);font-size:1.55rem}.alert p{margin:10px 0;font-size:1rem;font-weight:400;line-height:1.55}.alert .alert-lead{font-size:1.08rem;font-weight:700}.alert .alert-steps{margin:12px 0;padding-left:24px;line-height:1.55}.alert .alert-steps li{margin:8px 0}.alert .alert-privacy{font-size:.95rem}.alert .alert-closing{font-weight:700;margin-bottom:0}.section{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,32px);margin:20px auto;box-shadow:0 5px 20px #1c35500a}.section h2{font-size:clamp(1.55rem,3vw,2.1rem);line-height:1.2;color:var(--blue);margin:0 0 12px}.lead{font-size:1.08rem;color:var(--muted);max-width:850px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}.card.official{border-top:6px solid var(--red)}.card.map{border-top:6px solid var(--blue2)}.card.map .btn{background:var(--red);border-color:var(--red);color:#fff;min-height:58px;font-size:1.05rem;box-shadow:0 3px 0 #6e5940}.card h3{margin:0 0 8px;font-size:1.25rem}.steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}.step{background:#eee7da;border:1px solid #d8cbb6;border-radius:13px;padding:18px}.step b{display:grid;place-items:center;background:var(--blue);color:#fff;width:38px;height:38px;border-radius:50%;margin-bottom:10px}.step p{margin:0;font-weight:700}.step-arrow{display:grid;place-items:center;color:var(--blue2);font-size:2rem;font-weight:900}.free{background:#eee7da;border:1px solid #d8cbb6;border-left:6px solid var(--blue2);padding:20px;border-radius:12px;margin-top:18px}.free h3{color:var(--blue);margin:0 0 8px}.free p{margin:7px 0}.proof{background:#eee7da;border:1px solid #d8cbb6;border-left:6px solid var(--blue2);padding:18px;border-radius:12px;margin-top:14px}.proof strong{color:var(--blue)}.signals{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.signal{border:1px solid var(--line);border-radius:12px;padding:15px;text-align:center;background:#fff;font-weight:800}.signal span{display:block;font-size:1.9rem;margin-bottom:5px}.mapkey{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:.93rem}.key{display:flex;align-items:center;gap:7px}.dot{width:14px;height:14px;border-radius:50%;display:inline-block}.share{background:#eee7da;border-radius:14px;padding:20px}.socials{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.socials a,.socials button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 15px;border-radius:10px;background:var(--blue);color:#fff;text-decoration:none;border:0;font:700 1rem Arial;cursor:pointer}.socials a:hover,.socials button:hover{background:var(--blue2)}.share-note{font-size:.92rem;color:var(--muted);margin:12px 0 0}.share a{font-weight:800;color:var(--blue)}.socials a,.socials button{color:#fff!important}footer{background:#29231b;color:#f5efe4;padding:28px 0;margin-top:30px}footer a{color:#fff}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.small{font-size:.88rem;color:#d8cbb6}
 @media(max-width:720px){.steps{grid-template-columns:1fr}.step-arrow{transform:rotate(90deg);font-size:1.6rem}.top .wrap{flex-direction:column;align-items:flex-start}.head{align-items:center}.logo{width:120px;height:120px}.cards,.steps{grid-template-columns:1fr}.signals{grid-template-columns:repeat(2,1fr)}.nav{padding-bottom:12px}.hero{border-radius:15px}.btn{width:100%}}
@@ -52,8 +52,7 @@ footer a{color:#e5d4b5}
 .illustration-card span{display:block;color:#756b5c;font-size:.86rem;line-height:1.4;margin-top:3px}
 .signal-art{width:64px;height:64px;display:block;margin:0 auto 8px;color:#8a7252}
 @media(max-width:720px){.hero{min-height:0;background-position:62% center}.hero h2,.hero p{max-width:100%}.illustration-row{grid-template-columns:1fr}.illustration-card{min-height:88px}}
-</style>
-<style>
+
 /* Rode actiekleuren: Spaarnelanden eerst, bewonerskaart als tweede keuze */
 .hero{background-image:linear-gradient(90deg,rgba(35,27,22,.96) 0%,rgba(48,34,29,.88) 48%,rgba(48,34,29,.28) 100%),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-size:cover;background-position:center 48%}
 .hero-illustration{display:none!important}
@@ -65,9 +64,7 @@ footer a{color:#e5d4b5}
 .photo-credit{font-size:.72rem;color:#e9dfd1;margin:10px 0 0;position:relative;z-index:1}
 .photo-credit a{color:#fff;text-decoration:underline}
 @media(max-width:720px){.hero{background-image:linear-gradient(90deg,rgba(35,27,22,.94),rgba(48,34,29,.65)),url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/NYC_Brown_Rat.jpg/1280px-NYC_Brown_Rat.jpg");background-position:62% center}}
-</style>
 
-<style>
 .photo-credit{font-size:8px!important;color:rgba(245,239,228,.28)!important;line-height:1.1;margin:8px 0 -30px!important;text-align:right;position:relative;z-index:2}
 .photo-credit a{color:rgba(245,239,228,.3)!important}
 .photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
@@ -78,8 +75,7 @@ footer a{color:#e5d4b5}
 .image-credits{font-size:9px;color:#c7c0b5;text-align:right;margin:8px 2px 0;line-height:1.25}
 .image-credits a{color:#b9b1a5}
 @media(max-width:720px){.photo-grid{grid-template-columns:1fr}.photo-card img{width:104px;height:82px}.photo-credit{margin-bottom:-20px!important}}
-</style>
-<style>
+
 /* Leesbaarheid op telefoons: voorkom automatische donkere modus en verhoog tekstcontrast */
 :root{color-scheme:light;--ink:#29251f;--muted:#554b40}
 html,body{color:#29251f!important;background-color:#f4efe5}
@@ -90,6 +86,10 @@ body,main,section,article,p,li,label,h1,h2,h3,h4,strong{ text-shadow:none }
 .nav a{color:#29231b}
 .card,.section,.alert,.step,.free,.proof,.share,.illustration-card{color:#29251f}
 </style>
+
+
+
+
 
 <style id="rvh-logo-proportions">
 /* Het logo vult de ronde vorm volledig: geen badge-achtergrond, rand of binnenruimte. */
