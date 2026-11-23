@@ -125,6 +125,159 @@ footer{
   .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
 }
 </style>
+
+<style id="rvh-homepage-design-system-2026">
+/* Gedeeld ontwerp: inhoudelijke pagina's volgen de homepage als visuele hoofdreferentie. */
+:root{
+  --rvh-ink:#29231b;
+  --rvh-sand:#eee7da;
+  --rvh-paper:#f4efe5;
+  --rvh-white:#fffdf8;
+  --rvh-line:#e2d8c8;
+  --rvh-muted:#756b5c;
+  --rvh-brown:#514431;
+  --rvh-shadow:0 12px 34px rgba(48,38,25,.045);
+}
+html{background:var(--rvh-paper)!important}
+body{
+  background:var(--rvh-paper)!important;
+  color:#29251f!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  line-height:1.6!important;
+}
+main{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0 0 42px!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+}
+main>section:not(.hero),
+main>.section,
+main>section.section{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  background:#fffdf8!important;
+  color:#29251f!important;
+  border:1px solid #e2d8c8!important;
+  border-radius:18px!important;
+  padding:clamp(20px,3vw,32px)!important;
+  margin:20px auto!important;
+  box-shadow:0 12px 34px rgba(48,38,25,.045)!important;
+}
+main>section h1,main>section h2,main>section h3,
+main>.section h1,main>.section h2,main>.section h3{
+  color:#29231b!important;
+  text-shadow:none!important;
+}
+main>section h2,main>.section h2{
+  font-size:clamp(1.55rem,3vw,2.1rem)!important;
+  line-height:1.2!important;
+  margin:0 0 12px!important;
+}
+main p,main li{color:inherit}
+main .lead,main .muted,main .form-note,main .small{color:#756b5c}
+main .hero{
+  background:#fffdf8!important;
+  color:#29231b!important;
+  border:1px solid #e5ddd0!important;
+  border-radius:18px!important;
+  box-shadow:0 5px 18px rgba(55,43,28,.10)!important;
+}
+main .hero h1,main .hero h2,main .hero h3,main .hero p{color:#29231b!important;text-shadow:none!important}
+main .card,main .choice-card,main .faq-item,main .info-card,
+main .content-card,main .photo-card,main .illustration-card,
+main .poster-card,main .map-card,main .step,main .panel,
+main .notice,main .callout,main .legend-box,main .title-card{
+  box-sizing:border-box;
+  background:#fffdf8!important;
+  color:#29251f!important;
+  border-color:#e2d8c8!important;
+  border-radius:14px;
+  box-shadow:0 5px 18px rgba(55,43,28,.10);
+}
+main .choice-panel-full,main .choice-panel,main .choice-why,
+main .choice-warning,main .privacy-panel,main .responsibility-panel{
+  background:#f3eee5!important;
+  color:#29251f!important;
+  border-color:#e2d8c8!important;
+}
+main button,main .primary,main .choice-button{
+  background:#514431!important;
+  color:#fff!important;
+  border:1px solid #514431!important;
+  border-radius:10px!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:800!important;
+}
+main button:hover:not(:disabled),main .primary:hover,main .choice-button:hover:not(:disabled){
+  background:#29231b!important;
+  border-color:#29231b!important;
+}
+main .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:14px 19px;
+  border-radius:12px;
+  background:#b32632!important;
+  border:2px solid #b32632!important;
+  color:#fff!important;
+  font-weight:800;
+}
+main .btn.secondary{
+  background:#514431!important;
+  border-color:#514431!important;
+  color:#fff!important;
+}
+main input,main select,main textarea{
+  max-width:100%;
+  box-sizing:border-box;
+  border:1px solid #cfc2ab!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:#29251f!important;
+  font:inherit;
+}
+main input:focus,main select:focus,main textarea:focus{
+  outline:3px solid rgba(138,114,82,.20);
+  outline-offset:1px;
+}
+main .eyebrow{color:#8a7252!important}
+main .notice,main .legend-box{
+  background:#eee7da!important;
+  border-color:#dfd5c5!important;
+  color:#514431!important;
+}
+main #page-posters{
+  width:100%!important;
+  max-width:100%!important;
+  position:static!important;
+  left:auto!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+  margin:20px 0!important;
+  background:#fffdf8!important;
+  border:1px solid #e2d8c8!important;
+  border-radius:18px!important;
+  padding:clamp(20px,3vw,32px)!important;
+  box-shadow:0 12px 34px rgba(48,38,25,.045)!important;
+}
+@media(max-width:650px){
+  main{width:calc(100% - 28px)!important}
+  main>section:not(.hero),main>.section,main>section.section{
+    padding:20px!important;
+    border-radius:16px!important;
+    margin:16px auto!important;
+  }
+  main #page-posters{padding:18px!important;margin:16px 0!important}
+}
+</style>
+
 </head><body><div class="top"><div class="wrap"><strong data-shared="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-shared="language">Taal</span><select id="language" aria-label="Kies taal" data-shared-aria="languageAria"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div><header class="site-header"><div class="site-header-inner"><a class="site-brand" href="" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav" aria-label="Hoofdnavigatie"><a href="index.html#melden">Melden</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="index.html#aanpak">Hoe werkt het?</a><a href="index.html#sporen">Informatie</a><a href="index.html#delen">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters">Posters om te printen</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a></nav></div></header><main class="wrap">
 <p class="breadcrumbs"><a href="../preview/" data-page="breadcrumbHome">Home</a> / <span data-page="breadcrumbLabel">Rattenoverlast melden</span></p><section class="section"><div class="eyebrow" data-page="eyebrow">Officiële meldroute</div><h1 class="page-title" data-page="title">Rattenoverlast melden in Haarlem: zo doe je dat</h1><p class="lead" data-page="lead">Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef iedere nieuwe waarneming door. Een melding helpt de verantwoordelijke organisatie zicht te houden op de overlast.</p><div class="warning"><strong data-page="warningTitle">Belangrijk onderscheid:</strong> <span data-page="warningText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. Voor een officiële melding neem je rechtstreeks contact op met Spaarnelanden.</span></div><h2 data-page="h2a">Zo meld je rattenoverlast</h2><ol class="list"><li data-page="li1">Noteer de straat en de plek waar je de rat, keutels of het hol hebt gezien.</li><li data-page="li2">Noteer datum, tijd en wat je precies hebt waargenomen.</li><li data-page="li3">Maak alleen als dat veilig kan een foto vanaf gepaste afstand.</li><li data-page="li4">Stuur je melding rechtstreeks naar Spaarnelanden via hun officiële meldkanaal.</li><li data-page="li5">Meld ook een volgende waarneming opnieuw. Ga er niet vanuit dat één melding alle latere overlast dekt.</li></ol><a class="btn" href="../preview/index.html#melden" data-page="btn1">Naar het officiële meldformulier op de homepage</a><p class="meta" data-page="meta">Controleer op de website van Spaarnelanden welke meldmogelijkheden en actuele contactgegevens zij aanbieden.</p></section><section class="section"><h2 data-page="h2b">Help ook andere bewoners</h2><p data-page="p2">Naast de officiële melding kun je jouw waarneming vrijwillig op de bewonerskaart registreren. Dat helpt om patronen per straat zichtbaar te maken, maar is geen officiële melding.</p><a class="btn green" href="../preview/rattenkaart-haarlem.html?page=report" data-page="btn2">Naar de rattenkaart en registreren</a></section></main><footer><div class="site-footer-inner"><div><strong>Rattenvanger van Haarlem</strong><p class="small" data-shared="footer">Onafhankelijk bewonersinitiatief. Geen gemeentelijke dienst. Bewonerswaarnemingen zijn geen officiële gemeentelijke meldingen.</p></div><div><a class="home-footer" href="../preview/">HOME</a><p class="small"><span data-shared="contact">Fouten op de website? Mail:</span> <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a></p></div><span class="small">Conceptpreview · niet definitief</span></div></footer><script src="shared.js" defer></script><script src="site.js" defer></script><script>
 document.addEventListener("DOMContentLoaded",()=>{const dict={"en":["Report rat problems","Official reporting route","How to report rat problems in Haarlem","Have you seen a rat, found rat droppings or discovered a rat burrow? Report every new observation. A report helps the responsible organisation monitor the problem.","Important distinction: Rattenvanger van Haarlem is an independent residents’ initiative. For an official report, contact Spaarnelanden directly.","How to report rat problems","Note the street and the place where you saw the rat, droppings or burrow.","Note the date, time and exactly what you observed.","Only take a photo from a suitable distance if it is safe to do so.","Send your report directly to Spaarnelanden through its official reporting channel.","Report every subsequent sighting as well. Do not assume one report covers all later problems.","Go to the official reporting form on the homepage","Check the Spaarnelanden website for the reporting options and current contact details they provide.","Help other residents too","In addition to the official report, you can voluntarily register your observation on the residents’ map. This helps show patterns by street, but it is not an official report.","Open the rat map and register"],"de":["Rattenprobleme melden","Offizieller Meldeweg","So melden Sie Rattenprobleme in Haarlem","Haben Sie eine Ratte gesehen, Rattenkot gefunden oder einen Rattenbau entdeckt? Melden Sie jede neue Beobachtung. So kann die zuständige Organisation das Problem besser verfolgen.","Wichtiger Unterschied: Rattenvanger van Haarlem ist eine unabhängige Bewohnerinitiative. Für eine offizielle Meldung wenden Sie sich direkt an Spaarnelanden.","So melden Sie Rattenprobleme","Notieren Sie die Straße und die Stelle, an der Sie die Ratte, den Kot oder den Bau gesehen haben.","Notieren Sie Datum, Uhrzeit und genau, was Sie beobachtet haben.","Machen Sie nur dann ein Foto aus angemessener Entfernung, wenn dies sicher möglich ist.","Senden Sie Ihre Meldung direkt über den offiziellen Meldekanal an Spaarnelanden.","Melden Sie auch jede weitere Beobachtung erneut. Gehen Sie nicht davon aus, dass eine Meldung alle späteren Vorfälle abdeckt.","Zum offiziellen Meldeformular auf der Startseite","Informieren Sie sich auf der Website von Spaarnelanden über die angebotenen Meldewege und die aktuellen Kontaktdaten.","Helfen Sie auch anderen Anwohnern","Zusätzlich zur offiziellen Meldung können Sie Ihre Beobachtung freiwillig auf der Bewohnerkarte eintragen. So werden Muster nach Straßen sichtbar; es handelt sich jedoch nicht um eine offizielle Meldung.","Zur Rattenkarte und zur Registrierung"],"fr":["Signaler un problème de rats","Procédure officielle de signalement","Comment signaler les rats à Haarlem","Vous avez vu un rat, trouvé des crottes de rat ou découvert un terrier ? Signalez chaque nouvelle observation. Cela aide l’organisme responsable à suivre la situation.","Distinction importante : Rattenvanger van Haarlem est une initiative indépendante d’habitants. Pour un signalement officiel, contactez directement Spaarnelanden.","Comment signaler un problème de rats","Notez la rue et l’endroit où vous avez vu le rat, les crottes ou le terrier.","Notez la date, l’heure et ce que vous avez précisément observé.","Ne prenez une photo à distance raisonnable que si vous pouvez le faire sans danger.","Envoyez votre signalement directement à Spaarnelanden par son canal officiel.","Signalez également chaque nouvelle observation. Ne partez pas du principe qu’un seul signalement couvre tous les problèmes ultérieurs.","Accéder au formulaire officiel sur la page d’accueil","Consultez le site de Spaarnelanden pour connaître les moyens de signalement et les coordonnées à jour.","Aidez aussi les autres habitants","En plus du signalement officiel, vous pouvez enregistrer volontairement votre observation sur la carte des habitants. Cela permet de voir les tendances par rue, mais ne constitue pas un signalement officiel.","Accéder à la carte et enregistrer"],"tr":["Sıçan sorununu bildirin","Resmî bildirim yolu","Haarlem'de sıçan sorunu nasıl bildirilir?","Bir sıçan gördünüz mü, dışkısını buldunuz mu veya yuva keşfettiniz mi? Her yeni gözlemi bildirin. Bu, sorumlu kuruluşun sorunu takip etmesine yardımcı olur.","Önemli ayrım: Rattenvanger van Haarlem bağımsız bir mahalle sakinleri girişimidir. Resmî bildirim için doğrudan Spaarnelanden ile iletişime geçin.","Sıçan sorununu nasıl bildirebilirsiniz?","Sıçanı, dışkıyı veya yuvayı gördüğünüz sokağı ve yeri not edin.","Tarihi, saati ve tam olarak ne gördüğünüzü not edin.","Yalnızca güvenliyse uygun bir mesafeden fotoğraf çekin.","Bildiriminizi doğrudan Spaarnelanden'e resmî bildirim kanalı üzerinden gönderin.","Sonraki her gözlemi de yeniden bildirin. Tek bir bildirimin sonraki tüm sorunları kapsadığını varsaymayın.","Ana sayfadaki resmî bildirim formuna git","Spaarnelanden'in sunduğu bildirim seçeneklerini ve güncel iletişim bilgilerini web sitesinden kontrol edin.","Diğer sakinlere de yardımcı olun","Resmî bildirime ek olarak gözleminizi gönüllü olarak mahalle haritasına kaydedebilirsiniz. Bu, sokaklara göre örüntüleri gösterir ancak resmî bildirim değildir.","Fare haritasına git ve kaydet"],"ar":["الإبلاغ عن مشكلة الجرذان","مسار الإبلاغ الرسمي","كيفية الإبلاغ عن الجرذان في هارلم","هل شاهدت جرذًا أو وجدت فضلات جرذان أو اكتشفت جحرًا؟ أبلغ عن كل مشاهدة جديدة. فهذا يساعد الجهة المسؤولة على متابعة المشكلة.","تمييز مهم: Rattenvanger van Haarlem مبادرة مستقلة للسكان. لتقديم بلاغ رسمي، تواصل مباشرة مع Spaarnelanden.","كيفية الإبلاغ عن مشكلة الجرذان","دوّن اسم الشارع والمكان الذي رأيت فيه الجرذ أو الفضلات أو الجحر.","دوّن التاريخ والوقت وما شاهدته بالتحديد.","لا تلتقط صورة إلا إذا كان ذلك آمنًا ومن مسافة مناسبة.","أرسل بلاغك مباشرة إلى Spaarnelanden عبر قناة الإبلاغ الرسمية.","أبلغ عن كل مشاهدة لاحقة أيضًا. لا تفترض أن بلاغًا واحدًا يشمل جميع المشكلات اللاحقة.","الانتقال إلى نموذج الإبلاغ الرسمي في الصفحة الرئيسية","تحقق من موقع Spaarnelanden لمعرفة طرق الإبلاغ المتاحة وبيانات الاتصال الحالية.","ساعد السكان الآخرين أيضًا","إضافة إلى البلاغ الرسمي، يمكنك تسجيل مشاهدتك طوعًا على خريطة السكان. يساعد ذلك على إظهار الأنماط حسب الشارع، لكنه ليس بلاغًا رسميًا.","الانتقال إلى خريطة الجرذان والتسجيل"]};const lang=document.getElementById("language");const apply=()=>{const a=dict[lang?.value];if(!a)return;const m=document.querySelector("main");const set=(s,v)=>{const e=m.querySelector(s);if(e)e.textContent=v;};const crumb=m.querySelector(".breadcrumbs");if(crumb)crumb.innerHTML='<a href="../preview/">'+({en:"Home",de:"Startseite",fr:"Accueil",tr:"Ana sayfa",ar:"الرئيسية"}[lang.value])+'</a> / '+a[0];set(".eyebrow",a[1]);set(".page-title",a[2]);set(".lead",a[3]);set(".warning",a[4]);const hs=m.querySelectorAll("h2");if(hs[0])hs[0].textContent=a[5];m.querySelectorAll("ol.list li").forEach((e,i)=>e.textContent=a[6+i]);const bs=m.querySelectorAll("a.btn");if(bs[0])bs[0].textContent=a[11];const meta=m.querySelector(".meta");if(meta)meta.textContent=a[12];if(hs[1])hs[1].textContent=a[13];const secondP=m.querySelectorAll("section")[1]?.querySelector("p");if(secondP)secondP.textContent=a[14];if(bs[1])bs[1].textContent=a[15];document.title=a[2]+" | Rattenvanger van Haarlem";const previewLabels={en:"Concept preview · not final",de:"Konzeptvorschau · nicht endgültig",fr:"Aperçu du concept · non définitif",tr:"Konsept önizlemesi · henüz kesin değil",ar:"معاينة للمفهوم · غير نهائية"};const previewStatus=document.querySelector("footer .small:last-child");if(previewStatus&&previewLabels[lang.value])previewStatus.textContent=previewLabels[lang.value];const pageMeta=document.querySelector('meta[name="description"]');if(pageMeta)pageMeta.content=a[3];document.documentElement.lang=lang.value;document.documentElement.dir=lang.value==="ar"?"rtl":"ltr";};lang?.addEventListener("change",apply);apply();window.addEventListener("load",apply);});
