@@ -1065,6 +1065,63 @@ main #page-posters{
 
 </style>
 
+
+<style id="rvh-rattenkaart-header-match-homepage">
+/* De header staat op deze pagina binnen .wrap; trek hem daarom exact gelijk aan de full-width homepage-header. */
+body > .wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+body > .wrap > .site-header .site-header-inner{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:12px!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+body > .wrap > .site-header .site-brand{
+  display:flex!important;
+  align-items:center!important;
+  gap:14px!important;
+  width:max-content!important;
+  max-width:100%!important;
+  margin:0 0 14px!important;
+  padding:0!important;
+}
+body > .wrap > .site-header .site-brand img{
+  display:block!important;
+  width:66px!important;
+  height:66px!important;
+  min-width:66px!important;
+  max-width:66px!important;
+  flex:0 0 66px!important;
+  object-fit:cover!important;
+  border-radius:50%!important;
+}
+@media(max-width:650px){
+  body > .wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  body > .wrap > .site-header .site-header-inner{width:calc(100% - 28px)!important}
+  body > .wrap > .site-header .site-brand{gap:10px!important}
+  body > .wrap > .site-header .site-brand img{width:54px!important;height:54px!important;min-width:54px!important;max-width:54px!important;flex-basis:54px!important}
+}
+</style>
+
 </head>
 
 <body>
