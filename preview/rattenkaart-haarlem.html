@@ -891,6 +891,33 @@ footer{
   .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
 }
 </style>
+
+<style id="rvh-map-page-content-width-match">
+/* De kaart-, meld- en posterinhoud krijgt dezelfde gecentreerde 1120px-inhoudsbreedte als de overige pagina's. */
+main{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0 0 42px!important;
+  box-sizing:border-box!important;
+}
+/* Het posterkader blijft binnen dezelfde inhoudskolom en wordt niet nogmaals naar rechts verschoven. */
+#page-posters{
+  position:static!important;
+  left:auto!important;
+  transform:none!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:20px 0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  main{width:calc(100% - 28px)!important}
+  #page-posters{width:100%!important;margin:16px 0!important}
+}
+</style>
+
 </head>
 
 <body>
