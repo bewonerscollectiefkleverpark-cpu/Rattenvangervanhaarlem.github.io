@@ -13,8 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
     :root {
@@ -1253,8 +1252,7 @@ main #page-posters{
 
   <footer><div class="site-footer-inner"><div><strong>Rattenvanger van Haarlem</strong><p class="small" data-t="footerText">Onafhankelijk bewonersinitiatief. Geen gemeentelijke dienst. Bewonerswaarnemingen zijn geen officiële gemeentelijke meldingen.</p></div><div><a class="home-footer" href="./" data-t="homeButton">HOME</a><p class="small"><span data-t="contactTitle">Fouten op de website? Mail:</span> <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a></p></div><span class="small" data-t="previewStatus">Conceptpreview · niet definitief</span></div></footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 "use strict";
@@ -2710,7 +2708,8 @@ Object.assign(T.ar,{posterAltOne:"ملصق عن مشكلة الجرذان في �
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
+      attribution: '&copy; OpenStreetMap contributors',
+      errorTileUrl: "https://tile.openstreetmap.org/0/0/0.png"
     }).addTo(mapInstance);
 
     markersLayer = L.layerGroup().addTo(mapInstance);
