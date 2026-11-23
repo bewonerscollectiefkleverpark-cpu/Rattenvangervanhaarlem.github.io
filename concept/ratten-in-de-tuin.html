@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
  const bs=main.querySelectorAll("section a.btn");if(bs[0])bs[0].textContent=l[14];if(bs[1])bs[1].textContent=l[15];
  document.documentElement.lang=lang.value;document.documentElement.dir=lang.value==="ar"?"rtl":"ltr";
  };
- lang?.addEventListener("change",apply);apply();
+ lang?.addEventListener("change",apply);apply();window.addEventListener("load",apply);
 });
 </script>
 </body></html>
