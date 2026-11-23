@@ -1031,6 +1031,77 @@ main #page-posters{
   box-shadow:none!important;
 }
 </style>
+<style id="rvh-header-full-width">
+/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
+.site-header,.wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  .site-header .site-header-inner{width:calc(100% - 28px)!important}
+}
+</style>
+
+<style id="rvh-map-header-nav-final">
+/* Rattenkaart: dezelfde brede header en beige navigatiebox als de homepage. */
+.site-header,.wrap > .site-header{
+  display:block!important;width:100vw!important;max-width:100vw!important;
+  position:relative!important;left:50%!important;transform:translateX(-50%)!important;
+  box-sizing:border-box!important;margin:18px 0 24px!important;padding:18px 0!important;
+  background:#eee7da!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;width:min(1120px,calc(100% - 32px))!important;max-width:1120px!important;
+  margin:0 auto!important;padding:0!important;box-sizing:border-box!important;
+}
+.site-brand{display:flex!important;align-items:center!important;gap:14px!important;max-width:100%!important}
+.site-brand img{width:66px!important;height:66px!important;flex:0 0 66px!important}
+.site-nav{
+  display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;align-items:center!important;
+  gap:7px!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;
+  background:#f4efe5!important;border:1px solid #dfd5c5!important;border-radius:10px!important;padding:10px!important;
+}
+.site-nav a{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:40px!important;padding:8px 11px!important;border-radius:8px!important;
+  background:#fff!important;color:#514431!important;border:1px solid #dfd5c5!important;
+  text-decoration:none!important;font-size:.9rem!important;font-weight:700!important;line-height:1.2!important;
+  white-space:normal!important;max-width:100%!important;text-align:center!important;box-sizing:border-box!important;
+}
+.site-nav a.rvh-nav-mail{background:#8f2929!important;color:#fff!important;border-color:#8f2929!important;margin-left:auto!important}
+.site-nav a:hover,.site-nav a:focus-visible{background:#514431!important;color:#fff!important}
+.site-nav a.rvh-nav-mail:hover,.site-nav a.rvh-nav-mail:focus-visible{background:#702020!important;color:#fff!important}
+@media(max-width:650px){
+ .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+ .site-header .site-header-inner{width:calc(100% - 28px)!important}
+ .site-brand{gap:10px!important}
+ .site-brand img{width:54px!important;height:54px!important;flex-basis:54px!important}
+ .site-nav{gap:6px!important;padding:8px!important}
+ .site-nav a{font-size:.82rem!important;padding:8px 9px!important;min-height:38px!important}
+ .site-nav a.rvh-nav-mail{margin-left:0!important}
+}
+</style>
 </head>
 
 <body>
