@@ -729,6 +729,14 @@ footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
  .card:hover,.choice-card:hover,.photo-card:hover,.illustration-card:hover,.info-card:hover,.content-card:hover,.poster-card:hover,.map-card:hover{box-shadow:var(--rvh-shadow-hover);transform:translateY(-1px)}
 }
 
+
+/* Posterpagina volgt dezelfde kaart- en schaduwhuisstijl als de overige pagina's */
+#page-posters{width:100%;max-width:100%;box-sizing:border-box;background:#fff!important;color:#29231b!important;border:1px solid #e5ddd0!important;border-radius:18px!important;padding:clamp(20px,3vw,32px)!important;margin:20px auto!important;box-shadow:0 5px 18px rgba(55,43,28,.10)!important}
+#page-posters>h2{color:#29231b!important;margin-top:0}
+#page-posters>.poster-grid{width:100%;margin-top:22px}
+#page-posters .poster-card{background:#fff!important;border:1px solid #e5ddd0!important;border-radius:14px!important;box-shadow:0 5px 18px rgba(55,43,28,.10)!important;padding:16px!important}
+#page-posters .poster-card img{background:#fbfaf7!important;border-color:#e5ddd0!important}
+@media(max-width:650px){#page-posters{padding:18px!important;margin:16px auto!important}}
 </style></head>
 
 <body>
@@ -922,7 +930,7 @@ footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
       </div>
     </section>
 
-    <section id="page-posters" class="hidden">
+    <section id="page-posters" class="section hidden">
       <h2 data-t="postersTitle">Posters om te printen</h2>
       <p data-t="postersIntro">Kies een poster en druk deze afzonderlijk af. Elke poster wordt passend gemaakt voor maximaal één A4.</p>
       <div class="notice poster-print-instruction"><strong data-t="posterInstruction">Print deze poster uit en hang hem in de meterkast. Zo heb je het telefoonnummer van Spaarnelanden altijd bij de hand om rattenoverlast te melden.</strong></div>
