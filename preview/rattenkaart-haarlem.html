@@ -875,17 +875,17 @@ footer{border-top:1px solid #dfd5c5!important;color:#756b5c!important}
       <div class="poster-grid">
         <article class="poster-card" id="poster-card-1">
           <h3 data-t="posterOne">Poster 1</h3>
-          <img src="../poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" loading="lazy">
+          <img src="../poster-haarlem-6-talen.png" alt="Poster over rattenoverlast in Haarlem, in zes talen" data-t-alt="posterAltOne" loading="lazy">
           <button type="button" class="print-poster" data-print-poster="1" data-t="printPoster">Print deze poster</button>
         </article>
         <article class="poster-card" id="poster-card-2">
           <h3 data-t="posterTwo">Poster 2</h3>
-          <img src="../Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <img src="../Samen%20tegen%20rattenoverlast%20in%20Haarlem%20%282%29.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="lazy">
           <button type="button" class="print-poster" data-print-poster="2" data-t="printPoster">Print deze poster</button>
         </article>
         <article class="poster-card" id="poster-card-3">
           <h3 data-t="posterThree">Poster 3</h3>
-          <img src="../-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" loading="lazy">
+          <img src="../-%20poster-samen-tegen-ratten-2.png" alt="Poster Samen tegen rattenoverlast in Haarlem" data-t-alt="posterAltOther" loading="lazy">
           <button type="button" class="print-poster" data-print-poster="3" data-t="printPoster">Print deze poster</button>
         </article>
       </div>
@@ -2240,6 +2240,12 @@ Object.assign(T.de,{documentTitle:"Rattenvanger van Haarlem | Mehrsprachige Meld
 Object.assign(T.fr,{documentTitle:"Rattenvanger van Haarlem | Carte des rats et signalements multilingues",metaDescription:"Signalez officiellement les problèmes de rats, enregistrez vos observations sur la carte et consultez les signalements en six langues."});
 Object.assign(T.tr,{documentTitle:"Rattenvanger van Haarlem | Çok dilli bildirim ve sıçan haritası",metaDescription:"Sıçan sorunlarını resmî olarak bildirin, gözlemleri haritaya kaydedin ve bildirimleri altı dilde görüntüleyin."});
 Object.assign(T.ar,{documentTitle:"Rattenvanger van Haarlem | خريطة الجرذان والبلاغات بست لغات",metaDescription:"أبلغ رسميًا عن مشكلات الجرذان، وسجّل المشاهدات على الخريطة، واعرض البلاغات بست لغات."});
+Object.assign(T.nl,{posterAltOne:"Poster over rattenoverlast in Haarlem, in zes talen",posterAltOther:"Poster Samen tegen rattenoverlast in Haarlem"});
+Object.assign(T.en,{posterAltOne:"Poster about rat problems in Haarlem, in six languages",posterAltOther:"Poster: Together against rat problems in Haarlem"});
+Object.assign(T.de,{posterAltOne:"Poster über Rattenprobleme in Haarlem, in sechs Sprachen",posterAltOther:"Poster: Gemeinsam gegen Rattenprobleme in Haarlem"});
+Object.assign(T.fr,{posterAltOne:"Affiche sur les problèmes de rats à Haarlem, en six langues",posterAltOther:"Affiche : Ensemble contre les problèmes de rats à Haarlem"});
+Object.assign(T.tr,{posterAltOne:"Haarlem'deki sıçan sorunuyla ilgili altı dilli poster",posterAltOther:"Poster: Haarlem'de sıçan sorununa karşı birlikte"});
+Object.assign(T.ar,{posterAltOne:"ملصق عن مشكلة الجرذان في هارلم بست لغات",posterAltOther:"ملصق: معًا لمواجهة مشكلة الجرذان في هارلم"});
   function applyLanguage() {
     if (!T[currentLang]) currentLang = "nl";
     document.title = T[currentLang].documentTitle;
@@ -2268,6 +2274,8 @@ Object.assign(T.ar,{documentTitle:"Rattenvanger van Haarlem | خريطة الج�
         el.placeholder = translation;
       }
     });
+
+    document.querySelectorAll("[data-t-alt]").forEach(el => { const key = el.dataset.tAlt; const translation = T[currentLang][key]; if (translation !== undefined) el.alt = translation; });
 
     document.querySelectorAll("[data-t-aria]").forEach(el => {
       const key = el.dataset.tAria;
