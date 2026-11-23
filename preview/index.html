@@ -191,7 +191,87 @@ footer{background:var(--rvh-ink)!important;color:#f5efe4!important}
 .page-main>.hero h1,.page-main>.hero h2{font-size:clamp(2rem,4vw,3rem)!important;line-height:1.12!important;max-width:850px!important}
 .page-main>.hero p{font-size:clamp(1.05rem,2vw,1.25rem)!important;line-height:1.6!important;max-width:850px!important;color:#514a40!important}
 @media(max-width:720px){.page-main>.hero{padding:24px!important}}
-</style></head>
+</style><style id="rvh-footer-exact-homepage">
+/* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
+footer{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  background:#29231b!important;
+  color:#f5efe4!important;
+  padding:26px 0!important;
+  margin:30px 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-footer-inner{
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  gap:20px!important;
+  flex-wrap:wrap!important;
+  box-sizing:border-box!important;
+}
+.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
+.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
+.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
+.site-footer-inner a{color:#fff!important}
+.site-footer-inner .home-footer{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;
+  color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important
+}
+.site-footer-inner .home-footer:hover{background:#514431!important}
+@media(max-width:650px){
+  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
+}
+</style>
+
+<style>
+/* Definitieve goedgekeurde rookproef-callout: witte tekst op rood */
+.proof strong[data-i="smokeTitle"]{color:#fff!important;background:#b32632!important}
+.more-info-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.more-info-links a{display:inline-block;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:#fffdf8;color:var(--blue);font-weight:700;text-decoration:none}.more-info-links a:hover{text-decoration:underline}</style>
+
+<style id="rvh-header-full-width">
+/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
+.site-header,.wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  .site-header .site-header-inner{width:calc(100% - 28px)!important}
+}
+</style>
+</head>
 <body>
 <div class="top"><div class="wrap"><strong data-i="strap">Onafhankelijk bewonersinitiatief · Haarlem</strong><label class="language"><span data-i="language">Taal</span><select id="language" aria-label="Kies taal" data-i-aria="languageAria"><option value="nl">Nederlands</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="ar">العربية</option></select></label></div></div>
 <header class="site-header"><div class="site-header-inner"><a class="site-brand" href="" aria-label="Rattenvanger van Haarlem – homepage"><img src="../IMG_0106.PNG" alt="Rattenvanger van Haarlem"><span><strong>Rattenvanger van Haarlem</strong><small>Samen maken we rattenoverlast zichtbaar</small></span></a><nav class="site-nav" aria-label="Hoofdnavigatie"><a href="index.html#melden">Melden</a><a href="rattenkaart-haarlem.html">Rattenkaart</a><a href="index.html#aanpak">Hoe werkt het?</a><a href="index.html#sporen">Informatie</a><a href="index.html#delen">Deel de website</a><a href="rattenkaart-haarlem.html?page=posters">Posters om te printen</a><a href="over-dit-initiatief.html">Over dit initiatief</a><a href="leefregels.html">Leefregels tegen ratten</a><a href="../concept/veelgestelde-vragen.html">Veelgestelde vragen</a><a href="../concept/ratten-en-het-riool.html">Ratten en het riool</a></nav></div></header>
@@ -342,86 +422,4 @@ Object.assign(translations.ar,{"logoAlt":"شعار راتنفانغر فان ه�
 function applyLanguage(lang){const dict=translations[lang]||translations.nl;translateReportForm(lang);document.title=dict.documentTitle;const metaDescription=document.querySelector('meta[name="description"]');if(metaDescription)metaDescription.content=dict.metaDescription;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";document.querySelectorAll("[data-i]").forEach(el=>{const key=el.dataset.i;if(dict[key])el.textContent=dict[key]});document.querySelectorAll("[data-i-alt]").forEach(el=>{const key=el.dataset.iAlt;if(dict[key])el.alt=dict[key]});document.querySelectorAll("[data-i-aria]").forEach(el=>{const key=el.dataset.iAria;if(dict[key])el.setAttribute("aria-label",dict[key])});document.getElementById("language").value=lang;try{localStorage.setItem("rvh-language",lang)}catch(e){}}
 const selector=document.getElementById("language");selector.addEventListener("change",()=>applyLanguage(selector.value));let saved="nl";try{saved=localStorage.getItem("rvh-language")||"nl"}catch(e){}const requestedLanguage=new URLSearchParams(window.location.search).get("lang");if(requestedLanguage&&translations[requestedLanguage])saved=requestedLanguage;applyLanguage(saved);
 </script>
-</body></
-<style id="rvh-footer-exact-homepage">
-/* Exacte voettekst volgens de homepage: volle schermbreedte, inhoud gecentreerd. */
-footer{
-  display:block!important;
-  width:100vw!important;
-  max-width:100vw!important;
-  position:relative!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  box-sizing:border-box!important;
-  background:#29231b!important;
-  color:#f5efe4!important;
-  padding:26px 0!important;
-  margin:30px 0 0!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-.site-footer-inner{
-  width:min(1120px,calc(100% - 32px))!important;
-  max-width:1120px!important;
-  margin:0 auto!important;
-  display:flex!important;
-  justify-content:space-between!important;
-  align-items:flex-start!important;
-  gap:20px!important;
-  flex-wrap:wrap!important;
-  box-sizing:border-box!important;
-}
-.site-footer-inner strong{display:block!important;color:#fff!important;font-size:1.1rem!important;margin-bottom:6px!important}
-.site-footer-inner p{margin:6px 0!important;color:#f5efe4!important}
-.site-footer-inner .small{font-size:.88rem!important;color:#e5d9c8!important}
-.site-footer-inner a{color:#fff!important}
-.site-footer-inner .home-footer{
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;
-  padding:9px 22px!important;border:1px solid #e5d4b5!important;border-radius:24px!important;
-  color:#fff!important;text-decoration:none!important;font-weight:800!important;letter-spacing:.06em!important
-}
-.site-footer-inner .home-footer:hover{background:#514431!important}
-@media(max-width:650px){
-  .site-footer-inner{width:calc(100% - 28px)!important;flex-direction:column!important;gap:12px!important}
-}
-</style>
-html>
-
-
-<style>
-/* Definitieve goedgekeurde rookproef-callout: witte tekst op rood */
-.proof strong[data-i="smokeTitle"]{color:#fff!important;background:#b32632!important}
-.more-info-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.more-info-links a{display:inline-block;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:#fffdf8;color:var(--blue);font-weight:700;text-decoration:none}.more-info-links a:hover{text-decoration:underline}</style>
-
-<style id="rvh-header-full-width">
-/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
-.site-header,.wrap > .site-header{
-  display:block!important;
-  width:100vw!important;
-  max-width:100vw!important;
-  min-height:0!important;
-  position:relative!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  box-sizing:border-box!important;
-  margin:18px 0 24px!important;
-  padding:18px 0!important;
-  background:#eee7da!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-.site-header .site-header-inner{
-  display:block!important;
-  width:min(1120px,calc(100% - 32px))!important;
-  max-width:1120px!important;
-  margin:0 auto!important;
-  padding:0!important;
-  box-sizing:border-box!important;
-}
-@media(max-width:650px){
-  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
-  .site-header .site-header-inner{width:calc(100% - 28px)!important}
-}
-</style>
+</body></html>
