@@ -1067,7 +1067,23 @@ main #page-posters{
 
 
 <style id="rvh-rattenkaart-header-match-homepage">
-/* De header staat op deze pagina binnen .wrap; trek hem daarom exact gelijk aan de full-width homepage-header. */
+/* Bovenbalk en zandkleurige header volgen exact de homepage. */
+/* De buitenste kaart-wrapper had 24px bovenpadding en duwde de header omlaag. */
+body > .wrap{padding-top:0!important}
+/* Zelfde lettertype, grootte, regelhoogte en letterafstand als de homepage-bovenbalk. */
+body > .div.top,
+.top.rvh-top{
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-size:.9rem!important;
+  line-height:1.6!important;
+}
+.top.rvh-top strong{
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-size:.9rem!important;
+  font-weight:700!important;
+  line-height:1.6!important;
+  letter-spacing:.04em!important;
+}
 body > .wrap > .site-header{
   display:block!important;
   width:100vw!important;
