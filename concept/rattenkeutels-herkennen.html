@@ -102,3 +102,34 @@ ar:{breadcrumbHome:"الرئيسية",breadcrumbLabel:"التعرّف على ف�
 function applyPageLanguage(){const l=document.getElementById("language")?.value||"nl",d=PAGE_T[l]||PAGE_T.nl;document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";document.querySelectorAll("[data-page]").forEach(el=>{const v=d[el.dataset.page];if(v!==undefined)el.textContent=v});document.title=d.title+" | Rattenvanger van Haarlem";const m=document.querySelector('meta[name="description"]');if(m)m.content=d.description;}
 document.addEventListener("DOMContentLoaded",applyPageLanguage);document.getElementById("language")?.addEventListener("change",applyPageLanguage);
 </script></body></html>
+<style id="rvh-header-full-width">
+/* De volledige zandkleurige kopbalk loopt van schermrand tot schermrand. */
+.site-header,.wrap > .site-header{
+  display:block!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-height:0!important;
+  position:relative!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  box-sizing:border-box!important;
+  margin:18px 0 24px!important;
+  padding:18px 0!important;
+  background:#eee7da!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.site-header .site-header-inner{
+  display:block!important;
+  width:min(1120px,calc(100% - 32px))!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:650px){
+  .site-header,.wrap > .site-header{padding:14px 0!important;margin:14px 0 20px!important}
+  .site-header .site-header-inner{width:calc(100% - 28px)!important}
+}
+</style>
