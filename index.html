@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#29231b">
-  <title>Rattenoverlast melden – Rattenvanger van Haarlem</title>
+  <title>Rattenvanger van Haarlem – Meldingen</title>
   <meta name="description" content="Meld rattenoverlast in Haarlem bij Spaarnelanden en op de rattenkaart.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,13 +163,18 @@
 
     main { padding: 0 0 42px; }
 
-    section {
+    section.page-view {
+      display: none;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 20px;
       padding: clamp(20px, 4vw, 38px);
       margin-bottom: 22px;
       box-shadow: 0 5px 24px rgba(40,35,25,.035);
+    }
+
+    section.page-view.is-active {
+      display: block;
     }
 
     h2 {
@@ -382,6 +387,49 @@
     .btn-green { background: var(--green); }
     .btn-green:hover { background: #52654b; }
 
+    .map-frame-wrap {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fbf9f5;
+    }
+
+    .map-frame-wrap iframe {
+      width: 100%;
+      height: 560px;
+      border: 0;
+      display: block;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .quick-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbf9f5;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .quick-card strong {
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .quick-card span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
     footer {
       padding: 20px 4px;
       color: var(--muted);
@@ -411,12 +459,13 @@
     }
 
     @media (max-width: 860px) {
-      .two-col { grid-template-columns: 1fr; }
+      .two-col, .quick-links { grid-template-columns: 1fr; }
+      .map-frame-wrap iframe { height: 460px; }
     }
 
     @media (max-width: 680px) {
       .field-grid { grid-template-columns: 1fr; }
-      section { border-radius: 16px; }
+      section.page-view { border-radius: 16px; }
       footer { justify-content: center; text-align: center; }
     }
   </style>
@@ -425,12 +474,12 @@
   <div class="top">
     <div class="wrap">
       <strong>RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
-      <a href="#page-report">Direct melden</a>
+      <a href="index.html#page-report" data-page-target="page-report">Direct melden</a>
     </div>
   </div>
 
   <header class="site-header">
-    <a class="site-brand" href="index.html">
+    <a class="site-brand" href="index.html#page-report" data-page-target="page-report">
       <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
       <span>
         <strong>Rattenvanger van Haarlem</strong>
@@ -439,11 +488,11 @@
     </a>
 
     <nav class="site-nav" aria-label="Hoofdnavigatie">
-      <a href="index.html#page-report" class="active">Mail Spaarnelanden</a>
-      <a href="index.html#page-map">Rattenkaart: waar zijn de hotspots?</a>
-      <a href="index.html#page-rules">Leefregels tegen ratten</a>
-      <a href="index.html#page-info">Informatie</a>
-      <a href="index.html#page-posters">Posters om te printen</a>
+      <a href="index.html#page-report" data-page-target="page-report" class="active">Mail Spaarnelanden</a>
+      <a href="rattenkaart.html" data-page-target="page-map">Rattenkaart: waar zijn de hotspots?</a>
+      <a href="leefregels.html" data-page-target="page-rules">Leefregels tegen ratten</a>
+      <a href="informatie.html" data-page-target="page-info">Informatie</a>
+      <a href="posters.html" data-page-target="page-posters">Posters om te printen</a>
       <a href="rattenkeutels-herkennen.html">Rattenkeutels herkennen</a>
       <a href="veelgestelde-vragen.html">Veelgestelde vragen</a>
       <a href="ratten-en-het-riool.html">Ratten en het riool</a>
@@ -452,7 +501,8 @@
 
   <div class="wrap">
     <main>
-      <section id="page-report">
+      <!-- EIGEN WEERGAVE 1: MELDINGEN (#page-report) -->
+      <section id="page-report" class="page-view is-active">
         <h2>Rattenoverlast melden in Haarlem</h2>
         <p>Hieronder zie je stap voor stap hoe een officiële melding bij Spaarnelanden loopt en hoe je ook een melding op onze rattenkaart zet.</p>
 
@@ -514,7 +564,7 @@
             </div>
 
             <div class="actions">
-              <a class="btn-green" href="index.html#page-map">Meld op de rattenkaart</a>
+              <a class="btn-green" href="rattenkaart.html" data-page-target="page-map">Meld op de rattenkaart</a>
             </div>
           </div>
         </div>
@@ -560,6 +610,62 @@
           </form>
         </div>
       </section>
+
+      <!-- EIGEN WEERGAVE 2: RATTENKAART (#page-map) -->
+      <section id="page-map" class="page-view">
+        <h2>Rattenkaart: waar zijn de hotspots?</h2>
+        <p>Bekijk waar meldingen van ratten, keutels en holen in Haarlem zijn gedaan en voeg jouw eigen waarneming toe aan de kaart.</p>
+        <div class="visibility-banner">
+          Wij maken zichtbaar wat onzichtbaar wordt gehouden door de gemeente Haarlem.
+        </div>
+        <div class="map-frame-wrap">
+          <iframe
+            src="https://bewonerscollectiefkleverpark-cpu.github.io/Rattenvangervanhaarlem.github.io/"
+            title="Rattenkaart Haarlem"
+            loading="lazy">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- EIGEN WEERGAVE 3: LEEFREGELS (#page-rules) -->
+      <section id="page-rules" class="page-view">
+        <h2>Leefregels tegen ratten</h2>
+        <p>Met kleine aanpassingen in huis, tuin en rond afval verklein je voedsel, water en schuilplekken voor ratten:</p>
+        <ul class="info-list">
+          <li>Bied geen los etensresten, vogelvoer op de grond of open afvalzakken aan.</li>
+          <li>Houd kliko's en containers goed gesloten en voorkom stapels rommel, hout of puin tegen muren en schuttingen.</li>
+          <li>Sluit openingen rond leidingen, gevels en riolering af.</li>
+        </ul>
+      </section>
+
+      <!-- EIGEN WEERGAVE 4: INFORMATIE (#page-info) -->
+      <section id="page-info" class="page-view">
+        <h2>Informatie</h2>
+        <p>Lees meer over sporen herkennen, veelgestelde vragen en de verantwoordelijkheid rond het riool:</p>
+        <div class="quick-links">
+          <a class="quick-card" href="rattenkeutels-herkennen.html">
+            <strong>Rattenkeutels herkennen</strong>
+            <span>Keutels, gangen, holen, knaagschade en vergelijkingsfoto's.</span>
+          </a>
+          <a class="quick-card" href="veelgestelde-vragen.html">
+            <strong>Veelgestelde vragen</strong>
+            <span>Alles over Spaarnelanden, Anticimex, rooktest en privacy.</span>
+          </a>
+          <a class="quick-card" href="ratten-en-het-riool.html">
+            <strong>Ratten en het riool</strong>
+            <span>Eigen grond vs. gemeentegrond, gaten op straat en meldingen.</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- EIGEN WEERGAVE 5: POSTERS (#page-posters) -->
+      <section id="page-posters" class="page-view">
+        <h2>Posters om te printen</h2>
+        <p>Print een poster en hang deze in de straat, portiek of buurt om andere bewoners te wijzen op het melden van rattenoverlast.</p>
+        <div class="actions">
+          <button type="button" class="btn-green" onclick="window.print()">Print deze pagina / poster</button>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -570,6 +676,36 @@
 
   <script>
     (function () {
+      const views = Array.from(document.querySelectorAll("section.page-view"));
+      const navLinks = Array.from(document.querySelectorAll(".site-nav a"));
+
+      function showView(targetId) {
+        const chosen = views.some(v => v.id === targetId) ? targetId : "page-report";
+        views.forEach(v => v.classList.toggle("is-active", v.id === chosen));
+        navLinks.forEach(a => {
+          a.classList.toggle("active", a.getAttribute("data-page-target") === chosen);
+        });
+      }
+
+      document.querySelectorAll("[data-page-target]").forEach(el => {
+        el.addEventListener("click", function (event) {
+          const targetId = this.getAttribute("data-page-target");
+          if (!targetId || !views.some(v => v.id === targetId)) return;
+          event.preventDefault();
+          history.replaceState(null, "", "#" + targetId);
+          showView(targetId);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      window.addEventListener("hashchange", function () {
+        showView(location.hash.replace("#", ""));
+      });
+
+      if (location.hash) {
+        showView(location.hash.replace("#", ""));
+      }
+
       const form = document.getElementById("mailSpaarnelandenForm");
       if (!form) return;
 
