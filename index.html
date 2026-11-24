@@ -112,11 +112,6 @@
       margin: 22px 0;
     }
 
-    [dir="rtl"] .notice {
-      border-left: 1px solid #eee5d7;
-      border-right: 4px solid var(--green);
-    }
-
     .primary {
       display: inline-block;
       text-decoration: none;
@@ -146,13 +141,12 @@
     .choice-panel-full .choice-card h3 { margin:0; font-size:1.2rem; font-weight:800; }
     .choice-panel-full .choice-card > strong { font-size:1rem; }
     .choice-panel-full .choice-card p { line-height:1.55; }
-    .choice-panel-full .choice-warning { background:#fff0e9; border-left:4px solid var(--red); padding:12px; border-radius:8px; }
+    .choice-panel-full .choice-warning { background:#fff0e9; border-left:4px solid var(--red); padding:12px; border-radius:8px; font-weight:700; }
     .choice-panel-full .choice-why { margin-top:22px; padding-top:18px; border-top:2px solid #eadbd2; }
     .choice-panel-full .choice-why h3 { margin:0 0 8px; font-size:1.2rem; font-weight:800; }
     .choice-panel-full .choice-why p { margin:8px 0; }
     .choice-panel-full .choice-slogan { font-weight:800; font-size:1.08rem; }
     .choice-panel { background:#fffaf5; border:3px solid var(--red); border-radius:18px; padding:clamp(18px,3vw,28px); margin:22px 0 26px; box-shadow:0 5px 18px rgba(80,40,30,.08); }
-    .choice-panel > h3 { margin:0 0 17px; text-align:center; font-size:clamp(20px,3vw,25px); font-weight:800; }
     .choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
     .choice-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:10px; border:2px solid var(--line); border-radius:14px; background:#fff; padding:20px; }
     .choice-official { border-color:#a94338; }
@@ -295,36 +289,7 @@
       margin-top: 14px;
     }
 
-    .rules-action-panel { margin:26px 0; padding:clamp(18px,3vw,28px); border:3px solid var(--red); border-radius:18px; background:linear-gradient(145deg,#fffaf5 0%,#fff 72%); box-shadow:0 7px 22px rgba(75,45,30,.09); }
-    .rules-action-heading { max-width:760px; margin-bottom:20px; }
-    .rules-action-kicker { display:inline-block; padding:6px 10px; border-radius:999px; background:#f8e5dc; color:#8d3025; font-size:12px; font-weight:900; letter-spacing:.07em; }
-    .rules-action-heading h3 { margin:12px 0 7px; font-size:clamp(23px,3vw,30px); line-height:1.15; }
-    .rules-action-heading p { margin:0; font-size:16px; line-height:1.55; }
-    .rules-action-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
-    .rules-action-card { display:flex; align-items:flex-start; gap:13px; min-width:0; padding:16px; border:1px solid #eadbd2; border-radius:14px; background:#fff; }
-    .rules-number { display:flex; flex:0 0 38px; width:38px; height:38px; align-items:center; justify-content:center; border-radius:50%; background:var(--red); color:#fff; font-size:19px; font-weight:900; }
-    .rules-action-card h4 { margin:2px 0 5px; font-size:16px; line-height:1.3; }
-    .rules-action-card p { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
-    @media(max-width:680px) { .rules-action-grid { grid-template-columns:1fr; } .rules-action-card { padding:14px; } }
-
-    .responsibility-panel{margin:26px 0;padding:clamp(18px,3vw,28px);border:2px solid #687b60;border-radius:18px;background:#f7faf5}
-    .responsibility-panel h3{margin:0 0 10px;font-size:clamp(21px,3vw,27px);line-height:1.25}
-    .responsibility-panel p{line-height:1.6}
-    .responsibility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
-    .responsibility-card{padding:17px;border:1px solid #dce5d7;border-radius:13px;background:#fff}
-    .responsibility-card h4{margin:0 0 7px;font-size:17px}
-    .responsibility-card p{margin:0;font-size:14px}
-    .hotspot-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
-    .hotspot-panel h3{margin:0 0 10px;font-size:clamp(22px,3vw,28px);line-height:1.25}
-    .hotspot-panel p{line-height:1.65}
-    .hotspot-emphasis{font-weight:900;font-size:clamp(19px,3vw,25px);line-height:1.25;color:var(--red-dark);letter-spacing:-.3px;margin:0 0 10px}
-    @media(max-width:680px){.responsibility-grid{grid-template-columns:1fr}}
-
     .reporting-fatigue-banner{margin:16px 0 22px;padding:16px 20px;border:3px solid var(--red);border-radius:14px;background:#fff0eb;color:var(--red-dark);text-align:center;font-size:clamp(21px,3.5vw,29px);font-weight:900;line-height:1.25;box-shadow:0 5px 16px rgba(80,40,30,.08)}
-    .reporting-fatigue-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
-    .reporting-fatigue-panel h3{margin:0 0 12px;color:var(--red-dark);font-size:clamp(23px,3vw,29px);line-height:1.25}
-    .reporting-fatigue-panel p,.reporting-fatigue-panel li{line-height:1.6}
-    .reporting-fatigue-panel .fatigue-callout{font-size:1.2rem;font-weight:900;color:var(--red-dark)}
 
     .privacy-panel{margin:26px 0;padding:clamp(20px,3.5vw,32px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 7px 24px rgba(80,40,30,.10)}
     .privacy-heading{display:flex;align-items:center;gap:14px;margin-bottom:12px}
@@ -554,38 +519,38 @@
         <h2>Rattenoverlast melden in Haarlem</h2>
         <div class="reporting-fatigue-banner" role="note">Meld iedere keer opnieuw!</div>
         <div class="choice-panel choice-panel-full">
-          <p class="choice-intro">Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!</p>
+          <p class="choice-intro">Kies wat je wilt doen. Je mag beide knoppen gebruiken.</p>
           <div class="choice-grid">
             <div class="choice-card choice-official">
               <span class="choice-number">1</span>
               <h3>Knop: Mail Spaarnelanden</h3>
               <strong>Voor een officiële melding en gratis hulp aan huis.</strong>
               <div class="arrow-flow" aria-label="Route voor officiële melding">
-                <div class="arrow-step">1. Klik op de knop <strong>Mail Spaarnelanden</strong> om een e-mail aan Spaarnelanden te openen. Vul je gegevens aan en verstuur de e-mail zelf.</div>
+                <div class="arrow-step">1. Klik op <strong>Mail Spaarnelanden</strong> en verstuur de mail zelf.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
                 <div class="arrow-step">2. Spaarnelanden schakelt Anticimex in.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
-                <div class="arrow-step">3. Anticimex neemt contact met je op.</div>
+                <div class="arrow-step">3. Anticimex belt je.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
-                <div class="arrow-step">4. Een medewerker komt gratis bij je langs en helpt je bij de aanpak van de rattenoverlast. Vraag bij het bezoek ook om een <strong>gratis rooktest</strong> om mogelijke ingangen en looproutes van ratten op te sporen.</div>
+                <div class="arrow-step">4. Gratis hulp aan huis. Vraag ook om een <strong>gratis rooktest</strong>.</div>
               </div>
-              <p><strong>Sinds november 2026 kun je hiervoor onbeperkt vaak gratis hulp krijgen.</strong></p>
+              <p><strong>Sinds november 2026 onbeperkt gratis hulp.</strong></p>
               <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl">Mail Spaarnelanden</a>
             </div>
+
             <div class="choice-card choice-map">
               <span class="choice-number">2</span>
               <h3>Knop: Meld op de rattenkaart</h3>
-              <strong>Om buurtbewoners te laten zien waar rattenoverlast voorkomt.</strong>
-              <p>Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.</p>
-              <p>Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.</p>
+              <strong>Laat de buurt zien waar ratten, keutels of holen zijn.</strong>
               <div class="visibility-highlight" role="heading" aria-level="3">Wij maken zichtbaar wat onzichtbaar wordt gehouden</div>
-              <p class="choice-warning"><strong>Let op:</strong> een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.</p>
+              <p class="choice-warning">Let op: dit is géén melding bij Spaarnelanden. Mail Spaarnelanden óók voor hulp.</p>
               <button type="button" class="choice-button" id="mapChoiceButton">Meld op de rattenkaart</button>
             </div>
           </div>
+
           <div class="choice-why">
             <h3>Waarom twee knoppen?</h3>
-            <p>De officiële meldingen geven toegang tot hulp. De rattenkaart maakt de overlast zichtbaar voor de buurt. Door beide te gebruiken, help je jezelf én je medebuurtbewoners.</p>
+            <p>Spaarnelanden is voor hulp. De kaart maakt de overlast zichtbaar voor de buurt.</p>
             <p class="choice-slogan">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
           </div>
         </div>
@@ -608,8 +573,8 @@
                 <input type="tel" id="spTelefoon" name="telefoon" placeholder="Bijvoorbeeld: 06-12345678" required>
               </div>
               <div class="field" style="margin:0;">
-                <label for="spDatum">Op welke datum was het?</label>
-                <input type="date" id="spDatum" name="datum" required>
+                <label for="spDatum">Op welke datum was het? (dd-mm-jjjj)</label>
+                <input type="text" id="spDatum" name="datum" placeholder="dd-mm-jjjj" inputmode="numeric" required>
               </div>
               <div class="field mail-field-full" style="margin:0;">
                 <label for="spBeschrijving">Wat te melden over ratten beschrijven</label>
@@ -623,13 +588,13 @@
         </div>
 
         <p class="muted">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
-        <label class="check"><input type="checkbox" id="returned"><span>Ik heb de e-mail geopend en ben teruggekeerd naar deze website.</span></label>
+        <label class="check"><input type="checkbox" id="returned"><span>Ik heb een officiële melding gedaan en wil voor mijn mede-Haarlemmers de rattenkaart aanvullen om de rattenoverlast zichtbaar te maken.</span></label>
         <div class="actions"><button type="button" id="unlockButton" disabled>Bekijk de kaart</button></div>
       </section>
 
       <section id="page-map" class="hidden">
         <h2>Rattenkaart: waar zijn de hotspots?</h2>
-        <p>Hieronder vul je een straat in Haarlem in om te melden wat je hebt gezien. Zo ziet heel Haarlem waar drukste plekken (hotspots) ontstaan.</p>
+        <p>Vul een straat in Haarlem in om je waarneming te plaatsen.</p>
         <div class="visibility-highlight" role="heading" aria-level="3">Wij maken zichtbaar wat onzichtbaar wordt gehouden</div>
 
         <div class="notice">
@@ -705,100 +670,40 @@
 
       <section id="page-rules" class="hidden">
         <h2>Leefregels tegen ratten</h2>
-        <p>Ratten hebben drie dingen nodig: voedsel, water en beschutting. Met een paar eenvoudige gewoontes verklein je de kans op ratten in huis, tuin en buurt.</p>
+        <p>Ratten hebben voedsel, water en schuilplekken nodig. Met een paar eenvoudige gewoontes verklein je de kans op ratten.</p>
 
-        <div class="rules-action-panel">
-          <div class="rules-action-heading">
-            <span class="rules-action-kicker">PRAKTISCHE LEEFREGELS</span>
-            <h3>Wat kun je zelf doen om ratten te beperken?</h3>
-            <p>Maak het voor ratten zo onaantrekkelijk mogelijk om voedsel of schuilplekken te vinden in en rondom de woning.</p>
-          </div>
-          <div class="rules-action-grid">
-            <div class="rules-action-card">
-              <span class="rules-number">1</span>
-              <div>
-                <h4>Geen etensresten of vogelvoer los</h4>
-                <p>Gooi geen etensresten op straat of in de tuin en voorkom dat vogelvoer op de grond valt.</p>
-              </div>
-            </div>
-            <div class="rules-action-card">
-              <span class="rules-number">2</span>
-              <div>
-                <h4>Afval netjes opbergen</h4>
-                <p>Zet afvalzakken niet los op straat en houd kliko's en containers goed gesloten.</p>
-              </div>
-            </div>
-            <div class="rules-action-card">
-              <span class="rules-number">3</span>
-              <div>
-                <h4>Weinig schuilplekken</h4>
-                <p>Ruim rommel, houtstapels en dichte begroeiing langs muren en schuttingen op.</p>
-              </div>
-            </div>
-            <div class="rules-action-card">
-              <span class="rules-number">4</span>
-              <div>
-                <h4>Openingen dichten</h4>
-                <p>Houd openingen rond leidingen, gevels en riolering goed in de gaten en meld gebreken.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ul class="info-list">
+          <li><strong>Geen etensresten of vogelvoer los:</strong> gooi geen eten op straat of in de tuin en voorkom gemorst vogelvoer.</li>
+          <li><strong>Afval netjes opbergen:</strong> zet afvalzakken niet los op straat en sluit kliko's en containers goed.</li>
+          <li><strong>Weinig schuilplekken:</strong> ruim rommel, houtstapels en dichte begroeiing langs muren en schuttingen op.</li>
+          <li><strong>Openingen dichten:</strong> let op gaten bij leidingen, gevels en riolering en meld gebreken.</li>
+        </ul>
       </section>
 
       <section id="page-info" class="hidden">
         <h2>Over dit initiatief</h2>
-        <p>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.</p>
+        <p>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. Samen maken we zichtbaar wat onzichtbaar wordt gehouden over rattenoverlast in Haarlem.</p>
 
         <ul class="info-list">
-          <li>Wij zijn geen ongediertebestrijders. We vangen en bestrijden zelf geen ratten.</li>
-          <li>We vragen geen huisnummer, naam of andere privégegevens voor de kaart.</li>
-          <li>Je kunt ook zonder te melden naar de kaart gaan via het menu bovenin.</li>
-          <li>Deze kaart is een bewonersinitiatief en geen officiële gemeentekaart.</li>
-          <li>Doe altijd ook een officiële melding bij Spaarnelanden en vraag bij een bezoek van Anticimex om een gratis rooktest.</li>
+          <li><strong>Geen ongediertebestrijders:</strong> wij vangen of bestrijden zelf geen ratten.</li>
+          <li><strong>Officiële melding blijft nodig:</strong> mail altijd Spaarnelanden voor hulp aan huis en vraag bij Anticimex om een gratis rooktest.</li>
+          <li><strong>Vrij toegankelijk:</strong> je kunt de kaart ook zonder melding bekijken via het menu.</li>
         </ul>
-
-        <div class="responsibility-panel">
-          <h3>Verantwoordelijkheid</h3>
-          <p>Op eigen terrein ligt de verantwoordelijkheid bij de eigenaar of verhuurder; in de openbare ruimte (en direct vanaf de gevel waar geen voortuin is) ligt het beheer en herstel bij de gemeente.</p>
-          <div class="responsibility-grid">
-            <div class="responsibility-card">
-              <h4>Eigen grond / woning</h4>
-              <p>Riolering en leidingen onder het huis en onder eigen grond vallen onder de verantwoordelijkheid van eigenaar of verhuurder.</p>
-            </div>
-            <div class="responsibility-card">
-              <h4>Openbare ruimte</h4>
-              <p>Straten, stoepen en het openbare riool vallen onder de gemeente; meld gaten of verzakkingen bij Spaarnelanden.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="hotspot-panel">
-          <h3>Hotspots in beeld</h3>
-          <p class="hotspot-emphasis">Wij maken zichtbaar wat onzichtbaar wordt gehouden</p>
-          <p>Door meldingen op straatniveau samen te brengen krijgen bewoners inzicht in waar ratten, keutels en holen voorkomen.</p>
-        </div>
-
-        <div class="reporting-fatigue-panel">
-          <h3>Meld iedere keer opnieuw</h3>
-          <p class="fatigue-callout">Blijf elke nieuwe waarneming melden.</p>
-          <p>Zo blijft zichtbaar wat er in de wijken speelt en waarom structurele aanpak en rioolcontrole nodig zijn.</p>
-        </div>
 
         <div class="privacy-panel">
           <div class="privacy-heading">
             <span class="privacy-symbol" aria-hidden="true">🔒</span>
             <div>
-              <p class="privacy-kicker">PRIVACY OP DE KAART</p>
-              <h3>Geen huisnummers of persoonsgegevens</h3>
+              <p class="privacy-kicker">PRIVACY</p>
+              <h3>Geen persoonsgegevens of huisnummers op de kaart</h3>
             </div>
           </div>
           <p class="privacy-lead">De rattenkaart toont meldingen alleen op straatniveau.</p>
           <ul class="privacy-list">
-            <li>We vragen geen naam, adres met huisnummer, telefoonnummer of e-mailadres voor de kaart.</li>
-            <li>De stip op de kaart staat op een willekeurig punt in de straat en niet bij een specifieke woning.</li>
+            <li>Geen naam, adres met huisnummer, telefoonnummer of e-mailadres voor de kaart.</li>
+            <li>De stip komt op een willekeurige plek in de straat te staan, nooit bij een huisnummer.</li>
           </ul>
-          <p class="privacy-caveat">Let op: bij het invullen van het formulier voor Spaarnelanden vul je zelf je gegevens in om een e-mail aan Spaarnelanden te sturen.</p>
+          <p class="privacy-caveat">Alleen als je de e-mail aan Spaarnelanden invult, vul je daar zelf je gegevens in om je melding te versturen.</p>
         </div>
       </section>
 
@@ -807,9 +712,19 @@
         <p class="poster-print-instruction">Print een poster en hang deze in de straat of portiek om buurtbewoners te informeren.</p>
         <div class="poster-grid">
           <div class="poster-card">
-            <h3>Poster 1 — Melden &amp; rattenkaart</h3>
+            <h3>Poster 1</h3>
             <img src="IMG_0106.PNG" alt="Poster 1 Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
             <button type="button" class="print-poster-btn">Print Poster 1</button>
+          </div>
+          <div class="poster-card">
+            <h3>Poster 2</h3>
+            <img src="IMG_0106.PNG" alt="Poster 2 Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
+            <button type="button" class="print-poster-btn">Print Poster 2</button>
+          </div>
+          <div class="poster-card">
+            <h3>Poster 3</h3>
+            <img src="IMG_0106.PNG" alt="Poster 3 Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
+            <button type="button" class="print-poster-btn">Print Poster 3</button>
           </div>
         </div>
       </section>
@@ -921,7 +836,7 @@
           return { ok: false, reason: "check spelling" };
         }
         if (/\d/.test(cleanName)) {
-          return { ok: false, reason: "check spelling — vul alleen de straatnaam in zonder huisnummer" };
+          return { ok: false, reason: "check spelling" };
         }
 
         const targetKey = normalizeStreetKey(cleanName);
@@ -1329,6 +1244,8 @@
             "",
             "Beschrijving:",
             beschrijving,
+            "",
+            "Graag ontvang ik van Spaarnelanden een ontvangstbevestiging van deze melding.",
             "",
             "Met vriendelijke groet,",
             naam
