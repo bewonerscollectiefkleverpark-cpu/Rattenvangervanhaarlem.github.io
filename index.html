@@ -181,10 +181,12 @@
       border: 2px solid var(--red);
       border-left: 5px solid var(--red);
       border-radius: 10px;
-      padding: 12px 14px;
-      font-weight: 800;
+      padding: 14px 16px;
+      font-size: clamp(19px, 3vw, 25px);
+      font-weight: 900;
       color: var(--red-dark);
-      line-height: 1.45;
+      line-height: 1.25;
+      letter-spacing: -.3px;
     }
 
     .spaarnelanden-mail-box {
@@ -315,7 +317,7 @@
     .hotspot-panel{margin:26px 0;padding:clamp(20px,3vw,30px);border:3px solid var(--red);border-radius:18px;background:#fff8f3;box-shadow:0 6px 20px rgba(80,40,30,.07)}
     .hotspot-panel h3{margin:0 0 10px;font-size:clamp(22px,3vw,28px);line-height:1.25}
     .hotspot-panel p{line-height:1.65}
-    .hotspot-emphasis{font-weight:800;font-size:1.05rem}
+    .hotspot-emphasis{font-weight:900;font-size:clamp(19px,3vw,25px);line-height:1.25;color:var(--red-dark);letter-spacing:-.3px;margin:0 0 10px}
     @media(max-width:680px){.responsibility-grid{grid-template-columns:1fr}}
 
     .reporting-fatigue-banner{margin:16px 0 22px;padding:16px 20px;border:3px solid var(--red);border-radius:14px;background:#fff0eb;color:var(--red-dark);text-align:center;font-size:clamp(21px,3.5vw,29px);font-weight:900;line-height:1.25;box-shadow:0 5px 16px rgba(80,40,30,.08)}
@@ -576,7 +578,7 @@
               <strong>Om buurtbewoners te laten zien waar rattenoverlast voorkomt.</strong>
               <p>Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.</p>
               <p>Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.</p>
-              <div class="visibility-highlight">Wij maken zichtbaar wat onzichtbaar wordt gehouden door de gemeente Haarlem.</div>
+              <div class="visibility-highlight" role="heading" aria-level="3">Wij maken zichtbaar wat onzichtbaar wordt gehouden</div>
               <p class="choice-warning"><strong>Let op:</strong> een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.</p>
               <button type="button" class="choice-button" id="mapChoiceButton">Meld op de rattenkaart</button>
             </div>
@@ -628,7 +630,7 @@
       <section id="page-map" class="hidden">
         <h2>Rattenkaart: waar zijn de hotspots?</h2>
         <p>Hieronder vul je een straat in Haarlem in om te melden wat je hebt gezien. Zo ziet heel Haarlem waar drukste plekken (hotspots) ontstaan.</p>
-        <div class="visibility-highlight">Wij laten zien wat de gemeente Haarlem liever verstopt houdt voor mensen die het nog niet weten.</div>
+        <div class="visibility-highlight" role="heading" aria-level="3">Wij maken zichtbaar wat onzichtbaar wordt gehouden</div>
 
         <div class="notice">
           We tellen alle meldingen in een straat van het afgelopen jaar bij elkaar op. Ziet iemand vaker dezelfde rat, of zien twee buren dezelfde rat? Dan telt die toch mee in het totaal. Het is dus een optelsom van meldingen, geen telling van losse dieren.
@@ -773,7 +775,7 @@
 
         <div class="hotspot-panel">
           <h3>Hotspots in beeld</h3>
-          <p class="hotspot-emphasis">Wij maken zichtbaar wat onzichtbaar wordt gehouden door de gemeente Haarlem.</p>
+          <p class="hotspot-emphasis">Wij maken zichtbaar wat onzichtbaar wordt gehouden</p>
           <p>Door meldingen op straatniveau samen te brengen krijgen bewoners inzicht in waar ratten, keutels en holen voorkomen.</p>
         </div>
 
@@ -828,7 +830,7 @@
       const STORAGE_KEY = "rvh_map_reports_v6";
       const RANDOM_PINS_KEY = "rvh_street_random_pins_v4";
       const COOLDOWN_KEY = "rvh_last_report_timestamp_v1";
-      const COOLDOWN_MS = 60 * 60 * 1000; // Strenge regel: 1 melding per 1 uur
+      const COOLDOWN_MS = 60 * 60 * 1000;
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
@@ -882,7 +884,6 @@
 
       let randomStreetPins = loadRandomPins();
 
-      // Willekeurige verschuiving binnen de straat voor privacy (vast per straat + categorie).
       function getRandomPrivacyCoords(streetName, categoryKey, baseLat, baseLng) {
         const pinKey = String(streetName || "").toLowerCase().trim() + "__" + categoryKey;
         if (randomStreetPins[pinKey]) return randomStreetPins[pinKey];
@@ -914,8 +915,6 @@
           .toLowerCase();
       }
 
-      // Strenge spellingscontrole via PDOK Locatieserver in Haarlem:
-      // Keurt af als de straatnaam niet exact matcht met een Haarlemse straatnaam in PDOK.
       async function verifyExactHaarlemStreetViaPdok(rawStreetName) {
         const cleanName = String(rawStreetName || "").trim().replace(/\s+/g, " ");
         if (!cleanName || cleanName.length < 2) {
@@ -1047,7 +1046,6 @@
           .replace(/"/g, "&quot;");
       }
 
-      // Past bestaande straten in de dataset aan op de exacte PDOK-coördinaten.
       async function applyPdokCoordsToExistingStreets(focusStreet) {
         const uniqueStreets = Array.from(
           new Set(
@@ -1416,14 +1414,12 @@
           const rawStreet = streetInput.value.trim().replace(/\s+/g, " ");
           const spellCheck = await verifyExactHaarlemStreetViaPdok(rawStreet);
 
-          // Verkeerde spelling is altijd fout: plaats niets op de kaart en geef 'check spelling'.
           if (!spellCheck.ok) {
             submitMsg.className = "error";
             submitMsg.textContent = spellCheck.reason;
             return;
           }
 
-          // Strenge regel tegen sabotage: maximaal 1 melding per 1 uur.
           const remainingMs = getRemainingCooldownMs();
           if (remainingMs > 0) {
             submitMsg.className = "error";
