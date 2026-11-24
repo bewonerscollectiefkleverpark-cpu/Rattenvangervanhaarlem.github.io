@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#29231b">
   <title>Rattenkeutels herkennen — Rattenvanger van Haarlem</title>
-  <meta name="description" content="Zo herken je rattenkeutels (ca. 1,5–2 cm lang, spoelvormig) en onderscheid je ze van muizenkeutels.">
+  <meta name="description" content="Zo herken je rattenkeutels (ca. 1,5–2 cm lang) en onderscheid je ze van muizenkeutels.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,20 +93,32 @@
       color: var(--ink);
     }
 
-    .photo-card {
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
       margin: 22px 0 26px;
+    }
+
+    @media(max-width:720px) {
+      .photo-grid { grid-template-columns: 1fr; }
+    }
+
+    .photo-card {
       padding: 18px;
       border: 2px solid var(--line);
       border-radius: 16px;
       background: #fbf9f5;
+      display: flex;
+      flex-direction: column;
     }
 
     .photo-card img {
       display: block;
       width: 100%;
-      max-width: 680px;
-      height: auto;
-      margin: 0 auto 14px;
+      height: 290px;
+      object-fit: cover;
+      margin: 0 0 14px;
       border-radius: 12px;
       border: 1px solid var(--line);
       background: #fff;
@@ -115,7 +127,7 @@
     .photo-caption {
       margin: 0;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--ink);
     }
 
@@ -338,22 +350,28 @@
     <main>
       <section>
         <h2>Rattenkeutels herkennen</h2>
-        <p>Rattenkeutels zijn een belangrijk spoor om rattenoverlast vroeg te herkennen. Let vooral op de grootte en vorm.</p>
+        <p>Rattenkeutels zijn een duidelijk spoor om rattenoverlast te herkennen. Kijk vooral naar het formaat en het uiteinde.</p>
 
-        <h3>Rattenkeutels (ca. 1,5–2 cm lang, spoelvormig)</h3>
-        <div class="photo-card">
-          <img src="Scherm­afbeelding 2026-11-24 om 12.44.48.jpg" alt="Rattenkeutels op ruitjespapier met schaalverdeling van 1 cm" onerror="this.onerror=null;this.style.display='none';">
-          <p class="photo-caption"><strong>Rattenkeutels (ca. 1,5–2 cm lang, spoelvormig):</strong> donkere keutels met vaak een spits of spoelvormig uiteinde[cite: 1]. Muizenkeutels zijn veel kleiner (ongeveer zo groot als hagelslag of een rijstkorrel, ca. 3–6 mm).</p>
+        <h3>Rattenkeutels (ca. 1,5–2 cm lang)</h3>
+        <div class="photo-grid">
+          <div class="photo-card">
+            <img src="Scherm­afbeelding 2026-11-24 om 15.00.37.jpg" alt="Keutels van bruine ratten zijn stomp en circa 1,8 centimeter groot" onerror="this.onerror=null;this.style.display='none';">
+            <p class="photo-caption"><strong>Bruine rat — stomp uiteinde:</strong> keutels van bruine ratten zijn ongeveer <strong>1,8 cm groot</strong> en hebben een <strong>afgestompt puntje</strong>[cite: 11].</p>
+          </div>
+          <div class="photo-card">
+            <img src="Scherm­afbeelding 2026-11-24 om 12.44.48.jpg" alt="Rattenkeutels op ruitjespapier met schaalverdeling van 1 cm" onerror="this.onerror=null;this.style.display='none';">
+            <p class="photo-caption"><strong>Maatvergelijking (1 cm schaal):</strong> duidelijk groter dan muizenkeutels (muizenkeutels zijn maar 3–6 mm, zo groot als hagelslag of een rijstkorrel)[cite: 1].</p>
+          </div>
         </div>
 
         <ul class="info-list">
           <li><strong>Lengte:</strong> ongeveer 1,5 tot 2 cm lang.</li>
-          <li><strong>Vorm:</strong> vaak spoelvormig of met spitse uiteinden, donker van kleur (verse keutels zijn donkerder en zachter, oudere keutels zijn grijzer en droger).</li>
+          <li><strong>Kleur en versheid:</strong> verse keutels zijn donker en glanzend/zacht; oudere keutels drogen op en worden grijzer en brokkelig.</li>
           <li><strong>Waar vind je ze?</strong> Langs muren, plinten, schuttingen, bij afvalplekken, schuren en kruipruimtes.</li>
         </ul>
 
         <div class="warning-box">
-          <strong>Let op bij het opruimen:</strong> raak keutels, ratten of plekken met mogelijke rattenurine niet met blote handen aan. Gebruik handschoenen, maak het gebied goed schoon en was daarna grondig je handen.
+          <strong>Let op bij het opruimen:</strong> raak keutels, ratten of plekken met mogelijke rattenurine nooit met blote handen aan. Draag handschoenen, maak alles goed schoon en was daarna grondig je handen.
         </div>
 
         <div class="notice">
