@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f4ef">
+  <meta name="theme-color" content="#29231b">
   <title>Rattenvanger van Haarlem</title>
   <meta name="description" content="Help rattenoverlast in Haarlem zichtbaar te maken. Doe een officiële melding en registreer je waarneming.">
 
@@ -19,16 +19,13 @@
       color-scheme: light;
       --red: #a94338;
       --red-dark: #87352d;
-      --cream: #f6f4ef;
+      --cream: #f4efe5;
       --paper: #ffffff;
-      --ink: #292c29;
-      --muted: #72766f;
+      --ink: #29251f;
+      --muted: #756b5c;
       --green: #687b60;
-      --line: #e8e4dc;
-      --soft: #f2eee6;
-      --topbar: #231f1b;
-      --navbox: #f3efe6;
-      --navbox-border: #e5dfd3;
+      --line: #dfd5c5;
+      --soft: #eee7da;
       font-family: 'Montserrat', sans-serif;
     }
 
@@ -66,196 +63,11 @@
     button:disabled { opacity: .4; cursor: not-allowed; }
     a { color: inherit; }
 
-    /* Bovenste donkere balk over volledige breedte */
-    .top-bar {
-      width: 100%;
-      background: var(--topbar);
-      color: #ffffff;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .top-bar-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 10px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .top-bar-tag {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .01em;
-      color: #f6f4ef;
-    }
-
-    .lang-bar {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .lang-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #e6e0d4;
-    }
-
-    #language {
-      min-width: 165px;
-      padding: 8px 14px 8px 36px;
-      border: 1px solid #ded8cc;
-      background-color: white;
-      color: var(--ink);
-      border-radius: 24px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23a94338' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: 12px center;
-      box-shadow: 0 2px 6px rgba(0,0,0,.12);
-    }
-
-    #language:focus {
-      outline: 3px solid rgba(169,67,56,.28);
-      outline-offset: 2px;
-    }
-
-    #language option { background: white; color: var(--ink); }
-
-    /* Brede hoofdcontainer zodat header en navigatie ruim en consistent staan */
     .wrap {
-      max-width: 1240px;
+      width: min(1120px, calc(100% - 32px));
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 20px 28px 28px;
       position: relative;
-    }
-
-    header.site-header {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 6px 0 22px;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 4px 2px;
-    }
-
-    .logo-card {
-      width: 92px;
-      height: 92px;
-      flex: 0 0 92px;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 3px solid #ffffff;
-      box-shadow: 0 4px 16px rgba(40,35,25,.12);
-    }
-
-    .logo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      border-radius: 50%;
-    }
-
-    .title-card {
-      flex: 1 1 auto;
-      min-width: 0;
-      text-align: left;
-      padding: 2px 0;
-    }
-
-    h1 {
-      font-size: clamp(26px, 3.6vw, 36px);
-      line-height: 1.18;
-      letter-spacing: -.7px;
-      margin: 0 0 4px;
-      font-weight: 800;
-      color: var(--ink);
-    }
-
-    .title-card p {
-      color: var(--muted);
-      margin: 0;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    /* Beige kaderbox met navigatieknoppen (overal hetzelfde) */
-    nav.nav-box {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      background: var(--navbox);
-      border: 1px solid var(--navbox-border);
-      border-radius: 18px;
-      padding: 16px 20px;
-      box-shadow: 0 3px 12px rgba(40,35,25,.03);
-    }
-
-    nav.nav-box button {
-      background: #ffffff;
-      color: var(--ink);
-      border: 1px solid #dcd5c7;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.25;
-      padding: 11px 16px;
-      white-space: nowrap;
-      box-shadow: 0 1px 3px rgba(40,35,25,.04);
-    }
-
-    nav.nav-box button:hover:not(:disabled) {
-      background: #fffaf5;
-      color: var(--red);
-      border-color: #d3aba0;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(80,40,30,.08);
-    }
-
-    nav.nav-box button[aria-current="page"] {
-      background: var(--ink);
-      color: #ffffff;
-      border-color: var(--ink);
-    }
-
-    nav.nav-box button.nav-cta {
-      margin-left: auto;
-      background: var(--red);
-      color: #ffffff;
-      border-color: var(--red);
-    }
-
-    nav.nav-box button.nav-cta:hover:not(:disabled) {
-      background: var(--red-dark);
-      color: #ffffff;
-      border-color: var(--red-dark);
-    }
-
-    nav.nav-box button.nav-cta[aria-current="page"] {
-      background: var(--red-dark);
-      color: #ffffff;
-      border-color: var(--red-dark);
     }
 
     main { padding: 0 0 42px; }
@@ -491,8 +303,6 @@
     [dir="rtl"] .privacy-list li{padding:12px 43px 12px 14px}
     [dir="rtl"] .privacy-list li:before{left:auto;right:14px}
     [dir="rtl"] .privacy-caveat{border-left:0;border-right:4px solid #9a713d}
-    [dir="rtl"] .title-card { text-align: right; }
-    [dir="rtl"] nav.nav-box button.nav-cta { margin-left: 0; margin-right: auto; }
     [dir="rtl"] #map { direction: ltr; }
 
     .info-list {
@@ -534,19 +344,12 @@
     }
 
     [dir="rtl"] { text-align: right; }
-    [dir="rtl"] nav.nav-box,
+    [dir="rtl"] .site-nav,
     [dir="rtl"] .actions {
       flex-direction: row-reverse;
     }
 
     @media(max-width:760px) {
-      .top-bar-inner { padding: 10px 16px; }
-      .wrap { padding: 14px 16px 24px; }
-      .brand-row { gap: 14px; }
-      .logo-card { width: 76px; height: 76px; flex-basis: 76px; }
-      nav.nav-box { padding: 12px 14px; gap: 8px; }
-      nav.nav-box button { padding: 9px 13px; font-size: 13px; }
-      nav.nav-box button.nav-cta { margin-left: 0; margin-right: 0; }
       #map { height: 54vh; min-height: 320px; }
       section { border-radius: 16px; }
       footer { justify-content: center; text-align: center; }
@@ -572,7 +375,7 @@
       body.printing #page-posters .print-target *,
       body.printing #page-posters .poster-print-instruction,
       body.printing #page-posters .poster-print-instruction * { visibility:visible !important; }
-      body.printing .top-bar,
+      body.printing .top,
       body.printing header.site-header,
       body.printing footer { display:none !important; }
       body.printing .wrap { width:auto !important; max-width:none !important; margin:0 !important; padding:0 !important; }
@@ -588,14 +391,182 @@
       body.printing .poster-card.print-target img { display:block !important; width:100% !important; height:245mm !important; max-width:196mm !important; max-height:245mm !important; object-fit:contain !important; border:0 !important; border-radius:0 !important; background:#fff !important; }
     }
   </style>
+
+  <style id="rvh-unified-top">
+    .top {
+      background: #29231b !important;
+      color: #fff !important;
+      width: 100%;
+      font-size: .9rem;
+    }
+    .top .wrap,
+    .top .rvh-top-inner {
+      width: min(1120px, calc(100% - 32px)) !important;
+      max-width: 1120px !important;
+      margin: 0 auto !important;
+      box-sizing: border-box;
+      padding: 9px 0 !important;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+    .top a { color: #fff; }
+    .language {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .language select {
+      font: inherit;
+      border-radius: 8px;
+      padding: 7px;
+      border: 1px solid #b7c8dc;
+      background: #fff;
+      color: #29251f;
+    }
+    .site-header {
+      width: min(1120px, calc(100% - 32px)) !important;
+      max-width: 1120px !important;
+      box-sizing: border-box;
+      margin: 18px auto 24px !important;
+      padding: 18px !important;
+      background: #eee7da !important;
+      border: 1px solid #dfd5c5 !important;
+      border-radius: 0 !important;
+    }
+    .site-header-inner {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+    }
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #29231b;
+      width: max-content;
+      max-width: 100%;
+      margin: 0 0 14px;
+    }
+    .site-brand img {
+      width: 66px !important;
+      height: 66px !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      flex: 0 0 66px !important;
+      border-radius: 50% !important;
+      clip-path: none !important;
+      border: 3px solid #8a7252 !important;
+      background: #f4efe5 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      display: block;
+    }
+    .site-brand span {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .site-brand strong {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      line-height: 1.12;
+      font-weight: 800;
+      color: #29231b;
+    }
+    .site-brand small {
+      font-size: 1rem;
+      line-height: 1.35;
+      color: #756b5c;
+    }
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 7px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      background: #f4efe5;
+      border: 1px solid #dfd5c5;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .site-nav a,
+    .site-nav button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 8px 11px;
+      border-radius: 8px;
+      background: #eee7da;
+      color: #514431;
+      border: 0;
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: normal;
+      max-width: 100%;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: none;
+      transform: none;
+    }
+    .site-nav a:hover,
+    .site-nav a:focus-visible,
+    .site-nav button:hover,
+    .site-nav button:focus-visible,
+    .site-nav button[aria-current="page"] {
+      background: #514431;
+      color: #fff;
+      box-shadow: none;
+      transform: none;
+    }
+    @media(max-width:650px) {
+      .top .wrap,
+      .top .rvh-top-inner {
+        width: calc(100% - 28px) !important;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .site-header {
+        width: calc(100% - 28px) !important;
+        padding: 14px !important;
+        margin: 14px auto 20px !important;
+      }
+      .site-brand { gap: 10px; }
+      .site-brand img {
+        width: 54px !important;
+        height: 54px !important;
+        flex-basis: 54px !important;
+      }
+      .site-brand small { font-size: .88rem; }
+      .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px;
+      }
+      .site-nav a,
+      .site-nav button {
+        font-size: .82rem;
+        padding: 8px 9px;
+        min-height: 38px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div class="top-bar">
-    <div class="top-bar-inner">
-      <span class="top-bar-tag" data-t="topBarTag">Onafhankelijk bewonersinitiatief · Haarlem</span>
-      <div class="lang-bar">
-        <label for="language" class="lang-label" data-t="languageDisplayLabel">Taal</label>
+  <div class="top">
+    <div class="wrap rvh-top-inner">
+      <strong data-t="topBarTag">RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
+      <div class="language">
+        <label for="language" data-t="languageDisplayLabel">Taal</label>
         <select id="language" aria-label="Choose language" data-t-aria="languageLabel">
           <option value="nl">🌐 Nederlands</option>
           <option value="tr">🌐 Türkçe</option>
@@ -608,31 +579,29 @@
     </div>
   </div>
 
-  <div class="wrap">
-    <header class="site-header">
-      <div class="brand-row">
-        <div class="logo-card">
-          <img src="IMG_0106.PNG"
-            alt="Rond logo Rattenvanger van Haarlem"
-            onerror="this.onerror=null;this.style.display='none';">
-        </div>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="#page-report" data-page="report">
+        <img src="IMG_0106.PNG"
+          alt="Logo Rattenvanger van Haarlem"
+          onerror="this.onerror=null;this.style.display='none';">
+        <span>
+          <strong>Rattenvanger van Haarlem</strong>
+          <small data-t="subtitle">Samen maken we rattenoverlast zichtbaar</small>
+        </span>
+      </a>
 
-        <div class="title-card">
-          <h1>Rattenvanger van Haarlem</h1>
-          <p data-t="subtitle">Samen maken we rattenoverlast zichtbaar</p>
-        </div>
-      </div>
-
-      <nav class="nav-box" aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
+      <nav class="site-nav" aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
         <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
         <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
         <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
         <button type="button" data-page="info" data-t="info">Informatie</button>
         <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
-        <button type="button" class="nav-cta" id="quickReportNavBtn" data-page="report" data-t="quickReportBtn">Rat melden</button>
       </nav>
-    </header>
+    </div>
+  </header>
 
+  <div class="wrap">
     <main>
       <section id="page-report">
         <h2 data-t="reportTitle">Rattenoverlast melden in Haarlem</h2>
@@ -1046,9 +1015,8 @@
 
     const T = {
       nl: {
-        topBarTag:"Onafhankelijk bewonersinitiatief · Haarlem",
+        topBarTag:"RATTENVANGER VAN HAARLEM · ONDERZOEK & MELDINGEN",
         languageDisplayLabel:"Taal",
-        quickReportBtn:"Rat melden",
         categoryLabel:"Wat wil je melden?",
         categoryRats:"Ratten gezien (levend of dood)",
         categoryDroppings:"Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)",
@@ -1138,9 +1106,8 @@
         popupNote:"Optelsom van meldingen, geen telling van unieke ratten."
       },
       en: {
-        topBarTag:"Independent residents' initiative · Haarlem",
+        topBarTag:"RATTENVANGER VAN HAARLEM · RESEARCH & REPORTS",
         languageDisplayLabel:"Language",
-        quickReportBtn:"Report a rat",
         categoryLabel:"What would you like to report?",
         categoryRats:"Rats seen (alive or dead)",
         categoryDroppings:"Rat droppings (1.5–2 cm long; not mouse droppings)",
@@ -1230,9 +1197,8 @@
         popupNote:"The sum of reports, not a count of individual rats."
       },
       tr: {
-        topBarTag:"Bağımsız mahalle sakinleri girişimi · Haarlem",
+        topBarTag:"RATTENVANGER VAN HAARLEM · ARAŞTIRMA VE BİLDİRİMLER",
         languageDisplayLabel:"Dil",
-        quickReportBtn:"Fare bildir",
         categoryLabel:"Ne bildirmek istiyorsunuz?",
         categoryRats:"Görülen fareler (canlı veya ölü)",
         categoryDroppings:"Sıçan dışkısı (1,5–2 cm uzunluğunda; fare dışkısı değil)",
@@ -1322,9 +1288,8 @@
         popupNote:"Bu sayı farklı farelerin sayısı değil, bildirimlerin toplamıdır."
       },
       ar: {
-        topBarTag:"مبادرة مستقلة للسكان · هارلم",
+        topBarTag:"RATTENVANGER VAN HAARLEM · أبحاث وبلاغات",
         languageDisplayLabel:"اللغة",
-        quickReportBtn:"أبلغ عن جرذ",
         categoryLabel:"ما الذي تريد الإبلاغ عنه؟",
         categoryRats:"جرذان شوهدت (حية أو ميتة)",
         categoryDroppings:"فضلات الجرذان (بطول 1.5–2 سم؛ وليست فضلات الفئران الصغيرة)",
@@ -1414,9 +1379,8 @@
         popupNote:"هذا مجموع البلاغات وليس عدد الجرذان المختلفة."
       },
       ru: {
-        topBarTag:"Независимая инициатива жителей · Харлем",
+        topBarTag:"RATTENVANGER VAN HAARLEM · ИССЛЕДОВАНИЯ И СООБЩЕНИЯ",
         languageDisplayLabel:"Язык",
-        quickReportBtn:"Сообщить о крысе",
         categoryLabel:"О чём вы хотите сообщить?",
         categoryRats:"Замечены крысы (живые или мёртвые)",
         categoryDroppings:"Крысиный помёт (длиной 1,5–2 см; не мышиный помёт)",
@@ -1506,9 +1470,8 @@
         popupNote:"Это сумма сообщений, а не количество отдельных крыс."
       },
       es: {
-        topBarTag:"Iniciativa vecinal independiente · Haarlem",
+        topBarTag:"RATTENVANGER VAN HAARLEM · INVESTIGACIÓN Y AVISOS",
         languageDisplayLabel:"Idioma",
-        quickReportBtn:"Avisar de una rata",
         categoryLabel:"¿Qué quieres comunicar?",
         categoryRats:"Ratas vistas (vivas o muertas)",
         categoryDroppings:"Excrementos de rata (de 1,5–2 cm; no de ratón)",
@@ -1917,11 +1880,7 @@
       ["report", "map", "rules", "info", "posters"].forEach(name => {
         $("page-" + name).classList.toggle("hidden", name !== pageName);
       });
-      document.querySelectorAll("nav.nav-box button").forEach(btn => {
-        if (btn.id === "quickReportNavBtn") {
-          btn.removeAttribute("aria-current");
-          return;
-        }
+      document.querySelectorAll(".site-nav button").forEach(btn => {
         if (btn.dataset.page === pageName) {
           btn.setAttribute("aria-current", "page");
         } else {
@@ -2135,8 +2094,13 @@
     currentLang = readSavedLanguage();
     applyLanguage();
 
-    document.querySelectorAll("nav.nav-box button").forEach(btn => {
+    document.querySelectorAll(".site-nav button").forEach(btn => {
       btn.addEventListener("click", () => showPage(btn.dataset.page));
+    });
+
+    document.querySelector(".site-brand").addEventListener("click", event => {
+      event.preventDefault();
+      showPage("report");
     });
 
     document.querySelectorAll("[data-print-poster]").forEach(button => {
