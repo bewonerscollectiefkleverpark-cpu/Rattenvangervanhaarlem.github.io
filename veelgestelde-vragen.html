@@ -313,6 +313,12 @@
         <label for="language">Taal</label>
         <select id="language" aria-label="Choose language">
           <option value="nl">🌐 Nederlands</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="so">🇸🇴 Soomaali</option>
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="pl">🇵🇱 Polski</option>
+          <option value="es">🇪🇸 Español</option>
         </select>
       </div>
     </div>
@@ -395,5 +401,149 @@
       <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
     </footer>
   </div>
+
+<script>
+(() => {
+  const translations = {
+    en: {
+      pageTitle:"Frequently asked questions", intro:"Here you’ll find answers to frequently asked questions about reporting rat problems in Haarlem and about the rat map.",
+      questions:["1. How do I submit an official report to Spaarnelanden?","2. Does help from Spaarnelanden or Anticimex cost money?","3. Is a report on the rat map the same as a report to Spaarnelanden?","4. What happens to my privacy on the rat map?","5. Why is there a limit of one report per hour on the map?","6. Why do I have to report it every time?"],
+      answers:[
+        'Go to <strong>Email Spaarnelanden</strong> on the homepage, fill in your details and click <strong>Open email to Spaarnelanden</strong>. Your own email programme will open with the message prepared. Remember to actually click <strong>Send</strong> in your email programme. You can also call Spaarnelanden on <strong>023 – 751 72 00</strong> (Monday to Friday, 8:00 a.m. – 4:30 p.m.).',
+        'No. Since November 2026, the municipality has been offering <strong>unlimited free help at home</strong> for rat problems through Spaarnelanden and Anticimex. When Anticimex visits, also ask directly for a <strong>free smoke test</strong> to detect possible openings or leaks in pipes.',
+        'No. The rat map is an independent residents’ initiative to make the problem visible to other Haarlem residents. For help at home or action in the street, you must also <strong>email or call Spaarnelanden yourself</strong>.',
+        'For the rat map, we do <strong>not ask for your name, house number, telephone number or email address</strong>. Only the street name is used, and the marker is placed at a random location on that street, so nobody can tell which home submitted the report.',
+        'To prevent someone from disrupting or sabotaging the map by submitting dozens of reports in a row, you can submit a maximum of one report per hour per device.',
+        'If residents stop reporting because nothing seems to happen, it looks on paper as though the problem has decreased. So report every new sighting to Spaarnelanden and on the rat map, to keep the true scale of the problem visible.'
+      ],
+      notice:'<strong>Get started:</strong> first submit your official report to Spaarnelanden, then add your report to the rat map.',
+      primary:"Email Spaarnelanden", secondary:"View or add to the rat map", language:"Language",
+      brand:"Together, we make rat problems visible", top:"RAT CATCHER OF HAARLEM · RESEARCH & REPORTS",
+      nav:["Email Spaarnelanden","Rat map: where are the hotspots?","Rules to prevent rats","Information","Posters to print","Identifying rat droppings","Frequently asked questions","Rats and the sewer"],
+      footer:"Rattenvanger van Haarlem is an independent residents’ initiative."
+    },
+    ar: {
+      pageTitle:"الأسئلة الشائعة", intro:"ستجد هنا إجابات عن الأسئلة الشائعة حول الإبلاغ عن انتشار الجرذان في هارلم وخريطة الجرذان.",
+      questions:["1. كيف أقدّم بلاغًا رسميًا إلى Spaarnelanden؟","2. هل المساعدة من Spaarnelanden أو Anticimex مجانية؟","3. هل البلاغ على خريطة الجرذان هو نفسه البلاغ إلى Spaarnelanden؟","4. ماذا يحدث لخصوصيتي على خريطة الجرذان؟","5. لماذا يُسمح ببلاغ واحد فقط كل ساعة على الخريطة؟","6. لماذا يجب أن أقدّم بلاغًا في كل مرة؟"],
+      answers:[
+        'انتقل إلى <strong>مراسلة Spaarnelanden</strong> في الصفحة الرئيسية، وأدخل بياناتك واضغط على <strong>فتح رسالة بريد إلكتروني إلى Spaarnelanden</strong>. سيفتح برنامج البريد الإلكتروني لديك والرسالة جاهزة. لا تنسَ الضغط على <strong>إرسال</strong>. يمكنك أيضًا الاتصال بـ Spaarnelanden على الرقم <strong>023 – 751 72 00</strong> (من الاثنين إلى الجمعة، 08:00–16:30).',
+        'لا. منذ نوفمبر 2026، توفّر البلدية عبر Spaarnelanden وAnticimex <strong>مساعدة منزلية مجانية بلا حد</strong> لمشكلات الجرذان. وعند زيارة Anticimex، اطلب أيضًا <strong>اختبار دخان مجانيًا</strong> للكشف عن الفتحات أو التسربات المحتملة في الأنابيب.',
+        'لا. خريطة الجرذان مبادرة مستقلة من السكان لإظهار حجم المشكلة لسكان هارلم. للحصول على مساعدة في المنزل أو اتخاذ إجراء في الشارع، يجب عليك أيضًا <strong>مراسلة Spaarnelanden أو الاتصال بها بنفسك</strong>.',
+        'لا نطلب لخريطة الجرذان <strong>اسمك أو رقم منزلك أو رقم هاتفك أو بريدك الإلكتروني</strong>. نستخدم اسم الشارع فقط، وتوضع العلامة عشوائيًا في مكان ما من الشارع، حتى لا يتمكن أحد من معرفة المنزل الذي أرسل البلاغ.',
+        'لمنع إساءة استخدام الخريطة أو تخريبها بإرسال عشرات البلاغات المتتالية، يُسمح بإرسال بلاغ واحد كحد أقصى كل ساعة من كل جهاز.',
+        'إذا توقف السكان عن الإبلاغ لأنهم لا يلاحظون أي تغيير، فقد يبدو في السجلات أن المشكلة قد تراجعت. لذلك أبلغ عن كل مشاهدة جديدة إلى Spaarnelanden وعلى خريطة الجرذان، كي يبقى الحجم الحقيقي للمشكلة واضحًا.'
+      ],
+      notice:'<strong>ابدأ الآن:</strong> قدّم أولًا بلاغك الرسمي إلى Spaarnelanden، ثم أضف البلاغ إلى خريطة الجرذان.',
+      primary:"مراسلة Spaarnelanden", secondary:"عرض خريطة الجرذان أو إضافة بلاغ", language:"اللغة",
+      brand:"معًا نجعل مشكلة الجرذان واضحة", top:"مكافحة الجرذان في هارلم · أبحاث وبلاغات",
+      nav:["مراسلة Spaarnelanden","خريطة الجرذان: أين بؤر الانتشار؟","قواعد الوقاية من الجرذان","معلومات","ملصقات للطباعة","التعرّف على فضلات الجرذان","الأسئلة الشائعة","الجرذان والصرف الصحي"],
+      footer:"مبادرة Rattenvanger van Haarlem مبادرة مستقلة من السكان."
+    },
+    so: {
+      pageTitle:"Su’aalaha inta badan la isweydiiyo", intro:"Halkan waxaad ka heli kartaa jawaabaha su’aalaha ku saabsan ka warbixinta jiirka ee Haarlem iyo khariidadda jiirka.",
+      questions:["1. Sideen cabasho rasmi ah ugu gudbiyaa Spaarnelanden?","2. Caawinta Spaarnelanden ama Anticimex lacag ma ku kacaysaa?","3. Warbixinta khariidadda jiirku ma la mid tahay warbixinta Spaarnelanden?","4. Maxaa ku dhacaya xogtayda gaarka ah ee khariidadda jiirka?","5. Maxaa khariidadda loogu xaddiday hal warbixin saacaddii?","6. Maxaan mar kasta dib ugu warbixiyaa?"],
+      answers:[
+        'Bogga hore ka dooro <strong>Email Spaarnelanden</strong>, geli xogtaada oo guji <strong>Fur iimaylka Spaarnelanden</strong>. Barnaamijka iimaylkaaga ayaa furmaya iyadoo farriintu diyaar tahay. Ha illoobin inaad gujiso <strong dir="auto">Dir</strong>. Waxaad sidoo kale wici kartaa Spaarnelanden: <strong>023 – 751 72 00</strong> (Isniin ilaa Jimce, 08:00–16:30).',
+        'Maya. Laga bilaabo Noofambar 2026, degmada waxay Spaarnelanden iyo Anticimex ku bixisaa <strong>caawimo guri oo bilaash ah oo aan xad lahayn</strong> marka jiir jiro. Marka Anticimex ku soo booqato, sidoo kale codso <strong>baaritaan qiiq oo bilaash ah</strong> si loo ogaado daloollada ama daadashada tuubooyinka.',
+        'Maya. Khariidadda jiirku waa hindise madax-bannaan oo dadka deegaanka ah si dhibaatada loogu muujiyo dadka kale ee Haarlem. Si aad caawimo guriga uga hesho ama tallaabo waddada looga qaado, waa inaad sidoo kale <strong>adigu iimayl u dirtaa ama wacdaa Spaarnelanden</strong>.',
+        'Khariidadda jiirka kama codsanno <strong>magacaaga, lambarka guriga, lambarka telefoonka ama iimaylka</strong>. Magaca waddada oo keliya ayaa la isticmaalaa, calaamaddana si aan kala sooc lahayn ayaa waddada loogu dhigaa si aan loo ogaan guriga warbixinta diray.',
+        'Si looga hortago in qofku khariidadda ku buuxiyo ama ku carqaladeeyo warbixino badan oo isku xiga, qalab kasta wuxuu diri karaa ugu badnaan hal warbixin saacaddii.',
+        'Haddii dadka deegaanka ay joojiyaan warbixinta maadaama aysan wax isbeddel ah arkin, waxay u ekaan kartaa in dhibaatadu yaraatay. Sidaas darteed, mar kasta oo aad jiir aragto, u sheeg Spaarnelanden kuna dar khariidadda si xaaladda dhabta ahi u muuqato.'
+      ],
+      notice:'<strong>Hadda bilow:</strong> marka hore u gudbi Spaarnelanden warbixinta rasmiga ah, ka dibna ku dar khariidadda jiirka.',
+      primary:"Email u dir Spaarnelanden", secondary:"Eeg ama ku dar khariidadda jiirka", language:"Luqad",
+      brand:"Wadajir ayaan muuqaal uga dhigaynaa dhibaatada jiirka", top:"RATTENVANGER VAN HAARLEM · BAARITAAN & WARBIXINNO",
+      nav:["Email Spaarnelanden","Khariidadda jiirka: meelaha dhibaatadu ka jirto","Xeerarka ka hortagga jiirka","Macluumaad","Boodhadh la daabacan karo","Aqoonsiga saxarada jiirka","Su’aalaha inta badan la isweydiiyo","Jiirka iyo bulaacadda"],
+      footer:"Rattenvanger van Haarlem waa hindise madax-bannaan oo dadka deegaanka ah."
+    },
+    tr: {
+      pageTitle:"Sıkça sorulan sorular", intro:"Burada Haarlem’deki fare sorununu bildirme ve fare haritası hakkında sıkça sorulan soruların yanıtlarını bulabilirsiniz.",
+      questions:["1. Spaarnelanden’e resmî bildirimi nasıl yapabilirim?","2. Spaarnelanden veya Anticimex’in yardımı ücretli mi?","3. Fare haritasındaki bildirim, Spaarnelanden’e yapılan bildirimle aynı mı?","4. Fare haritasında gizliliğim nasıl korunuyor?","5. Haritada neden saatte en fazla 1 bildirim yapılabiliyor?","6. Neden her seferinde yeniden bildirim yapmalıyım?"],
+      answers:[
+        'Ana sayfadaki <strong>Spaarnelanden’e e-posta gönder</strong> bölümüne gidin, bilgilerinizi doldurun ve <strong>Spaarnelanden’e e-posta aç</strong> düğmesine tıklayın. E-posta programınız, mesaj hazırlanmış şekilde açılır. E-postada <strong>Gönder</strong> düğmesine basmayı unutmayın. Spaarnelanden’i <strong>023 – 751 72 00</strong> numarasından da arayabilirsiniz (Pazartesi–Cuma, 08.00–16.30).',
+        'Hayır. Kasım 2026’dan beri belediye, Spaarnelanden ve Anticimex aracılığıyla fare sorunları için <strong>sınırsız ücretsiz ev desteği</strong> sunuyor. Anticimex ziyaretinde, borulardaki olası açıklıkları veya sızıntıları tespit etmek için <strong>ücretsiz duman testi</strong> de isteyin.',
+        'Hayır. Fare haritası, sorunu diğer Haarlem sakinlerine görünür kılmak için başlatılmış bağımsız bir mahalle sakinleri girişimidir. Evinizde yardım almak veya sokakta işlem yapılmasını sağlamak için ayrıca <strong>Spaarnelanden’e kendiniz e-posta göndermeli veya telefon etmelisiniz</strong>.',
+        'Fare haritası için <strong>adınızı, ev numaranızı, telefon numaranızı veya e-posta adresinizi</strong> istemiyoruz. Yalnızca sokak adı kullanılır ve işaret o sokakta rastgele bir yere yerleştirilir. Böylece bildirimin hangi evden yapıldığı anlaşılamaz.',
+        'Bir kişinin art arda onlarca bildirim göndererek haritayı doldurmasını veya sabote etmesini önlemek için her cihazdan saatte en fazla bir bildirim yapılabilir.',
+        'Sakinler bir sonuç göremedikleri için bildirim yapmayı bırakırsa, kayıtlarda sorun azalmış gibi görünür. Gerçek boyutun görünür kalması için her yeni gözlemi hem Spaarnelanden’e hem de fare haritasına bildirin.'
+      ],
+      notice:'<strong>Hemen başlayın:</strong> önce Spaarnelanden’e resmî bildiriminizi yapın, ardından fare haritasına ekleyin.',
+      primary:"Spaarnelanden’e e-posta gönder", secondary:"Fare haritasını görüntüle veya bildirim ekle", language:"Dil",
+      brand:"Fare sorununu birlikte görünür kılıyoruz", top:"HAARLEM FAREYLE MÜCADELE · ARAŞTIRMA VE BİLDİRİMLER",
+      nav:["Spaarnelanden’e e-posta","Fare haritası: sorunlu noktalar nerede?","Fareleri önleme kuralları","Bilgi","Yazdırılabilir posterler","Fare dışkısını tanıma","Sıkça sorulan sorular","Fareler ve kanalizasyon"],
+      footer:"Rattenvanger van Haarlem, bağımsız bir mahalle sakinleri girişimidir."
+    },
+    pl: {
+      pageTitle:"Najczęściej zadawane pytania", intro:"Tutaj znajdziesz odpowiedzi na najczęstsze pytania dotyczące zgłaszania problemu szczurów w Haarlem oraz mapy szczurów.",
+      questions:["1. Jak złożyć oficjalne zgłoszenie do Spaarnelanden?","2. Czy pomoc Spaarnelanden lub Anticimex jest płatna?","3. Czy zgłoszenie na mapie szczurów jest tym samym co zgłoszenie do Spaarnelanden?","4. Co dzieje się z moją prywatnością na mapie szczurów?","5. Dlaczego na mapie można dodać najwyżej jedno zgłoszenie na godzinę?","6. Dlaczego muszę zgłaszać problem za każdym razem?"],
+      answers:[
+        'Przejdź do sekcji <strong>Wyślij e-mail do Spaarnelanden</strong> na stronie głównej, wypełnij dane i kliknij <strong>Otwórz e-mail do Spaarnelanden</strong>. Otworzy się Twój program pocztowy z przygotowaną wiadomością. Pamiętaj, aby kliknąć w nim <strong>Wyślij</strong>. Możesz też zadzwonić do Spaarnelanden pod numer <strong>023 – 751 72 00</strong> (pon.–pt. 08:00–16:30).',
+        'Nie. Od listopada 2026 r. gmina za pośrednictwem Spaarnelanden i Anticimex oferuje <strong>nieograniczoną, bezpłatną pomoc w domu</strong> w przypadku problemu ze szczurami. Podczas wizyty Anticimex poproś również o <strong>bezpłatny test dymny</strong>, który pomaga wykryć możliwe otwory lub nieszczelności w rurach.',
+        'Nie. Mapa szczurów to niezależna inicjatywa mieszkańców, która ma pokazać skalę problemu innym mieszkańcom Haarlem. Aby uzyskać pomoc w domu lub interwencję na ulicy, musisz również samodzielnie <strong>napisać do Spaarnelanden lub zadzwonić</strong>.',
+        'Na potrzeby mapy szczurów <strong>nie prosimy o imię i nazwisko, numer domu, numer telefonu ani adres e-mail</strong>. Wykorzystywana jest tylko nazwa ulicy, a znacznik umieszczany jest losowo w jej obrębie, tak aby nie można było ustalić, z którego domu pochodzi zgłoszenie.',
+        'Aby zapobiec zaśmiecaniu lub sabotowaniu mapy przez wysyłanie dziesiątek zgłoszeń jedno po drugim, z każdego urządzenia można wysłać maksymalnie jedno zgłoszenie na godzinę.',
+        'Jeśli mieszkańcy przestaną zgłaszać problem, ponieważ nie widzą efektów, w statystykach może wyglądać na to, że problem się zmniejszył. Dlatego zgłaszaj każde nowe zauważenie szczura do Spaarnelanden i na mapie, aby rzeczywista skala problemu była widoczna.'
+      ],
+      notice:'<strong>Zacznij od razu:</strong> najpierw złóż oficjalne zgłoszenie do Spaarnelanden, a następnie dodaj informację na mapie szczurów.',
+      primary:"Wyślij e-mail do Spaarnelanden", secondary:"Zobacz mapę szczurów lub dodaj zgłoszenie", language:"Język",
+      brand:"Razem sprawiamy, że problem szczurów staje się widoczny", top:"RATTENVANGER VAN HAARLEM · BADANIA I ZGŁOSZENIA",
+      nav:["E-mail do Spaarnelanden","Mapa szczurów: gdzie są ogniska problemu?","Zasady zapobiegania szczurom","Informacje","Plakaty do wydrukowania","Jak rozpoznać odchody szczurów","Najczęściej zadawane pytania","Szczury i kanalizacja"],
+      footer:"Rattenvanger van Haarlem to niezależna inicjatywa mieszkańców."
+    },
+    es: {
+      pageTitle:"Preguntas frecuentes", intro:"Aquí encontrarás respuestas a las preguntas más frecuentes sobre cómo informar de la presencia de ratas en Haarlem y sobre el mapa de ratas.",
+      questions:["1. ¿Cómo presento una notificación oficial a Spaarnelanden?","2. ¿La ayuda de Spaarnelanden o Anticimex cuesta dinero?","3. ¿Una notificación en el mapa de ratas equivale a una notificación a Spaarnelanden?","4. ¿Qué ocurre con mi privacidad en el mapa de ratas?","5. ¿Por qué hay un límite de una notificación por hora en el mapa?","6. ¿Por qué tengo que informar cada vez que veo una rata?"],
+      answers:[
+        'Ve a <strong>Enviar correo a Spaarnelanden</strong> en la página de inicio, rellena tus datos y haz clic en <strong>Abrir correo para Spaarnelanden</strong>. Se abrirá tu programa de correo con el mensaje preparado. No olvides pulsar <strong>Enviar</strong>. También puedes llamar a Spaarnelanden al <strong>023 – 751 72 00</strong> (de lunes a viernes, de 08:00 a 16:30).',
+        'No. Desde noviembre de 2026, el municipio ofrece a través de Spaarnelanden y Anticimex <strong>asistencia gratuita e ilimitada en el domicilio</strong> para problemas con ratas. Durante la visita de Anticimex, pide también una <strong>prueba de humo gratuita</strong> para detectar posibles aberturas o fugas en las tuberías.',
+        'No. El mapa de ratas es una iniciativa independiente de los residentes para mostrar el problema a otros habitantes de Haarlem. Para recibir ayuda en casa o solicitar una actuación en la calle, también debes <strong>enviar un correo o llamar tú mismo a Spaarnelanden</strong>.',
+        'Para el mapa de ratas <strong>no pedimos tu nombre, número de casa, teléfono ni dirección de correo electrónico</strong>. Solo se utiliza el nombre de la calle y el punto se coloca al azar en algún lugar de esa calle, para que nadie pueda saber desde qué vivienda se envió el aviso.',
+        'Para evitar que alguien llene o sabotee el mapa enviando decenas de avisos seguidos, cada dispositivo puede enviar como máximo una notificación por hora.',
+        'Si los residentes dejan de informar porque parece que no ocurre nada, las cifras pueden dar la impresión de que el problema ha disminuido. Por eso, informa de cada nuevo avistamiento a Spaarnelanden y en el mapa de ratas, para que la magnitud real siga siendo visible.'
+      ],
+      notice:'<strong>Empieza ahora:</strong> presenta primero tu notificación oficial a Spaarnelanden y después añade el aviso al mapa de ratas.',
+      primary:"Enviar correo a Spaarnelanden", secondary:"Ver o añadir información al mapa de ratas", language:"Idioma",
+      brand:"Juntos hacemos visible el problema de las ratas", top:"RATTENVANGER VAN HAARLEM · INVESTIGACIÓN Y AVISOS",
+      nav:["Enviar correo a Spaarnelanden","Mapa de ratas: ¿dónde están los focos?","Normas para prevenir las ratas","Información","Carteles para imprimir","Cómo reconocer excrementos de rata","Preguntas frecuentes","Ratas y alcantarillado"],
+      footer:"Rattenvanger van Haarlem es una iniciativa independiente de los residentes."
+    }
+  };
+  const nl = {
+    pageTitle:"Veelgestelde vragen",
+    intro:"Hier vind je antwoorden op veelgestelde vragen over rattenoverlast melden in Haarlem en over de rattenkaart.",
+    questions:[...document.querySelectorAll(".faq-item summary")].map(x=>x.textContent),
+    answers:[...document.querySelectorAll(".faq-item p")].map(x=>x.innerHTML),
+    notice:document.querySelector(".notice").innerHTML,
+    primary:document.querySelector(".primary").textContent,
+    secondary:document.querySelector(".secondary-link").textContent,
+    language:"Taal", brand:"Samen maken we rattenoverlast zichtbaar",
+    top:"RATTENVANGER VAN HAARLEM · ONDERZOEK & MELDINGEN",
+    nav:[...document.querySelectorAll(".site-nav a")].map(x=>x.textContent),
+    footer:document.querySelector("footer span:last-child").textContent
+  };
+  const selector=document.getElementById("language");
+  const apply=(lang)=>{
+    const t=lang==="nl"?nl:translations[lang];
+    if(!t)return;
+    document.documentElement.lang=lang;
+    document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+    document.title=t.pageTitle+" — Rattenvanger van Haarlem";
+    document.querySelector('meta[name="description"]').content=t.intro;
+    document.querySelector("main h2").textContent=t.pageTitle;
+    document.querySelector("main section > p").textContent=t.intro;
+    document.querySelectorAll(".faq-item summary").forEach((el,i)=>el.textContent=t.questions[i]);
+    document.querySelectorAll(".faq-item p").forEach((el,i)=>el.innerHTML=t.answers[i]);
+    document.querySelector(".notice").innerHTML=t.notice;
+    document.querySelector(".primary").textContent=t.primary;
+    document.querySelector(".secondary-link").textContent=t.secondary;
+    document.querySelector(".language label").textContent=t.language;
+    document.querySelector(".site-brand small").textContent=t.brand;
+    document.querySelector(".rvh-top-inner > strong").textContent=t.top;
+    document.querySelectorAll(".site-nav a").forEach((el,i)=>el.textContent=t.nav[i]);
+    document.querySelector("footer span:last-child").textContent=t.footer;
+  };
+  selector.addEventListener("change",e=>apply(e.target.value));
+})();
+</script>
 </body>
 </html>
