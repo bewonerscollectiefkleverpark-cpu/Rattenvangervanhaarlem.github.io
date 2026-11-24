@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#29231b">
-  <title>Rattenvanger van Haarlem – Meldingen, kaart &amp; informatie</title>
-  <meta name="description" content="Meld rattenoverlast in Haarlem bij Spaarnelanden en op de rattenkaart, lees leefregels en bekijk hotspots.">
+  <title>Rattenoverlast melden – Rattenvanger van Haarlem</title>
+  <meta name="description" content="Meld rattenoverlast in Haarlem bij Spaarnelanden en op de rattenkaart.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,12 +183,6 @@
       margin: 0 0 10px;
       font-size: clamp(19px, 2.6vw, 23px);
       line-height: 1.25;
-    }
-
-    h4 {
-      margin: 0 0 6px;
-      font-size: 16px;
-      line-height: 1.3;
     }
 
     p { margin: 8px 0 14px; }
@@ -388,49 +382,6 @@
     .btn-green { background: var(--green); }
     .btn-green:hover { background: #52654b; }
 
-    .map-frame-wrap {
-      margin-top: 16px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fbf9f5;
-    }
-
-    .map-frame-wrap iframe {
-      width: 100%;
-      height: 560px;
-      border: 0;
-      display: block;
-    }
-
-    .quick-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .quick-card {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fbf9f5;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .quick-card strong {
-      font-size: 16px;
-      color: var(--ink);
-    }
-
-    .quick-card span {
-      font-size: 14px;
-      color: var(--muted);
-    }
-
     footer {
       padding: 20px 4px;
       color: var(--muted);
@@ -460,8 +411,7 @@
     }
 
     @media (max-width: 860px) {
-      .two-col, .quick-links { grid-template-columns: 1fr; }
-      .map-frame-wrap iframe { height: 460px; }
+      .two-col { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
@@ -489,11 +439,11 @@
     </a>
 
     <nav class="site-nav" aria-label="Hoofdnavigatie">
-      <a href="#page-report">Mail Spaarnelanden</a>
-      <a href="#page-map">Rattenkaart: waar zijn de hotspots?</a>
-      <a href="#page-rules">Leefregels tegen ratten</a>
-      <a href="#page-info">Informatie</a>
-      <a href="#page-posters">Posters om te printen</a>
+      <a href="index.html#page-report" class="active">Mail Spaarnelanden</a>
+      <a href="index.html#page-map">Rattenkaart: waar zijn de hotspots?</a>
+      <a href="index.html#page-rules">Leefregels tegen ratten</a>
+      <a href="index.html#page-info">Informatie</a>
+      <a href="index.html#page-posters">Posters om te printen</a>
       <a href="rattenkeutels-herkennen.html">Rattenkeutels herkennen</a>
       <a href="veelgestelde-vragen.html">Veelgestelde vragen</a>
       <a href="ratten-en-het-riool.html">Ratten en het riool</a>
@@ -564,7 +514,7 @@
             </div>
 
             <div class="actions">
-              <a class="btn-green" href="#page-map">Meld op de rattenkaart</a>
+              <a class="btn-green" href="index.html#page-map">Meld op de rattenkaart</a>
             </div>
           </div>
         </div>
@@ -608,59 +558,6 @@
             </div>
             <p class="muted" style="margin-top: 10px; margin-bottom: 0;">Opent jouw e-mailapp gericht aan <strong>info@spaarnelanden.nl</strong>. Je verstuurt het bericht zelf.</p>
           </form>
-        </div>
-      </section>
-
-      <!-- RATTENKAART -->
-      <section id="page-map">
-        <h2>Rattenkaart: waar zijn de hotspots?</h2>
-        <p>Bekijk waar meldingen van ratten, keutels en holen in Haarlem zijn gedaan en voeg jouw eigen waarneming toe aan de kaart.</p>
-
-        <div class="map-frame-wrap">
-          <iframe
-            src="https://bewonerscollectiefkleverpark-cpu.github.io/Rattenvangervanhaarlem.github.io/"
-            title="Rattenkaart Haarlem"
-            loading="lazy">
-          </iframe>
-        </div>
-      </section>
-
-      <!-- LEEFREGELS, INFORMATIE & POSTERS -->
-      <section id="page-rules">
-        <h2>Leefregels tegen ratten</h2>
-        <p>Met kleine aanpassingen in huis, tuin en rond afval verklein je voedsel, water en schuilplekken voor ratten:</p>
-        <ul class="info-list">
-          <li>Bied geen los etensresten, vogelvoer op de grond of open afvalzakken aan.</li>
-          <li>Houd kliko's en containers goed gesloten en voorkom stapels rommel, hout of puin tegen muren en schuttingen.</li>
-          <li>Sluit openingen rond leidingen, gevels en riolering af.</li>
-        </ul>
-      </section>
-
-      <section id="page-info">
-        <h2>Informatie &amp; verdieping</h2>
-        <p>Lees meer over sporen herkennen, veelgestelde vragen en de verantwoordelijkheid rond het riool:</p>
-
-        <div class="quick-links">
-          <a class="quick-card" href="rattenkeutels-herkennen.html">
-            <strong>Rattenkeutels herkennen</strong>
-            <span>Keutels, gangen, holen, knaagschade en vergelijkingsfoto's.</span>
-          </a>
-          <a class="quick-card" href="veelgestelde-vragen.html">
-            <strong>Veelgestelde vragen</strong>
-            <span>Alles over Spaarnelanden, Anticimex, rooktest en privacy.</span>
-          </a>
-          <a class="quick-card" href="ratten-en-het-riool.html">
-            <strong>Ratten en het riool</strong>
-            <span>Eigen grond vs. gemeentegrond, gaten op straat en meldingen.</span>
-          </a>
-        </div>
-      </section>
-
-      <section id="page-posters">
-        <h2>Posters om te printen</h2>
-        <p>Print een poster en hang deze in de straat, portiek of buurt om andere bewoners te wijzen op het melden van rattenoverlast.</p>
-        <div class="actions">
-          <button type="button" class="btn-green" onclick="window.print()">Print deze pagina / poster</button>
         </div>
       </section>
     </main>
