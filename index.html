@@ -273,6 +273,16 @@
     .check { display: flex; align-items: flex-start; gap: 11px; margin: 18px 0; cursor: pointer; font-size: 14px; }
     .check input { width: 19px; height: 19px; flex: none; margin-top: 3px; accent-color: var(--red); }
 
+    .error {
+      color: var(--red-dark);
+      background: #fff0eb;
+      border: 1px solid #e7b5a8;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 800;
+      margin-top: 14px;
+    }
+
     .success {
       color: #3d6b38;
       background: #eff7ee;
@@ -626,7 +636,7 @@
 
         <div class="notice">
           <strong>Wat betekent het bolletje?</strong>
-          <p>Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
+          <p>Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer. Alleen een exact gespelde straatnaam in Haarlem wordt op de kaart geplaatst, en je kunt maximaal 1 melding per uur doen.</p>
         </div>
 
         <div class="legend-box">
@@ -651,8 +661,8 @@
         <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
 
         <div class="field">
-          <label for="streetInput">Straatnaam in Haarlem (zonder huisnummer):</label>
-          <input type="text" id="streetInput" placeholder="Bijvoorbeeld: Parklaan" maxlength="100" autocomplete="off">
+          <label for="streetInput">Straatnaam in Haarlem (zonder huisnummer, exacte spelling):</label>
+          <input type="text" id="streetInput" placeholder="Bijvoorbeeld: Aelbertsbergstraat" maxlength="100" autocomplete="off">
         </div>
 
         <div class="field">
@@ -688,7 +698,7 @@
 
         <p id="submitMessage" role="status" aria-live="polite"></p>
 
-        <p class="muted">Meldingen worden opgeslagen en op straatniveau weergegeven op de kaart.</p>
+        <p class="muted">Meldingen worden opgeslagen en op straatniveau weergegeven op de kaart. Maximaal 1 melding per uur tegen sabotage.</p>
       </section>
 
       <section id="page-rules" class="hidden">
@@ -815,8 +825,10 @@
   <script>
     (function () {
       const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCQmyGDWKqCNIByHnYQDg0aAd5NF2jk0UWFQwUDsC364slPf0ttn-zGJy99IpO80IbQ/exec";
-      const STORAGE_KEY = "rvh_map_reports_v5";
-      const RANDOM_PINS_KEY = "rvh_street_random_pins_v3";
+      const STORAGE_KEY = "rvh_map_reports_v6";
+      const RANDOM_PINS_KEY = "rvh_street_random_pins_v4";
+      const COOLDOWN_KEY = "rvh_last_report_timestamp_v1";
+      const COOLDOWN_MS = 60 * 60 * 1000; // Strenge regel: 1 melding per 1 uur
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
@@ -830,6 +842,29 @@
       ];
 
       const pdokStreetCoords = {};
+
+      function getRemainingCooldownMs() {
+        try {
+          const last = Number(localStorage.getItem(COOLDOWN_KEY) || "0");
+          if (!last || Number.isNaN(last)) return 0;
+          const remaining = COOLDOWN_MS - (Date.now() - last);
+          return remaining > 0 ? remaining : 0;
+        } catch (err) {
+          return 0;
+        }
+      }
+
+      function recordReportTimestamp() {
+        try {
+          localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
+        } catch (err) {}
+      }
+
+      function formatRemainingMinutes(ms) {
+        const totalMinutes = Math.max(1, Math.ceil(ms / 60000));
+        if (totalMinutes === 1) return "1 minuut";
+        return totalMinutes + " minuten";
+      }
 
       function loadRandomPins() {
         try {
@@ -847,7 +882,7 @@
 
       let randomStreetPins = loadRandomPins();
 
-      // Kleine willekeurige offset langs de straat voor privacy (vast per straat + categorie).
+      // Willekeurige verschuiving binnen de straat voor privacy (vast per straat + categorie).
       function getRandomPrivacyCoords(streetName, categoryKey, baseLat, baseLng) {
         const pinKey = String(streetName || "").toLowerCase().trim() + "__" + categoryKey;
         if (randomStreetPins[pinKey]) return randomStreetPins[pinKey];
@@ -875,30 +910,37 @@
       function normalizeStreetKey(name) {
         return String(name || "")
           .trim()
-          .replace(/\s+\d+[a-zA-Z0-9-]*$/, "")
           .replace(/\s+/g, " ")
           .toLowerCase();
       }
 
-      // Haalt exacte coördinaten in Haarlem op via PDOK Locatieserver.
-      async function lookupPdokHaarlemStreet(streetName) {
-        const cleanName = String(streetName || "")
-          .trim()
-          .replace(/\s+\d+[a-zA-Z0-9-]*$/, "")
-          .replace(/\s+/g, " ");
-        if (!cleanName) return null;
-        const key = normalizeStreetKey(cleanName);
-        if (pdokStreetCoords[key]) return pdokStreetCoords[key];
+      // Strenge spellingscontrole via PDOK Locatieserver in Haarlem:
+      // Keurt af als de straatnaam niet exact matcht met een Haarlemse straatnaam in PDOK.
+      async function verifyExactHaarlemStreetViaPdok(rawStreetName) {
+        const cleanName = String(rawStreetName || "").trim().replace(/\s+/g, " ");
+        if (!cleanName || cleanName.length < 2) {
+          return { ok: false, reason: "check spelling" };
+        }
+        if (/\d/.test(cleanName)) {
+          return { ok: false, reason: "check spelling — vul alleen de straatnaam in zonder huisnummer" };
+        }
 
-        const queries = [
-          { q: cleanName + " 5 Haarlem", fq: "woonplaatsnaam:Haarlem AND type:adres" },
-          { q: cleanName + " 1 Haarlem", fq: "woonplaatsnaam:Haarlem AND type:adres" },
+        const targetKey = normalizeStreetKey(cleanName);
+        if (pdokStreetCoords[targetKey]) {
+          return {
+            ok: true,
+            canonicalName: pdokStreetCoords[targetKey].canonicalName,
+            coords: { lat: pdokStreetCoords[targetKey].lat, lng: pdokStreetCoords[targetKey].lng }
+          };
+        }
+
+        const candidateQueries = [
           { q: cleanName + " Haarlem", fq: "woonplaatsnaam:Haarlem AND type:weg" },
-          { q: cleanName + " Haarlem", fq: "woonplaatsnaam:Haarlem" }
+          { q: cleanName + " 5 Haarlem", fq: "woonplaatsnaam:Haarlem AND type:adres" }
         ];
 
-        for (let i = 0; i < queries.length; i++) {
-          const item = queries[i];
+        for (let i = 0; i < candidateQueries.length; i++) {
+          const item = candidateQueries[i];
           try {
             const url =
               "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=" +
@@ -907,25 +949,35 @@
               encodeURIComponent(item.fq) +
               "&fl=" +
               encodeURIComponent("straatnaam,centroide_ll,type,woonplaatsnaam") +
-              "&rows=3";
+              "&rows=10";
             const res = await fetch(url);
             const data = await res.json();
             const docs = data && data.response && Array.isArray(data.response.docs) ? data.response.docs : [];
+
             for (let d = 0; d < docs.length; d++) {
               const doc = docs[d];
-              const docStreet = normalizeStreetKey(doc.straatnaam || "");
-              if (doc.centroide_ll && (!docStreet || docStreet === key || docStreet.includes(key) || key.includes(docStreet))) {
+              const docStreet = String(doc.straatnaam || "").trim().replace(/\s+/g, " ");
+              const docCity = String(doc.woonplaatsnaam || "").trim().toLowerCase();
+              if (docCity === "haarlem" && docStreet && normalizeStreetKey(docStreet) === targetKey && doc.centroide_ll) {
                 const coords = parsePointWkt(doc.centroide_ll);
                 if (coords) {
-                  pdokStreetCoords[key] = coords;
-                  return coords;
+                  pdokStreetCoords[targetKey] = {
+                    canonicalName: docStreet,
+                    lat: coords.lat,
+                    lng: coords.lng
+                  };
+                  return {
+                    ok: true,
+                    canonicalName: docStreet,
+                    coords: coords
+                  };
                 }
               }
             }
           } catch (err) {}
         }
 
-        return null;
+        return { ok: false, reason: "check spelling" };
       }
 
       function normalizeCategory(cat) {
@@ -936,15 +988,12 @@
       }
 
       function normalizeReport(item) {
-        const cleanStreet = String(item.straat || "")
-          .trim()
-          .replace(/\s+\d+[a-zA-Z0-9-]*$/, "")
-          .replace(/\s+/g, " ");
+        const cleanStreet = String(item.straat || "").trim().replace(/\s+/g, " ");
         const key = normalizeStreetKey(cleanStreet);
         const pdok = pdokStreetCoords[key];
         return {
           datum: item.datum ? String(item.datum) : "",
-          straat: cleanStreet,
+          straat: pdok ? pdok.canonicalName : cleanStreet,
           aantal: Number(item.aantal) || 1,
           status: item.status ? String(item.status) : "Ongeverifieerd",
           lat: pdok ? String(pdok.lat) : (item.lat !== undefined ? String(item.lat) : ""),
@@ -998,8 +1047,8 @@
           .replace(/"/g, "&quot;");
       }
 
-      // Past alle meldingen aan op de exacte PDOK-coördinaten per straatnaam.
-      async function applyPdokCoordsToAllReports(focusStreet) {
+      // Past bestaande straten in de dataset aan op de exacte PDOK-coördinaten.
+      async function applyPdokCoordsToExistingStreets(focusStreet) {
         const uniqueStreets = Array.from(
           new Set(
             allReports
@@ -1013,18 +1062,22 @@
           const stKey = uniqueStreets[i];
           const sample = allReports.find(r => normalizeStreetKey(r.straat) === stKey);
           const streetDisplay = sample ? sample.straat : stKey;
-          const coords = await lookupPdokHaarlemStreet(streetDisplay);
-          if (coords) {
+          const check = await verifyExactHaarlemStreetViaPdok(streetDisplay);
+          if (check.ok && check.coords) {
             allReports = allReports.map(r => {
               if (normalizeStreetKey(r.straat) === stKey) {
-                if (String(r.lat) !== String(coords.lat) || String(r.lng) !== String(coords.lng)) {
+                if (
+                  r.straat !== check.canonicalName ||
+                  String(r.lat) !== String(check.coords.lat) ||
+                  String(r.lng) !== String(check.coords.lng)
+                ) {
                   updatedAny = true;
                 }
                 return {
                   ...r,
-                  straat: streetDisplay,
-                  lat: String(coords.lat),
-                  lng: String(coords.lng)
+                  straat: check.canonicalName,
+                  lat: String(check.coords.lat),
+                  lng: String(check.coords.lng)
                 };
               }
               return r;
@@ -1040,10 +1093,13 @@
         if (focusStreet) {
           const fKey = normalizeStreetKey(focusStreet);
           if (pdokStreetCoords[fKey]) {
-            focusCoords = pdokStreetCoords[fKey];
+            focusCoords = { lat: pdokStreetCoords[fKey].lat, lng: pdokStreetCoords[fKey].lng };
           }
         } else if (pdokStreetCoords["aelbertsbergstraat"]) {
-          focusCoords = pdokStreetCoords["aelbertsbergstraat"];
+          focusCoords = {
+            lat: pdokStreetCoords["aelbertsbergstraat"].lat,
+            lng: pdokStreetCoords["aelbertsbergstraat"].lng
+          };
         }
 
         renderAllMarkers(focusCoords);
@@ -1062,7 +1118,7 @@
             const lat = pdok ? pdok.lat : parseCoord(item.lat);
             const lng = pdok ? pdok.lng : parseCoord(item.lng);
             streets[key] = {
-              straat: streetName,
+              straat: pdok ? pdok.canonicalName : streetName,
               lat: !Number.isNaN(lat) ? lat : NaN,
               lng: !Number.isNaN(lng) ? lng : NaN,
               ratsTotal: 0,
@@ -1191,7 +1247,7 @@
           if (data && data.ok && Array.isArray(data.reports) && data.reports.length > 0) {
             allReports = data.reports.map(normalizeReport);
             saveReports(allReports);
-            await applyPdokCoordsToAllReports();
+            await applyPdokCoordsToExistingStreets();
           }
         } catch (err) {}
       }
@@ -1207,7 +1263,7 @@
           else btn.removeAttribute("aria-current");
         });
         if (target === "map") {
-          applyPdokCoordsToAllReports();
+          applyPdokCoordsToExistingStreets();
           syncFromSheetSilently();
           if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
             setTimeout(() => {
@@ -1306,7 +1362,7 @@
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
-        applyPdokCoordsToAllReports("Aelbertsbergstraat");
+        applyPdokCoordsToExistingStreets("Aelbertsbergstraat");
         syncFromSheetSilently();
       } else {
         updateStreetOverviewUI(allReports);
@@ -1354,17 +1410,34 @@
 
       if (submitBtn && submitMsg && streetInput && obsInput && categoryEl) {
         submitBtn.addEventListener("click", async function () {
-          const street = streetInput.value
-            .trim()
-            .replace(/\s+\d+[a-zA-Z0-9-]*$/, "")
-            .replace(/\s+/g, " ");
+          submitMsg.className = "muted";
+          submitMsg.textContent = "Spelling in Haarlem controleren...";
+
+          const rawStreet = streetInput.value.trim().replace(/\s+/g, " ");
+          const spellCheck = await verifyExactHaarlemStreetViaPdok(rawStreet);
+
+          // Verkeerde spelling is altijd fout: plaats niets op de kaart en geef 'check spelling'.
+          if (!spellCheck.ok) {
+            submitMsg.className = "error";
+            submitMsg.textContent = spellCheck.reason;
+            return;
+          }
+
+          // Strenge regel tegen sabotage: maximaal 1 melding per 1 uur.
+          const remainingMs = getRemainingCooldownMs();
+          if (remainingMs > 0) {
+            submitMsg.className = "error";
+            submitMsg.textContent =
+              "Je kunt maximaal 1 melding per 1 uur doen (tegen sabotage). Wacht nog " +
+              formatRemainingMinutes(remainingMs) +
+              ".";
+            return;
+          }
+
+          const canonicalStreet = spellCheck.canonicalName;
+          const coords = spellCheck.coords;
           const count = Math.max(1, Math.min(20, parseInt(obsInput.value, 10) || 1));
           const cat = normalizeCategory(categoryEl.value);
-
-          let coords = await lookupPdokHaarlemStreet(street);
-          if (!coords) {
-            coords = { lat: 52.3874, lng: 4.6462 };
-          }
 
           const now = new Date();
           const datumStr =
@@ -1377,7 +1450,7 @@
 
           const newRecord = {
             datum: datumStr,
-            straat: street,
+            straat: canonicalStreet,
             aantal: count,
             status: "Ongeverifieerd",
             lat: String(coords.lat),
@@ -1386,6 +1459,7 @@
             categorie: cat
           };
 
+          recordReportTimestamp();
           allReports.push(newRecord);
           saveReports(allReports);
 
@@ -1398,17 +1472,18 @@
             });
           } catch (err) {}
 
-          await applyPdokCoordsToAllReports(street);
+          await applyPdokCoordsToExistingStreets(canonicalStreet);
 
           const grouped = groupReportsByStreet(allReports);
-          const sInfo = grouped[normalizeStreetKey(street)];
+          const sInfo = grouped[normalizeStreetKey(canonicalStreet)];
           const newTotal = sInfo ? sInfo.ratsTotal : count;
           const bandInfo = getRatBandInfo(newTotal);
 
           submitMsg.className = "success";
           submitMsg.textContent =
-            `Geregistreerd: +${count} (${cat}) in ${street}. ` +
-            `Straattotaal ratten: ${newTotal} — bolletje aangepast naar ${bandInfo.band}.`;
+            `Geregistreerd: +${count} (${cat}) in ${canonicalStreet}. ` +
+            `Straattotaal ratten: ${newTotal} — bolletje aangepast naar ${bandInfo.band}. ` +
+            `Volgende melding mogelijk over 1 uur.`;
         });
       }
 
@@ -1420,7 +1495,7 @@
           } catch (err) {}
           randomStreetPins = {};
           allReports = BASE_REPORTS.map(normalizeReport);
-          await applyPdokCoordsToAllReports("Aelbertsbergstraat");
+          await applyPdokCoordsToExistingStreets("Aelbertsbergstraat");
           submitMsg.className = "muted";
           submitMsg.textContent = "Eigen toevoegingen zijn gewist; basisdata via PDOK hersteld.";
         });
