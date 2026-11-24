@@ -1702,6 +1702,15 @@
           report:"Informar de un problema de ratas en Haarlem", reminder:"¡Vuelve a informar cada vez!", intro:"Elige lo que quieres hacer. Puedes utilizar los dos botones.", officialTitle:"Botón: Enviar correo a Spaarnelanden", officialLead:"Para presentar un aviso oficial y recibir ayuda gratuita en casa.", steps:["1. Haz clic en <strong>Abrir correo para Spaarnelanden</strong> y envía tú mismo el mensaje.","2. Spaarnelanden contacta con Anticimex.","3. Anticimex te llama.","4. Ayuda gratuita en casa. Pide también una <strong>prueba de humo gratuita</strong>."], freeHelp:"Ayuda gratuita ilimitada desde noviembre de 2026.", formTitle:"Preparar un correo para Spaarnelanden", formIntro:"Introduce tus datos y haz clic en <strong>Abrir correo para Spaarnelanden</strong>. Tu programa de correo se abrirá con los datos rellenados para que puedas enviar el mensaje.", name:"Nombre", address:"Dirección", phone:"Número de teléfono", date:"¿En qué fecha ocurrió?", description:"Describe el problema de ratas", namePh:"Por ejemplo: Jan de Vries", addressPh:"Nombre de la calle y número de casa en Haarlem", phonePh:"Por ejemplo: 06-12345678", descriptionPh:"Describe lo que has visto (ratas, excrementos, madrigueras o recorridos) e indica el lugar exacto.", send:"Abrir correo para Spaarnelanden", mapTitle:"Botón: Informar en el mapa de ratas", mapLead:"Muestra al vecindario dónde se han visto ratas, excrementos o madrigueras.", visibility:"Hacemos visible lo que permanece oculto", warning:"Atención: esto NO es un aviso a Spaarnelanden. Envía también un correo a Spaarnelanden para pedir ayuda.", mapButton:"Informar en el mapa de ratas", why:"¿Por qué hay dos botones?", whyText:"Spaarnelanden ofrece ayuda. El mapa hace visible el problema para el vecindario.", slogan:"Juntos hacemos visible lo que de otro modo permanecería oculto.", returnInfo:"Después de abrir el correo, vuelve a este sitio web. No podemos comprobar si realmente enviaste el mensaje ni si Spaarnelanden lo recibió.", returned:"He presentado un aviso oficial y quiero añadir información al mapa de ratas para que otros vecinos de Haarlem puedan ver el problema.", viewMap:"Ver el mapa", emailSubject:"Aviso de problema de ratas en Haarlem", emailBody:["Estimado equipo de Spaarnelanden:","","Quisiera informar de un problema de ratas:","Nombre: ","Dirección: ","Número de teléfono: ","Fecha de observación: ","","Descripción: ","","Les agradecería que confirmaran la recepción de este aviso.","","Atentamente,"]}
         }
       };
+      const reportAccessibilityLabels = {
+        nl: { navigation:"Hoofdnavigatie", officialRoute:"Route voor officiële melding", dateFormat:"dd-mm-jjjj" },
+        en: { navigation:"Main navigation", officialRoute:"Steps for making an official report", dateFormat:"dd-mm-yyyy" },
+        ar: { navigation:"التنقل الرئيسي", officialRoute:"خطوات تقديم بلاغ رسمي", dateFormat:"يوم-شهر-سنة" },
+        so: { navigation:"Hagidda ugu weyn", officialRoute:"Tallaabooyinka gudbinta warbixin rasmi ah", dateFormat:"dd-mm-yyyy" },
+        tr: { navigation:"Ana gezinme", officialRoute:"Resmî bildirim adımları", dateFormat:"gg-aa-yyyy" },
+        pl: { navigation:"Nawigacja główna", officialRoute:"Kroki zgłoszenia urzędowego", dateFormat:"dd-mm-rrrr" },
+        es: { navigation:"Navegación principal", officialRoute:"Pasos para presentar un aviso oficial", dateFormat:"dd-mm-aaaa" }
+      };
       function applyReportLanguage(code) {
         const t = reportTranslations[code] || reportTranslations.nl;
         const report = document.getElementById("page-report");
@@ -1709,6 +1718,11 @@
         document.documentElement.lang = code;
         report.dir = rtl ? "rtl" : "ltr";
         document.querySelector(".language label").textContent = t.language;
+        const accessibility = reportAccessibilityLabels[code] || reportAccessibilityLabels.nl;
+        const siteNav = document.querySelector(".site-nav");
+        const officialRoute = report.querySelector(".arrow-flow");
+        if (siteNav) siteNav.setAttribute("aria-label", accessibility.navigation);
+        if (officialRoute) officialRoute.setAttribute("aria-label", accessibility.officialRoute);
         document.querySelector(".site-brand strong").textContent = t.brand;
         document.querySelector(".site-brand small").textContent = t.tagline;
         const nav = document.querySelectorAll(".site-nav button, .site-nav a");
@@ -1719,7 +1733,7 @@
         report.querySelectorAll(".arrow-step").forEach((el,i)=>{ if(t.steps[i]) el.innerHTML=t.steps[i]; });
         set(".choice-official > p",t.freeHelp);
         set("#spaarnelandenFormBox h4",t.formTitle); set("#spaarnelandenFormBox > p",t.formIntro,true);
-        ["#spNaam","#spAdres","#spTelefoon","#spDatum","#spBeschrijving"].forEach((sel,i)=>{const el=report.querySelector(sel); if(el){el.previousElementSibling.textContent=[t.name,t.address,t.phone,t.date,t.description][i];el.placeholder=[t.namePh,t.addressPh,t.phonePh,"dd-mm-yyyy",t.descriptionPh][i];}});
+        ["#spNaam","#spAdres","#spTelefoon","#spDatum","#spBeschrijving"].forEach((sel,i)=>{const el=report.querySelector(sel); if(el){el.previousElementSibling.textContent=[t.name,t.address,t.phone,t.date,t.description][i];el.placeholder=[t.namePh,t.addressPh,t.phonePh,accessibility.dateFormat,t.descriptionPh][i];}});
         set("#spaarnelandenMailForm button[type=submit]",t.send);
         set(".choice-map h3",t.mapTitle); set(".choice-map > strong",t.mapLead); set(".choice-map .visibility-highlight",t.visibility); set(".choice-warning",t.warning); set("#mapChoiceButton",t.mapButton);
         set(".choice-why h3",t.why); set(".choice-why p:not(.choice-slogan)",t.whyText); set(".choice-slogan",t.slogan);
