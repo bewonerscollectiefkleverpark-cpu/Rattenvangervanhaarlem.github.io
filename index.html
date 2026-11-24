@@ -134,7 +134,6 @@
       margin-top: 22px;
     }
 
-    /* Keuzeblok met ruimere ademruimte (Punt 1 & Punt 8) */
     .choice-panel-full {
       background: #fffaf5;
       border: 3px solid var(--red);
@@ -254,23 +253,29 @@
     }
 
     .spaarnelanden-mail-box {
-      margin: 26px 0;
-      padding: clamp(20px, 3vw, 30px);
-      border: 2px solid var(--line);
-      border-radius: 18px;
+      width: 100%;
+      margin: 8px 0 4px;
+      padding: 18px;
+      border: 1px solid #eadbd2;
+      border-radius: 14px;
       background: #fbf9f5;
     }
-    .spaarnelanden-mail-box h3 { margin: 0 0 10px; }
+    .spaarnelanden-mail-box h4 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
     .mail-form-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 14px;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 12px;
     }
     .mail-field-full { grid-column: 1 / -1; }
     .spaarnelanden-mail-box textarea {
       width: 100%;
-      min-height: 115px;
+      min-height: 110px;
       padding: 12px 14px;
       border: 1px solid #dedbd3;
       border-radius: 12px;
@@ -283,7 +288,6 @@
       border-color: var(--red);
       box-shadow: 0 0 0 3px rgba(169,67,56,.10);
     }
-    @media(max-width:650px) { .mail-form-grid { grid-template-columns: 1fr; } }
 
     .hidden { display: none !important; }
 
@@ -320,10 +324,10 @@
     }
 
     .field { margin: 20px 0; }
-    .field label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; }
+    .field label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 14px; }
     .field input, .field select {
       width: 100%;
-      padding: 14px 15px;
+      padding: 13px 14px;
       border: 1px solid #dedbd3;
       border-radius: 12px;
       background: #fff;
@@ -625,6 +629,39 @@
                 <div class="arrow-step">4. Gratis hulp aan huis. Vraag ook om een <strong>gratis rooktest</strong>.</div>
               </div>
               <p><strong>Sinds november 2026 onbeperkt gratis hulp.</strong></p>
+
+              <div class="spaarnelanden-mail-box" id="spaarnelandenFormBox">
+                <h4>E-mail voorbereiden naar Spaarnelanden</h4>
+                <p class="muted">Vul je gegevens in en klik op <strong>Open e-mail naar Spaarnelanden</strong>. Je e-mailprogramma opent met alle gegevens al ingevuld zodat je de mail zelf kunt versturen.</p>
+                <form id="spaarnelandenMailForm">
+                  <div class="mail-form-grid">
+                    <div class="field" style="margin:0;">
+                      <label for="spNaam">Naam</label>
+                      <input type="text" id="spNaam" name="naam" placeholder="Bijvoorbeeld: Jan de Vries" required>
+                    </div>
+                    <div class="field" style="margin:0;">
+                      <label for="spAdres">Adres</label>
+                      <input type="text" id="spAdres" name="adres" placeholder="Straatnaam en huisnummer in Haarlem" required>
+                    </div>
+                    <div class="field" style="margin:0;">
+                      <label for="spTelefoon">Telefoonnummer</label>
+                      <input type="tel" id="spTelefoon" name="telefoon" placeholder="Bijvoorbeeld: 06-12345678" required>
+                    </div>
+                    <div class="field" style="margin:0;">
+                      <label for="spDatum">Op welke datum was het?</label>
+                      <input type="text" id="spDatum" name="datum" placeholder="dd-mm-jjjj" inputmode="numeric" required>
+                    </div>
+                    <div class="field mail-field-full" style="margin:0;">
+                      <label for="spBeschrijving">Wat te melden over ratten beschrijven</label>
+                      <textarea id="spBeschrijving" name="beschrijving" placeholder="Beschrijf wat je hebt gezien (ratten, rattenkeutels, rattenhol, looproutes) en waar precies." required></textarea>
+                    </div>
+                  </div>
+                  <div class="actions">
+                    <button type="submit">Open e-mail naar Spaarnelanden</button>
+                  </div>
+                </form>
+              </div>
+
               <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl">Mail Spaarnelanden</a>
             </div>
 
@@ -643,38 +680,6 @@
             <p>Spaarnelanden is voor hulp. De kaart maakt de overlast zichtbaar voor de buurt.</p>
             <p class="choice-slogan">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
           </div>
-        </div>
-
-        <div class="spaarnelanden-mail-box" id="spaarnelandenFormBox">
-          <h3>E-mail voorbereiden naar Spaarnelanden</h3>
-          <p class="muted">Vul je gegevens in en klik op <strong>Open e-mail naar Spaarnelanden</strong>. Je e-mailprogramma opent met alle gegevens al ingevuld zodat je de mail zelf kunt versturen.</p>
-          <form id="spaarnelandenMailForm">
-            <div class="mail-form-grid">
-              <div class="field" style="margin:0;">
-                <label for="spNaam">Naam</label>
-                <input type="text" id="spNaam" name="naam" placeholder="Bijvoorbeeld: Jan de Vries" required>
-              </div>
-              <div class="field" style="margin:0;">
-                <label for="spAdres">Adres</label>
-                <input type="text" id="spAdres" name="adres" placeholder="Straatnaam en huisnummer in Haarlem" required>
-              </div>
-              <div class="field" style="margin:0;">
-                <label for="spTelefoon">Telefoonnummer</label>
-                <input type="tel" id="spTelefoon" name="telefoon" placeholder="Bijvoorbeeld: 06-12345678" required>
-              </div>
-              <div class="field" style="margin:0;">
-                <label for="spDatum">Op welke datum was het?</label>
-                <input type="text" id="spDatum" name="datum" placeholder="dd-mm-jjjj" inputmode="numeric" required>
-              </div>
-              <div class="field mail-field-full" style="margin:0;">
-                <label for="spBeschrijving">Wat te melden over ratten beschrijven</label>
-                <textarea id="spBeschrijving" name="beschrijving" placeholder="Beschrijf wat je hebt gezien (ratten, rattenkeutels, rattenhol, looproutes) en waar precies." required></textarea>
-              </div>
-            </div>
-            <div class="actions">
-              <button type="submit">Open e-mail naar Spaarnelanden</button>
-            </div>
-          </form>
         </div>
 
         <p class="muted">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
