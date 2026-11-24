@@ -1454,14 +1454,16 @@ button[data-page="map"]:hover:not(:disabled),
           return;
         }
 
+        const medals = ["🥇", "🥈", "🥉"];
         const parts = ratStreets.map((s, index) => {
           const info = getRatBandInfo(s.ratsTotal);
-          return `<span style="display:inline-flex;align-items:center;gap:6px;margin:6px 0;">
-            <i class="dot" style="background:${info.color};border-color:#222;"></i>
-            <strong>${index + 1}. ${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${info.band})
-          </span>`;
+          return `<div style="display:flex;align-items:center;gap:8px;margin:7px 0;">
+            <span aria-hidden="true" style="font-size:1.2em;line-height:1;">${medals[index]}</span>
+            <i class="dot" style="background:${info.color};border-color:#222;flex:none;"></i>
+            <span><strong>${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${info.band})</span>
+          </div>`;
         });
-        box.innerHTML = "<strong>" + heading + "</strong> " + parts.join("");
+        box.innerHTML = "<strong>" + heading + "</strong>" + parts.join("");
       }
 
       function renderAllMarkers(focusCoords) {
