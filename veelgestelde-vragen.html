@@ -603,7 +603,19 @@ a[href="index.html#page-map"]:hover { background: #52654b !important; }
     document.querySelectorAll(".site-nav a").forEach((el,i)=>el.textContent=t.nav[i]);
     document.querySelector("footer span:last-child").textContent=t.footer;
   };
-  selector.addEventListener("change",e=>apply(e.target.value));
+  const RVH_LANGUAGE_KEY = "rvhLanguage";
+  const savedLanguage = (() => {
+    try {
+      const saved = localStorage.getItem(RVH_LANGUAGE_KEY);
+      return ["nl","en","ar","so","tr","pl","es"].includes(saved) ? saved : "nl";
+    } catch (err) { return "nl"; }
+  })();
+  selector.addEventListener("change",e=>{
+    try { localStorage.setItem(RVH_LANGUAGE_KEY,e.target.value); } catch (err) {}
+    apply(e.target.value);
+  });
+  selector.value = savedLanguage;
+  apply(savedLanguage);
 })();
 </script>
 <script id="rvh-share-script">
