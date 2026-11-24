@@ -2096,7 +2096,7 @@ button[data-page="map"]:hover:not(:disabled),
         setText(rules.querySelector("h2"),t.rules[0]);
         setText(rules.querySelector(":scope > p"),t.rules[1]);
         rules.querySelectorAll(".photo-caption").forEach((el,i)=>{
-          const value=t.rules[i+2];
+          const value=t.rules[i+3];
           if(value) setHTML(el,"<strong>"+value.split(":")[0]+":</strong>"+value.substring(value.indexOf(":")+1));
         });
         setText(info.querySelector("h2"),t.info[0]);
