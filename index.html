@@ -163,7 +163,6 @@
     .choice-card .primary, .choice-button { margin-top:auto; }
     .choice-button { background:var(--green); color:white; border-radius:12px; padding:13px 20px; font-weight:800; }
     .choice-button:hover:not(:disabled) { background:#52654b; }
-    .choice-bottom { margin:18px 0 0; padding-top:14px; border-top:1px solid #eadbd2; font-weight:600; }
     @media(max-width:650px) { .choice-grid { grid-template-columns:1fr; } .choice-card { padding:17px; } }
 
     .arrow-flow {
@@ -173,18 +172,8 @@
       border-radius: 12px;
       padding: 12px 14px;
     }
-    .arrow-step {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-    .arrow-down {
-      text-align: center;
-      font-weight: 900;
-      color: var(--red-dark);
-      padding: 4px 0;
-      line-height: 1;
-    }
+    .arrow-step { font-weight: 700; font-size: 14px; line-height: 1.45; }
+    .arrow-down { text-align: center; font-weight: 900; color: var(--red-dark); padding: 4px 0; line-height: 1; }
 
     .visibility-highlight {
       width: 100%;
@@ -205,18 +194,14 @@
       border-radius: 18px;
       background: #fbf9f5;
     }
-    .spaarnelanden-mail-box h3 {
-      margin: 0 0 8px;
-    }
+    .spaarnelanden-mail-box h3 { margin: 0 0 8px; }
     .mail-form-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       margin-top: 12px;
     }
-    .mail-field-full {
-      grid-column: 1 / -1;
-    }
+    .mail-field-full { grid-column: 1 / -1; }
     .spaarnelanden-mail-box textarea {
       width: 100%;
       min-height: 110px;
@@ -254,34 +239,10 @@
       margin: 18px 0;
     }
 
-    .legend-title {
-      display: block;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 16px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,.12);
-      flex: none;
-    }
+    .legend-title { display: block; font-size: 13px; font-weight: 800; margin-bottom: 12px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px 16px; font-size: 12px; font-weight: 600; }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+    .dot { width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); flex: none; }
 
     .street-summary-box {
       background: #fffaf5;
@@ -293,14 +254,7 @@
     }
 
     .field { margin: 19px 0; }
-
-    .field label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
+    .field label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; }
     .field input, .field select {
       width: 100%;
       padding: 14px 15px;
@@ -310,35 +264,14 @@
       color: var(--ink);
       transition: border .2s, box-shadow .2s;
     }
-
     .field input:focus, .field select:focus {
       outline: none;
       border-color: var(--red);
       box-shadow: 0 0 0 3px rgba(169,67,56,.10);
     }
 
-    .check {
-      display: flex;
-      align-items: flex-start;
-      gap: 11px;
-      margin: 18px 0;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .check input {
-      width: 19px;
-      height: 19px;
-      flex: none;
-      margin-top: 3px;
-      accent-color: var(--red);
-    }
-
-    .error {
-      color: var(--red);
-      font-weight: 700;
-      margin-top: 12px;
-    }
+    .check { display: flex; align-items: flex-start; gap: 11px; margin: 18px 0; cursor: pointer; font-size: 14px; }
+    .check input { width: 19px; height: 19px; flex: none; margin-top: 3px; accent-color: var(--red); }
 
     .success {
       color: #3d6b38;
@@ -392,20 +325,8 @@
     .privacy-list li:before{content:"✓";position:absolute;left:14px;top:11px;color:#52764c;font-size:19px;font-weight:900}
     .privacy-caveat{margin:19px 0 0;padding:13px 15px;border-left:4px solid #9a713d;border-radius:8px;background:#f7f0e4;color:#554936;font-size:13px;line-height:1.55}
 
-    [dir="rtl"] .privacy-list li{padding:12px 43px 12px 14px}
-    [dir="rtl"] .privacy-list li:before{left:auto;right:14px}
-    [dir="rtl"] .privacy-caveat{border-left:0;border-right:4px solid #9a713d}
-    [dir="rtl"] #map { direction: ltr; }
-
-    .info-list {
-      padding-left: 23px;
-      margin: 18px 0 22px;
-    }
-
-    .info-list li {
-      margin-bottom: 13px;
-      line-height: 1.65;
-    }
+    .info-list { padding-left: 23px; margin: 18px 0 22px; }
+    .info-list li { margin-bottom: 13px; line-height: 1.65; }
 
     footer {
       padding: 20px 4px;
@@ -419,27 +340,8 @@
       border-top: 1px solid var(--line);
     }
 
-    .haarlem-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-weight: 800;
-      color: var(--ink);
-    }
-
-    .haarlem-badge::before {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--red);
-    }
-
-    [dir="rtl"] { text-align: right; }
-    [dir="rtl"] .site-nav,
-    [dir="rtl"] .actions {
-      flex-direction: row-reverse;
-    }
+    .haarlem-badge { display: inline-flex; align-items: center; gap: 7px; font-weight: 800; color: var(--ink); }
+    .haarlem-badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--red); }
 
     @media(max-width:760px) {
       #map { height: 54vh; min-height: 320px; }
@@ -485,14 +387,8 @@
   </style>
 
   <style id="rvh-unified-top">
-    .top {
-      background: #29231b !important;
-      color: #fff !important;
-      width: 100%;
-      font-size: .9rem;
-    }
-    .top .wrap,
-    .top .rvh-top-inner {
+    .top { background: #29231b !important; color: #fff !important; width: 100%; font-size: .9rem; }
+    .top .wrap, .top .rvh-top-inner {
       width: min(1120px, calc(100% - 32px)) !important;
       max-width: 1120px !important;
       margin: 0 auto !important;
@@ -504,11 +400,7 @@
       align-items: center;
     }
     .top a { color: #fff; }
-    .language {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .language { display: flex; align-items: center; gap: 8px; }
     .language select {
       font: inherit;
       border-radius: 8px;
@@ -527,11 +419,7 @@
       border: 1px solid #dfd5c5 !important;
       border-radius: 0 !important;
     }
-    .site-header-inner {
-      width: 100%;
-      max-width: none;
-      margin: 0 auto;
-    }
+    .site-header-inner { width: 100%; max-width: none; margin: 0 auto; }
     .site-brand {
       display: flex;
       align-items: center;
@@ -556,22 +444,9 @@
       box-shadow: none !important;
       display: block;
     }
-    .site-brand span {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .site-brand strong {
-      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
-      line-height: 1.12;
-      font-weight: 800;
-      color: #29231b;
-    }
-    .site-brand small {
-      font-size: 1rem;
-      line-height: 1.35;
-      color: #756b5c;
-    }
+    .site-brand span { display: flex; flex-direction: column; gap: 3px; }
+    .site-brand strong { font-size: clamp(1.3rem, 2.5vw, 1.9rem); line-height: 1.12; font-weight: 800; color: #29231b; }
+    .site-brand small { font-size: 1rem; line-height: 1.35; color: #756b5c; }
     .site-nav {
       display: flex;
       flex-wrap: wrap;
@@ -585,8 +460,7 @@
       border-radius: 10px;
       padding: 10px;
     }
-    .site-nav a,
-    .site-nav button {
+    .site-nav a, .site-nav button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -607,49 +481,21 @@
       box-shadow: none;
       transform: none;
     }
-    .site-nav a:hover,
-    .site-nav a:focus-visible,
-    .site-nav a.active,
-    .site-nav button:hover,
-    .site-nav button:focus-visible,
-    .site-nav button[aria-current="page"] {
+    .site-nav a:hover, .site-nav a:focus-visible, .site-nav a.active,
+    .site-nav button:hover, .site-nav button:focus-visible, .site-nav button[aria-current="page"] {
       background: #514431;
       color: #fff;
       box-shadow: none;
       transform: none;
     }
     @media(max-width:650px) {
-      .top .wrap,
-      .top .rvh-top-inner {
-        width: calc(100% - 28px) !important;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .site-header {
-        width: calc(100% - 28px) !important;
-        padding: 14px !important;
-        margin: 14px auto 20px !important;
-      }
+      .top .wrap, .top .rvh-top-inner { width: calc(100% - 28px) !important; flex-wrap: wrap; flex-direction: column; align-items: flex-start; }
+      .site-header { width: calc(100% - 28px) !important; padding: 14px !important; margin: 14px auto 20px !important; }
       .site-brand { gap: 10px; }
-      .site-brand img {
-        width: 54px !important;
-        height: 54px !important;
-        flex-basis: 54px !important;
-      }
+      .site-brand img { width: 54px !important; height: 54px !important; flex-basis: 54px !important; }
       .site-brand small { font-size: .88rem; }
-      .site-nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 8px;
-      }
-      .site-nav a,
-      .site-nav button {
-        font-size: .82rem;
-        padding: 8px 9px;
-        min-height: 38px;
-      }
+      .site-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; }
+      .site-nav a, .site-nav button { font-size: .82rem; padding: 8px 9px; min-height: 38px; }
     }
   </style>
 </head>
@@ -657,16 +503,11 @@
 <body>
   <div class="top">
     <div class="wrap rvh-top-inner">
-      <strong data-t="topBarTag">RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
+      <strong>RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
       <div class="language">
-        <label for="language" data-t="languageDisplayLabel">Taal</label>
-        <select id="language" aria-label="Choose language" data-t-aria="languageLabel">
+        <label for="language">Taal</label>
+        <select id="language" aria-label="Choose language">
           <option value="nl">🌐 Nederlands</option>
-          <option value="tr">🌐 Türkçe</option>
-          <option value="ar">🌐 العربية</option>
-          <option value="ru">🌐 Русский</option>
-          <option value="es">🌐 Español</option>
-          <option value="en">🌐 English</option>
         </select>
       </div>
     </div>
@@ -675,21 +516,19 @@
   <header class="site-header">
     <div class="site-header-inner">
       <a class="site-brand" href="index.html#page-report" data-page="report">
-        <img src="IMG_0106.PNG"
-          alt="Logo Rattenvanger van Haarlem"
-          onerror="this.onerror=null;this.style.display='none';">
+        <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
         <span>
           <strong>Rattenvanger van Haarlem</strong>
-          <small data-t="subtitle">Samen maken we rattenoverlast zichtbaar</small>
+          <small>Samen maken we rattenoverlast zichtbaar</small>
         </span>
       </a>
 
-      <nav class="site-nav" aria-label="Hoofdnavigatie" data-t-aria="navigationLabel">
-        <button type="button" data-page="report" data-t="report" aria-current="page">Mail Spaarnelanden</button>
-        <button type="button" data-page="map" data-t="map">Rattenkaart: waar zijn de hotspots?</button>
-        <button type="button" data-page="rules" data-t="rules">Leefregels tegen ratten</button>
-        <button type="button" data-page="info" data-t="info">Informatie</button>
-        <button type="button" data-page="posters" data-t="posters">Posters om te printen</button>
+      <nav class="site-nav" aria-label="Hoofdnavigatie">
+        <button type="button" data-page="report" aria-current="page">Mail Spaarnelanden</button>
+        <button type="button" data-page="map">Rattenkaart: waar zijn de hotspots?</button>
+        <button type="button" data-page="rules">Leefregels tegen ratten</button>
+        <button type="button" data-page="info">Informatie</button>
+        <button type="button" data-page="posters">Posters om te printen</button>
         <a href="rattenkeutels-herkennen.html">Rattenkeutels herkennen</a>
         <a href="veelgestelde-vragen.html">Veelgestelde vragen</a>
         <a href="ratten-en-het-riool.html">Ratten en het riool</a>
@@ -700,15 +539,15 @@
   <div class="wrap">
     <main>
       <section id="page-report">
-        <h2 data-t="reportTitle">Rattenoverlast melden in Haarlem</h2>
+        <h2>Rattenoverlast melden in Haarlem</h2>
         <div class="reporting-fatigue-banner" role="note">Meld iedere keer opnieuw!</div>
         <div class="choice-panel choice-panel-full">
-          <p class="choice-intro" data-t="choiceIntro">Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!</p>
+          <p class="choice-intro">Op deze website vind je twee verschillende meldknoppen. Ze hebben allebei een eigen doel. Je kunt ze allebei gebruiken!</p>
           <div class="choice-grid">
             <div class="choice-card choice-official">
               <span class="choice-number">1</span>
-              <h3 data-t="choiceOfficialHeading">Knop: Mail Spaarnelanden</h3>
-              <strong data-t="choiceOfficialLead">Voor een officiële melding en gratis hulp aan huis.</strong>
+              <h3>Knop: Mail Spaarnelanden</h3>
+              <strong>Voor een officiële melding en gratis hulp aan huis.</strong>
               <div class="arrow-flow" aria-label="Route voor officiële melding">
                 <div class="arrow-step">1. Klik op de knop <strong>Mail Spaarnelanden</strong> om een e-mail aan Spaarnelanden te openen. Vul je gegevens aan en verstuur de e-mail zelf.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
@@ -718,24 +557,24 @@
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
                 <div class="arrow-step">4. Een medewerker komt gratis bij je langs en helpt je bij de aanpak van de rattenoverlast. Vraag bij het bezoek ook om een <strong>gratis rooktest</strong> om mogelijke ingangen en looproutes van ratten op te sporen.</div>
               </div>
-              <p><strong data-t="choiceUnlimited">Sinds november 2026 kun je hiervoor onbeperkt vaak gratis hulp krijgen.</strong></p>
-              <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl" data-t="openEmail">Mail Spaarnelanden</a>
+              <p><strong>Sinds november 2026 kun je hiervoor onbeperkt vaak gratis hulp krijgen.</strong></p>
+              <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl">Mail Spaarnelanden</a>
             </div>
             <div class="choice-card choice-map">
               <span class="choice-number">2</span>
-              <h3 data-t="choiceMapHeading">Knop: Meld op de rattenkaart</h3>
-              <strong data-t="choiceMapLead">Om buurtbewoners te laten zien waar rattenoverlast voorkomt.</strong>
-              <p data-t="choiceMapHow">Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.</p>
-              <p data-t="choiceMapVisible">Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.</p>
+              <h3>Knop: Meld op de rattenkaart</h3>
+              <strong>Om buurtbewoners te laten zien waar rattenoverlast voorkomt.</strong>
+              <p>Heb je een rat gezien, rattenkeutels gevonden of een rattenhol ontdekt? Geef dat dan door via deze knop.</p>
+              <p>Je waarneming verschijnt als een melding op onze rattenkaart. Zo kunnen Haarlemmers zien in welke straten rattenoverlast wordt gemeld en waar mogelijke hotspots ontstaan.</p>
               <div class="visibility-highlight">Wij maken zichtbaar wat onzichtbaar wordt gehouden door de gemeente Haarlem.</div>
-              <p class="choice-warning"><strong data-t="choiceMapWarning">Let op:</strong> <span data-t="choiceMapWarningText">een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.</span></p>
-              <button type="button" class="choice-button" id="mapChoiceButton" data-t="choiceMapButton">Meld op de rattenkaart</button>
+              <p class="choice-warning"><strong>Let op:</strong> een melding op de rattenkaart is géén officiële melding bij Spaarnelanden. Wil je dat Spaarnelanden en Anticimex in actie komen? Gebruik dan ook de knop Mail Spaarnelanden.</p>
+              <button type="button" class="choice-button" id="mapChoiceButton">Meld op de rattenkaart</button>
             </div>
           </div>
           <div class="choice-why">
-            <h3 data-t="choiceWhyTitle">Waarom twee knoppen?</h3>
-            <p data-t="choiceWhyText">De officiële meldingen geven toegang tot hulp. De rattenkaart maakt de overlast zichtbaar voor de buurt. Door beide te gebruiken, help je jezelf én je medebuurtbewoners.</p>
-            <p class="choice-slogan" data-t="choiceSlogan">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
+            <h3>Waarom twee knoppen?</h3>
+            <p>De officiële meldingen geven toegang tot hulp. De rattenkaart maakt de overlast zichtbaar voor de buurt. Door beide te gebruiken, help je jezelf én je medebuurtbewoners.</p>
+            <p class="choice-slogan">Samen maken we zichtbaar wat anders onzichtbaar blijft.</p>
           </div>
         </div>
 
@@ -771,37 +610,37 @@
           </form>
         </div>
 
-        <p class="muted" data-t="emailLimit">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
-        <label class="check"><input type="checkbox" id="returned"><span data-t="returnedLabel">Ik heb de e-mail geopend en ben teruggekeerd naar deze website.</span></label>
-        <div class="actions"><button type="button" id="unlockButton" disabled data-t="unlockMap">Bekijk de kaart</button></div>
+        <p class="muted">Nadat je de e-mail hebt geopend, keer je terug naar deze website. We kunnen niet controleren of je de e-mail daadwerkelijk hebt verzonden of dat Spaarnelanden deze heeft ontvangen.</p>
+        <label class="check"><input type="checkbox" id="returned"><span>Ik heb de e-mail geopend en ben teruggekeerd naar deze website.</span></label>
+        <div class="actions"><button type="button" id="unlockButton" disabled>Bekijk de kaart</button></div>
       </section>
 
       <section id="page-map" class="hidden">
-        <h2 data-t="mapTitle">Rattenkaart: waar zijn de hotspots?</h2>
-        <p data-t="mapIntro">Hieronder vul je een straat in Haarlem in om te melden wat je hebt gezien. Zo ziet heel Haarlem waar drukste plekken (hotspots) ontstaan.</p>
+        <h2>Rattenkaart: waar zijn de hotspots?</h2>
+        <p>Hieronder vul je een straat in Haarlem in om te melden wat je hebt gezien. Zo ziet heel Haarlem waar drukste plekken (hotspots) ontstaan.</p>
         <div class="visibility-highlight">Wij laten zien wat de gemeente Haarlem liever verstopt houdt voor mensen die het nog niet weten.</div>
 
-        <div class="notice" data-t="mapWarning">
+        <div class="notice">
           We tellen alle meldingen in een straat van het afgelopen jaar bij elkaar op. Ziet iemand vaker dezelfde rat, of zien twee buren dezelfde rat? Dan telt die toch mee in het totaal. Het is dus een optelsom van meldingen, geen telling van losse dieren.
         </div>
 
         <div class="notice">
-          <strong data-t="dotTitle">Wat betekent het bolletje?</strong>
-          <p data-t="dotExplanation">Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
+          <strong>Wat betekent het bolletje?</strong>
+          <p>Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
         </div>
 
         <div class="legend-box">
-          <span class="legend-title" data-t="legendTitle">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
+          <span class="legend-title">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
           <div class="legend">
-            <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span data-t="band1">1–4 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span data-t="band2">5–9 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#e67e22"></i><span data-t="band3">10–19 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#c0392b"></i><span data-t="band4">20–39 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#8e44ad"></i><span data-t="band5">40–59 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#5b2c83"></i><span data-t="band6">60–99 ratten</span></span>
-            <span class="legend-item"><i class="dot" style="background:#000000"></i><span data-t="band7">100 of meer</span></span>
-            <span class="legend-item"><i class="dot" style="background:#8b4513;border:2px solid #ffffff"></i><span data-t="legendDroppings">Bruine stip: rattenkeutels</span></span>
-            <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #222;width:16px;height:16px"></i><span data-t="legendBurrows">Grote witte stip: gangen of holen</span></span>
+            <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span>1–4 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span>5–9 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#e67e22"></i><span>10–19 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#c0392b"></i><span>20–39 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#8e44ad"></i><span>40–59 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#5b2c83"></i><span>60–99 ratten</span></span>
+            <span class="legend-item"><i class="dot" style="background:#000000"></i><span>100 of meer</span></span>
+            <span class="legend-item"><i class="dot" style="background:#8b4513;border:2px solid #ffffff"></i><span>Bruine stip: rattenkeutels</span></span>
+            <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #222;width:16px;height:16px"></i><span>Grote witte stip: gangen of holen</span></span>
           </div>
         </div>
 
@@ -809,61 +648,52 @@
           <strong>Actuele totalen per straat (ratten):</strong> Laden...
         </div>
 
-        <div id="map" aria-label="Kaart met rattenwaarnemingen per straat" data-t-aria="mapAria"></div>
+        <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
 
         <div class="field">
-          <label for="streetInput" data-t="typeStreet">Straatnaam in Haarlem (zonder huisnummer):</label>
-          <input type="text" id="streetInput"
-            placeholder="Bijvoorbeeld: Parklaan"
-            data-t-placeholder="streetPlaceholder"
-            maxlength="100" autocomplete="off">
+          <label for="streetInput">Straatnaam in Haarlem (zonder huisnummer):</label>
+          <input type="text" id="streetInput" placeholder="Bijvoorbeeld: Parklaan" maxlength="100" autocomplete="off">
         </div>
 
         <div class="field">
-          <label for="category" data-t="categoryLabel">Wat wil je melden?</label>
+          <label for="category">Wat wil je melden?</label>
           <select id="category">
-            <option value="rats" data-t="categoryRats">Ratten gezien (levend of dood)</option>
-            <option value="droppings" data-t="categoryDroppings">Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)</option>
-            <option value="burrows" data-t="categoryBurrows">Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)</option>
+            <option value="rats">Ratten gezien (levend of dood)</option>
+            <option value="droppings">Rattenkeutels (1,5–2 cm lang; geen muizenkeutels)</option>
+            <option value="burrows">Gangen of holen (opening ca. 5 cm of groter; geen muizenholletjes)</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="observation" id="observationLabel" data-t="observationRats">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
+          <label for="observation" id="observationLabel">Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?</label>
           <input type="number" id="observation" min="1" max="20" step="1" value="1" inputmode="numeric">
-          <p class="muted" id="countHelp" data-t="countHelpRats">Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
+          <p class="muted" id="countHelp">Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.</p>
         </div>
 
         <div class="check" style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-start">
           <label class="check" style="margin:0;flex:1 1 280px">
             <input type="checkbox" id="consent">
-            <span data-t="consent">
-              Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.
-            </span>
+            <span>Ik begrijp dat mijn melding vrijwillig is, niet wordt gecontroleerd, betrekking heeft op de afgelopen 12 maanden en op straatniveau wordt weergegeven.</span>
           </label>
           <label class="check" style="margin:0;flex:1 1 220px">
             <input type="checkbox" id="truthful">
-            <span data-t="truthful">
-              Ik verklaar dat ik deze melding naar waarheid heb ingevuld.
-            </span>
+            <span>Ik verklaar dat ik deze melding naar waarheid heb ingevuld.</span>
           </label>
         </div>
 
         <div class="actions">
-          <button type="button" id="submitReport" disabled data-t="submit">Waarneming registreren</button>
+          <button type="button" id="submitReport" disabled>Waarneming registreren</button>
           <button type="button" id="resetLocalReports" class="secondary-btn">Herstel basisdata (wis eigen toevoegingen)</button>
         </div>
 
         <p id="submitMessage" role="status" aria-live="polite"></p>
 
-        <p class="muted" data-t="storageNotice">
-          Meldingen worden opgeslagen en op straatniveau weergegeven op de kaart.
-        </p>
+        <p class="muted">Meldingen worden opgeslagen en op straatniveau weergegeven op de kaart.</p>
       </section>
 
       <section id="page-rules" class="hidden">
-        <h2 data-t="rulesTitle">Leefregels tegen ratten</h2>
-        <p data-t="rulesIntro">Ratten hebben drie dingen nodig: voedsel, water en beschutting. Met een paar eenvoudige gewoontes verklein je de kans op ratten in huis, tuin en buurt.</p>
+        <h2>Leefregels tegen ratten</h2>
+        <p>Ratten hebben drie dingen nodig: voedsel, water en beschutting. Met een paar eenvoudige gewoontes verklein je de kans op ratten in huis, tuin en buurt.</p>
 
         <div class="rules-action-panel">
           <div class="rules-action-heading">
@@ -905,15 +735,15 @@
       </section>
 
       <section id="page-info" class="hidden">
-        <h2 data-t="infoTitle">Over dit initiatief</h2>
-        <p data-t="infoText">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.</p>
+        <h2>Over dit initiatief</h2>
+        <p>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief. We willen rattenoverlast in Haarlem zichtbaar maken, zodat bewoners samen kunnen zien waar ratten, uitwerpselen en rattenholen voorkomen.</p>
 
         <ul class="info-list">
-          <li data-t="info1">Wij zijn geen ongediertebestrijders. We vangen en bestrijden zelf geen ratten.</li>
-          <li data-t="info2">We vragen geen huisnummer, naam of andere privégegevens voor de kaart.</li>
-          <li data-t="info3">Je kunt ook zonder te melden naar de kaart gaan via het menu bovenin.</li>
-          <li data-t="info4">Deze kaart is een bewonersinitiatief en geen officiële gemeentekaart.</li>
-          <li data-t="info5">Doe altijd ook een officiële melding bij Spaarnelanden en vraag bij een bezoek van Anticimex om een gratis rooktest.</li>
+          <li>Wij zijn geen ongediertebestrijders. We vangen en bestrijden zelf geen ratten.</li>
+          <li>We vragen geen huisnummer, naam of andere privégegevens voor de kaart.</li>
+          <li>Je kunt ook zonder te melden naar de kaart gaan via het menu bovenin.</li>
+          <li>Deze kaart is een bewonersinitiatief en geen officiële gemeentekaart.</li>
+          <li>Doe altijd ook een officiële melding bij Spaarnelanden en vraag bij een bezoek van Anticimex om een gratis rooktest.</li>
         </ul>
 
         <div class="responsibility-panel">
@@ -985,81 +815,26 @@
   <script>
     (function () {
       const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCQmyGDWKqCNIByHnYQDg0aAd5NF2jk0UWFQwUDsC364slPf0ttn-zGJy99IpO80IbQ/exec";
-      const STORAGE_KEY = "rvh_map_reports_v3";
-      const RANDOM_PINS_KEY = "rvh_street_random_pins_v1";
+      const STORAGE_KEY = "rvh_map_reports_v4";
+      const RANDOM_PINS_KEY = "rvh_street_random_pins_v2";
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
 
       const BASE_REPORTS = [
-        {
-          datum: "20-11-2026 13:16:38",
-          straat: "Aelbertsbergstraat",
-          aantal: 3,
-          status: "Ongeverifieerd",
-          lat: "52,39292154",
-          lng: "4,6317641",
-          meldtype: "exact12m",
-          categorie: "rats"
-        },
-        {
-          datum: "20-11-2026 13:47:58",
-          straat: "Aelbertsbergstraat",
-          aantal: 1,
-          status: "Ongeverifieerd",
-          lat: "52,39292154",
-          lng: "4,6317641",
-          meldtype: "exact12m",
-          categorie: "burrows"
-        },
-        {
-          datum: "20-11-2026 17:37:43",
-          straat: "Kleverlaan",
-          aantal: 1,
-          status: "Ongeverifieerd",
-          lat: "52,39448183",
-          lng: "4,64015493",
-          meldtype: "exact12m",
-          categorie: "rats"
-        },
-        {
-          datum: "23-11-2026 17:00:42",
-          straat: "Tetterodestraat",
-          aantal: 12,
-          status: "Ongeverifieerd",
-          lat: "52,39100733",
-          lng: "4,6324991",
-          meldtype: "exact12m",
-          categorie: "rats"
-        },
-        {
-          datum: "24-11-2026 8:40:59",
-          straat: "Aelbertsbergstraat",
-          aantal: 1,
-          status: "Ongeverifieerd",
-          lat: "52,39292154",
-          lng: "4,6317641",
-          meldtype: "exact12m",
-          categorie: "burrows"
-        }
+        { datum: "20-11-2026 13:16:38", straat: "Aelbertsbergstraat", aantal: 3, status: "Ongeverifieerd", lat: "52.39292154", lng: "4.6317641", meldtype: "straatniveau", categorie: "rats" },
+        { datum: "20-11-2026 13:47:58", straat: "Aelbertsbergstraat", aantal: 1, status: "Ongeverifieerd", lat: "52.39292154", lng: "4.6317641", meldtype: "straatniveau", categorie: "burrows" },
+        { datum: "20-11-2026 17:37:43", straat: "Kleverlaan", aantal: 1, status: "Ongeverifieerd", lat: "52.39448183", lng: "4.64015493", meldtype: "straatniveau", categorie: "rats" },
+        { datum: "23-11-2026 17:00:42", straat: "Tetterodestraat", aantal: 12, status: "Ongeverifieerd", lat: "52.39100733", lng: "4.6324991", meldtype: "straatniveau", categorie: "rats" },
+        { datum: "24-11-2026 8:40:59", straat: "Aelbertsbergstraat", aantal: 1, status: "Ongeverifieerd", lat: "52.39292154", lng: "4.6317641", meldtype: "straatniveau", categorie: "burrows" }
       ];
 
-      const KNOWN_STREETS = {
-        "aelbertsbergstraat": { lat: 52.39292154, lng: 4.6317641 },
-        "kleverlaan": { lat: 52.39448183, lng: 4.64015493 },
-        "tetterodestraat": { lat: 52.39100733, lng: 4.6324991 },
-        "kleverparkweg": { lat: 52.3922, lng: 4.6348 },
-        "parklaan": { lat: 52.3886, lng: 4.6368 },
-        "velserstraat": { lat: 52.3895, lng: 4.6362 }
-      };
+      const streetCoordCache = {};
 
       function loadRandomPins() {
         try {
           const raw = localStorage.getItem(RANDOM_PINS_KEY);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed && typeof parsed === "object") return parsed;
-          }
+          if (raw) return JSON.parse(raw) || {};
         } catch (err) {}
         return {};
       }
@@ -1072,15 +847,12 @@
 
       let randomStreetPins = loadRandomPins();
 
-      // Plaatst een bolletje voor privacy willekeurig ergens langs de straat (niet op een huisnummer)
-      // en houdt die positie vast per straat + categorie zodat het bolletje optelt op dezelfde plek.
+      // Willekeurige verschuiving binnen de straat voor privacy (vast per straat + categorie).
       function getRandomPrivacyCoords(streetName, categoryKey, baseLat, baseLng) {
         const pinKey = String(streetName || "").toLowerCase().trim() + "__" + categoryKey;
-        if (randomStreetPins[pinKey]) {
-          return randomStreetPins[pinKey];
-        }
+        if (randomStreetPins[pinKey]) return randomStreetPins[pinKey];
         const angle = Math.random() * Math.PI * 2;
-        const dist = 0.00015 + Math.random() * 0.00055;
+        const dist = 0.00012 + Math.random() * 0.00042;
         const pos = {
           lat: baseLat + Math.cos(angle) * dist,
           lng: baseLng + Math.sin(angle) * dist * 1.4
@@ -1088,6 +860,56 @@
         randomStreetPins[pinKey] = pos;
         saveRandomPins(randomStreetPins);
         return pos;
+      }
+
+      function parsePointWkt(wkt) {
+        if (!wkt || typeof wkt !== "string") return null;
+        const match = wkt.match(/POINT\(([-0-9.]+)\s+([-0-9.]+)\)/);
+        if (!match) return null;
+        const lng = Number(match[1]);
+        const lat = Number(match[2]);
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return null;
+        return { lat, lng };
+      }
+
+      // PDOK Locatieserver in Haarlem: eerst adres met huisnummer 5, daarna weg/straatnaam.
+      async function lookupPdokHaarlemStreet(streetName) {
+        const cleanName = String(streetName || "").trim().replace(/\s+/g, " ");
+        if (!cleanName) return null;
+        const key = cleanName.toLowerCase();
+        if (streetCoordCache[key]) return streetCoordCache[key];
+
+        const queries = [
+          { q: cleanName + " 5 Haarlem", fq: "woonplaatsnaam:Haarlem AND type:adres" },
+          { q: cleanName + " Haarlem", fq: "woonplaatsnaam:Haarlem AND type:weg" },
+          { q: cleanName + " Haarlem", fq: "woonplaatsnaam:Haarlem" }
+        ];
+
+        for (let i = 0; i < queries.length; i++) {
+          const item = queries[i];
+          try {
+            const url =
+              "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=" +
+              encodeURIComponent(item.q) +
+              "&fq=" +
+              encodeURIComponent(item.fq) +
+              "&fl=" +
+              encodeURIComponent("straatnaam,centroide_ll,type,woonplaatsnaam") +
+              "&rows=1";
+            const res = await fetch(url);
+            const data = await res.json();
+            const docs = data && data.response && Array.isArray(data.response.docs) ? data.response.docs : [];
+            if (docs.length > 0 && docs[0].centroide_ll) {
+              const coords = parsePointWkt(docs[0].centroide_ll);
+              if (coords) {
+                streetCoordCache[key] = coords;
+                return coords;
+              }
+            }
+          } catch (err) {}
+        }
+
+        return null;
       }
 
       function normalizeCategory(cat) {
@@ -1115,9 +937,7 @@
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              return parsed.map(normalizeReport);
-            }
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed.map(normalizeReport);
           }
         } catch (err) {}
         return BASE_REPORTS.map(normalizeReport);
@@ -1156,23 +976,6 @@
           .replace(/"/g, "&quot;");
       }
 
-      function getStreetBaseCoords(streetName) {
-        const key = String(streetName || "").toLowerCase().trim();
-        if (KNOWN_STREETS[key]) {
-          return { lat: KNOWN_STREETS[key].lat, lng: KNOWN_STREETS[key].lng };
-        }
-        const match = allReports.find(r => {
-          if (String(r.straat || "").toLowerCase().trim() !== key) return false;
-          const lat = parseCoord(r.lat);
-          const lng = parseCoord(r.lng);
-          return !Number.isNaN(lat) && !Number.isNaN(lng);
-        });
-        if (match) {
-          return { lat: parseCoord(match.lat), lng: parseCoord(match.lng) };
-        }
-        return null;
-      }
-
       function groupReportsByStreet(reports) {
         const streets = {};
         reports.forEach(raw => {
@@ -1184,10 +987,11 @@
           if (!streets[key]) {
             const lat = parseCoord(item.lat);
             const lng = parseCoord(item.lng);
+            const cached = streetCoordCache[key];
             streets[key] = {
               straat: streetName,
-              lat: !Number.isNaN(lat) ? lat : NaN,
-              lng: !Number.isNaN(lng) ? lng : NaN,
+              lat: !Number.isNaN(lat) ? lat : (cached ? cached.lat : NaN),
+              lng: !Number.isNaN(lng) ? lng : (cached ? cached.lng : NaN),
               ratsTotal: 0,
               droppingsTotal: 0,
               burrowsTotal: 0,
@@ -1198,31 +1002,50 @@
           const s = streets[key];
           const lat = parseCoord(item.lat);
           const lng = parseCoord(item.lng);
-          if (Number.isNaN(s.lat) && !Number.isNaN(lat)) s.lat = lat;
-          if (Number.isNaN(s.lng) && !Number.isNaN(lng)) s.lng = lng;
+          if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+            s.lat = lat;
+            s.lng = lng;
+          } else if (streetCoordCache[key]) {
+            s.lat = streetCoordCache[key].lat;
+            s.lng = streetCoordCache[key].lng;
+          }
           if (item.datum) s.lastDatum = item.datum;
 
-          if (item.categorie === "droppings") {
-            s.droppingsTotal += item.aantal;
-          } else if (item.categorie === "burrows") {
-            s.burrowsTotal += item.aantal;
-          } else {
-            s.ratsTotal += item.aantal;
-          }
-        });
-
-        Object.keys(streets).forEach(key => {
-          const s = streets[key];
-          if (Number.isNaN(s.lat) || Number.isNaN(s.lng)) {
-            const fallback = getStreetBaseCoords(s.straat);
-            if (fallback) {
-              s.lat = fallback.lat;
-              s.lng = fallback.lng;
-            }
-          }
+          if (item.categorie === "droppings") s.droppingsTotal += item.aantal;
+          else if (item.categorie === "burrows") s.burrowsTotal += item.aantal;
+          else s.ratsTotal += item.aantal;
         });
 
         return streets;
+      }
+
+      async function resolveMissingStreetCoordsViaPdok() {
+        const grouped = groupReportsByStreet(allReports);
+        const streetsToLookup = Object.values(grouped)
+          .filter(s => Number.isNaN(s.lat) || Number.isNaN(s.lng))
+          .map(s => s.straat);
+
+        if (streetsToLookup.length === 0) return;
+
+        let changed = false;
+        for (let i = 0; i < streetsToLookup.length; i++) {
+          const st = streetsToLookup[i];
+          const coords = await lookupPdokHaarlemStreet(st);
+          if (coords) {
+            changed = true;
+            allReports = allReports.map(r => {
+              if (String(r.straat || "").trim().toLowerCase() === st.toLowerCase()) {
+                return { ...r, lat: String(coords.lat), lng: String(coords.lng) };
+              }
+              return r;
+            });
+          }
+        }
+
+        if (changed) {
+          saveReports(allReports);
+          renderAllMarkers();
+        }
       }
 
       function updateStreetOverviewUI(reports) {
@@ -1251,11 +1074,8 @@
         updateStreetOverviewUI(allReports);
 
         if (!window.rvhMap || typeof L === "undefined") return;
-        if (!markersLayer) {
-          markersLayer = L.layerGroup().addTo(window.rvhMap);
-        } else {
-          markersLayer.clearLayers();
-        }
+        if (!markersLayer) markersLayer = L.layerGroup().addTo(window.rvhMap);
+        else markersLayer.clearLayers();
 
         Object.values(grouped).forEach(s => {
           if (Number.isNaN(s.lat) || Number.isNaN(s.lng)) return;
@@ -1264,14 +1084,13 @@
             const bandInfo = getRatBandInfo(s.ratsTotal);
             const ratPos = getRandomPrivacyCoords(s.straat, "rats", s.lat, s.lng);
             const ratMarker = L.circleMarker([ratPos.lat, ratPos.lng], {
-              radius: 10,
+              radius: 11,
               fillColor: bandInfo.color,
-              color: "#222222",
-              weight: 2,
+              color: "#ffffff",
+              weight: 2.5,
               opacity: 1,
-              fillOpacity: 0.95
+              fillOpacity: 0.94
             });
-
             ratMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
               "Alle opgetelde ratten in deze straat: <strong>" + s.ratsTotal + "</strong>",
@@ -1331,33 +1150,9 @@
             allReports = data.reports.map(normalizeReport);
             saveReports(allReports);
             renderAllMarkers();
+            await resolveMissingStreetCoordsViaPdok();
           }
         } catch (err) {}
-      }
-
-      async function geocodeHaarlemStreet(streetName) {
-        const key = streetName.toLowerCase().trim();
-        const existing = getStreetBaseCoords(streetName);
-        if (existing) return existing;
-
-        try {
-          const q = encodeURIComponent(streetName + ", Haarlem, Nederland");
-          const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${q}`;
-          const res = await fetch(url, {
-            headers: { "Accept": "application/json" }
-          });
-          const list = await res.json();
-          if (Array.isArray(list) && list.length > 0) {
-            const lat = parseFloat(list[0].lat);
-            const lng = parseFloat(list[0].lon);
-            if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
-              KNOWN_STREETS[key] = { lat, lng };
-              return { lat, lng };
-            }
-          }
-        } catch (err) {}
-
-        return { lat: 52.3928, lng: 4.6345 };
       }
 
       function showPage(page) {
@@ -1367,14 +1162,12 @@
           if (el) el.classList.toggle("hidden", p !== target);
         });
         navButtons.forEach(btn => {
-          if (btn.getAttribute("data-page") === target) {
-            btn.setAttribute("aria-current", "page");
-          } else {
-            btn.removeAttribute("aria-current");
-          }
+          if (btn.getAttribute("data-page") === target) btn.setAttribute("aria-current", "page");
+          else btn.removeAttribute("aria-current");
         });
         if (target === "map") {
           syncFromSheetSilently();
+          resolveMissingStreetCoordsViaPdok();
           if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
             setTimeout(() => {
               window.rvhMap.invalidateSize();
@@ -1417,9 +1210,7 @@
       });
 
       const initialHash = location.hash.replace("#page-", "");
-      if (pages.includes(initialHash)) {
-        showPage(initialHash);
-      }
+      if (pages.includes(initialHash)) showPage(initialHash);
 
       const spForm = document.getElementById("spaarnelandenMailForm");
       if (spForm) {
@@ -1459,9 +1250,7 @@
       const returnedBox = document.getElementById("returned");
       const unlockBtn = document.getElementById("unlockButton");
       if (returnedBox && unlockBtn) {
-        returnedBox.addEventListener("change", function () {
-          unlockBtn.disabled = !returnedBox.checked;
-        });
+        returnedBox.addEventListener("change", function () { unlockBtn.disabled = !returnedBox.checked; });
         unlockBtn.addEventListener("click", function () {
           showPage("map");
           history.replaceState(null, "", "#page-map");
@@ -1477,6 +1266,7 @@
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
         renderAllMarkers();
+        resolveMissingStreetCoordsViaPdok();
         syncFromSheetSilently();
       } else {
         updateStreetOverviewUI(allReports);
@@ -1527,7 +1317,17 @@
           const street = streetInput.value.trim();
           const count = Math.max(1, Math.min(20, parseInt(obsInput.value, 10) || 1));
           const cat = normalizeCategory(categoryEl.value);
-          const coords = await geocodeHaarlemStreet(street);
+
+          let coords = await lookupPdokHaarlemStreet(street);
+          if (!coords) {
+            const grouped = groupReportsByStreet(allReports);
+            const existing = grouped[street.toLowerCase()];
+            if (existing && !Number.isNaN(existing.lat) && !Number.isNaN(existing.lng)) {
+              coords = { lat: existing.lat, lng: existing.lng };
+            } else {
+              coords = { lat: 52.3874, lng: 4.6462 };
+            }
+          }
 
           const now = new Date();
           const datumStr =
