@@ -1735,12 +1735,12 @@
         }
       };
       const mapDynamicTranslations = {
-        en:{heading:"Current totals per street (rats):",empty:"No rat reports yet.",rats:"Total reported rats on this street:",colour:"Colour:",droppings:"Rat droppings (total):",burrows:"Burrows or tunnels (total):",privacy:"For your privacy, this dot is placed at a random location along the street."},
-        ar:{heading:"الإجماليات الحالية لكل شارع (الجرذان):",empty:"لا توجد بلاغات عن الجرذان حتى الآن.",rats:"إجمالي الجرذان المُبلّغ عنها في هذا الشارع:",colour:"اللون:",droppings:"فضلات الجرذان (الإجمالي):",burrows:"الأنفاق أو الجحور (الإجمالي):",privacy:"حفاظًا على خصوصيتك، توضع هذه النقطة في مكان عشوائي على طول الشارع."},
-        so:{heading:"Wadarta hadda ee waddo kasta (jiir):",empty:"Weli ma jiraan warbixinno jiir.",rats:"Wadarta jiirka waddadan laga soo sheegay:",colour:"Midab:",droppings:"Saxarada jiirka (wadarta):",burrows:"Godadka ama marinada (wadarta):",privacy:"Asturnaantaada awgeed, dhibicdan meel aan kala sooc lahayn ayaa waddada looga dhigaa."},
-        tr:{heading:"Sokak başına güncel toplamlar (fare):",empty:"Henüz fare bildirimi yok.",rats:"Bu sokakta bildirilen toplam fare:",colour:"Renk:",droppings:"Fare dışkısı (toplam):",burrows:"Tünel veya yuvalar (toplam):",privacy:"Gizliliğiniz için bu nokta sokak üzerinde rastgele bir yere yerleştirilmiştir."},
-        pl:{heading:"Aktualne sumy dla ulic (szczury):",empty:"Nie ma jeszcze zgłoszeń dotyczących szczurów.",rats:"Łączna liczba zgłoszonych szczurów na tej ulicy:",colour:"Kolor:",droppings:"Odchody szczurów (łącznie):",burrows:"Korytarze lub nory (łącznie):",privacy:"Dla ochrony prywatności kropka jest umieszczana losowo wzdłuż ulicy."},
-        es:{heading:"Totales actuales por calle (ratas):",empty:"Todavía no hay avisos de ratas.",rats:"Total de ratas notificadas en esta calle:",colour:"Color:",droppings:"Excrementos de rata (total):",burrows:"Túneles o madrigueras (total):",privacy:"Para proteger tu privacidad, este punto se coloca al azar en algún lugar de la calle."}
+        en:{loading:"Loading...",heading:"Current totals per street (rats):",empty:"No rat reports yet.",rats:"Total reported rats on this street:",colour:"Colour:",droppings:"Rat droppings (total):",burrows:"Burrows or tunnels (total):",privacy:"For your privacy, this dot is placed at a random location along the street."},
+        ar:{loading:"جارٍ التحميل...",heading:"الإجماليات الحالية لكل شارع (الجرذان):",empty:"لا توجد بلاغات عن الجرذان حتى الآن.",rats:"إجمالي الجرذان المُبلّغ عنها في هذا الشارع:",colour:"اللون:",droppings:"فضلات الجرذان (الإجمالي):",burrows:"الأنفاق أو الجحور (الإجمالي):",privacy:"حفاظًا على خصوصيتك، توضع هذه النقطة في مكان عشوائي على طول الشارع."},
+        so:{loading:"Waa la soo rarayaa...",heading:"Wadarta hadda ee waddo kasta (jiir):",empty:"Weli ma jiraan warbixinno jiir.",rats:"Wadarta jiirka waddadan laga soo sheegay:",colour:"Midab:",droppings:"Saxarada jiirka (wadarta):",burrows:"Godadka ama marinada (wadarta):",privacy:"Asturnaantaada awgeed, dhibicdan meel aan kala sooc lahayn ayaa waddada looga dhigaa."},
+        tr:{loading:"Yükleniyor...",heading:"Sokak başına güncel toplamlar (fare):",empty:"Henüz fare bildirimi yok.",rats:"Bu sokakta bildirilen toplam fare:",colour:"Renk:",droppings:"Fare dışkısı (toplam):",burrows:"Tünel veya yuvalar (toplam):",privacy:"Gizliliğiniz için bu nokta sokak üzerinde rastgele bir yere yerleştirilmiştir."},
+        pl:{loading:"Ładowanie...",heading:"Aktualne sumy dla ulic (szczury):",empty:"Nie ma jeszcze zgłoszeń dotyczących szczurów.",rats:"Łączna liczba zgłoszonych szczurów na tej ulicy:",colour:"Kolor:",droppings:"Odchody szczurów (łącznie):",burrows:"Korytarze lub nory (łącznie):",privacy:"Dla ochrony prywatności kropka jest umieszczana losowo wzdłuż ulicy."},
+        es:{loading:"Cargando...",heading:"Totales actuales por calle (ratas):",empty:"Todavía no hay avisos de ratas.",rats:"Total de ratas notificadas en esta calle:",colour:"Color:",droppings:"Excrementos de rata (total):",burrows:"Túneles o madrigueras (total):",privacy:"Para proteger tu privacidad, este punto se coloca al azar en algún lugar de la calle."}
       };
       function applyExtraPageLanguage(code) {
         const t = sitePageTranslations[code];
@@ -1766,7 +1766,7 @@
         setHTML(notices[1],"<strong>"+t.map[4]+"</strong><p>"+t.map[5]+"</p>");
         setText(map.querySelector(".legend-title"),t.map[6]);
         map.querySelectorAll(".legend-item span:last-child").forEach((el,i)=>setText(el,t.map[7][i]));
-        setHTML(map.querySelector("#streetTotalsOverview"),"<strong>"+t.map[8]+"</strong> Loading...");
+        setHTML(map.querySelector("#streetTotalsOverview"),"<strong>"+t.map[8]+"</strong> "+dynamic.loading);
         map.querySelector("#map").setAttribute("aria-label",t.map[9]);
         const labels=map.querySelectorAll(".field label");
         setText(labels[0],t.map[10]);
