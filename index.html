@@ -718,6 +718,18 @@
 .rvh-wa{background:#25D366;color:#fff}.rvh-fb{background:#1877F2;color:#fff}.rvh-ig{background:linear-gradient(115deg,#515BD4 0%,#8134AF 35%,#DD2A7B 68%,#FEDA77 100%);color:#fff}.rvh-copy{background:#526b48;color:#fff}
 .rvh-share-status{font-size:12px;color:var(--muted);min-height:1em;text-align:center}
 @media(max-width:600px){.rvh-share-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:440px}.rvh-share-button{padding:10px 8px;text-align:center;font-size:12px}}
+
+/* Extra sterke basisregels zodat de deelknoppen ook met bestaande paginastijlen goed zichtbaar blijven */
+footer .rvh-share{display:flex!important;visibility:visible!important;opacity:1!important;width:100%!important;box-sizing:border-box!important;flex:0 0 100%!important;align-items:center!important}
+footer .rvh-share-actions{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:10px!important}
+footer .rvh-share-button{display:inline-flex!important;visibility:visible!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:44px!important;padding:10px 16px!important;border:0!important;border-radius:10px!important;color:#fff!important;font-family:'Montserrat',sans-serif!important;font-size:13px!important;font-weight:800!important;line-height:1.2!important;text-decoration:none!important;cursor:pointer!important;box-shadow:0 2px 5px rgba(0,0,0,.12)!important}
+footer .rvh-share-button svg{display:block!important;width:18px!important;height:18px!important;flex:none!important;fill:currentColor!important}
+footer .rvh-share-button span{display:inline!important;color:#fff!important}
+footer .rvh-wa{background:#25D366!important}
+footer .rvh-fb{background:#1877F2!important}
+footer .rvh-ig{background:linear-gradient(115deg,#515BD4 0%,#8134AF 35%,#DD2A7B 68%,#FEDA77 100%)!important}
+footer .rvh-copy{background:#526b48!important}
+@media(max-width:600px){footer .rvh-share-actions{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%!important;max-width:440px!important}footer .rvh-share-button{padding:10px 8px!important;font-size:12px!important}}
 </style>
 </head>
 
@@ -1952,10 +1964,10 @@
  const update=()=>{
   const lang=(document.documentElement.lang||"nl").toLowerCase().slice(0,2),t=textByLang[lang]||textByLang.nl;
   root.querySelector(".rvh-share-heading").textContent=t.heading;
-  root.querySelector('[data-share="whatsapp"]').textContent=t.wa;
-  root.querySelector('[data-share="facebook"]').textContent=t.fb;
-  root.querySelector('[data-share="instagram"]').textContent=t.ig;
-  root.querySelector('[data-share="copy"]').textContent=t.copy;
+  root.querySelector('[data-share="whatsapp"] span').textContent=t.wa;
+  root.querySelector('[data-share="facebook"] span').textContent=t.fb;
+  root.querySelector('[data-share="instagram"] span').textContent=t.ig;
+  root.querySelector('[data-share="copy"] span').textContent=t.copy;
   root.querySelector('[data-share="whatsapp"]').href="https://wa.me/?text="+encodeURIComponent(document.title+" "+location.href.split("#")[0]);
   root.querySelector('[data-share="facebook"]').href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href.split("#")[0]);
   root.dir=lang==="ar"?"rtl":"ltr";
