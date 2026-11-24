@@ -1662,15 +1662,81 @@
           await applyPdokCoordsToExistingStreets(canonicalStreet);
 
           const grouped = groupReportsByStreet(allReports);
-          const sInfo = grouped[normalizeStreetKey(canonicalStreet)];
-          const newTotal = sInfo ? sInfo.ratsTotal : count;
-          const bandInfo = getRatBandInfo(newTotal);
+          const sInfo = grouped[normalizeStreetKey(canonicalStreet)] || {
+            ratsTotal: 0, droppingsTotal: 0, burrowsTotal: 0
+          };
+          const confirmationText = {
+            nl: {
+              rats: ["rat", "ratten", "ratten"],
+              droppings: ["melding van rattenkeutels", "meldingen van rattenkeutels", "rattenkeutels"],
+              burrows: ["gang of hol", "gangen of holen", "gangen en holen"],
+              total: "Totaal op deze straat na optellen bij de eerdere meldingen:",
+              band: "Het rattenbolletje is bijgewerkt naar",
+              next: "Je kunt over 1 uur weer een melding doen."
+            },
+            en: {
+              rats: ["rat", "rats", "rats"],
+              droppings: ["rat-dropping report", "rat-dropping reports", "rat droppings"],
+              burrows: ["burrow or tunnel", "burrows or tunnels", "burrows and tunnels"],
+              total: "Street total after adding this report to earlier reports:",
+              band: "The rat marker has been updated to",
+              next: "You can submit another report in 1 hour."
+            },
+            ar: {
+              rats: ["جرذ", "جرذان", "الجرذان"],
+              droppings: ["بلاغ عن فضلات الجرذان", "بلاغات عن فضلات الجرذان", "فضلات الجرذان"],
+              burrows: ["جحر أو نفق", "جحور أو أنفاق", "الجحور والأنفاق"],
+              total: "الإجمالي في هذا الشارع بعد إضافة البلاغ إلى البلاغات السابقة:",
+              band: "تم تحديث مؤشر الجرذان إلى",
+              next: "يمكنك إرسال بلاغ آخر بعد ساعة."
+            },
+            so: {
+              rats: ["jiir", "jiir", "jiirka"],
+              droppings: ["warbixin saxarada jiirka ah", "warbixinno saxarada jiirka ah", "saxarada jiirka"],
+              burrows: ["god ama marin", "godad ama marino", "godadka iyo marinada"],
+              total: "Wadarta waddadan ka dib marka lagu daro warbixinnadii hore:",
+              band: "Calaamadda jiirka waxaa loo cusboonaysiiyay",
+              next: "Waxaad warbixin kale diri kartaa 1 saac kadib."
+            },
+            tr: {
+              rats: ["fare", "fare", "fare"],
+              droppings: ["fare dışkısı bildirimi", "fare dışkısı bildirimleri", "fare dışkısı"],
+              burrows: ["yuva veya tünel", "yuvalar veya tüneller", "yuvalar ve tüneller"],
+              total: "Önceki bildirimler eklendikten sonra bu sokaktaki toplam:",
+              band: "Fare işareti şu düzeye güncellendi:",
+              next: "1 saat sonra yeniden bildirim gönderebilirsiniz."
+            },
+            pl: {
+              rats: ["szczur", "szczury", "szczurów"],
+              droppings: ["zgłoszenie odchodów szczurów", "zgłoszenia odchodów szczurów", "odchody szczurów"],
+              burrows: ["nora lub tunel", "nory lub tunele", "nory i tunele"],
+              total: "Łączna liczba na tej ulicy po dodaniu do wcześniejszych zgłoszeń:",
+              band: "Oznaczenie szczurów zaktualizowano do poziomu",
+              next: "Kolejne zgłoszenie możesz wysłać za godzinę."
+            },
+            es: {
+              rats: ["rata", "ratas", "ratas"],
+              droppings: ["aviso de excrementos de rata", "avisos de excrementos de rata", "excrementos de rata"],
+              burrows: ["madriguera o túnel", "madrigueras o túneles", "madrigueras y túneles"],
+              total: "Total en esta calle tras sumar este aviso a los anteriores:",
+              band: "El indicador de ratas se ha actualizado a",
+              next: "Puedes enviar otro aviso dentro de una hora."
+            }
+          };
+          const lang = (document.documentElement.lang || "nl").toLowerCase().slice(0, 2);
+          const msg = confirmationText[lang] || confirmationText.nl;
+          const categoryInfo = msg[cat] || msg.rats;
+          const categoryTotal = cat === "burrows" ? sInfo.burrowsTotal :
+            cat === "droppings" ? sInfo.droppingsTotal : sInfo.ratsTotal;
+          const totalName = categoryInfo[2];
+          const bandInfo = getRatBandInfo(sInfo.ratsTotal);
 
           submitMsg.className = "success";
           submitMsg.textContent =
-            `Geregistreerd: +${count} (${cat}) in ${canonicalStreet}. ` +
-            `Straattotaal ratten: ${newTotal} — bolletje aangepast naar ${bandInfo.band}. ` +
-            `Volgende melding mogelijk over 1 uur.`;
+            `Geregistreerd: +${count} ${count === 1 ? categoryInfo[0] : categoryInfo[1]} in ${canonicalStreet}. ` +
+            `${msg.total} ${categoryTotal} ${totalName}. ` +
+            (cat === "rats" ? `${msg.band} ${bandInfo.band}. ` : "") +
+            msg.next;
         });
       }
 
