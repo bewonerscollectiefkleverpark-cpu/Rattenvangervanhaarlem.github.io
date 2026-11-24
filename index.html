@@ -2024,6 +2024,23 @@ button[data-page="map"]:hover:not(:disabled),
         pl: "Mapa pokazuje zgłoszenia z ostatnich 12 miesięcy. Starsze zgłoszenia znikają z mapy, ale pozostają zapisane w pliku danych. Na każdej ulicy mogą być maksymalnie trzy kropki: kolorowa oznacza szczury, brązowa odchody, a biała nory lub korytarze. Kropki są umieszczane losowo na ulicy, nigdy przy numerze domu. Na mapie pojawiają się tylko poprawnie zapisane nazwy ulic w Haarlem.",
         es: "El mapa muestra los avisos de los últimos 12 meses. Los avisos más antiguos desaparecen del mapa, pero siguen guardados en el archivo de datos. En cada calle puede haber hasta tres puntos: de color para las ratas, marrón para los excrementos y blanco para las madrigueras o túneles. Los puntos se colocan al azar en la calle, nunca junto a un número de casa. Solo aparecen nombres de calles de Haarlem escritos correctamente."
       };
+      const rulesAltTranslations = {
+        en:["No bird feeding sign, with birdseed and a rat eating in the background","Waste container with a rubbish bag beside it","Woodpile beside bushes in a garden","Holes in the ground beside a rainpipe by a wall"],
+        ar:["لافتة تمنع إطعام الطيور، مع طعام للطيور وجرذ يأكل في الخلفية","حاوية نفايات وبجانبها كيس قمامة","كومة حطب بجانب شجيرات في حديقة","ثقوب في الأرض بجانب أنبوب تصريف مياه الأمطار عند الجدار"],
+        so:["Calaamad mamnuucaysa quudinta shimbiraha, iyadoo iniin shimbireed iyo jiir cunaya ay gadaal ka muuqdaan","Weel qashin oo ay bac qashin ag taallo","Qoryo is dul saaran oo ku ag yaal duur ku yaal beer","Godad dhulka ku yaal oo ag yaal tuubada roobka ee darbiga"],
+        tr:["Arka planda kuş yemi ve yiyen bir farenin bulunduğu kuş beslemeyi yasaklayan tabela","Yanında çöp torbası bulunan atık konteyneri","Bahçede çalıların yanındaki odun yığını","Duvarın yanındaki yağmur suyu borusunun yanında yerde delikler"],
+        pl:["Znak zakazujący dokarmiania ptaków, a w tle ziarno dla ptaków i jedzący szczur","Pojemnik na odpady z workiem na śmieci obok","Stos drewna obok krzewów w ogrodzie","Otwory w ziemi obok rury spustowej przy ścianie"],
+        es:["Señal que prohíbe alimentar a las aves, con alpiste y una rata comiendo al fondo","Contenedor de residuos con una bolsa de basura al lado","Pila de madera junto a unos arbustos en un jardín","Agujeros en el suelo junto a un tubo de lluvia en la pared"]
+      };
+      const posterUiTranslations = {
+        nl:{alt:"Poster informatieve afbeelding Rattenvanger van Haarlem — klik om groter te bekijken",preview:"Bekijk de poster vergroot",dialog:"Poster bekijken",close:"Sluiten",largeAlt:"Poster informatieve afbeelding Rattenvanger van Haarlem",print:"Print poster op A4"},
+        en:{alt:"Rattenvanger van Haarlem information poster — click to enlarge",preview:"View poster enlarged",dialog:"View poster",close:"Close",largeAlt:"Enlarged Rattenvanger van Haarlem information poster",print:"Print poster on A4"},
+        ar:{alt:"ملصق معلومات Rattenvanger van Haarlem — اضغط لعرضه بحجم أكبر",preview:"عرض الملصق بحجم أكبر",dialog:"عرض الملصق",close:"إغلاق",largeAlt:"ملصق معلومات Rattenvanger van Haarlem بحجم أكبر",print:"طباعة الملصق على ورق A4"},
+        so:{alt:"Boodhka macluumaadka Rattenvanger van Haarlem — guji si uu u weynaado",preview:"Eeg boodhka oo weyn",dialog:"Eeg boodhka",close:"Xir",largeAlt:"Boodhka macluumaadka Rattenvanger van Haarlem oo weyn",print:"Ku daabac boodhka A4"},
+        tr:{alt:"Rattenvanger van Haarlem bilgilendirme afişi — büyütmek için tıklayın",preview:"Afişi büyüt",dialog:"Afişi görüntüle",close:"Kapat",largeAlt:"Büyütülmüş Rattenvanger van Haarlem bilgilendirme afişi",print:"Afişi A4 boyutunda yazdır"},
+        pl:{alt:"Plakat informacyjny Rattenvanger van Haarlem — kliknij, aby powiększyć",preview:"Powiększ plakat",dialog:"Podgląd plakatu",close:"Zamknij",largeAlt:"Powiększony plakat informacyjny Rattenvanger van Haarlem",print:"Drukuj plakat w formacie A4"},
+        es:{alt:"Cartel informativo de Rattenvanger van Haarlem — haz clic para ampliarlo",preview:"Ver el cartel ampliado",dialog:"Ver cartel",close:"Cerrar",largeAlt:"Cartel informativo ampliado de Rattenvanger van Haarlem",print:"Imprimir cartel en A4"}
+      };
       function applyExtraPageLanguage(code) {
         const t = sitePageTranslations[code];
         if (!t) return;
@@ -2032,6 +2049,21 @@ button[data-page="map"]:hover:not(:disabled),
         const info = document.getElementById("page-info");
         const posters = document.getElementById("page-posters");
         [map,rules,info,posters].forEach(el => { if (el) el.dir = code === "ar" ? "rtl" : "ltr"; });
+        const posterUi = posterUiTranslations[code] || posterUiTranslations.en;
+        rules.querySelectorAll(".photo-card img").forEach((el,i)=>{ if(rulesAltTranslations[code] && rulesAltTranslations[code][i]) el.alt=rulesAltTranslations[code][i]; });
+        const posterImage = posters.querySelector(".poster-preview-trigger");
+        const preview = document.getElementById("posterPreview");
+        if (posterImage) { posterImage.alt=posterUi.alt; posterImage.setAttribute("aria-label",posterUi.preview); }
+        if (preview) {
+          const panel=preview.querySelector(".poster-preview-panel");
+          const close=preview.querySelector(".poster-preview-close");
+          const large=preview.querySelector("img");
+          const print=preview.querySelector(".poster-preview-print");
+          if(panel) panel.setAttribute("aria-label",posterUi.dialog);
+          if(close) close.setAttribute("aria-label",posterUi.close);
+          if(large) large.alt=posterUi.largeAlt;
+          if(print) print.textContent=posterUi.print;
+        }
         const setText = (el, value) => { if (el) el.textContent = value; };
         const dynamic = mapDynamicTranslations[code] || mapDynamicTranslations.en;
         map.dataset.heading=dynamic.heading; map.dataset.empty=dynamic.empty;
