@@ -1345,6 +1345,21 @@ button[data-page="map"]:hover:not(:disabled),
         return { color: "#2ecc71", band: "1–4 ratten" };
       }
 
+      function getRatBandLabel(total) {
+        const lang = (document.documentElement.lang || "nl").slice(0,2);
+        const labels = {
+          nl:["1–4 ratten","5–9 ratten","10–19 ratten","20–39 ratten","40–59 ratten","60–99 ratten","100 of meer"],
+          en:["1–4 rats","5–9 rats","10–19 rats","20–39 rats","40–59 rats","60–99 rats","100 or more"],
+          ar:["1–4 جرذان","5–9 جرذان","10–19 جرذًا","20–39 جرذًا","40–59 جرذًا","60–99 جرذًا","100 أو أكثر"],
+          so:["1–4 jiir","5–9 jiir","10–19 jiir","20–39 jiir","40–59 jiir","60–99 jiir","100 ama ka badan"],
+          tr:["1–4 fare","5–9 fare","10–19 fare","20–39 fare","40–59 fare","60–99 fare","100 veya daha fazla"],
+          pl:["1–4 szczury","5–9 szczurów","10–19 szczurów","20–39 szczurów","40–59 szczurów","60–99 szczurów","100 lub więcej"],
+          es:["1–4 ratas","5–9 ratas","10–19 ratas","20–39 ratas","40–59 ratas","60–99 ratas","100 o más"]
+        };
+        const index = total >= 100 ? 6 : total >= 60 ? 5 : total >= 40 ? 4 : total >= 20 ? 3 : total >= 10 ? 2 : total >= 5 ? 1 : 0;
+        return (labels[lang] || labels.nl)[index];
+      }
+
       function escapeHtml(str) {
         return String(str)
           .replace(/&/g, "&amp;")
@@ -1484,7 +1499,7 @@ button[data-page="map"]:hover:not(:disabled),
           return `<div style="display:flex;align-items:center;gap:8px;margin:7px 0;">
             <span aria-hidden="true" style="font-size:1.2em;line-height:1;">${medals[index]}</span>
             <i class="dot" style="background:${info.color};border-color:#222;flex:none;"></i>
-            <span><strong>${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${info.band})</span>
+            <span><strong>${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${getRatBandLabel(s.ratsTotal)})</span>
           </div>`;
         });
         box.innerHTML = "<strong>" + heading + "</strong>" + parts.join("");
@@ -1515,7 +1530,7 @@ button[data-page="map"]:hover:not(:disabled),
             ratMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
               (document.getElementById("page-map").dataset.ratsLabel || "Alle opgetelde ratten in deze straat:") + " <strong>" + s.ratsTotal + "</strong>",
-              (document.getElementById("page-map").dataset.colourLabel || "Kleur:") + " " + bandInfo.band,
+              (document.getElementById("page-map").dataset.colourLabel || "Kleur:") + " " + getRatBandLabel(s.ratsTotal),
               "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             ratMarker.addTo(markersLayer);
@@ -1707,7 +1722,6 @@ button[data-page="map"]:hover:not(:disabled),
           countHelp.textContent = t.categories[index][1];
         };
         categoryEl.addEventListener("change", updateCategoryHelp);
-        if (languageSelect) languageSelect.addEventListener("change", updateCategoryHelp);
         updateCategoryHelp();
       }
 
@@ -1870,7 +1884,7 @@ button[data-page="map"]:hover:not(:disabled),
           submitMsg.textContent =
             `${activeIndexTranslations().registered} +${count} ${count === 1 ? categoryInfo[0] : categoryInfo[1]} in ${canonicalStreet}. ` +
             `${msg.total} ${categoryTotal} ${totalName}. ` +
-            (cat === "rats" ? `${msg.band} ${bandInfo.band}. ` : "") +
+            (cat === "rats" ? `${msg.band} ${getRatBandLabel(sInfo.ratsTotal)}. ` : "") +
             msg.next;
         });
       }
@@ -1954,6 +1968,7 @@ button[data-page="map"]:hover:not(:disabled),
         }
       };
       const mapDynamicTranslations = {
+        nl:{loading:"Laden...",heading:"Top 3 straten met de meeste rattenmeldingen:",empty:"Nog geen rattenmeldingen.",rats:"Alle opgetelde ratten in deze straat:",colour:"Kleur:",droppings:"Rattenkeutels (opgeteld):",burrows:"Gangen of holen (opgeteld):",privacy:"Voor je privacy staat deze stip willekeurig ergens in de straat."},
         en:{loading:"Loading...",heading:"Top 3 streets with the most rat reports:",empty:"No rat reports yet.",rats:"Total reported rats on this street:",colour:"Colour:",droppings:"Rat droppings (total):",burrows:"Burrows or tunnels (total):",privacy:"For your privacy, this dot is placed at a random location along the street."},
         ar:{loading:"جارٍ التحميل...",heading:"أكثر 3 شوارع من حيث بلاغات الجرذان:",empty:"لا توجد بلاغات عن الجرذان حتى الآن.",rats:"إجمالي الجرذان المُبلّغ عنها في هذا الشارع:",colour:"اللون:",droppings:"فضلات الجرذان (الإجمالي):",burrows:"الأنفاق أو الجحور (الإجمالي):",privacy:"حفاظًا على خصوصيتك، توضع هذه النقطة في مكان عشوائي على طول الشارع."},
         so:{loading:"Waa la soo rarayaa...",heading:"3-da waddo ee ugu warbixinnada badan ee jiirka:",empty:"Weli ma jiraan warbixinno jiir.",rats:"Wadarta jiirka waddadan laga soo sheegay:",colour:"Midab:",droppings:"Saxarada jiirka (wadarta):",burrows:"Godadka ama marinada (wadarta):",privacy:"Asturnaantaada awgeed, dhibicdan meel aan kala sooc lahayn ayaa waddada looga dhigaa."},
@@ -2126,6 +2141,7 @@ button[data-page="map"]:hover:not(:disabled),
       if (languageSelect) {
         languageSelect.addEventListener("change", function () {
           applyReportLanguage(this.value);
+          if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
         });
         applyReportLanguage(languageSelect.value || "nl");
       }
