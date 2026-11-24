@@ -1485,22 +1485,24 @@
           const datum = document.getElementById("spDatum").value.trim();
           const beschrijving = document.getElementById("spBeschrijving").value.trim();
 
-          const subject = "Melding rattenoverlast Haarlem" + (adres ? " - " + adres : "");
+          const mailLanguage = reportTranslations[(languageSelect && languageSelect.value) || "nl"] || reportTranslations.nl;
+          const subject = mailLanguage.emailSubject + (adres ? " - " + adres : "");
+          const labels = mailLanguage.emailBody;
           const body = [
-            "Beste Spaarnelanden,",
+            labels[0],
             "",
-            "Graag doe ik een melding van rattenoverlast:",
-            "Naam: " + naam,
-            "Adres: " + adres,
-            "Telefoonnummer: " + telefoon,
-            "Datum waarneming: " + datum,
+            labels[2],
+            labels[3] + naam,
+            labels[4] + adres,
+            labels[5] + telefoon,
+            labels[6] + datum,
             "",
-            "Beschrijving:",
+            labels[8],
             beschrijving,
             "",
-            "Graag ontvang ik van Spaarnelanden een ontvangstbevestiging van deze melding.",
+            labels[10],
             "",
-            "Met vriendelijke groet,",
+            labels[12],
             naam
           ].join("\n");
 
