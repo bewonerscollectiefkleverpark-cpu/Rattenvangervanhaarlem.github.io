@@ -1,20 +1,169 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <link rel="canonical" href="https://bewonerscollectiefkleverpark-cpu.github.io/Rattenvangervanhaarlem.github.io/preview/rattenkaart-haarlem.html">
-  <meta name="theme-color" content="#f6f4ef">
-  <title>Rattenvanger van Haarlem | Meertalige meld- en rattenkaart</title>
-  <meta name="description" content="Meld rattenoverlast officieel, registreer waarnemingen op de rattenkaart en bekijk meldingen in zes talen.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
-
+<style id="rvh-unified-top">
+  .top {
+    background: #29231b !important;
+    color: #fff !important;
+    width: 100%;
+    font-size: .9rem;
+  }
+  .top .wrap,
+  .top .rvh-top-inner {
+    width: min(1120px, calc(100% - 32px)) !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+    padding: 9px 0 !important;
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+  }
+  .top a { color: #fff; }
+  .language {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .language select {
+    font: inherit;
+    border-radius: 8px;
+    padding: 7px;
+    border: 1px solid #b7c8dc;
+    background: #fff;
+    color: #29251f;
+  }
+  .site-header {
+    width: min(1120px, calc(100% - 32px)) !important;
+    max-width: 1120px !important;
+    box-sizing: border-box;
+    margin: 18px auto 24px !important;
+    padding: 18px !important;
+    background: #eee7da !important;
+    border: 1px solid #dfd5c5 !important;
+    border-radius: 0 !important;
+  }
+  .site-header-inner {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+  .site-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #29231b;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 14px;
+  }
+  .site-brand img {
+    width: 66px !important;
+    height: 66px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    flex: 0 0 66px !important;
+    border-radius: 50% !important;
+    clip-path: none !important;
+    border: 3px solid #8a7252 !important;
+    background: #f4efe5 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    display: block;
+  }
+  .site-brand span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .site-brand strong {
+    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+    line-height: 1.12;
+    font-weight: 800;
+    color: #29231b;
+  }
+  .site-brand small {
+    font-size: 1rem;
+    line-height: 1.35;
+    color: #756b5c;
+  }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 7px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background: #f4efe5;
+    border: 1px solid #dfd5c5;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .site-nav a,
+  .site-nav button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    background: #eee7da;
+    color: #514431;
+    border: 0;
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+  }
+  .site-nav a:hover,
+  .site-nav a:focus-visible,
+  .site-nav button:hover,
+  .site-nav button:focus-visible,
+  .site-nav button[aria-current="page"] {
+    background: #514431;
+    color: #fff;
+    box-shadow: none;
+    transform: none;
+  }
+  @media(max-width:650px) {
+    .top .wrap,
+    .top .rvh-top-inner {
+      width: calc(100% - 28px) !important;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .site-header {
+      width: calc(100% - 28px) !important;
+      padding: 14px !important;
+      margin: 14px auto 20px !important;
+    }
+    .site-brand { gap: 10px; }
+    .site-brand img {
+      width: 54px !important;
+      height: 54px !important;
+      flex-basis: 54px !important;
+    }
+    .site-brand small { font-size: .88rem; }
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px;
+    }
+    .site-nav a,
+    .site-nav button {
+      font-size: .82rem;
+      padding: 8px 9px;
+      min-height: 38px;
+    }
+  }
   <style>
     :root {
       color-scheme: light;
