@@ -778,17 +778,16 @@
 
       <section id="page-map" class="hidden">
         <h2 data-t="mapTitle">Rattenkaart: waar zijn de hotspots?</h2>
-        <p data-t="mapIntro">Vul hieronder de naam van een straat in Haarlem in om de waarnemingen te bekijken.</p>
-        <div class="visibility-highlight">Wij maken zichtbaar wat onzichtbaar wordt gehouden door de gemeente Haarlem.</div>
+        <p data-t="mapIntro">Hieronder vul je een straat in Haarlem in om te melden wat je hebt gezien. Zo ziet heel Haarlem waar drukste plekken (hotspots) ontstaan.</p>
+        <div class="visibility-highlight">Wij laten zien wat de gemeente Haarlem liever verstopt houdt voor mensen die het nog niet weten.</div>
 
         <div class="notice" data-t="mapWarning">
-          Het totaal per straat is de optelsom van bewonersmeldingen over de afgelopen 12 maanden.
-          Dezelfde ratten kunnen door meerdere bewoners zijn gezien; het totaal is dus geen telling van unieke ratten.
+          We tellen alle meldingen in een straat van het afgelopen jaar bij elkaar op. Ziet iemand vaker dezelfde rat, of zien twee buren dezelfde rat? Dan telt die toch mee in het totaal. Het is dus een optelsom van meldingen, geen telling van losse dieren.
         </div>
 
         <div class="notice">
-          <strong data-t="dotTitle">Wat betekent het bolletje op de kaart?</strong>
-          <p data-t="dotExplanation">Per straat verschijnt voor ratten één gekleurd bolletje op de coördinaten van de straat. Elke nieuwe rattenmelding in dezelfde straat telt het aantal erbij op en past indien nodig de kleur aan.</p>
+          <strong data-t="dotTitle">Wat betekent het bolletje?</strong>
+          <p data-t="dotExplanation">Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
         </div>
 
         <div class="legend-box">
@@ -986,7 +985,8 @@
   <script>
     (function () {
       const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCQmyGDWKqCNIByHnYQDg0aAd5NF2jk0UWFQwUDsC364slPf0ttn-zGJy99IpO80IbQ/exec";
-      const STORAGE_KEY = "rvh_map_reports_v2";
+      const STORAGE_KEY = "rvh_map_reports_v3";
+      const RANDOM_PINS_KEY = "rvh_street_random_pins_v1";
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
@@ -1052,6 +1052,43 @@
         "parklaan": { lat: 52.3886, lng: 4.6368 },
         "velserstraat": { lat: 52.3895, lng: 4.6362 }
       };
+
+      function loadRandomPins() {
+        try {
+          const raw = localStorage.getItem(RANDOM_PINS_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === "object") return parsed;
+          }
+        } catch (err) {}
+        return {};
+      }
+
+      function saveRandomPins(pins) {
+        try {
+          localStorage.setItem(RANDOM_PINS_KEY, JSON.stringify(pins));
+        } catch (err) {}
+      }
+
+      let randomStreetPins = loadRandomPins();
+
+      // Plaatst een bolletje voor privacy willekeurig ergens langs de straat (niet op een huisnummer)
+      // en houdt die positie vast per straat + categorie zodat het bolletje optelt op dezelfde plek.
+      function getRandomPrivacyCoords(streetName, categoryKey, baseLat, baseLng) {
+        const pinKey = String(streetName || "").toLowerCase().trim() + "__" + categoryKey;
+        if (randomStreetPins[pinKey]) {
+          return randomStreetPins[pinKey];
+        }
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 0.00015 + Math.random() * 0.00055;
+        const pos = {
+          lat: baseLat + Math.cos(angle) * dist,
+          lng: baseLng + Math.sin(angle) * dist * 1.4
+        };
+        randomStreetPins[pinKey] = pos;
+        saveRandomPins(randomStreetPins);
+        return pos;
+      }
 
       function normalizeCategory(cat) {
         const c = String(cat || "").toLowerCase().trim();
@@ -1152,7 +1189,6 @@
               lat: !Number.isNaN(lat) ? lat : NaN,
               lng: !Number.isNaN(lng) ? lng : NaN,
               ratsTotal: 0,
-              ratReports: 0,
               droppingsTotal: 0,
               burrowsTotal: 0,
               lastDatum: item.datum
@@ -1172,7 +1208,6 @@
             s.burrowsTotal += item.aantal;
           } else {
             s.ratsTotal += item.aantal;
-            s.ratReports += 1;
           }
         });
 
@@ -1227,7 +1262,8 @@
 
           if (s.ratsTotal > 0) {
             const bandInfo = getRatBandInfo(s.ratsTotal);
-            const ratMarker = L.circleMarker([s.lat, s.lng], {
+            const ratPos = getRandomPrivacyCoords(s.straat, "rats", s.lat, s.lng);
+            const ratMarker = L.circleMarker([ratPos.lat, ratPos.lng], {
               radius: 10,
               fillColor: bandInfo.color,
               color: "#222222",
@@ -1238,15 +1274,16 @@
 
             ratMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Totaal ratten in deze straat: <strong>" + s.ratsTotal + "</strong>",
-              "Kleurklasse: " + bandInfo.band,
-              s.lastDatum ? "Laatste melding: " + escapeHtml(s.lastDatum) : ""
-            ].filter(Boolean).join("<br>"));
+              "Alle opgetelde ratten in deze straat: <strong>" + s.ratsTotal + "</strong>",
+              "Kleur: " + bandInfo.band,
+              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
+            ].join("<br>"));
             ratMarker.addTo(markersLayer);
           }
 
           if (s.droppingsTotal > 0) {
-            const dropMarker = L.circleMarker([s.lat + 0.00014, s.lng + 0.00018], {
+            const dropPos = getRandomPrivacyCoords(s.straat, "droppings", s.lat, s.lng);
+            const dropMarker = L.circleMarker([dropPos.lat, dropPos.lng], {
               radius: 7,
               fillColor: "#8b4513",
               color: "#ffffff",
@@ -1256,13 +1293,15 @@
             });
             dropMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Rattenkeutels (vindplaatsen): <strong>" + s.droppingsTotal + "</strong>"
+              "Bolletje rattenkeutels (opgeteld): <strong>" + s.droppingsTotal + "</strong>",
+              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
             ].join("<br>"));
             dropMarker.addTo(markersLayer);
           }
 
           if (s.burrowsTotal > 0) {
-            const burrowMarker = L.circleMarker([s.lat - 0.00014, s.lng - 0.00018], {
+            const burrowPos = getRandomPrivacyCoords(s.straat, "burrows", s.lat, s.lng);
+            const burrowMarker = L.circleMarker([burrowPos.lat, burrowPos.lng], {
               radius: 10,
               fillColor: "#ffffff",
               color: "#222222",
@@ -1272,7 +1311,8 @@
             });
             burrowMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Gangen of holen: <strong>" + s.burrowsTotal + "</strong>"
+              "Bolletje gangen of holen (opgeteld): <strong>" + s.burrowsTotal + "</strong>",
+              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
             ].join("<br>"));
             burrowMarker.addTo(markersLayer);
           }
@@ -1292,9 +1332,7 @@
             saveReports(allReports);
             renderAllMarkers();
           }
-        } catch (err) {
-          // Stil negeren zodat lokale/basisdata gewoon zichtbaar blijft zonder foutmelding
-        }
+        } catch (err) {}
       }
 
       async function geocodeHaarlemStreet(streetName) {
@@ -1541,7 +1579,9 @@
         resetBtn.addEventListener("click", function () {
           try {
             localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(RANDOM_PINS_KEY);
           } catch (err) {}
+          randomStreetPins = {};
           allReports = BASE_REPORTS.map(normalizeReport);
           renderAllMarkers({ lat: 52.39292154, lng: 4.6317641 });
           submitMsg.className = "muted";
