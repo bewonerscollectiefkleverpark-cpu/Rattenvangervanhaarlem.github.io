@@ -338,6 +338,25 @@
     .legend-item { display: inline-flex; align-items: center; gap: 6px; }
     .dot { width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); flex: none; }
 
+    .map-dot-explanation {
+      margin: 30px 0 28px;
+      padding: 24px 26px;
+      line-height: 1.8;
+    }
+    .map-dot-explanation > strong {
+      display: block;
+      margin-bottom: 18px;
+      font-size: 1.2rem;
+    }
+    .map-dot-explanation p {
+      margin: 0 0 16px;
+      line-height: 1.8;
+    }
+    .map-dot-explanation p:last-child { margin-bottom: 0; }
+    @media (max-width: 650px) {
+      .map-dot-explanation { padding: 20px 18px; }
+    }
+
     .street-summary-box {
       background: #fffaf5;
       border: 1px solid #eadbd2;
@@ -949,11 +968,6 @@ button[data-page="map"]:hover:not(:disabled),
           <p>Het totaal laat dus zien hoeveel meldingen er zijn gedaan. Het is geen telling van het aantal verschillende ratten.</p>
         </div>
 
-        <div class="notice">
-          <strong>Wat betekent het bolletje?</strong>
-          <p>Per straat krijg je maximaal <strong>drie bolletjes</strong>: <strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden), <strong>1 bolletje</strong> voor keutels en <strong>1 bolletje</strong> voor gangen en holen. Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer. Alleen een exact gespelde straatnaam in Haarlem wordt op de kaart geplaatst, en je kunt maximaal 1 melding per uur doen.</p>
-        </div>
-
         <div class="legend-box">
           <span class="legend-title">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
           <div class="legend">
@@ -974,6 +988,17 @@ button[data-page="map"]:hover:not(:disabled),
         </div>
 
         <div id="map" aria-label="Kaart met rattenwaarnemingen per straat"></div>
+
+        <div class="notice map-dot-explanation">
+          <strong>Wat betekent het bolletje?</strong>
+          <p>Per straat krijg je maximaal <strong>drie bolletjes</strong>:</p>
+          <p><strong>1 bolletje</strong> voor alle opgetelde ratten (dat van kleur verandert als het er meer worden).</p>
+          <p><strong>1 bolletje</strong> voor keutels.</p>
+          <p><strong>1 bolletje</strong> voor gangen en holen.</p>
+          <p>Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
+          <p>Alleen een exact gespelde straatnaam in Haarlem wordt op de kaart geplaatst.</p>
+          <p>Je kunt maximaal 1 melding per uur doen.</p>
+        </div>
 
         <div class="field">
           <label for="streetInput">Straatnaam in Haarlem (zonder huisnummer, exacte spelling):</label>
