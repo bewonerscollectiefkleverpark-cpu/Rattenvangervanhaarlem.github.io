@@ -752,6 +752,31 @@ footer.rvh-footer .rvh-footer-meta>span:last-child{color:var(--muted)!important}
 /* Laat de merknaam bovenaan dezelfde merkkleuren gebruiken als in de footer */
 .site-header .site-brand strong{color:var(--red)!important}
 .site-header .site-brand small{color:var(--ink)!important}
+
+/* Actiekleuren: Spaarnelanden rood, rattenkaart groen */
+button[data-page="report"],
+#spaarnelandenMailForm button[type="submit"] {
+  background: var(--red) !important;
+  color: #fff !important;
+}
+button[data-page="report"]:hover:not(:disabled),
+#spaarnelandenMailForm button[type="submit"]:hover:not(:disabled) {
+  background: var(--red-dark) !important;
+}
+button[data-page="map"],
+#mapChoiceButton,
+#unlockButton,
+#submitReport {
+  background: var(--green) !important;
+  color: #fff !important;
+}
+button[data-page="map"]:hover:not(:disabled),
+#mapChoiceButton:hover:not(:disabled),
+#unlockButton:hover:not(:disabled),
+#submitReport:hover:not(:disabled) {
+  background: #52654b !important;
+}
+
 </style>
 </head>
 
