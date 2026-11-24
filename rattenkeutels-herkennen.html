@@ -575,8 +575,19 @@ a[href="index.html#page-map"]:hover { background: #52654b !important; }
         document.title=t.title+" — Rattenvanger van Haarlem";
         document.querySelector('meta[name="description"]').content=t.description;
       }
-      select.addEventListener("change",e=>applyLanguage(e.target.value));
-      applyLanguage("nl");
+      const RVH_LANGUAGE_KEY = "rvhLanguage";
+      const savedLanguage = (() => {
+        try {
+          const saved = localStorage.getItem(RVH_LANGUAGE_KEY);
+          return ["nl","en","ar","so","tr","pl","es"].includes(saved) ? saved : "nl";
+        } catch (err) { return "nl"; }
+      })();
+      select.addEventListener("change",e=>{
+        try { localStorage.setItem(RVH_LANGUAGE_KEY,e.target.value); } catch (err) {}
+        applyLanguage(e.target.value);
+      });
+      select.value = savedLanguage;
+      applyLanguage(savedLanguage);
     })();
   </script>
 <script id="rvh-share-script">
