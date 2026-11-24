@@ -1722,7 +1722,6 @@ button[data-page="map"]:hover:not(:disabled),
           countHelp.textContent = t.categories[index][1];
         };
         categoryEl.addEventListener("change", updateCategoryHelp);
-        updateCategoryHelp();
       }
 
       const streetInput = document.getElementById("streetInput");
@@ -2176,6 +2175,7 @@ button[data-page="map"]:hover:not(:disabled),
           if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
         });
         applyReportLanguage(languageSelect.value || "nl");
+        if (categoryEl) categoryEl.dispatchEvent(new Event("change"));
       }
 
       const poster = document.querySelector(".poster-preview-trigger");
