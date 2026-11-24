@@ -586,7 +586,7 @@
         width: 194mm !important;
         max-width: 194mm !important;
         height: 272mm !important;
-        max-height: 272mm !important;
+        max-height: 281mm !important;
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
@@ -1083,28 +1083,11 @@ button[data-page="map"]:hover:not(:disabled),
       </section>
 
       <section id="page-posters" class="hidden">
-        <h2>Posters om te printen</h2>
-        <p class="poster-print-instruction">Print een poster op A4-formaat en hang deze in de straat of portiek om buurtbewoners te informeren.</p>
+        <h2>Poster om te printen</h2>
+        <p class="poster-print-instruction">Klik op de poster om deze op A4-formaat te printen.</p>
         <div class="poster-grid">
           <div class="poster-card">
-            <h3>Poster 1 — Samen tegen ratten</h3>
-            <img src="- poster-samen-tegen-ratten-2.png" alt="Poster 1 Rattenoverlast in Haarlem" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 1 (A4)</button>
-          </div>
-          <div class="poster-card">
-            <h3>Poster 2 — Haarlem (6 talen)</h3>
-            <img src="poster-haarlem-6-talen.png" alt="Poster 2 Rattenoverlast in Haarlem in 6 talen" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 2 (A4)</button>
-          </div>
-          <div class="poster-card">
-            <h3>Poster 3 — Samen tegen rattenoverlast</h3>
-            <img src="Samen tegen rattenoverlast in Haarlem (2).png" alt="Poster 3 Samen tegen rattenoverlast in Haarlem" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 3 (A4)</button>
-          </div>
-          <div class="poster-card">
-            <h3>Poster 4 — Wat moet u doen? (Haarlem)</h3>
-            <img src="Gemini_Generated_Image_syab4nsyab4nsyab.jpeg" alt="Poster 4 Rattenoverlast in Haarlem Wat moet u doen?" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 4 (A4)</button>
+            <img class="print-poster-btn" src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Informatieposter Rattenvanger van Haarlem — klik om op A4 te printen" role="button" tabindex="0" aria-label="Print deze poster op A4-formaat" onerror="this.onerror=null;this.style.display='none';">
           </div>
         </div>
       </section>
@@ -2091,14 +2074,21 @@ button[data-page="map"]:hover:not(:disabled),
         applyReportLanguage(languageSelect.value || "nl");
       }
 
-      document.querySelectorAll(".print-poster-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-          const card = this.closest(".poster-card");
-          document.querySelectorAll(".poster-card").forEach(c => c.classList.remove("print-target"));
-          if (card) card.classList.add("print-target");
-          document.body.classList.add("printing");
-          window.print();
-          setTimeout(() => document.body.classList.remove("printing"), 300);
+      const printPoster = element => {
+        const card = element.closest(".poster-card");
+        document.querySelectorAll(".poster-card").forEach(c => c.classList.remove("print-target"));
+        if (card) card.classList.add("print-target");
+        document.body.classList.add("printing");
+        window.print();
+        setTimeout(() => document.body.classList.remove("printing"), 300);
+      };
+      document.querySelectorAll(".print-poster-btn").forEach(poster => {
+        poster.addEventListener("click", () => printPoster(poster));
+        poster.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            printPoster(poster);
+          }
         });
       });
     })();
