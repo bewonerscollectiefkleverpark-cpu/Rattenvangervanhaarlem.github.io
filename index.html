@@ -1700,18 +1700,15 @@ button[data-page="map"]:hover:not(:disabled),
       const countHelp = document.getElementById("countHelp");
       const obsInput = document.getElementById("observation");
       if (categoryEl && obsLabel && countHelp && obsInput) {
-        categoryEl.addEventListener("change", function () {
-          if (categoryEl.value === "droppings") {
-            obsLabel.textContent = "Hoeveel vindplaatsen met rattenkeutels heb je gezien in de afgelopen 12 maanden?";
-            countHelp.textContent = "Geef het aantal vindplaatsen met rattenkeutels (ca. 1,5–2 cm) door (max. 20 per melding).";
-          } else if (categoryEl.value === "burrows") {
-            obsLabel.textContent = "Hoeveel gangen of holen heb je gezien in de afgelopen 12 maanden?";
-            countHelp.textContent = "Geef het aantal gangen of holen (opening ca. 5 cm of groter) door (max. 20 per melding).";
-          } else {
-            obsLabel.textContent = "Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?";
-            countHelp.textContent = "Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven.";
-          }
-        });
+        const updateCategoryHelp = () => {
+          const t = activeIndexTranslations();
+          const index = categoryEl.value === "droppings" ? 1 : categoryEl.value === "burrows" ? 2 : 0;
+          obsLabel.textContent = t.categories[index][0];
+          countHelp.textContent = t.categories[index][1];
+        };
+        categoryEl.addEventListener("change", updateCategoryHelp);
+        if (languageSelect) languageSelect.addEventListener("change", updateCategoryHelp);
+        updateCategoryHelp();
       }
 
       const streetInput = document.getElementById("streetInput");
@@ -1738,14 +1735,14 @@ button[data-page="map"]:hover:not(:disabled),
       if (submitBtn && submitMsg && streetInput && obsInput && categoryEl) {
         submitBtn.addEventListener("click", async function () {
           submitMsg.className = "muted";
-          submitMsg.textContent = "Spelling in Haarlem controleren...";
+          submitMsg.textContent = activeIndexTranslations().checking;
 
           const rawStreet = streetInput.value.trim().replace(/\s+/g, " ");
           const spellCheck = await verifyExactHaarlemStreetViaPdok(rawStreet);
 
           if (!spellCheck.ok) {
             submitMsg.className = "error";
-            submitMsg.textContent = spellCheck.reason;
+            submitMsg.textContent = activeIndexTranslations().badStreet;
             return;
           }
 
@@ -1753,7 +1750,7 @@ button[data-page="map"]:hover:not(:disabled),
           if (remainingMs > 0) {
             submitMsg.className = "error";
             submitMsg.textContent =
-              "Je kunt maximaal 1 melding per 1 uur doen (tegen sabotage). Wacht nog " +
+              activeIndexTranslations().cooldown +
               formatRemainingMinutes(remainingMs) +
               ".";
             return;
@@ -1871,7 +1868,7 @@ button[data-page="map"]:hover:not(:disabled),
 
           submitMsg.className = "success";
           submitMsg.textContent =
-            `Geregistreerd: +${count} ${count === 1 ? categoryInfo[0] : categoryInfo[1]} in ${canonicalStreet}. ` +
+            `${activeIndexTranslations().registered} +${count} ${count === 1 ? categoryInfo[0] : categoryInfo[1]} in ${canonicalStreet}. ` +
             `${msg.total} ${categoryTotal} ${totalName}. ` +
             (cat === "rats" ? `${msg.band} ${bandInfo.band}. ` : "") +
             msg.next;
@@ -1888,7 +1885,7 @@ button[data-page="map"]:hover:not(:disabled),
           allReports = BASE_REPORTS.map(normalizeReport);
           await applyPdokCoordsToExistingStreets("Aelbertsbergstraat");
           submitMsg.className = "muted";
-          submitMsg.textContent = "Eigen toevoegingen zijn gewist; basisdata via PDOK hersteld.";
+          submitMsg.textContent = activeIndexTranslations().reset;
         });
       }
 
@@ -1964,6 +1961,45 @@ button[data-page="map"]:hover:not(:disabled),
         pl:{loading:"Ładowanie...",heading:"3 ulice z największą liczbą zgłoszeń szczurów:",empty:"Nie ma jeszcze zgłoszeń dotyczących szczurów.",rats:"Łączna liczba zgłoszonych szczurów na tej ulicy:",colour:"Kolor:",droppings:"Odchody szczurów (łącznie):",burrows:"Korytarze lub nory (łącznie):",privacy:"Dla ochrony prywatności kropka jest umieszczana losowo wzdłuż ulicy."},
         es:{loading:"Cargando...",heading:"Las 3 calles con más avisos de ratas:",empty:"Todavía no hay avisos de ratas.",rats:"Total de ratas notificadas en esta calle:",colour:"Color:",droppings:"Excrementos de rata (total):",burrows:"Túneles o madrigueras (total):",privacy:"Para proteger tu privacidad, este punto se coloca al azar en algún lugar de la calle."}
       };
+      const indexDynamicTranslations = {
+        nl:{checking:"Straatnaam controleren...",badStreet:"Controleer de spelling van de straatnaam. Vul alleen een straatnaam in Haarlem in, zonder huisnummer.",cooldown:"Je kunt maximaal 1 melding per uur doen. Wacht nog ",registered:"Geregistreerd:",reset:"Eigen toevoegingen zijn gewist; de basisgegevens zijn hersteld.",categories:[
+          ["Hoeveel ratten heb je in totaal gezien in de afgelopen 12 maanden?","Vul het aantal ratten in. Je kunt per melding maximaal 20 ratten doorgeven."],
+          ["Hoeveel vindplaatsen met rattenkeutels heb je gezien in de afgelopen 12 maanden?","Geef het aantal vindplaatsen met rattenkeutels (ca. 1,5–2 cm) door (max. 20 per melding)."],
+          ["Hoeveel gangen of holen heb je gezien in de afgelopen 12 maanden?","Geef het aantal gangen of holen (opening ca. 5 cm of groter) door (max. 20 per melding)."]
+        ]},
+        en:{checking:"Checking the street name...",badStreet:"Check the spelling. Enter only a street name in Haarlem, without a house number.",cooldown:"You can submit no more than one report per hour. Please wait ",registered:"Recorded:",reset:"Your own additions have been cleared; the original data has been restored.",categories:[
+          ["How many rats have you seen in total in the past 12 months?","Enter the number of rats. You can report up to 20 rats per report."],
+          ["How many places with rat droppings have you seen in the past 12 months?","Enter the number of places with rat droppings (approx. 1.5–2 cm; max. 20 per report)."],
+          ["How many burrows or tunnels have you seen in the past 12 months?","Enter the number of burrows or tunnels (opening approx. 5 cm or larger; max. 20 per report)."]
+        ]},
+        ar:{checking:"جارٍ التحقق من اسم الشارع...",badStreet:"تحقق من كتابة الاسم. أدخل اسم شارع في هارلم فقط، دون رقم المنزل.",cooldown:"يمكنك إرسال بلاغ واحد كحد أقصى كل ساعة. يُرجى الانتظار ",registered:"تم التسجيل:",reset:"تم حذف الإضافات التي أدخلتها واستعادة البيانات الأصلية.",categories:[
+          ["كم عدد الجرذان التي شاهدتها إجمالًا خلال آخر 12 شهرًا؟","أدخل عدد الجرذان. يمكنك الإبلاغ عن 20 جرذًا كحد أقصى في كل بلاغ."],
+          ["في كم موقعًا رأيت فضلات الجرذان خلال آخر 12 شهرًا؟","أدخل عدد المواقع التي وجدت فيها فضلات الجرذان (1.5–2 سم؛ 20 موقعًا كحد أقصى لكل بلاغ)."],
+          ["كم عدد الأنفاق أو الجحور التي رأيتها خلال آخر 12 شهرًا؟","أدخل عدد الأنفاق أو الجحور (فتحة نحو 5 سم أو أكبر؛ 20 كحد أقصى لكل بلاغ)."]
+        ]},
+        so:{checking:"Magaca waddada waa la hubinayaa...",badStreet:"Hubi higgaadda. Geli magaca waddo ku taal Haarlem oo keliya, adigoon gelin lambarka guriga.",cooldown:"Saacaddii waxaad diri kartaa ugu badnaan hal warbixin. Fadlan sug ",registered:"Waa la diiwaangeliyey:",reset:"Waxyaabihii aad adigu ku dartay waa la tirtiray; xogtii asalka ahaydna waa la soo celiyey.",categories:[
+          ["Immisa jiir ayaad guud ahaan aragtay 12-kii bilood ee u dambeeyay?","Geli tirada jiirka. Warbixin kasta waxaad ku sheegi kartaa ugu badnaan 20 jiir."],
+          ["Immisa meelood ayaad ku aragtay saxarada jiirka 12-kii bilood ee u dambeeyay?","Geli tirada meelaha aad ku aragtay saxarada jiirka (1.5–2 cm; ugu badnaan 20 meelood warbixin kasta)."],
+          ["Immisa god ama marin ayaad aragtay 12-kii bilood ee u dambeeyay?","Geli tirada godadka ama marinada (dalool qiyaastii 5 cm ama ka weyn; ugu badnaan 20 warbixin kasta)."]
+        ]},
+        tr:{checking:"Sokak adı kontrol ediliyor...",badStreet:"Yazımı kontrol edin. Haarlem'de yalnızca sokak adını girin; kapı numarası yazmayın.",cooldown:"Saatte en fazla bir bildirim gönderebilirsiniz. Lütfen bekleyin: ",registered:"Kaydedildi:",reset:"Kendi eklemeleriniz silindi; başlangıç verileri geri yüklendi.",categories:[
+          ["Son 12 ayda toplam kaç fare gördünüz?","Fare sayısını girin. Her bildirimde en fazla 20 fare bildirebilirsiniz."],
+          ["Son 12 ayda fare dışkısı gördüğünüz kaç yer var?","Fare dışkısı bulunan yerlerin sayısını girin (yaklaşık 1,5–2 cm; bildirim başına en fazla 20)."],
+          ["Son 12 ayda kaç tünel veya yuva gördünüz?","Tünel veya yuva sayısını girin (yaklaşık 5 cm veya daha büyük açıklık; bildirim başına en fazla 20)."]
+        ]},
+        pl:{checking:"Sprawdzanie nazwy ulicy...",badStreet:"Sprawdź pisownię. Wpisz wyłącznie nazwę ulicy w Haarlem, bez numeru domu.",cooldown:"Możesz wysłać maksymalnie jedno zgłoszenie na godzinę. Poczekaj ",registered:"Zarejestrowano:",reset:"Usunięto własne wpisy i przywrócono dane podstawowe.",categories:[
+          ["Ile szczurów łącznie widziałeś(-aś) w ciągu ostatnich 12 miesięcy?","Wpisz liczbę szczurów. W jednym zgłoszeniu można podać maksymalnie 20 szczurów."],
+          ["W ilu miejscach widziałeś(-aś) odchody szczurów w ciągu ostatnich 12 miesięcy?","Wpisz liczbę miejsc z odchodami szczurów (ok. 1,5–2 cm; maks. 20 miejsc w jednym zgłoszeniu)."],
+          ["Ile nor lub korytarzy widziałeś(-aś) w ciągu ostatnich 12 miesięcy?","Wpisz liczbę nor lub korytarzy (otwór ok. 5 cm lub większy; maks. 20 w jednym zgłoszeniu)."]
+        ]},
+        es:{checking:"Comprobando el nombre de la calle...",badStreet:"Comprueba la ortografía. Introduce solo el nombre de una calle de Haarlem, sin número de vivienda.",cooldown:"Puedes enviar como máximo un aviso por hora. Espera ",registered:"Registrado:",reset:"Se han borrado tus propias aportaciones y se han restaurado los datos originales.",categories:[
+          ["¿Cuántas ratas has visto en total durante los últimos 12 meses?","Introduce el número de ratas. Puedes comunicar un máximo de 20 ratas por aviso."],
+          ["¿En cuántos lugares has visto excrementos de rata durante los últimos 12 meses?","Indica el número de lugares con excrementos de rata (aprox. 1,5–2 cm; máximo 20 por aviso)."],
+          ["¿Cuántos túneles o madrigueras has visto durante los últimos 12 meses?","Indica el número de túneles o madrigueras (abertura de unos 5 cm o más; máximo 20 por aviso)."]
+        ]}
+      };
+      const activeIndexTranslations = () => indexDynamicTranslations[(document.documentElement.lang || "nl").slice(0,2)] || indexDynamicTranslations.nl;
+
       const simpleMapExplanation = {
         nl: "De kaart toont meldingen van de afgelopen 12 maanden. Oudere meldingen verdwijnen van de kaart, maar blijven bewaard in het gegevensbestand. Per straat kunnen drie bolletjes staan: gekleurd voor ratten, bruin voor keutels en wit voor gangen en holen. De bolletjes staan willekeurig in de straat, nooit bij een huisnummer. Alleen een straatnaam die precies klopt en in Haarlem ligt, komt op de kaart.",
         en: "The map shows reports from the past 12 months. Older reports disappear from the map but remain saved in the data file. Each street can have up to three dots: coloured for rats, brown for droppings and white for burrows or tunnels. Dots are placed randomly along the street, never at a house number. Only an exact street name in Haarlem is shown.",
