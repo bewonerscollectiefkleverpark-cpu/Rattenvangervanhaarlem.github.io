@@ -318,6 +318,12 @@
         <label for="language">Taal</label>
         <select id="language" aria-label="Choose language">
           <option value="nl">🌐 Nederlands</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="so">🇸🇴 Soomaali</option>
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="pl">🇵🇱 Polski</option>
+          <option value="es">🇪🇸 Español</option>
         </select>
       </div>
     </div>
@@ -390,5 +396,125 @@
       <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
     </footer>
   </div>
+  <script>
+    (function () {
+      const translations = {
+        nl: {
+          top:"RATTENVANGER VAN HAARLEM · ONDERZOEK & MELDINGEN",language:"Taal",brand:"Rattenvanger van Haarlem",tagline:"Samen maken we rattenoverlast zichtbaar",
+          nav:["Mail Spaarnelanden","Rattenkaart: waar zijn de hotspots?","Leefregels tegen ratten","Informatie","Posters om te printen","Rattenkeutels herkennen","Veelgestelde vragen","Ratten en het riool"],
+          title:"Rattenkeutels herkennen",intro:"Rattenkeutels zijn een duidelijk spoor om rattenoverlast te herkennen. Kijk vooral naar het formaat en het uiteinde.",sub:"Rattenkeutels (ca. 1,5–2 cm lang)",
+          captions:["Bruine rat — stomp uiteinde: keutels van bruine ratten zijn ongeveer 1,8 cm groot en hebben een afgestompt puntje.","Maatvergelijking (1 cm schaal): duidelijk groter dan muizenkeutels (muizenkeutels zijn maar 3–6 mm, zo groot als hagelslag of een rijstkorrel)."],
+          alts:["Keutels van bruine ratten zijn stomp en circa 1,8 centimeter groot","Rattenkeutels op ruitjespapier met schaalverdeling van 1 cm"],
+          bullets:["Lengte: ongeveer 1,5 tot 2 cm lang.","Kleur en versheid: verse keutels zijn donker en glanzend/zacht; oudere keutels drogen op en worden grijzer en brokkelig.","Waar vind je ze? Langs muren, plinten, schuttingen, bij afvalplekken, schuren en kruipruimtes."],
+          warning:"Let op bij het opruimen: raak keutels, ratten of plekken met mogelijke rattenurine nooit met blote handen aan. Draag handschoenen, maak alles goed schoon en was daarna grondig je handen.",
+          notice:"Wil je melden? Doe een officiële melding bij Spaarnelanden én zet je waarneming op de rattenkaart voor mede-Haarlemmers.",
+          actions:["Mail Spaarnelanden","Meld op de rattenkaart"],footer:"Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.",description:"Zo herken je rattenkeutels (ca. 1,5–2 cm lang) en onderscheid je ze van muizenkeutels."
+        },
+        en: {
+          top:"RATTENVANGER VAN HAARLEM · RESEARCH & REPORTS",language:"Language",brand:"Rat Watch Haarlem",tagline:"Together, we make rat nuisance visible",
+          nav:["Email Spaarnelanden","Rat map: where are the hotspots?","Rules for preventing rats","Information","Posters to print","Identifying rat droppings","Frequently asked questions","Rats and the sewer"],
+          title:"Identifying rat droppings",intro:"Rat droppings are a clear sign that can help identify a rat problem. Pay particular attention to their size and the shape of the ends.",sub:"Rat droppings (approx. 1.5–2 cm long)",
+          captions:["Brown rat — blunt end: brown rat droppings are approximately 1.8 cm long and have a blunt tip.","Size comparison (1 cm scale): clearly larger than mouse droppings (mouse droppings are only 3–6 mm, about the size of sprinkles or a grain of rice)."],
+          alts:["Brown rat droppings are blunt and approximately 1.8 centimetres long","Rat droppings on graph paper with a 1 cm scale"],
+          bullets:["Length: approximately 1.5 to 2 cm.","Colour and freshness: fresh droppings are dark, shiny and soft; older droppings dry out and become greyer and crumbly.","Where can you find them? Along walls, skirting boards and fences, near rubbish areas, sheds and crawl spaces."],
+          warning:"Take care when cleaning up: never touch droppings, rats or places that may contain rat urine with bare hands. Wear gloves, clean everything thoroughly and wash your hands carefully afterwards.",
+          notice:"Would you like to report it? Submit an official report to Spaarnelanden and add your observation to the rat map for other Haarlem residents.",
+          actions:["Email Spaarnelanden","Report on the rat map"],footer:"Rat Watch Haarlem is an independent residents’ initiative.",description:"How to identify rat droppings (approx. 1.5–2 cm long) and distinguish them from mouse droppings."
+        },
+        ar: {
+          top:"مبادرة مكافحة الجرذان في هارلم · الأبحاث والبلاغات",language:"اللغة",brand:"مبادرة مكافحة الجرذان في هارلم",tagline:"معًا نجعل مشكلة الجرذان مرئية",
+          nav:["مراسلة Spaarnelanden","خريطة الجرذان: أين توجد البؤر؟","قواعد الوقاية من الجرذان","معلومات","ملصقات للطباعة","التعرّف على فضلات الجرذان","الأسئلة الشائعة","الجرذان والصرف الصحي"],
+          title:"كيفية التعرّف على فضلات الجرذان",intro:"تُعد فضلات الجرذان علامة واضحة تساعد على التعرّف على وجود مشكلة جرذان. انتبه خصوصًا إلى الحجم وشكل الطرف.",sub:"فضلات الجرذان (بطول نحو 1.5–2 سم)",
+          captions:["الجرذ البني — طرف غير مدبب: يبلغ طول فضلات الجرذان البنية نحو 1.8 سم ولها طرف غير حاد.","مقارنة الحجم (مقياس 1 سم): أكبر بوضوح من فضلات الفئران (يبلغ طول فضلات الفئران 3–6 مم فقط، أي بحجم حبيبات الزينة أو حبة الأرز)."],
+          alts:["فضلات الجرذ البني غير مدببة ويبلغ طولها نحو 1.8 سم","فضلات جرذان على ورق مربعات مع مقياس 1 سم"],
+          bullets:["الطول: نحو 1.5 إلى 2 سم.","اللون والحداثة: تكون الفضلات الطازجة داكنة ولامعة وطرية؛ أما القديمة فتصبح جافة ورمادية ومتفتتة.","أين تجدها؟ بمحاذاة الجدران والحواف والأسوار، وبالقرب من أماكن النفايات والمخازن والمساحات أسفل الأرضيات."],
+          warning:"انتبه عند التنظيف: لا تلمس الفضلات أو الجرذان أو الأماكن التي قد تحتوي على بول الجرذان بيدين عاريتين. ارتدِ قفازات، ونظّف كل شيء جيدًا، ثم اغسل يديك بعناية.",
+          notice:"هل تريد الإبلاغ؟ أرسل بلاغًا رسميًا إلى Spaarnelanden وأضف مشاهدتك إلى خريطة الجرذان ليستفيد سكان هارلم الآخرون.",
+          actions:["مراسلة Spaarnelanden","الإبلاغ على خريطة الجرذان"],footer:"مبادرة مكافحة الجرذان في هارلم مبادرة مستقلة من السكان.",description:"كيفية التعرّف على فضلات الجرذان (بطول نحو 1.5–2 سم) وتمييزها عن فضلات الفئران."
+        },
+        so: {
+          top:"RATTENVANGER VAN HAARLEM · CILMI-BAARIS & WARBIXINNO",language:"Luqad",brand:"Rattenvanger van Haarlem",tagline:"Wadajir ayaan muuqaal uga dhigaynaa dhibaatada jiirka",
+          nav:["Iimayl u dir Spaarnelanden","Khariidadda jiirka: xaggee ayay dhibaatadu ka jirtaa?","Xeerarka ka hortagga jiirka","Macluumaad","Boodhadh la daabici karo","Sida loo garto saxarada jiirka","Su’aalaha badanaa la isweydiiyo","Jiirka iyo bulaacadda"],
+          title:"Sida loo garto saxarada jiirka",intro:"Saxarada jiirku waa calaamad cad oo kaa caawin karta inaad garato dhibaatada jiirka. Si gaar ah u eeg cabbirka iyo qaabka dhammaadka.",sub:"Saxarada jiirka (qiyaastii 1.5–2 cm)",
+          captions:["Jiirka bunni ah — dhammaad aan fiiqnayn: saxarada jiirka bunni ah waxay dhererkeedu ku dhowdahay 1.8 cm, dhammaadkeeduna waa fidsan yahay.","Isbarbardhigga cabbirka (miisaan 1 cm): way ka weyn tahay saxarada jiirka yar (taas oo dhererkeedu yahay 3–6 mm oo le'eg jajabka qurxinta ama xabbad bariis ah)."],
+          alts:["Saxarada jiirka bunni ah dhammaadkeedu waa fidsan yahay, dhererkeeduna waa qiyaastii 1.8 sentimitir","Saxarada jiirka oo saaran warqad shaxan leh iyo cabbir 1 cm"],
+          bullets:["Dhererka: qiyaastii 1.5 ilaa 2 cm.","Midabka iyo cusaybka: saxarada cusub waa madow, dhalaalaysa oo jilicsan; tan duugga ahi way qallashaa, cirro ayay noqotaa oo jajabtaa.","Xaggee laga helaa? Dhinacyada darbiyada, looxyada hoose, dayrarka, meelaha qashinka, bakhaarada iyo meelaha guriga hoostooda ah."],
+          warning:"Ka taxaddar markaad nadiifinayso: gacmo qaawan ha ku taaban saxarada, jiirka ama meelaha laga yaabo inay ku jirto kaadida jiirka. Gasho galoofyo, si fiican u nadiifi, dabadeedna gacmaha si fiican u dhaq.",
+          notice:"Ma rabtaa inaad soo sheegto? Warbixin rasmi ah u dir Spaarnelanden, sidoo kale aragtidaada ku dar khariidadda jiirka si ay dadka kale ee Haarlem u arkaan.",
+          actions:["Iimayl u dir Spaarnelanden","Ku soo sheeg khariidadda jiirka"],footer:"Rattenvanger van Haarlem waa hindise madax-bannaan oo dadka deegaanka leeyihiin.",description:"Sida loo garto saxarada jiirka (qiyaastii 1.5–2 cm) loogana sooco saxarada jiirka yar."
+        },
+        tr: {
+          top:"RATTENVANGER VAN HAARLEM · ARAŞTIRMA & BİLDİRİMLER",language:"Dil",brand:"Haarlem Fare Gözlem İnisiyatifi",tagline:"Fare sorununu birlikte görünür kılıyoruz",
+          nav:["Spaarnelanden'e e-posta","Fare haritası: sorunlu noktalar nerede?","Fareleri önleme kuralları","Bilgi","Yazdırılabilir afişler","Fare dışkısını tanıma","Sık sorulan sorular","Fareler ve kanalizasyon"],
+          title:"Fare dışkısını tanıma",intro:"Fare dışkısı, fare sorununu fark etmeye yardımcı olan belirgin bir işarettir. Özellikle boyutuna ve uçlarının şekline dikkat edin.",sub:"Fare dışkısı (yaklaşık 1,5–2 cm uzunluğunda)",
+          captions:["Kahverengi sıçan — küt uç: kahverengi sıçan dışkısı yaklaşık 1,8 cm uzunluğundadır ve ucu küt şekillidir.","Boyut karşılaştırması (1 cm ölçek): fare dışkısından belirgin şekilde büyüktür (fare dışkısı yalnızca 3–6 mm uzunluğundadır; şeker süsü veya pirinç tanesi büyüklüğündedir)."],
+          alts:["Kahverengi sıçan dışkısı küt uçludur ve yaklaşık 1,8 santimetre uzunluğundadır","1 cm ölçekli kareli kâğıt üzerinde fare dışkısı"],
+          bullets:["Uzunluk: yaklaşık 1,5–2 cm.","Renk ve tazelik: taze dışkı koyu renkli, parlak ve yumuşaktır; eski dışkı kurur, grileşir ve ufalanır.","Nerede bulunur? Duvar diplerinde, süpürgeliklerde, çit kenarlarında, çöp alanlarında, barakalarda ve bodrum boşluklarında."],
+          warning:"Temizlerken dikkat edin: dışkıya, farelere veya fare idrarı bulunabilecek yerlere çıplak elle dokunmayın. Eldiven takın, her şeyi iyice temizleyin ve ardından ellerinizi dikkatlice yıkayın.",
+          notice:"Bildirim yapmak ister misiniz? Spaarnelanden'e resmî bildirim gönderin ve gözleminizi diğer Haarlem sakinleri için fare haritasına ekleyin.",
+          actions:["Spaarnelanden'e e-posta gönder","Fare haritasında bildir"],footer:"Rattenvanger van Haarlem bağımsız bir mahalle sakinleri girişimidir.",description:"Fare dışkısını (yaklaşık 1,5–2 cm) tanıma ve fare dışkısından ayırt etme."
+        },
+        pl: {
+          top:"RATTENVANGER VAN HAARLEM · BADANIA I ZGŁOSZENIA",language:"Język",brand:"Rattenvanger van Haarlem",tagline:"Razem pokazujemy problem szczurów",
+          nav:["Napisz do Spaarnelanden","Mapa szczurów: gdzie są ogniska problemu?","Zasady zapobiegania szczurom","Informacje","Plakaty do wydrukowania","Jak rozpoznać odchody szczurów","Najczęściej zadawane pytania","Szczury i kanalizacja"],
+          title:"Jak rozpoznać odchody szczurów",intro:"Odchody szczurów są wyraźnym śladem pomagającym rozpoznać problem ze szczurami. Zwróć szczególną uwagę na rozmiar i kształt końców.",sub:"Odchody szczurów (ok. 1,5–2 cm długości)",
+          captions:["Szczur wędrowny — tępy koniec: odchody szczura wędrownego mają około 1,8 cm długości i tępo zakończony koniec.","Porównanie rozmiaru (skala 1 cm): są wyraźnie większe niż odchody myszy (odchody myszy mają tylko 3–6 mm, mniej więcej wielkość posypki lub ziarenka ryżu)."],
+          alts:["Odchody szczura wędrownego są tępe i mają około 1,8 centymetra długości","Odchody szczurów na papierze w kratkę ze skalą 1 cm"],
+          bullets:["Długość: około 1,5–2 cm.","Kolor i świeżość: świeże odchody są ciemne, błyszczące i miękkie; starsze wysychają, stają się szarawe i kruche.","Gdzie je znaleźć? Wzdłuż ścian, listew przypodłogowych i płotów, przy miejscach składowania odpadów, szopach i przestrzeniach podpodłogowych."],
+          warning:"Uważaj podczas sprzątania: nigdy nie dotykaj gołymi rękami odchodów, szczurów ani miejsc, w których może znajdować się mocz szczurów. Załóż rękawiczki, dokładnie wszystko wyczyść, a następnie starannie umyj ręce.",
+          notice:"Chcesz zgłosić problem? Wyślij oficjalne zgłoszenie do Spaarnelanden i dodaj swoją obserwację do mapy szczurów, aby mogli ją zobaczyć inni mieszkańcy Haarlem.",
+          actions:["Napisz do Spaarnelanden","Zgłoś na mapie szczurów"],footer:"Rattenvanger van Haarlem to niezależna inicjatywa mieszkańców.",description:"Jak rozpoznać odchody szczurów (ok. 1,5–2 cm długości) i odróżnić je od odchodów myszy."
+        },
+        es: {
+          top:"RATTENVANGER VAN HAARLEM · INVESTIGACIÓN Y AVISOS",language:"Idioma",brand:"Rattenvanger van Haarlem",tagline:"Juntos hacemos visible el problema de las ratas",
+          nav:["Enviar correo a Spaarnelanden","Mapa de ratas: ¿dónde están los focos?","Normas para prevenir las ratas","Información","Carteles para imprimir","Cómo identificar excrementos de rata","Preguntas frecuentes","Ratas y alcantarillado"],
+          title:"Cómo identificar excrementos de rata",intro:"Los excrementos de rata son una señal clara que ayuda a reconocer un problema de ratas. Fíjate especialmente en el tamaño y la forma de los extremos.",sub:"Excrementos de rata (aprox. 1,5–2 cm de largo)",
+          captions:["Rata parda — extremo romo: los excrementos de la rata parda miden aproximadamente 1,8 cm y tienen la punta roma.","Comparación de tamaño (escala de 1 cm): son claramente más grandes que los excrementos de ratón (los de ratón miden solo 3–6 mm, aproximadamente como virutas de chocolate o un grano de arroz)."],
+          alts:["Los excrementos de rata parda tienen extremos romos y miden aproximadamente 1,8 centímetros","Excrementos de rata sobre papel cuadriculado con escala de 1 cm"],
+          bullets:["Longitud: aproximadamente de 1,5 a 2 cm.","Color y frescura: los excrementos recientes son oscuros, brillantes y blandos; los más antiguos se secan, se vuelven grisáceos y quebradizos.","¿Dónde encontrarlos? Junto a paredes, rodapiés y vallas, cerca de zonas de basura, cobertizos y espacios bajo el suelo."],
+          warning:"Precaución al limpiar: nunca toques con las manos desnudas los excrementos, las ratas ni los lugares donde pueda haber orina de rata. Usa guantes, limpia todo a fondo y lávate bien las manos después.",
+          notice:"¿Quieres comunicarlo? Envía un aviso oficial a Spaarnelanden y añade tu observación al mapa de ratas para que otros vecinos de Haarlem puedan verla.",
+          actions:["Enviar correo a Spaarnelanden","Avisar en el mapa de ratas"],footer:"Rattenvanger van Haarlem es una iniciativa vecinal independiente.",description:"Cómo identificar excrementos de rata (aprox. 1,5–2 cm de largo) y distinguirlos de los de ratón."
+        }
+      };
+      const select = document.getElementById("language");
+      function applyLanguage(code) {
+        const t = translations[code] || translations.nl;
+        document.documentElement.lang = code;
+        document.documentElement.dir = code === "ar" ? "rtl" : "ltr";
+        document.querySelector(".top .rvh-top-inner > strong").textContent = t.top;
+        document.querySelector(".language label").textContent = t.language;
+        document.querySelector(".site-brand strong").textContent = t.brand;
+        document.querySelector(".site-brand small").textContent = t.tagline;
+        document.querySelectorAll(".site-nav a").forEach((el,i)=>el.textContent=t.nav[i]);
+        const section = document.querySelector("main section");
+        section.querySelector("h2").textContent=t.title;
+        section.querySelector(":scope > p").textContent=t.intro;
+        section.querySelector("h3").textContent=t.sub;
+        section.querySelectorAll(".photo-caption").forEach((el,i)=>{
+          const strong=el.querySelector("strong");
+          if(strong){ strong.textContent=t.captions[i].split(":")[0]+":"; el.lastChild.textContent=t.captions[i].substring(t.captions[i].indexOf(":")+1); }
+          else el.textContent=t.captions[i];
+        });
+        section.querySelectorAll(".photo-card img").forEach((el,i)=>el.alt=t.alts[i]);
+        section.querySelectorAll(".info-list li").forEach((el,i)=>{
+          const label=t.bullets[i].split(":")[0]+":";
+          const rest=t.bullets[i].substring(t.bullets[i].indexOf(":")+1);
+          el.innerHTML="<strong>"+label+"</strong>"+rest;
+        });
+        const warning=section.querySelector(".warning-box");
+        warning.innerHTML="<strong>"+t.warning.split(":")[0]+":</strong>"+t.warning.substring(t.warning.indexOf(":")+1);
+        const notice=section.querySelector(".notice");
+        notice.innerHTML="<strong>"+t.notice.split("?")[0]+"?</strong>"+t.notice.substring(t.notice.indexOf("?")+1);
+        section.querySelectorAll(".actions a").forEach((el,i)=>el.textContent=t.actions[i]);
+        document.querySelector("footer .haarlem-badge").textContent="Haarlem";
+        document.querySelector("footer span:last-child").textContent=t.footer;
+        document.title=t.title+" — Rattenvanger van Haarlem";
+        document.querySelector('meta[name="description"]').content=t.description;
+      }
+      select.addEventListener("change",e=>applyLanguage(e.target.value));
+      applyLanguage("nl");
+    })();
+  </script>
 </body>
 </html>
