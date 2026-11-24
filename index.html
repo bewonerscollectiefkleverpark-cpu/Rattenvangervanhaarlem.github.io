@@ -112,6 +112,32 @@
       margin: 24px 0;
     }
 
+    .photo-card {
+      margin: 20px 0 24px;
+      padding: 16px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: #fbf9f5;
+    }
+
+    .photo-card img {
+      display: block;
+      width: 100%;
+      max-width: 720px;
+      height: auto;
+      margin: 0 auto 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .photo-caption {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
     .primary {
       display: inline-block;
       text-decoration: none;
@@ -428,29 +454,146 @@
     .poster-card button { margin-top: auto; }
     .poster-print-instruction { font-size: 15px; }
 
+    /* Strikte A4-afdrukregels: exact 1 A4 (210mm x 297mm), nooit groter of op een 2e pagina */
     @media print {
-      @page { size: A4 portrait; margin: 7mm; }
-      html, body { width: 210mm !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff !important; }
-      body.printing * { visibility: hidden !important; }
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+
+      html, body {
+        width: 194mm !important;
+        max-width: 194mm !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: #fff !important;
+      }
+
+      body.printing * {
+        visibility: hidden !important;
+      }
+
       body.printing #page-posters,
-      body.printing #page-posters .print-target,
-      body.printing #page-posters .print-target *,
       body.printing #page-posters .poster-print-instruction,
-      body.printing #page-posters .poster-print-instruction * { visibility: visible !important; }
+      body.printing #page-posters .poster-print-instruction *,
+      body.printing #page-posters .poster-card.print-target,
+      body.printing #page-posters .poster-card.print-target img {
+        visibility: visible !important;
+      }
+
       body.printing .top,
       body.printing header.site-header,
-      body.printing footer { display: none !important; }
-      body.printing .wrap { width: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
-      body.printing #page-posters { display: block !important; position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; }
+      body.printing footer {
+        display: none !important;
+      }
+
+      body.printing .wrap {
+        width: 194mm !important;
+        max-width: 194mm !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body.printing main {
+        width: 194mm !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body.printing #page-posters {
+        display: block !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 194mm !important;
+        max-width: 194mm !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        overflow: hidden !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+
       body.printing #page-posters > h2,
-      body.printing #page-posters > p,
-      body.printing #page-posters > .poster-grid > .poster-card:not(.print-target) { display: none !important; }
-      body.printing #page-posters .poster-grid { display: block !important; margin: 0 !important; }
-      body.printing #page-posters .poster-print-instruction { display: block !important; margin: 0 0 3mm !important; padding: 2mm 3mm !important; font-size: 9pt !important; line-height: 1.25 !important; border-radius: 0 !important; }
-      body.printing #page-posters .poster-card.print-target { display: flex !important; width: 100% !important; height: auto !important; max-height: 270mm !important; margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; gap: 0 !important; align-items: center !important; justify-content: center !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+      body.printing #page-posters > p:not(.poster-print-instruction),
+      body.printing #page-posters > .poster-grid > .poster-card:not(.print-target),
       body.printing .poster-card.print-target h3,
-      body.printing .poster-card.print-target button { display: none !important; }
-      body.printing .poster-card.print-target img { display: block !important; width: 100% !important; height: 245mm !important; max-width: 196mm !important; max-height: 245mm !important; object-fit: contain !important; border: 0 !important; border-radius: 0 !important; background: #fff !important; }
+      body.printing .poster-card.print-target button {
+        display: none !important;
+      }
+
+      body.printing #page-posters .poster-grid {
+        display: block !important;
+        width: 194mm !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body.printing #page-posters .poster-print-instruction {
+        display: block !important;
+        width: 194mm !important;
+        height: 7mm !important;
+        max-height: 7mm !important;
+        margin: 0 0 2mm !important;
+        padding: 0 !important;
+        font-size: 8pt !important;
+        line-height: 1.2 !important;
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+      }
+
+      body.printing #page-posters .poster-card.print-target {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 194mm !important;
+        max-width: 194mm !important;
+        height: 272mm !important;
+        max-height: 272mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #fff !important;
+        overflow: hidden !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      body.printing .poster-card.print-target img {
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        max-width: 194mm !important;
+        max-height: 272mm !important;
+        object-fit: contain !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #fff !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
     }
   </style>
 
@@ -763,6 +906,11 @@
         <h2>Leefregels tegen ratten</h2>
         <p>Ratten hebben voedsel, water en schuilplekken nodig. Met een paar eenvoudige gewoontes verklein je de kans op ratten.</p>
 
+        <div class="photo-card">
+          <img src="Scherm­afbeelding 2026-11-24 om 15.06.49.jpg" alt="Ratten knagen door een losse vuilniszak met etensresten" onerror="this.onerror=null;this.style.display='none';">
+          <p class="photo-caption"><strong>Zet geen vuilniszakken los op straat:</strong> ratten knagen door plastic zakken heen zodra er etensresten in zitten[cite: 8].</p>
+        </div>
+
         <ul class="info-list">
           <li><strong>Geen etensresten of vogelvoer los:</strong> gooi geen eten op straat of in de tuin en voorkom gemorst vogelvoer.</li>
           <li><strong>Afval netjes opbergen:</strong> zet afvalzakken niet los op straat en sluit kliko's en containers goed.</li>
@@ -800,27 +948,27 @@
 
       <section id="page-posters" class="hidden">
         <h2>Posters om te printen</h2>
-        <p class="poster-print-instruction">Print een poster en hang deze in de straat of portiek om buurtbewoners te informeren.</p>
+        <p class="poster-print-instruction">Print een poster op A4-formaat en hang deze in de straat of portiek om buurtbewoners te informeren.</p>
         <div class="poster-grid">
           <div class="poster-card">
             <h3>Poster 1 — Samen tegen ratten</h3>
             <img src="- poster-samen-tegen-ratten-2.png" alt="Poster 1 Rattenoverlast in Haarlem" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 1</button>
+            <button type="button" class="print-poster-btn">Print Poster 1 (A4)</button>
           </div>
           <div class="poster-card">
             <h3>Poster 2 — Haarlem (6 talen)</h3>
             <img src="poster-haarlem-6-talen.png" alt="Poster 2 Rattenoverlast in Haarlem in 6 talen" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 2</button>
+            <button type="button" class="print-poster-btn">Print Poster 2 (A4)</button>
           </div>
           <div class="poster-card">
             <h3>Poster 3 — Samen tegen rattenoverlast</h3>
             <img src="Samen tegen rattenoverlast in Haarlem (2).png" alt="Poster 3 Samen tegen rattenoverlast in Haarlem" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 3</button>
+            <button type="button" class="print-poster-btn">Print Poster 3 (A4)</button>
           </div>
           <div class="poster-card">
-            <h3>Poster 4 — Rattenoverlast Kleverpark</h3>
-            <img src="Scherm­afbeelding 2026-11-23 om 20.13.01.jpg" alt="Poster 4 Rattenoverlast in het Kleverpark" onerror="this.onerror=null;this.style.display='none';">
-            <button type="button" class="print-poster-btn">Print Poster 4</button>
+            <h3>Poster 4 — Wat moet u doen? (Haarlem)</h3>
+            <img src="Gemini_Generated_Image_syab4nsyab4nsyab.jpeg" alt="Poster 4 Rattenoverlast in Haarlem Wat moet u doen?" onerror="this.onerror=null;this.style.display='none';">
+            <button type="button" class="print-poster-btn">Print Poster 4 (A4)</button>
           </div>
         </div>
       </section>
