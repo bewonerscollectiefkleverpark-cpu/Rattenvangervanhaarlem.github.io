@@ -1035,27 +1035,22 @@ button[data-page="map"]:hover:not(:disabled),
         <p>Ratten hebben voedsel, water en schuilplekken nodig. Met een paar eenvoudige gewoontes verklein je de kans op ratten.</p>
 
         <div class="photo-card">
-          <img src="ratten en zwerfvuil.png" alt="Ratten knagen door een losse vuilniszak met etensresten" onerror="this.onerror=null;this.style.display='none';">
-          <p class="photo-caption"><strong>Zet geen vuilniszakken los op straat:</strong> ratten knagen door plastic zakken heen zodra er etensresten in zitten.</p>
-        </div>
-
-        <div class="photo-card">
-          <img src="Scherm­afbeelding 2026-11-24 om 16.07.03.png" alt="Verkeersbord dat waarschuwt tegen het voeren van vogels en het achterlaten van etensresten" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+          <img src="Scherm­afbeelding 2026-11-24 om 16.07.03.png" alt="Verbodsbord tegen het voeren van vogels, met vogelvoer en een rat die ervan eet op de achtergrond" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
           <p class="photo-caption"><strong>Geen etensresten of vogelvoer los:</strong> gooi geen eten op straat of in de tuin en voorkom gemorst vogelvoer.</p>
         </div>
 
         <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1730303908222-9850ae52c445?fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Afvalcontainers met gesloten deksels netjes tegen een bakstenen muur" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1730303908222-9850ae52c445?fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Afvalcontainer met een vuilniszak ernaast" loading="lazy">
           <p class="photo-caption"><strong>Afval netjes opbergen:</strong> zet afvalzakken niet los op straat en sluit kliko's en containers goed.</p>
         </div>
 
         <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1767893206440-9df5c60c30e4?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Houtstapel in de tuin langs een dichte haag" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1767893206440-9df5c60c30e4?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Houtstapel bij struiken" loading="lazy">
           <p class="photo-caption"><strong>Weinig schuilplekken:</strong> ruim rommel, houtstapels en dichte begroeiing langs muren en schuttingen op.</p>
         </div>
 
         <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1690730685007-c253cb2a5f44?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Leiding die door een opening in een bakstenen muur loopt" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1690730685007-c253cb2a5f44?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;ixlib=rb-4.1.0&amp;q=60&amp;w=3000" alt="Regenpijp bij een gat in de muur" loading="lazy">
           <p class="photo-caption"><strong>Openingen dichten:</strong> let op gaten bij leidingen, gevels en riolering en meld gebreken.</p>
         </div>
       </section>
@@ -2015,8 +2010,10 @@ button[data-page="map"]:hover:not(:disabled),
         setText(map.querySelector("p.muted:last-child"),t.map[20]);
         setText(rules.querySelector("h2"),t.rules[0]);
         setText(rules.querySelector(":scope > p"),t.rules[1]);
-        setHTML(rules.querySelector(".photo-caption"),"<strong>"+t.rules[2].split(":")[0]+":</strong>"+t.rules[2].substring(t.rules[2].indexOf(":")+1));
-        rules.querySelectorAll(".info-list li").forEach((el,i)=>setHTML(el,"<strong>"+t.rules[i+3].split(":")[0]+":</strong>"+t.rules[i+3].substring(t.rules[i+3].indexOf(":")+1)+(i===0?el.querySelector(".photo-card")?.outerHTML||"": "")));
+        rules.querySelectorAll(".photo-caption").forEach((el,i)=>{
+          const value=t.rules[i+2];
+          if(value) setHTML(el,"<strong>"+value.split(":")[0]+":</strong>"+value.substring(value.indexOf(":")+1));
+        });
         setText(info.querySelector("h2"),t.info[0]);
         setText(info.querySelector(":scope > p"),t.info[1]);
         info.querySelectorAll(":scope > .info-list li").forEach((el,i)=>setHTML(el,"<strong>"+t.info[i+2].split(":")[0]+":</strong>"+t.info[i+2].substring(t.info[i+2].indexOf(":")+1)));
