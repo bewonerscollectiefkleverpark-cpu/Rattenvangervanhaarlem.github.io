@@ -1904,6 +1904,15 @@ footer .rvh-copy{background:#526b48!important}
         pl: { navigation:"Nawigacja główna", officialRoute:"Kroki zgłoszenia urzędowego", dateFormat:"dd-mm-rrrr" },
         es: { navigation:"Navegación principal", officialRoute:"Pasos para presentar un aviso oficial", dateFormat:"dd-mm-aaaa" }
       };
+      const topTranslations = {
+        nl:"Bekijk rattenmeldingen uit Haarlem en geef zelf een melding door.",
+        en:"View rat reports from Haarlem and submit a report yourself.",
+        ar:"اطّلع على بلاغات الجرذان في هارلم وقدّم بلاغًا بنفسك.",
+        so:"Eeg warbixinnada jiirka ee Haarlem oo adiguna gudbi warbixin.",
+        tr:"Haarlem'deki fare bildirimlerini görüntüleyin ve siz de bildirimde bulunun.",
+        pl:"Zobacz zgłoszenia dotyczące szczurów z Haarlem i samodzielnie zgłoś problem.",
+        es:"Consulta los avisos sobre ratas en Haarlem y envía tu propio aviso."
+      };
       function applyReportLanguage(code) {
         const t = reportTranslations[code] || reportTranslations.nl;
         const report = document.getElementById("page-report");
@@ -1917,6 +1926,8 @@ footer .rvh-copy{background:#526b48!important}
         if (siteNav) siteNav.setAttribute("aria-label", accessibility.navigation);
         if (officialRoute) officialRoute.setAttribute("aria-label", accessibility.officialRoute);
         document.querySelector(".site-brand strong").textContent = t.brand;
+        const topHeading = document.querySelector(".rvh-top-inner > strong");
+        if (topHeading) topHeading.textContent = topTranslations[code] || topTranslations.nl;
         document.querySelector(".site-brand small").textContent = t.tagline;
         const nav = document.querySelectorAll(".site-nav button, .site-nav a");
         t.nav.forEach((v,i) => { if(nav[i]) nav[i].textContent = v; });
