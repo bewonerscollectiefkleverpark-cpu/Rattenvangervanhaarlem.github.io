@@ -1972,7 +1972,7 @@ button[data-page="map"]:hover:not(:disabled),
         setText(map.querySelector(".visibility-highlight"),t.map[2]);
         const notices = map.querySelectorAll(".notice");
         setText(notices[0],t.map[3]);
-        setHTML(notices[1],"<strong>"+t.map[4]+"</strong>"+t.map[5].split(/(?<=[.!?؟])\\s+/).map(part=>"<p>"+part+"</p>").join(""));
+        setHTML(notices[1],"<strong>"+t.map[4]+"</strong>"+t.map[5].split(/(?<=[.!?؟])\s+/).map(part=>"<p>"+part+"</p>").join(""));
         setText(map.querySelector(".legend-title"),t.map[6]);
         map.querySelectorAll(".legend-item span:last-child").forEach((el,i)=>setText(el,t.map[7][i]));
         setHTML(map.querySelector("#streetTotalsOverview"),"<strong>"+t.map[8]+"</strong> "+dynamic.loading);
