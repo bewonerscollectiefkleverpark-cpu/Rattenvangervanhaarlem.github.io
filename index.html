@@ -787,8 +787,8 @@
         </div>
 
         <div class="notice">
-          <strong data-t="dotTitle">Wat betekent de stip op de kaart?</strong>
-          <p data-t="dotExplanation">De stip wordt op een willekeurige plek binnen de betreffende straat weergegeven. De locatie van de stip geeft dus niet aan waar de ratten daadwerkelijk zijn gezien. De stip toont het totaal aantal meldingen van rattenoverlast voor de hele straat.</p>
+          <strong data-t="dotTitle">Wat betekent het bolletje op de kaart?</strong>
+          <p data-t="dotExplanation">Per straat verschijnt voor ratten één gekleurd bolletje op de coördinaten van de straat. Elke nieuwe rattenmelding in dezelfde straat telt het aantal erbij op en past indien nodig de kleur aan.</p>
         </div>
 
         <div class="legend-box">
@@ -852,14 +852,13 @@
 
         <div class="actions">
           <button type="button" id="submitReport" disabled data-t="submit">Waarneming registreren</button>
-          <button type="button" id="refreshFromSheet" class="secondary-btn">Ververs uit Google Sheet</button>
           <button type="button" id="resetLocalReports" class="secondary-btn">Herstel basisdata (wis eigen toevoegingen)</button>
         </div>
 
         <p id="submitMessage" role="status" aria-live="polite"></p>
 
         <p class="muted" data-t="storageNotice">
-          Meldingen worden gesynchroniseerd met de Google Sheet en direct op de kaart bijgewerkt.
+          Meldingen worden opgeslagen en op straatniveau weergegeven op de kaart.
         </p>
       </section>
 
@@ -987,8 +986,7 @@
   <script>
     (function () {
       const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCQmyGDWKqCNIByHnYQDg0aAd5NF2jk0UWFQwUDsC364slPf0ttn-zGJy99IpO80IbQ/exec";
-
-      const STORAGE_KEY = "rvh_map_reports_v1";
+      const STORAGE_KEY = "rvh_map_reports_v2";
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
@@ -1055,10 +1053,24 @@
         "velserstraat": { lat: 52.3895, lng: 4.6362 }
       };
 
-      function hasValidScriptUrl() {
-        return typeof RVH_APPS_SCRIPT_URL === "string" &&
-          RVH_APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/") &&
-          RVH_APPS_SCRIPT_URL.includes("/exec");
+      function normalizeCategory(cat) {
+        const c = String(cat || "").toLowerCase().trim();
+        if (c === "droppings") return "droppings";
+        if (c === "burrows") return "burrows";
+        return "rats";
+      }
+
+      function normalizeReport(item) {
+        return {
+          datum: item.datum ? String(item.datum) : "",
+          straat: item.straat ? String(item.straat).trim() : "",
+          aantal: Number(item.aantal) || 1,
+          status: item.status ? String(item.status) : "Ongeverifieerd",
+          lat: item.lat !== undefined ? String(item.lat) : "",
+          lng: item.lng !== undefined ? String(item.lng) : "",
+          meldtype: item.meldtype ? String(item.meldtype) : "straatniveau",
+          categorie: normalizeCategory(item.categorie)
+        };
       }
 
       function loadReports() {
@@ -1066,10 +1078,12 @@
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              return parsed.map(normalizeReport);
+            }
           }
         } catch (err) {}
-        return BASE_REPORTS.map(r => Object.assign({}, r));
+        return BASE_REPORTS.map(normalizeReport);
       }
 
       function saveReports(list) {
@@ -1097,44 +1111,6 @@
         return { color: "#2ecc71", band: "1–4 ratten" };
       }
 
-      function computeStreetTotals(reports) {
-        const totals = {};
-        const displayNames = {};
-        reports.forEach(item => {
-          const rawStreet = String(item.straat || "").trim();
-          if (!rawStreet) return;
-          const key = rawStreet.toLowerCase();
-          if (!displayNames[key]) displayNames[key] = rawStreet;
-          const cat = String(item.categorie || "rats").toLowerCase().trim();
-          const amt = Number(item.aantal) || 0;
-          if (cat === "rats" || !item.categorie) {
-            totals[key] = (totals[key] || 0) + amt;
-          }
-        });
-        return { totals, displayNames };
-      }
-
-      function updateStreetOverviewUI(reports) {
-        const box = document.getElementById("streetTotalsOverview");
-        if (!box) return;
-        const { totals, displayNames } = computeStreetTotals(reports);
-        const keys = Object.keys(totals);
-        if (!keys.length) {
-          box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> Nog geen rattenmeldingen.";
-          return;
-        }
-        const parts = keys.map(k => {
-          const name = displayNames[k];
-          const count = totals[k];
-          const info = getRatBandInfo(count);
-          return `<span style="display:inline-flex;align-items:center;gap:6px;margin-right:12px;">
-            <i class="dot" style="background:${info.color};border-color:#222;"></i>
-            <strong>${escapeHtml(name)}</strong>: ${count} (${info.band})
-          </span>`;
-        });
-        box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> " + parts.join("");
-      }
-
       function escapeHtml(str) {
         return String(str)
           .replace(/&/g, "&amp;")
@@ -1143,8 +1119,100 @@
           .replace(/"/g, "&quot;");
       }
 
+      function getStreetBaseCoords(streetName) {
+        const key = String(streetName || "").toLowerCase().trim();
+        if (KNOWN_STREETS[key]) {
+          return { lat: KNOWN_STREETS[key].lat, lng: KNOWN_STREETS[key].lng };
+        }
+        const match = allReports.find(r => {
+          if (String(r.straat || "").toLowerCase().trim() !== key) return false;
+          const lat = parseCoord(r.lat);
+          const lng = parseCoord(r.lng);
+          return !Number.isNaN(lat) && !Number.isNaN(lng);
+        });
+        if (match) {
+          return { lat: parseCoord(match.lat), lng: parseCoord(match.lng) };
+        }
+        return null;
+      }
+
+      function groupReportsByStreet(reports) {
+        const streets = {};
+        reports.forEach(raw => {
+          const item = normalizeReport(raw);
+          const streetName = item.straat.trim();
+          if (!streetName) return;
+          const key = streetName.toLowerCase();
+
+          if (!streets[key]) {
+            const lat = parseCoord(item.lat);
+            const lng = parseCoord(item.lng);
+            streets[key] = {
+              straat: streetName,
+              lat: !Number.isNaN(lat) ? lat : NaN,
+              lng: !Number.isNaN(lng) ? lng : NaN,
+              ratsTotal: 0,
+              ratReports: 0,
+              droppingsTotal: 0,
+              burrowsTotal: 0,
+              lastDatum: item.datum
+            };
+          }
+
+          const s = streets[key];
+          const lat = parseCoord(item.lat);
+          const lng = parseCoord(item.lng);
+          if (Number.isNaN(s.lat) && !Number.isNaN(lat)) s.lat = lat;
+          if (Number.isNaN(s.lng) && !Number.isNaN(lng)) s.lng = lng;
+          if (item.datum) s.lastDatum = item.datum;
+
+          if (item.categorie === "droppings") {
+            s.droppingsTotal += item.aantal;
+          } else if (item.categorie === "burrows") {
+            s.burrowsTotal += item.aantal;
+          } else {
+            s.ratsTotal += item.aantal;
+            s.ratReports += 1;
+          }
+        });
+
+        Object.keys(streets).forEach(key => {
+          const s = streets[key];
+          if (Number.isNaN(s.lat) || Number.isNaN(s.lng)) {
+            const fallback = getStreetBaseCoords(s.straat);
+            if (fallback) {
+              s.lat = fallback.lat;
+              s.lng = fallback.lng;
+            }
+          }
+        });
+
+        return streets;
+      }
+
+      function updateStreetOverviewUI(reports) {
+        const box = document.getElementById("streetTotalsOverview");
+        if (!box) return;
+        const grouped = groupReportsByStreet(reports);
+        const ratStreets = Object.values(grouped).filter(s => s.ratsTotal > 0);
+
+        if (!ratStreets.length) {
+          box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> Nog geen rattenmeldingen.";
+          return;
+        }
+
+        const parts = ratStreets.map(s => {
+          const info = getRatBandInfo(s.ratsTotal);
+          return `<span style="display:inline-flex;align-items:center;gap:6px;margin-right:12px;">
+            <i class="dot" style="background:${info.color};border-color:#222;"></i>
+            <strong>${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${info.band})
+          </span>`;
+        });
+        box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> " + parts.join("");
+      }
+
       function renderAllMarkers(focusCoords) {
-        const { totals } = computeStreetTotals(allReports);
+        const grouped = groupReportsByStreet(allReports);
         updateStreetOverviewUI(allReports);
 
         if (!window.rvhMap || typeof L === "undefined") return;
@@ -1154,93 +1222,104 @@
           markersLayer.clearLayers();
         }
 
-        const coordCounts = {};
-        allReports.forEach((item, idx) => {
-          const baseLat = parseCoord(item.lat);
-          const baseLng = parseCoord(item.lng);
-          if (Number.isNaN(baseLat) || Number.isNaN(baseLng)) return;
+        Object.values(grouped).forEach(s => {
+          if (Number.isNaN(s.lat) || Number.isNaN(s.lng)) return;
 
-          const coordKey = baseLat.toFixed(6) + "_" + baseLng.toFixed(6);
-          const occ = coordCounts[coordKey] || 0;
-          coordCounts[coordKey] = occ + 1;
+          if (s.ratsTotal > 0) {
+            const bandInfo = getRatBandInfo(s.ratsTotal);
+            const ratMarker = L.circleMarker([s.lat, s.lng], {
+              radius: 10,
+              fillColor: bandInfo.color,
+              color: "#222222",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.95
+            });
 
-          const angle = occ * 2.39996 + idx * 0.4;
-          const spread = occ === 0 ? 0 : 0.00018 * Math.sqrt(occ);
-          const lat = baseLat + Math.cos(angle) * spread;
-          const lng = baseLng + Math.sin(angle) * spread * 1.45;
-
-          const cat = String(item.categorie || "rats").toLowerCase().trim();
-          const straatKey = String(item.straat || "").toLowerCase().trim();
-          const streetTotal = totals[straatKey] || 0;
-          const bandInfo = getRatBandInfo(streetTotal);
-
-          let fillColor = bandInfo.color;
-          let borderColor = "#222222";
-          let radius = 8;
-          let catLabel = "Ratten";
-
-          if (cat === "droppings") {
-            fillColor = "#8b4513";
-            borderColor = "#ffffff";
-            radius = 7;
-            catLabel = "Rattenkeutels";
-          } else if (cat === "burrows") {
-            fillColor = "#ffffff";
-            borderColor = "#222222";
-            radius = 10;
-            catLabel = "Gangen of holen";
+            ratMarker.bindPopup([
+              "<strong>" + escapeHtml(s.straat) + "</strong>",
+              "Totaal ratten in deze straat: <strong>" + s.ratsTotal + "</strong>",
+              "Kleurklasse: " + bandInfo.band,
+              s.lastDatum ? "Laatste melding: " + escapeHtml(s.lastDatum) : ""
+            ].filter(Boolean).join("<br>"));
+            ratMarker.addTo(markersLayer);
           }
 
-          const marker = L.circleMarker([lat, lng], {
-            radius: radius,
-            fillColor: fillColor,
-            color: borderColor,
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.92
-          });
+          if (s.droppingsTotal > 0) {
+            const dropMarker = L.circleMarker([s.lat + 0.00014, s.lng + 0.00018], {
+              radius: 7,
+              fillColor: "#8b4513",
+              color: "#ffffff",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.95
+            });
+            dropMarker.bindPopup([
+              "<strong>" + escapeHtml(s.straat) + "</strong>",
+              "Rattenkeutels (vindplaatsen): <strong>" + s.droppingsTotal + "</strong>"
+            ].join("<br>"));
+            dropMarker.addTo(markersLayer);
+          }
 
-          const popupLines = [
-            "<strong>" + escapeHtml(item.straat || "Onbekende straat") + "</strong>",
-            "Categorie: " + catLabel,
-            "Aantal in deze melding: " + (Number(item.aantal) || 1),
-            cat === "rats"
-              ? "Totaal ratten in deze straat: <strong>" + streetTotal + "</strong> (" + bandInfo.band + ")"
-              : "Totaal ratten in deze straat: " + streetTotal,
-            item.datum ? "Datum: " + escapeHtml(item.datum) : "",
-            item.status ? "Status: " + escapeHtml(item.status) : ""
-          ].filter(Boolean);
-
-          marker.bindPopup(popupLines.join("<br>"));
-          marker.addTo(markersLayer);
+          if (s.burrowsTotal > 0) {
+            const burrowMarker = L.circleMarker([s.lat - 0.00014, s.lng - 0.00018], {
+              radius: 10,
+              fillColor: "#ffffff",
+              color: "#222222",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.95
+            });
+            burrowMarker.bindPopup([
+              "<strong>" + escapeHtml(s.straat) + "</strong>",
+              "Gangen of holen: <strong>" + s.burrowsTotal + "</strong>"
+            ].join("<br>"));
+            burrowMarker.addTo(markersLayer);
+          }
         });
 
         if (focusCoords && !Number.isNaN(focusCoords.lat) && !Number.isNaN(focusCoords.lng)) {
-          window.rvhMap.setView([focusCoords.lat, focusCoords.lng], 15);
+          window.rvhMap.setView([focusCoords.lat, focusCoords.lng], 16);
         }
       }
 
-      async function syncFromSheet(showFeedback) {
-        const submitMsg = document.getElementById("submitMessage");
-        if (!hasValidScriptUrl()) return;
+      async function syncFromSheetSilently() {
         try {
           const res = await fetch(RVH_APPS_SCRIPT_URL, { cache: "no-store" });
           const data = await res.json();
           if (data && data.ok && Array.isArray(data.reports) && data.reports.length > 0) {
-            allReports = data.reports;
+            allReports = data.reports.map(normalizeReport);
             saveReports(allReports);
             renderAllMarkers();
-            if (showFeedback && submitMsg) {
-              submitMsg.className = "success";
-              submitMsg.textContent = "Kaart bijgewerkt met " + allReports.length + " meldingen uit de Google Sheet.";
-            }
           }
         } catch (err) {
-          if (showFeedback && submitMsg) {
-            submitMsg.className = "error";
-            submitMsg.textContent = "Kon de Google Sheet nu niet verversen; lokale/basisdata wordt getoond.";
-          }
+          // Stil negeren zodat lokale/basisdata gewoon zichtbaar blijft zonder foutmelding
         }
+      }
+
+      async function geocodeHaarlemStreet(streetName) {
+        const key = streetName.toLowerCase().trim();
+        const existing = getStreetBaseCoords(streetName);
+        if (existing) return existing;
+
+        try {
+          const q = encodeURIComponent(streetName + ", Haarlem, Nederland");
+          const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${q}`;
+          const res = await fetch(url, {
+            headers: { "Accept": "application/json" }
+          });
+          const list = await res.json();
+          if (Array.isArray(list) && list.length > 0) {
+            const lat = parseFloat(list[0].lat);
+            const lng = parseFloat(list[0].lon);
+            if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+              KNOWN_STREETS[key] = { lat, lng };
+              return { lat, lng };
+            }
+          }
+        } catch (err) {}
+
+        return { lat: 52.3928, lng: 4.6345 };
       }
 
       function showPage(page) {
@@ -1257,7 +1336,7 @@
           }
         });
         if (target === "map") {
-          syncFromSheet(false);
+          syncFromSheetSilently();
           if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
             setTimeout(() => {
               window.rvhMap.invalidateSize();
@@ -1354,13 +1433,13 @@
 
       const mapEl = document.getElementById("map");
       if (mapEl && typeof L !== "undefined") {
-        const map = L.map("map").setView([52.3928, 4.6345], 14);
+        const map = L.map("map").setView([52.39292154, 4.6317641], 16);
         window.rvhMap = map;
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
         renderAllMarkers();
-        syncFromSheet(false);
+        syncFromSheetSilently();
       } else {
         updateStreetOverviewUI(allReports);
       }
@@ -1389,7 +1468,6 @@
       const truthfulEl = document.getElementById("truthful");
       const submitBtn = document.getElementById("submitReport");
       const submitMsg = document.getElementById("submitMessage");
-      const refreshBtn = document.getElementById("refreshFromSheet");
       const resetBtn = document.getElementById("resetLocalReports");
 
       function updateSubmitState() {
@@ -1406,33 +1484,13 @@
         if (el) el.addEventListener("change", updateSubmitState);
       });
 
-      function resolveStreetCoords(streetName) {
-        const key = streetName.toLowerCase().trim();
-        if (KNOWN_STREETS[key]) {
-          return { lat: KNOWN_STREETS[key].lat, lng: KNOWN_STREETS[key].lng };
-        }
-        const existing = allReports.find(r => String(r.straat || "").toLowerCase().trim() === key);
-        if (existing) {
-          const lat = parseCoord(existing.lat);
-          const lng = parseCoord(existing.lng);
-          if (!Number.isNaN(lat) && !Number.isNaN(lng)) return { lat, lng };
-        }
-        if (window.rvhMap) {
-          const c = window.rvhMap.getCenter();
-          return {
-            lat: c.lat + (Math.random() - 0.5) * 0.005,
-            lng: c.lng + (Math.random() - 0.5) * 0.008
-          };
-        }
-        return { lat: 52.3928, lng: 4.6345 };
-      }
-
       if (submitBtn && submitMsg && streetInput && obsInput && categoryEl) {
-        submitBtn.addEventListener("click", function () {
+        submitBtn.addEventListener("click", async function () {
           const street = streetInput.value.trim();
           const count = Math.max(1, Math.min(20, parseInt(obsInput.value, 10) || 1));
-          const cat = categoryEl.value;
-          const coords = resolveStreetCoords(street);
+          const cat = normalizeCategory(categoryEl.value);
+          const coords = await geocodeHaarlemStreet(street);
+
           const now = new Date();
           const datumStr =
             String(now.getDate()).padStart(2, "0") + "-" +
@@ -1456,31 +1514,26 @@
           allReports.push(newRecord);
           saveReports(allReports);
 
-          if (hasValidScriptUrl()) {
-            fetch(RVH_APPS_SCRIPT_URL, {
+          try {
+            await fetch(RVH_APPS_SCRIPT_URL, {
               method: "POST",
               mode: "no-cors",
               headers: { "Content-Type": "text/plain;charset=utf-8" },
               body: JSON.stringify(newRecord)
-            }).catch(() => {});
-          }
+            });
+          } catch (err) {}
 
           renderAllMarkers(coords);
 
-          const { totals } = computeStreetTotals(allReports);
-          const newTotal = totals[street.toLowerCase()] || count;
+          const grouped = groupReportsByStreet(allReports);
+          const sInfo = grouped[street.toLowerCase()];
+          const newTotal = sInfo ? sInfo.ratsTotal : count;
           const bandInfo = getRatBandInfo(newTotal);
 
           submitMsg.className = "success";
           submitMsg.textContent =
             `Geregistreerd: +${count} (${cat}) in ${street}. ` +
-            `Nieuw straattotaal ratten: ${newTotal} — kleurcode aangepast naar ${bandInfo.band}.`;
-        });
-      }
-
-      if (refreshBtn) {
-        refreshBtn.addEventListener("click", function () {
-          syncFromSheet(true);
+            `Straattotaal ratten: ${newTotal} — bolletje aangepast naar ${bandInfo.band}.`;
         });
       }
 
@@ -1489,8 +1542,8 @@
           try {
             localStorage.removeItem(STORAGE_KEY);
           } catch (err) {}
-          allReports = BASE_REPORTS.map(r => Object.assign({}, r));
-          renderAllMarkers({ lat: 52.3928, lng: 4.6345 });
+          allReports = BASE_REPORTS.map(normalizeReport);
+          renderAllMarkers({ lat: 52.39292154, lng: 4.6317641 });
           submitMsg.className = "muted";
           submitMsg.textContent = "Eigen toevoegingen zijn gewist; de basisdata is hersteld.";
         });
