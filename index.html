@@ -1737,14 +1737,16 @@
         set("#spaarnelandenMailForm button[type=submit]",t.send);
         set(".choice-map h3",t.mapTitle); set(".choice-map > strong",t.mapLead); set(".choice-map .visibility-highlight",t.visibility); set(".choice-warning",t.warning); set("#mapChoiceButton",t.mapButton);
         set(".choice-why h3",t.why); set(".choice-why p:not(.choice-slogan)",t.whyText); set(".choice-slogan",t.slogan);
-        set("#page-report > p.muted",t.returnInfo);
+        set(":scope > p.muted",t.returnInfo);
         const returned=report.querySelector("#returned"); if(returned && returned.nextElementSibling) returned.nextElementSibling.textContent=t.returned;
         set("#unlockButton",t.viewMap);
         document.querySelector(".language label").setAttribute("for","language");
         if (languageSelect) languageSelect.value=code;
       }
       if (languageSelect) {
-        languageSelect.addEventListener("change", () => applyReportLanguage(languageSelect.value));
+        languageSelect.addEventListener("change", function () {
+          applyReportLanguage(this.value);
+        });
         applyReportLanguage(languageSelect.value || "nl");
       }
 
