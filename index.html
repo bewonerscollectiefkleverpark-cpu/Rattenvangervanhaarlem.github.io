@@ -961,13 +961,6 @@ button[data-page="map"]:hover:not(:disabled),
           <h3 id="mapHistoryTitle">Oude waarneming?</h3>
           <p id="mapHistoryBody">Je mag een waarneming van maximaal 12 maanden geleden melden, maar alleen als je die toen ook al bij Spaarnelanden of Anticimex hebt gemeld. Heb je dat toen niet gedaan? Dan mag je deze oude waarneming niet alsnog op de kaart zetten.</p>
         </div>
-        <div class="notice">
-          <strong>Hoe tellen we de meldingen?</strong>
-          <p>We tellen alle meldingen van ratten die in de afgelopen 12 maanden bij <strong>Spaarnelanden en/of Anticimex</strong> zijn gedaan, per straat bij elkaar op.</p>
-          <p>Ziet iemand vaker dezelfde rat? Of melden twee buren dezelfde rat? Dan tellen beide meldingen mee.</p>
-          <p>Het totaal laat dus zien hoeveel meldingen er zijn gedaan. Het is geen telling van het aantal verschillende ratten.</p>
-        </div>
-
         <div class="legend-box">
           <span class="legend-title">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
           <div class="legend">
@@ -997,7 +990,6 @@ button[data-page="map"]:hover:not(:disabled),
           <p><strong>1 bolletje</strong> voor gangen en holen.</p>
           <p>Voor jouw privacy staan de bolletjes willekeurig ergens in die straat en niet bij een huisnummer.</p>
           <p>Alleen een exact gespelde straatnaam in Haarlem wordt op de kaart geplaatst.</p>
-          <p>Je kunt maximaal 1 melding per uur doen.</p>
         </div>
 
         <div class="field">
@@ -1971,8 +1963,7 @@ button[data-page="map"]:hover:not(:disabled),
         setText(map.querySelector(":scope > p"),t.map[1]);
         setText(map.querySelector(".visibility-highlight"),t.map[2]);
         const notices = map.querySelectorAll(".notice");
-        setText(notices[0],t.map[3]);
-        setHTML(notices[1],"<strong>"+t.map[4]+"</strong>"+t.map[5].split(/(?<=[.!?؟])\s+/).map(part=>"<p>"+part+"</p>").join(""));
+        setHTML(notices[0],"<strong>"+t.map[4]+"</strong>"+t.map[5].split(/(?<=[.!?؟])\s+/).map(part=>"<p>"+part+"</p>").join(""));
         setText(map.querySelector(".legend-title"),t.map[6]);
         map.querySelectorAll(".legend-item span:last-child").forEach((el,i)=>setText(el,t.map[7][i]));
         setHTML(map.querySelector("#streetTotalsOverview"),"<strong>"+t.map[8]+"</strong> "+dynamic.loading);
