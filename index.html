@@ -472,6 +472,19 @@
     .poster-card img { display: block; width: 100%; height: 340px; object-fit: contain; background: #f8f6f1; border: 1px solid var(--line); border-radius: 8px; }
     .poster-card button { margin-top: auto; }
     .poster-print-instruction { font-size: 15px; }
+    .poster-preview-trigger { cursor: zoom-in; transition: transform .2s, box-shadow .2s; }
+    .poster-preview-trigger:hover { transform: scale(1.015); box-shadow: 0 5px 18px rgba(40,35,25,.16); }
+    .poster-preview { display: none; position: fixed; inset: 0; z-index: 9999; padding: 18px; background: rgba(25,22,18,.88); align-items: center; justify-content: center; }
+    .poster-preview.open { display: flex; }
+    .poster-preview-panel { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(94vw, 900px); max-height: 96vh; padding: 18px; border-radius: 16px; background: #fff; overflow: auto; }
+    .poster-preview-panel img { display: block; width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .poster-preview-close { position: sticky; top: 0; align-self: flex-end; flex: none; width: 42px; height: 42px; padding: 0; border-radius: 50%; font-size: 30px; line-height: 1; }
+    .poster-preview-print { flex: none; }
+    @media(max-width:600px) {
+      .poster-preview { padding: 8px; }
+      .poster-preview-panel { width: 100%; max-height: 98vh; padding: 10px; gap: 10px; }
+      .poster-preview-panel img { max-height: 80vh; max-width: 100%; }
+    }
 
     @media print {
       @page {
@@ -1087,10 +1100,17 @@ button[data-page="map"]:hover:not(:disabled),
         <p class="poster-print-instruction">Klik op de poster om deze op A4-formaat te printen.</p>
         <div class="poster-grid">
           <div class="poster-card">
-            <img class="print-poster-btn" src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Informatieposter Rattenvanger van Haarlem — klik om op A4 te printen" role="button" tabindex="0" aria-label="Print deze poster op A4-formaat" onerror="this.onerror=null;this.style.display='none';">
+            <img class="poster-preview-trigger" src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Informatieposter Rattenvanger van Haarlem — klik om groter te bekijken" role="button" tabindex="0" aria-label="Bekijk de poster vergroot" onerror="this.onerror=null;this.style.display='none';">
           </div>
         </div>
       </section>
+      <div id="posterPreview" class="poster-preview" aria-hidden="true">
+        <div class="poster-preview-panel" role="dialog" aria-modal="true" aria-label="Poster bekijken">
+          <button type="button" class="poster-preview-close" aria-label="Sluiten">×</button>
+          <img src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Vergrote informatieposter Rattenvanger van Haarlem">
+          <button type="button" class="poster-preview-print">Print poster op A4</button>
+        </div>
+      </div>
     </main>
 
     <footer class="rvh-footer">
@@ -2074,23 +2094,39 @@ button[data-page="map"]:hover:not(:disabled),
         applyReportLanguage(languageSelect.value || "nl");
       }
 
-      const printPoster = element => {
-        const card = element.closest(".poster-card");
+      const poster = document.querySelector(".poster-preview-trigger");
+      const preview = document.getElementById("posterPreview");
+      const openPreview = () => {
+        preview.classList.add("open");
+        preview.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        preview.querySelector(".poster-preview-close").focus();
+      };
+      const closePreview = () => {
+        preview.classList.remove("open");
+        preview.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (poster) poster.focus();
+      };
+      const printPoster = () => {
+        const card = poster.closest(".poster-card");
         document.querySelectorAll(".poster-card").forEach(c => c.classList.remove("print-target"));
         if (card) card.classList.add("print-target");
+        closePreview();
         document.body.classList.add("printing");
         window.print();
         setTimeout(() => document.body.classList.remove("printing"), 300);
       };
-      document.querySelectorAll(".print-poster-btn").forEach(poster => {
-        poster.addEventListener("click", () => printPoster(poster));
+      if (poster && preview) {
+        poster.addEventListener("click", openPreview);
         poster.addEventListener("keydown", event => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            printPoster(poster);
-          }
+          if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openPreview(); }
         });
-      });
+        preview.querySelector(".poster-preview-close").addEventListener("click", closePreview);
+        preview.querySelector(".poster-preview-print").addEventListener("click", printPoster);
+        preview.addEventListener("click", event => { if (event.target === preview) closePreview(); });
+        document.addEventListener("keydown", event => { if (event.key === "Escape" && preview.classList.contains("open")) closePreview(); });
+      }
     })();
   </script>
 <script id="rvh-share-script">
