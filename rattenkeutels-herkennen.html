@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#29231b">
+  <title>Rattenkeutels herkennen – Rattenvanger van Haarlem</title>
+  <meta name="description" content="Leer hoe je rattenkeutels, gangen en holen, knaagschade en andere sporen van ratten in huis of tuin herkent.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --red: #a94338;
+      --red-dark: #87352d;
+      --cream: #f4efe5;
+      --paper: #ffffff;
+      --ink: #29251f;
+      --muted: #756b5c;
+      --green: #687b60;
+      --line: #dfd5c5;
+      --soft: #eee7da;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      max-width: 1120px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .top {
+      background: #29231b;
+      color: #fff;
+      width: 100%;
+      font-size: .9rem;
+    }
+
+    .top .wrap {
+      padding: 9px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top a {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .site-header {
+      width: min(1120px, calc(100% - 32px));
+      max-width: 1120px;
+      margin: 18px auto 24px;
+      padding: 18px;
+      background: #eee7da;
+      border: 1px solid #dfd5c5;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #29231b;
+      width: max-content;
+      max-width: 100%;
+      margin: 0 0 14px;
+    }
+
+    .site-brand img {
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      flex: 0 0 66px;
+      border-radius: 50%;
+      border: 3px solid #8a7252;
+      background: #f4efe5;
+      display: block;
+    }
+
+    .site-brand span {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .site-brand strong {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      line-height: 1.12;
+      font-weight: 800;
+      color: #29231b;
+    }
+
+    .site-brand small {
+      font-size: 1rem;
+      line-height: 1.35;
+      color: #756b5c;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      width: 100%;
+      background: #f4efe5;
+      border: 1px solid #dfd5c5;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 8px 11px;
+      border-radius: 8px;
+      background: #eee7da;
+      color: #514431;
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible,
+    .site-nav a.active {
+      background: #514431;
+      color: #fff;
+    }
+
+    main { padding: 0 0 42px; }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(22px, 4vw, 38px);
+      margin-bottom: 22px;
+      box-shadow: 0 5px 24px rgba(40,35,25,.035);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 32px);
+      line-height: 1.25;
+      letter-spacing: -.4px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: clamp(19px, 2.6vw, 23px);
+      line-height: 1.25;
+    }
+
+    h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    p { margin: 8px 0 14px; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    .frame-red {
+      margin: 22px 0;
+      padding: clamp(18px, 3vw, 28px);
+      border: 3px solid var(--red);
+      border-radius: 18px;
+      background: #fff8f3;
+      box-shadow: 0 6px 20px rgba(80,40,30,.07);
+    }
+
+    .frame-green {
+      margin: 22px 0;
+      padding: clamp(18px, 3vw, 28px);
+      border: 2px solid var(--green);
+      border-radius: 18px;
+      background: #f7faf5;
+    }
+
+    .frame-neutral {
+      margin: 22px 0;
+      padding: clamp(18px, 3vw, 28px);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: #fbf9f5;
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f8e5dc;
+      color: var(--red-dark);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .07em;
+      margin-bottom: 10px;
+    }
+
+    .kicker-green {
+      background: #e5ede1;
+      color: #43553c;
+    }
+
+    .cards-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .sub-card {
+      padding: 17px;
+      border: 1px solid #eadbd2;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .sub-card-green {
+      border-color: #dce5d7;
+    }
+
+    .sub-card p:last-child,
+    .frame-red p:last-child,
+    .frame-green p:last-child,
+    .frame-neutral p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-list {
+      padding-left: 22px;
+      margin: 12px 0 0;
+    }
+
+    .info-list li {
+      margin-bottom: 10px;
+    }
+
+    .info-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .photo-card {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 195px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #ece4d8;
+      background: #f4efe5;
+      display: block;
+    }
+
+    .photo-caption {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    /* Miniscuul klein en doorzichtige fotobron */
+    .photo-credit {
+      font-size: 9px;
+      line-height: 1.25;
+      color: var(--ink);
+      opacity: 0.22;
+      margin-top: auto;
+      word-break: break-word;
+    }
+
+    .notice {
+      background: #f8f4ed;
+      border: 1px solid #eee5d7;
+      border-left: 4px solid var(--green);
+      border-radius: 13px;
+      padding: 18px 20px;
+      margin: 22px 0 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn-red, .btn-green {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .btn-red { background: var(--red); }
+    .btn-red:hover { background: var(--red-dark); }
+    .btn-green { background: var(--green); }
+    .btn-green:hover { background: #52654b; }
+
+    footer {
+      padding: 20px 4px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .haarlem-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .haarlem-badge::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    @media (max-width: 820px) {
+      .photo-grid, .cards-3 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .cards-2 { grid-template-columns: 1fr; }
+      section { border-radius: 16px; }
+      footer { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="wrap">
+      <strong>RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
+      <a href="index.html">Terug naar meldingen &amp; kaart</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="site-brand" href="index.html">
+      <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
+      <span>
+        <strong>Rattenvanger van Haarlem</strong>
+        <small>Samen maken we rattenoverlast zichtbaar</small>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Homepage</a>
+      <a href="index.html#page-map">Rattenkaart</a>
+      <a href="index.html#page-info">Over dit initiatief</a>
+      <a href="index.html#page-rules">Leefregels</a>
+      <a href="index.html#page-report">Ratten melden</a>
+      <a href="#sporen-tuin">Ratten in de tuin</a>
+      <a href="rattenkeutels-herkennen.html" class="active">Rattenkeutels herkennen</a>
+      <a href="index.html#page-posters">Posters</a>
+      <a href="mailto:info@spaarnelanden.nl">Spaarnelanden mailen</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <main>
+      <section>
+        <h2>Rattenkeutels en andere sporen herkennen</h2>
+        <p>Ratten laten zich overdag vaak niet meteen zien, maar laten wel duidelijke sporen achter. Door keutels, gangen, holen en knaagschade goed te herkennen, kun je sneller ingrijpen en gericht melden.</p>
+
+        <!-- KADER 1: KEUTELS -->
+        <div class="frame-red" id="keutels">
+          <span class="kicker">SPOREN 1 · KEUTELS</span>
+          <h3>Uiterlijk en kenmerken van rattenkeutels</h3>
+          <p>Rattenkeutels zijn groter dan muizenkeutels en wijzen vaak op actieve aanwezigheid of een looproute in de buurt.</p>
+
+          <div class="cards-2">
+            <article class="sub-card">
+              <h4>Rattenkeutels (bruine rat)</h4>
+              <ul class="info-list">
+                <li><strong>Lengte:</strong> ongeveer 1,5 tot 2 cm lang (soms iets langer).</li>
+                <li><strong>Vorm:</strong> spoelvormig of langwerpig, vaak met stompe of licht afgeronde uiteinden.</li>
+                <li><strong>Kleur en structuur:</strong> donkerbruin tot bijna zwart wanneer vers; na verloop van tijd grijzer, droger en brokkeliger.</li>
+                <li><strong>Ligging:</strong> vaak verspreid langs muren, plinten, schuttingen, onder struiken of langs vaste looproutes.</li>
+              </ul>
+            </article>
+
+            <article class="sub-card">
+              <h4>Verschil met muizenkeutels</h4>
+              <ul class="info-list">
+                <li><strong>Grootte:</strong> muizenkeutels zijn meestal slechts 3 tot 6 mm lang (vergelijkbaar met een hagelslagkorrel of rijstkorrel).</li>
+                <li><strong>Uiteinden:</strong> muizenkeutels zijn vaker puntiger aan de uiteinden.</li>
+                <li><strong>Voor de rattenkaart:</strong> tel bij keutels op de rattenkaart alleen vindplaatsen met keutels van ongeveer 1,5–2 cm lang.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <!-- KADER 2: GANGEN EN HOLEN -->
+        <div class="frame-green" id="gangen-holen">
+          <span class="kicker kicker-green">SPOREN 2 · GANGEN &amp; HOLEN</span>
+          <h3>Gangen en holen in tuin, berm of bij gevels</h3>
+          <p>Ratten graven gangen en holen op beschutte plekken waar voedsel en water dichtbij zijn, zoals bij composthopen, houtstapels, tegels, schuttingen of nabij riolering en leidingen.</p>
+
+          <div class="cards-2">
+            <article class="sub-card sub-card-green">
+              <h4>Kenmerken van een rattenhol</h4>
+              <ul class="info-list">
+                <li><strong>Opening:</strong> doorgaans ongeveer 5 cm of groter in doorsnede (groter dan een muizenholletje van circa 2 cm).</li>
+                <li><strong>Geopende grond:</strong> bij een actief hol ligt vaak vers opgegraven zand of aarde bij de ingang.</li>
+                <li><strong>Looppaden:</strong> tussen meerdere holen of langs muren en struiken zie je soms uitgesleten paadjes in het gras of de grond.</li>
+              </ul>
+            </article>
+
+            <article class="sub-card sub-card-green">
+              <h4>Veelvoorkomende plekken</h4>
+              <ul class="info-list">
+                <li>Onder houtstapels, tuinafval, vlonders, tuinhuisjes en dichte beplanting.</li>
+                <li>Langs funderingen, verzakte bestrating of rond afvoer- en regenwaterleidingen.</li>
+                <li>Bij vogelvoerplekken, kippenhokken of plekken waar etensresten of afvalzakken staan.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <!-- KADER 3: KNAAGSCHADE & OVERIGE KENMERKEN -->
+        <div class="frame-neutral" id="knaagschade-sporen">
+          <span class="kicker">SPOREN 3 · KNAAGSCHADE &amp; OVERIGE KENMERKEN</span>
+          <h3>Knaagschade en andere kenmerken in huis of tuin</h3>
+          <p>De voortanden van een rat groeien voortdurend door. Daarom knagen ratten aan uiteenlopende materialen om tanden kort te houden of om toegang te krijgen tot voedsel, beschutting of leidingen.</p>
+
+          <div class="cards-3">
+            <article class="sub-card">
+              <h4>Knaagschade</h4>
+              <p>Verse knaagsporen zien er licht en rafelig uit; oudere sporen verkleuren donkerder. Let op knaagschade aan:</p>
+              <ul class="info-list">
+                <li>Houten deuren, kozijnen, plinten en schuren</li>
+                <li>Kunststof afvoerbuizen, emmers of kliko's</li>
+                <li>Isolatiemateriaal, karton, verpakkingen en kabels</li>
+              </ul>
+            </article>
+
+            <article class="sub-card">
+              <h4>Vetvlekken en loopsporen</h4>
+              <p>Ratten lopen bij voorkeur langs muren en vaste routes. Door talg en vuil in hun vacht ontstaan vaak:</p>
+              <ul class="info-list">
+                <li>Donkere, vettige strepen ("smeersporen") langs muren of plinten</li>
+                <li>Pootafdrukken en staartvegen in stof, modder of sneeuw</li>
+              </ul>
+            </article>
+
+            <article class="sub-card">
+              <h4>Geluid, geur en nestmateriaal</h4>
+              <p>Ook zonder de rat te zien zijn er vaak andere signalen in huis, spouw, kruipruimte of schuur:</p>
+              <ul class="info-list">
+                <li>Ritselen, krabben of piepgeluiden achter wanden, plafonds of vloeren (vooral 's avonds en 's nachts)</li>
+                <li>Een muskusachtige, onaangename geur op afgesloten plekken</li>
+                <li>Versnipperd papier, karton, textiel of gras als nestmateriaal</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <!-- FOTOKADERS MET MINISCULE, DOORZICHTIGE BRON -->
+        <div class="frame-green" id="fotos">
+          <span class="kicker kicker-green">BEELDVOORBEELDEN</span>
+          <h3>Foto's ter vergelijking</h3>
+          <p>Onderstaande beelden geven een indruk van het uiterlijk van een bruine rat, een hol/schuilplek en knaagsporen in het dagelijks leven.</p>
+
+          <div class="photo-grid">
+            <figure class="photo-card">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Rattus_norvegicus_1.jpg/640px-Rattus_norvegicus_1.jpg"
+                alt="Bruine rat (Rattus norvegicus) in de natuur" loading="lazy">
+              <figcaption class="photo-caption">Bruine rat (Rattus norvegicus)</figcaption>
+              <div class="photo-credit">Bron foto: Wikimedia Commons – Rattus_norvegicus_1.jpg (publiek domein / CC)</div>
+            </figure>
+
+            <figure class="photo-card">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Brown_rat_%28Rattus_norvegicus%29.jpg/640px-Brown_rat_%28Rattus_norvegicus%29.jpg"
+                alt="Dichtbijbeeld van een bruine rat met kenmerkende snuit, oren en staart" loading="lazy">
+              <figcaption class="photo-caption">Uiterlijk en lichaamsbouw van de bruine rat</figcaption>
+              <div class="photo-credit">Bron foto: Wikimedia Commons – Brown_rat_(Rattus_norvegicus).jpg</div>
+            </figure>
+
+            <figure class="photo-card">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Rodent_gnaw_marks_on_wood.jpg/640px-Rodent_gnaw_marks_on_wood.jpg"
+                alt="Knaagsporen van een knaagdier op hout" loading="lazy">
+              <figcaption class="photo-caption">Knaagsporen op hout als teken van knaagdieractiviteit</figcaption>
+              <div class="photo-credit">Bron foto: Wikimedia Commons – Rodent_gnaw_marks_on_wood.jpg</div>
+            </figure>
+          </div>
+        </div>
+
+        <div class="notice">
+          <strong>Sporen gevonden in Haarlem?</strong>
+          <p>Doe altijd een officiële melding bij Spaarnelanden voor gratis hulp via Anticimex (vraag bij een bezoek ook om een gratis rooktest) en zet je waarneming daarnaast op de rattenkaart zodat de buurt het ziet.</p>
+          <div class="actions">
+            <a class="btn-red" href="mailto:info@spaarnelanden.nl">Mail Spaarnelanden</a>
+            <a class="btn-green" href="index.html#page-map">Naar de rattenkaart</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span class="haarlem-badge">Haarlem</span>
+      <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+    </footer>
+  </div>
+</body>
+</html>
