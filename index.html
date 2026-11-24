@@ -852,13 +852,14 @@
 
         <div class="actions">
           <button type="button" id="submitReport" disabled data-t="submit">Waarneming registreren</button>
+          <button type="button" id="refreshFromSheet" class="secondary-btn">Ververs uit Google Sheet</button>
           <button type="button" id="resetLocalReports" class="secondary-btn">Herstel basisdata (wis eigen toevoegingen)</button>
         </div>
 
         <p id="submitMessage" role="status" aria-live="polite"></p>
 
         <p class="muted" data-t="storageNotice">
-          Bestaande meldingen uit het overzicht worden geladen; nieuwe waarnemingen worden direct op de kaart bijgewerkt en lokaal bewaard.
+          Meldingen worden gesynchroniseerd met de Google Sheet en direct op de kaart bijgewerkt.
         </p>
       </section>
 
@@ -985,12 +986,13 @@
 
   <script>
     (function () {
+      const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZCQmyGDWKqCNIByHnYQDg0aAd5NF2jk0UWFQwUDsC364slPf0ttn-zGJy99IpO80IbQ/exec";
+
       const STORAGE_KEY = "rvh_map_reports_v1";
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
 
-      // Basiswaarden uit de sheet "Rattenmeldingen Haarlem" (Blad1)[cite: 1]
       const BASE_REPORTS = [
         {
           datum: "20-11-2026 13:16:38",
@@ -1044,7 +1046,6 @@
         }
       ];
 
-      // Bekende straatcoördinaten in Haarlem voor snelle plaatsing bij nieuwe meldingen
       const KNOWN_STREETS = {
         "aelbertsbergstraat": { lat: 52.39292154, lng: 4.6317641 },
         "kleverlaan": { lat: 52.39448183, lng: 4.64015493 },
@@ -1054,6 +1055,12 @@
         "velserstraat": { lat: 52.3895, lng: 4.6362 }
       };
 
+      function hasValidScriptUrl() {
+        return typeof RVH_APPS_SCRIPT_URL === "string" &&
+          RVH_APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/") &&
+          RVH_APPS_SCRIPT_URL.includes("/exec");
+      }
+
       function loadReports() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -1061,18 +1068,14 @@
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed) && parsed.length > 0) return parsed;
           }
-        } catch (err) {
-          // Negeer opslagfouten in privémodus
-        }
+        } catch (err) {}
         return BASE_REPORTS.map(r => Object.assign({}, r));
       }
 
       function saveReports(list) {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-        } catch (err) {
-          // Negeer opslagfouten in privémodus
-        }
+        } catch (err) {}
       }
 
       let allReports = loadReports();
@@ -1217,6 +1220,29 @@
         }
       }
 
+      async function syncFromSheet(showFeedback) {
+        const submitMsg = document.getElementById("submitMessage");
+        if (!hasValidScriptUrl()) return;
+        try {
+          const res = await fetch(RVH_APPS_SCRIPT_URL, { cache: "no-store" });
+          const data = await res.json();
+          if (data && data.ok && Array.isArray(data.reports) && data.reports.length > 0) {
+            allReports = data.reports;
+            saveReports(allReports);
+            renderAllMarkers();
+            if (showFeedback && submitMsg) {
+              submitMsg.className = "success";
+              submitMsg.textContent = "Kaart bijgewerkt met " + allReports.length + " meldingen uit de Google Sheet.";
+            }
+          }
+        } catch (err) {
+          if (showFeedback && submitMsg) {
+            submitMsg.className = "error";
+            submitMsg.textContent = "Kon de Google Sheet nu niet verversen; lokale/basisdata wordt getoond.";
+          }
+        }
+      }
+
       function showPage(page) {
         const target = pages.includes(page) ? page : "report";
         pages.forEach(p => {
@@ -1230,11 +1256,14 @@
             btn.removeAttribute("aria-current");
           }
         });
-        if (target === "map" && window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
-          setTimeout(() => {
-            window.rvhMap.invalidateSize();
-            renderAllMarkers();
-          }, 120);
+        if (target === "map") {
+          syncFromSheet(false);
+          if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
+            setTimeout(() => {
+              window.rvhMap.invalidateSize();
+              renderAllMarkers();
+            }, 120);
+          }
         }
       }
 
@@ -1331,6 +1360,7 @@
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
         renderAllMarkers();
+        syncFromSheet(false);
       } else {
         updateStreetOverviewUI(allReports);
       }
@@ -1359,6 +1389,7 @@
       const truthfulEl = document.getElementById("truthful");
       const submitBtn = document.getElementById("submitReport");
       const submitMsg = document.getElementById("submitMessage");
+      const refreshBtn = document.getElementById("refreshFromSheet");
       const resetBtn = document.getElementById("resetLocalReports");
 
       function updateSubmitState() {
@@ -1415,7 +1446,7 @@
             datum: datumStr,
             straat: street,
             aantal: count,
-            status: "Geregistreerd op kaart",
+            status: "Ongeverifieerd",
             lat: String(coords.lat),
             lng: String(coords.lng),
             meldtype: "straatniveau",
@@ -1425,11 +1456,11 @@
           allReports.push(newRecord);
           saveReports(allReports);
 
-          if (window.RVH_WEBHOOK_URL) {
-            fetch(window.RVH_WEBHOOK_URL, {
+          if (hasValidScriptUrl()) {
+            fetch(RVH_APPS_SCRIPT_URL, {
               method: "POST",
               mode: "no-cors",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
               body: JSON.stringify(newRecord)
             }).catch(() => {});
           }
@@ -1444,6 +1475,12 @@
           submitMsg.textContent =
             `Geregistreerd: +${count} (${cat}) in ${street}. ` +
             `Nieuw straattotaal ratten: ${newTotal} — kleurcode aangepast naar ${bandInfo.band}.`;
+        });
+      }
+
+      if (refreshBtn) {
+        refreshBtn.addEventListener("click", function () {
+          syncFromSheet(true);
         });
       }
 
