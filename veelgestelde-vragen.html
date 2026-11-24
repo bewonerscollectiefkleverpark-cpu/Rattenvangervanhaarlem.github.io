@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#29231b">
+  <title>Veelgestelde vragen – Rattenvanger van Haarlem</title>
+  <meta name="description" content="Antwoorden op veelgestelde vragen over rattenoverlast melden, hulp via Spaarnelanden en Anticimex, onbeperkt gratis bezoeken, de gratis rooktest en privacy.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --red: #a94338;
+      --red-dark: #87352d;
+      --cream: #f4efe5;
+      --paper: #ffffff;
+      --ink: #29251f;
+      --muted: #756b5c;
+      --green: #687b60;
+      --line: #dfd5c5;
+      --soft: #eee7da;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      max-width: 1120px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .top {
+      background: #29231b;
+      color: #fff;
+      width: 100%;
+      font-size: .9rem;
+    }
+
+    .top .wrap {
+      padding: 9px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top a {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .site-header {
+      width: min(1120px, calc(100% - 32px));
+      max-width: 1120px;
+      margin: 18px auto 24px;
+      padding: 18px;
+      background: #eee7da;
+      border: 1px solid #dfd5c5;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #29231b;
+      width: max-content;
+      max-width: 100%;
+      margin: 0 0 14px;
+    }
+
+    .site-brand img {
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      flex: 0 0 66px;
+      border-radius: 50%;
+      border: 3px solid #8a7252;
+      background: #f4efe5;
+      display: block;
+    }
+
+    .site-brand span {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .site-brand strong {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      line-height: 1.12;
+      font-weight: 800;
+      color: #29231b;
+    }
+
+    .site-brand small {
+      font-size: 1rem;
+      line-height: 1.35;
+      color: #756b5c;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      width: 100%;
+      background: #f4efe5;
+      border: 1px solid #dfd5c5;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 8px 11px;
+      border-radius: 8px;
+      background: #eee7da;
+      color: #514431;
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible,
+    .site-nav a.active {
+      background: #514431;
+      color: #fff;
+    }
+
+    main { padding: 0 0 42px; }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(22px, 4vw, 38px);
+      margin-bottom: 22px;
+      box-shadow: 0 5px 24px rgba(40,35,25,.035);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 32px);
+      line-height: 1.25;
+      letter-spacing: -.4px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: clamp(19px, 2.6vw, 23px);
+      line-height: 1.25;
+    }
+
+    p { margin: 8px 0 14px; }
+
+    .kicker {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f8e5dc;
+      color: var(--red-dark);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .07em;
+      margin-bottom: 10px;
+    }
+
+    .kicker-green {
+      background: #e5ede1;
+      color: #43553c;
+    }
+
+    .highlight-box {
+      margin: 20px 0 26px;
+      padding: clamp(18px, 3vw, 28px);
+      border: 3px solid var(--red);
+      border-radius: 18px;
+      background: #fff8f3;
+      box-shadow: 0 6px 20px rgba(80,40,30,.07);
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .highlight-card {
+      padding: 16px;
+      border: 1px solid #eadbd2;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .highlight-card strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: var(--red-dark);
+    }
+
+    .highlight-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .faq-group {
+      margin: 24px 0;
+      padding: clamp(18px, 3vw, 26px);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: #fbf9f5;
+    }
+
+    .faq-group-green {
+      border-color: var(--green);
+      background: #f7faf5;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    details.faq-item {
+      border: 1px solid #e4d9c9;
+      border-radius: 14px;
+      background: #fff;
+      padding: 15px 18px;
+    }
+
+    .faq-group-green details.faq-item {
+      border-color: #dce5d7;
+    }
+
+    details.faq-item summary {
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 1.4;
+      color: var(--ink);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    details.faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.faq-item summary::after {
+      content: "+";
+      flex: 0 0 28px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--soft);
+      color: var(--ink);
+      display: inline-grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    details.faq-item[open] summary::after {
+      content: "−";
+      background: var(--red);
+      color: #fff;
+    }
+
+    .faq-answer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #efe7da;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .faq-answer p:first-child { margin-top: 0; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+
+    .info-list {
+      padding-left: 22px;
+      margin: 10px 0 0;
+    }
+
+    .info-list li {
+      margin-bottom: 8px;
+    }
+
+    .notice {
+      background: #f8f4ed;
+      border: 1px solid #eee5d7;
+      border-left: 4px solid var(--green);
+      border-radius: 13px;
+      padding: 18px 20px;
+      margin: 24px 0 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-red, .btn-green {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .btn-red { background: var(--red); }
+    .btn-red:hover { background: var(--red-dark); }
+    .btn-green { background: var(--green); }
+    .btn-green:hover { background: #52654b; }
+
+    footer {
+      padding: 20px 4px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .haarlem-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .haarlem-badge::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    @media (max-width: 780px) {
+      .highlight-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      section { border-radius: 16px; }
+      footer { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="wrap">
+      <strong>RATTENVANGER VAN HAARLEM · ONDERZOEK &amp; MELDINGEN</strong>
+      <a href="index.html">Terug naar meldingen &amp; kaart</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="site-brand" href="index.html">
+      <img src="IMG_0106.PNG" alt="Logo Rattenvanger van Haarlem" onerror="this.onerror=null;this.style.display='none';">
+      <span>
+        <strong>Rattenvanger van Haarlem</strong>
+        <small>Samen maken we rattenoverlast zichtbaar</small>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Homepage</a>
+      <a href="index.html#page-map">Rattenkaart</a>
+      <a href="index.html#page-info">Over dit initiatief</a>
+      <a href="index.html#page-rules">Leefregels</a>
+      <a href="index.html#page-report">Ratten melden</a>
+      <a href="rattenkeutels-herkennen.html">Rattenkeutels herkennen</a>
+      <a href="veelgestelde-vragen.html" class="active">Veelgestelde vragen</a>
+      <a href="index.html#page-posters">Posters</a>
+      <a href="mailto:info@spaarnelanden.nl">Spaarnelanden mailen</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <main>
+      <section>
+        <h2>Veelgestelde vragen</h2>
+        <p>Hier vind je duidelijke antwoorden over het melden van rattenoverlast in Haarlem, de gratis hulp van Anticimex via Spaarnelanden, het aanvragen van een gratis rooktest, en hoe wij omgaan met jouw privacy.</p>
+
+        <!-- SAMENVATTING IN 3 KERNPUNTEN -->
+        <div class="highlight-box">
+          <span class="kicker">BELANGRIJK OM TE WETEN</span>
+          <h3>Hoe werkt de hulp bij rattenoverlast?</h3>
+          <div class="highlight-grid">
+            <div class="highlight-card">
+              <strong>1. Meld via de website bij Spaarnelanden</strong>
+              <p>Klik op <em>Mail Spaarnelanden</em> op onze website, vul je gegevens aan en verstuur de officiële melding. Spaarnelanden schakelt direct Anticimex in.</p>
+            </div>
+            <div class="highlight-card">
+              <strong>2. Anticimex belt terug &amp; komt altijd gratis</strong>
+              <p>Anticimex neemt telefonisch contact met je op en komt <strong>altijd gratis</strong> langs — zo vaak als nodig is. De vroegere grens van maximaal 3 gratis bezoeken is vervallen.</p>
+            </div>
+            <div class="highlight-card">
+              <strong>3. Vraag de medewerker om een gratis rooktest</strong>
+              <p>Vraag de medewerker van Anticimex tijdens het bezoek om een <strong>gratis rooktest</strong>. Daarmee worden verborgen openingen en rioolverbindingen opgespoord.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GROEP 1: MELDEN, ANTICIMEX & KOSTEN -->
+        <div class="faq-group">
+          <span class="kicker">MELDINGEN, ANTICIMEX &amp; KOSTEN</span>
+          <h3>Vragen over melden en hulp aan huis</h3>
+
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>Hoe werkt het melden van rattenoverlast via deze website?</summary>
+              <div class="faq-answer">
+                <p>Op onze website gebruik je de knop <strong>Mail Spaarnelanden</strong> om een vooringevuld meldformulier in je e-mailprogramma te openen. Vul je waarneming en contactgegevens aan en verstuur de e-mail zelf naar Spaarnelanden.</p>
+                <p>Daarna schakelt Spaarnelanden <strong>Anticimex</strong> in. Anticimex belt je terug om de situatie te bespreken en een afspraak aan huis te maken. Daarnaast kun je je waarneming ook vrijwillig toevoegen aan onze <strong>rattenkaart</strong>, zodat buurtbewoners zien in welke straten ratten voorkomen.</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary>Kost een bezoek van Anticimex geld of zit er nog een maximum aan het aantal bezoeken?</summary>
+              <div class="faq-answer">
+                <p><strong>Nee, het bezoek en de hulp van Anticimex zijn altijd helemaal gratis.</strong></p>
+                <p>Waar voorheen een grens gold van maximaal 3 gratis bezoeken, is die grens weggehaald. Anticimex komt <strong>oneindig veel keer gratis langs als dat nodig is</strong> om de rattenoverlast goed aan te pakken. Je betaalt hier dus niets voor.</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary>Wat is een rooktest en hoe vraag ik die aan?</summary>
+              <div class="faq-answer">
+                <p>Een <strong>rooktest</strong> is een onderzoek waarbij onschadelijke rook in het riool of leidingstelsel wordt geblazen om te zien of er ergens een open verbinding, scheur of kapotte aansluiting zit waardoor ratten vanuit het riool richting woningen of tuinen kunnen komen.</p>
+                <p><strong>Vraag hier zelf actief naar bij de medewerker van Anticimex</strong> wanneer zij langskomen (of al tijdens het telefoongesprek). Ook deze rooktest is <strong>GRATIS</strong>.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Moet ik opnieuw melden als ik weer een rat of sporen zie?</summary>
+              <div class="faq-answer">
+                <p><strong>Ja, meld iedere keer opnieuw!</strong> Ook als je al eerder een melding hebt gedaan. Als bewoners stoppen met melden omdat ze denken dat het toch al bekend is, lijkt het op papier alsof de overlast afneemt terwijl de ratten er nog zijn.</p>
+                <p>Door elke nieuwe waarneming (ratten, keutels of holen) opnieuw te melden bij Spaarnelanden én op de rattenkaart, blijft de werkelijke omvang van het probleem zichtbaar.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- GROEP 2: RATTENKAART & PRIVACY -->
+        <div class="faq-group faq-group-green">
+          <span class="kicker kicker-green">RATTENKAART &amp; PRIVACY</span>
+          <h3>Vragen over de rattenkaart en jouw gegevens</h3>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Is een melding op de rattenkaart hetzelfde als een officiële melding bij Spaarnelanden?</summary>
+              <div class="faq-answer">
+                <p><strong>Nee.</strong> De rattenkaart is een onafhankelijk bewonersinitiatief om zichtbaar te maken in welke straten in Haarlem rattenoverlast voorkomt. Spaarnelanden en Anticimex krijgen geen automatische opdracht via onze kaart.</p>
+                <p>Wil je dat Anticimex langskomt? Gebruik dan altijd óók de knop <strong>Mail Spaarnelanden</strong>.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Welke gegevens worden opgeslagen als ik iets op de rattenkaart zet?</summary>
+              <div class="faq-answer">
+                <p>Wij verzamelen <strong>geen privégegevens</strong> voor de rattenkaart:</p>
+                <ul class="info-list">
+                  <li>Wij vragen en bewaren <strong>geen naam, huisnummer of e-mailadres</strong>.</li>
+                  <li>De kaart toont uitsluitend meldingen <strong>op straatniveau</strong> (de stip staat op een willekeurig punt in de straat, niet bij een specifiek huis).</li>
+                  <li>Wij geven geen persoonsgegevens door aan de gemeente, Spaarnelanden of Anticimex.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Waarom staat de stip op de rattenkaart niet precies voor mijn deur?</summary>
+              <div class="faq-answer">
+                <p>Om de privacy van bewoners te beschermen vragen wij bewust geen huisnummer. De stip wordt daarom op een algemeen/willekeurig punt binnen de gekozen straat weergegeven en laat het totaal aantal meldingen voor die hele straat in de afgelopen 12 maanden zien.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="notice">
+          <strong>Direct aan de slag?</strong>
+          <p>Heb je een rat, keutels of een hol gezien? Doe direct een officiële melding bij Spaarnelanden (en vergeet niet de gratis rooktest aan te vragen bij Anticimex) en zet je waarneming op de rattenkaart.</p>
+          <div class="actions">
+            <a class="btn-red" href="index.html#page-report">Naar Mail Spaarnelanden</a>
+            <a class="btn-green" href="index.html#page-map">Naar de rattenkaart</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span class="haarlem-badge">Haarlem</span>
+      <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+    </footer>
+  </div>
+</body>
+</html>
