@@ -308,6 +308,12 @@
         <label for="language">Taal</label>
         <select id="language" aria-label="Choose language">
           <option value="nl">🌐 Nederlands</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="so">🇸🇴 Soomaali</option>
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="pl">🇵🇱 Polski</option>
+          <option value="es">🇪🇸 Español</option>
         </select>
       </div>
     </div>
@@ -380,5 +386,184 @@
       <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
     </footer>
   </div>
+
+<script>
+(() => {
+const T={
+en:{
+title:"Rats and the sewer",intro:"Rats often live in sewers and use damaged pipes or openings to reach the surface — in the street and sometimes even inside homes.",
+captions:[
+'<strong>Through street drains and subsidence:</strong> broken sewer connections and holes in the paving allow rats to come up from the sewer.',
+'<strong>Also through the toilet or pipes in your home:</strong> brown rats are excellent swimmers and can swim up through the sewer where pipes are openly connected.'
+],
+alt:["Rat looking up from a street sewer drain","Rat in a toilet bowl, coming from the sewer"],
+what:"What can you do?",responsible:"Who is responsible?",
+owner:"<strong>Property owner or landlord:</strong> the home, front garden and sewer pipes on private property.",
+municipality:"<strong>Municipality of Haarlem:</strong> the pavement, street and sewer beneath public roads.",
+unsure:"Not sure where the problem is? Report it to your landlord or the municipality.",
+bullets:[
+'<strong>Ask for a free smoke test:</strong> if Anticimex visits after your report to Spaarnelanden, immediately ask for a <strong>free smoke test</strong> to detect leaks or open sewer connections.',
+'<strong>Do not flush food waste:</strong> grease and food scraps in the toilet or sink provide food for rats in the sewer.',
+'<strong>Look out for holes in the street and garden:</strong> sunken paving slabs or burrows along walls often indicate underground tunnels.'
+],
+notice:"<strong>Keep reporting:</strong> submit an official report to Spaarnelanden and add a report to the rat map for fellow Haarlem residents, so it remains clear where problems occur.",
+primary:"Email Spaarnelanden",secondary:"Report on the rat map",
+brand:"Together, we make rat problems visible",top:"RAT CATCHER OF HAARLEM · RESEARCH & REPORTS",
+nav:["Email Spaarnelanden","Rat map: where are the hotspots?","Rules to prevent rats","Information","Posters to print","Identifying rat droppings","Frequently asked questions","Rats and the sewer"],
+footer:"Rattenvanger van Haarlem is an independent residents’ initiative.",language:"Language"
+},
+ar:{
+title:"الجرذان والصرف الصحي",intro:"تعيش الجرذان غالبًا في شبكات الصرف الصحي، وتستخدم الأنابيب التالفة أو الفتحات للوصول إلى سطح الأرض، في الشارع وأحيانًا داخل المنازل.",
+captions:[
+'<strong>عبر فتحات التصريف وهبوط الأرض في الشارع:</strong> تتيح وصلات الصرف المكسورة والثقوب في الرصف للجرذان الصعود من شبكة الصرف.',
+'<strong>وأيضًا عبر المرحاض أو الأنابيب داخل المنزل:</strong> الجرذان البنية سبّاحة ماهرة، ويمكنها السباحة صعودًا عبر وصلات الصرف المفتوحة.'
+],
+alt:["جرذ يطل من فتحة صرف في الشارع","جرذ داخل المرحاض قادم من شبكة الصرف"],
+what:"ماذا يمكنك أن تفعل؟",responsible:"من المسؤول؟",
+owner:"<strong>مالك العقار أو المؤجّر:</strong> المنزل والحديقة الأمامية وأنابيب الصرف داخل حدود الملكية الخاصة.",
+municipality:"<strong>بلدية هارلم:</strong> الرصيف والشارع وشبكة الصرف الواقعة تحت الطرق العامة.",
+unsure:"لا تعرف أين تكمن المشكلة؟ أبلغ المؤجّر أو البلدية.",
+bullets:[
+'<strong>اطلب اختبار دخان مجانيًا:</strong> إذا زارتك Anticimex بعد بلاغك إلى Spaarnelanden، فاطلب فورًا <strong>اختبار دخان مجانيًا</strong> للكشف عن التسربات أو وصلات الصرف المفتوحة.',
+'<strong>لا تلقِ بقايا الطعام في المرحاض:</strong> فالدهون وبقايا الطعام في المرحاض أو الحوض تشكّل غذاءً للجرذان في شبكة الصرف.',
+'<strong>انتبه إلى الثقوب في الشارع والحديقة:</strong> قد تشير البلاطات الهابطة أو الجحور بمحاذاة الجدران إلى أنفاق تحت الأرض.'
+],
+notice:"<strong>واصل الإبلاغ:</strong> قدّم بلاغًا رسميًا إلى Spaarnelanden وأضف بلاغًا إلى خريطة الجرذان ليستفيد سكان هارلم، وليظل واضحًا أين تقع المشكلات.",
+primary:"مراسلة Spaarnelanden",secondary:"الإبلاغ على خريطة الجرذان",
+brand:"معًا نجعل مشكلة الجرذان واضحة",top:"مكافحة الجرذان في هارلم · أبحاث وبلاغات",
+nav:["مراسلة Spaarnelanden","خريطة الجرذان: أين بؤر الانتشار؟","قواعد الوقاية من الجرذان","معلومات","ملصقات للطباعة","التعرّف على فضلات الجرذان","الأسئلة الشائعة","الجرذان والصرف الصحي"],
+footer:"مبادرة Rattenvanger van Haarlem مبادرة مستقلة من السكان.",language:"اللغة"
+},
+so:{
+title:"Jiirka iyo bulaacadda",intro:"Jiirku badanaa wuxuu ku nool yahay bulaacadda, wuxuuna isticmaalaa tuubooyinka dhaawacmay ama daloollada si uu dhulka korkiisa ugu soo baxo — waddada iyo mararka qaarkood xitaa gudaha guriga.",
+captions:[
+'<strong>Daloollada bulaacadda iyo dhulka waddada oo godma:</strong> isku-xirnaanta tuubooyinka ee jaban iyo godadka laamiga waxay jiirka u sahlaan inuu bulaacadda ka soo baxo.',
+'<strong>Sidoo kale musqusha ama tuubooyinka guriga:</strong> jiirka bunni waa dabaale aad u fiican, wuxuuna ka soo dabaalan karaa bulaacadda haddii tuubooyinku leeyihiin isku-xir furan.'
+],
+alt:["Jiir ka soo eegaya daloolka bulaacadda waddada","Jiir ku jira musqusha oo ka yimid bulaacadda"],
+what:"Maxaad samayn kartaa?",responsible:"Yaa mas’uul ka ah?",
+owner:"<strong>Milkiilaha guriga ama kireeyaha:</strong> guriga, beerta hore iyo tuubooyinka bulaacadda ee ku yaal dhulka gaarka loo leeyahay.",
+municipality:"<strong>Degmada Haarlem:</strong> laamiga dadka lugeeya, waddada iyo bulaacadda hoos marta waddooyinka dadweynaha.",
+unsure:"Ma garanaysid halka dhibaatadu ka jirto? U sheeg kireeyahaaga ama degmada.",
+bullets:[
+'<strong>Codso baaritaan qiiq oo bilaash ah:</strong> haddii Anticimex kuu timaaddo ka dib warbixintaada Spaarnelanden, isla markiiba codso <strong>baaritaan qiiq oo bilaash ah</strong> si loo ogaado daadashada ama isku-xirnaanta bulaacadda ee furan.',
+'<strong>Ha ku shubin haraaga cuntada musqusha:</strong> dufanka iyo haraaga cuntada ee musqusha ama saxanka waxay cunto u yihiin jiirka bulaacadda.',
+'<strong>Ka fiirso godadka waddada iyo beerta:</strong> laami hoos u dhacay ama godad ku teedsan darbiyada waxay inta badan tilmaamaan marinno dhulka hoostiisa ah.'
+],
+notice:"<strong>Weli warbixi:</strong> cabasho rasmi ah u gudbi Spaarnelanden, sidoo kalena ku dar khariidadda jiirka si dadka kale ee Haarlem ay u ogaadaan meelaha dhibaatadu ka jirto.",
+primary:"Email u dir Spaarnelanden",secondary:"Ka warbixi khariidadda jiirka",
+brand:"Wadajir ayaan muuqaal uga dhigaynaa dhibaatada jiirka",top:"RATTENVANGER VAN HAARLEM · BAARITAAN & WARBIXINNO",
+nav:["Email Spaarnelanden","Khariidadda jiirka: meelaha dhibaatadu ka jirto","Xeerarka ka hortagga jiirka","Macluumaad","Boodhadh la daabacan karo","Aqoonsiga saxarada jiirka","Su’aalaha inta badan la isweydiiyo","Jiirka iyo bulaacadda"],
+footer:"Rattenvanger van Haarlem waa hindise madax-bannaan oo dadka deegaanka ah.",language:"Luqad"
+},
+tr:{
+title:"Fareler ve kanalizasyon",intro:"Fareler genellikle kanalizasyonda yaşar ve hasarlı boruları veya açıklıkları kullanarak sokakta, hatta bazen evlerin içinde yeryüzüne çıkar.",
+captions:[
+'<strong>Sokak rögarları ve zemindeki çökmeler yoluyla:</strong> kırık kanalizasyon bağlantıları ve kaldırımdaki delikler, farelerin kanalizasyondan yukarı çıkmasını kolaylaştırır.',
+'<strong>Tuvalet veya evdeki borular yoluyla da:</strong> kahverengi fareler çok iyi yüzücüdür; açık boru bağlantılarından kanalizasyondan yukarı yüzebilirler.'
+],
+alt:["Sokaktaki kanalizasyon rögarından yukarı bakan fare","Kanalizasyondan gelen tuvalet içindeki fare"],
+what:"Ne yapabilirsiniz?",responsible:"Kim sorumlu?",
+owner:"<strong>Ev sahibi veya kiraya veren:</strong> ev, ön bahçe ve özel mülk sınırları içindeki kanalizasyon boruları.",
+municipality:"<strong>Haarlem Belediyesi:</strong> kaldırım, sokak ve kamuya açık yolların altındaki kanalizasyon.",
+unsure:"Sorunun nerede olduğunu bilmiyor musunuz? Ev sahibinize veya belediyeye bildirin.",
+bullets:[
+'<strong>Ücretsiz duman testi isteyin:</strong> Spaarnelanden’e yaptığınız bildirimden sonra Anticimex gelirse, sızıntıları veya açık kanalizasyon bağlantılarını tespit etmek için hemen <strong>ücretsiz duman testi</strong> isteyin.',
+'<strong>Yemek artıklarını gidere dökmeyin:</strong> tuvalet veya lavabodaki yağ ve yemek artıkları kanalizasyondaki fareler için besindir.',
+'<strong>Sokakta ve bahçede deliklere dikkat edin:</strong> çökmüş kaldırım taşları veya duvar kenarındaki oyuklar çoğu zaman yer altı tünellerine işaret eder.'
+],
+notice:"<strong>Bildirim yapmaya devam edin:</strong> Spaarnelanden’e resmî bildirimde bulunun ve diğer Haarlem sakinlerinin sorunlu yerleri görebilmesi için fare haritasına da ekleyin.",
+primary:"Spaarnelanden’e e-posta gönder",secondary:"Fare haritasından bildirim yap",
+brand:"Fare sorununu birlikte görünür kılıyoruz",top:"HAARLEM FAREYLE MÜCADELE · ARAŞTIRMA VE BİLDİRİMLER",
+nav:["Spaarnelanden’e e-posta","Fare haritası: sorunlu noktalar nerede?","Fareleri önleme kuralları","Bilgi","Yazdırılabilir posterler","Fare dışkısını tanıma","Sıkça sorulan sorular","Fareler ve kanalizasyon"],
+footer:"Rattenvanger van Haarlem, bağımsız bir mahalle sakinleri girişimidir.",language:"Dil"
+},
+pl:{
+title:"Szczury i kanalizacja",intro:"Szczury często żyją w kanalizacji i wykorzystują uszkodzone rury lub otwory, aby wydostać się na powierzchnię — na ulicę, a czasem nawet do domu.",
+captions:[
+'<strong>Przez studzienki i zapadnięcia nawierzchni:</strong> uszkodzone połączenia kanalizacyjne i dziury w chodniku umożliwiają szczurom wydostanie się z kanalizacji.',
+'<strong>Także przez toaletę lub rury w domu:</strong> szczury wędrowne świetnie pływają i mogą wypłynąć kanalizacją przez otwarte połączenia rur.'
+],
+alt:["Szczur wyglądający ze studzienki kanalizacyjnej na ulicy","Szczur w toalecie, który przedostał się z kanalizacji"],
+what:"Co możesz zrobić?",responsible:"Kto odpowiada za problem?",
+owner:"<strong>Właściciel lub wynajmujący:</strong> dom, ogródek przed domem i kanalizacja na terenie prywatnej posesji.",
+municipality:"<strong>Gmina Haarlem:</strong> chodnik, ulica i kanalizacja pod drogami publicznymi.",
+unsure:"Nie wiesz, gdzie znajduje się problem? Zgłoś go właścicielowi lub gminie.",
+bullets:[
+'<strong>Poproś o bezpłatny test dymny:</strong> jeśli Anticimex przyjedzie po zgłoszeniu do Spaarnelanden, od razu poproś o <strong>bezpłatny test dymny</strong>, który pomoże wykryć nieszczelności lub otwarte połączenia kanalizacyjne.',
+'<strong>Nie spłukuj resztek jedzenia:</strong> tłuszcz i resztki jedzenia w toalecie lub zlewie stanowią pożywienie dla szczurów w kanalizacji.',
+'<strong>Zwracaj uwagę na dziury na ulicy i w ogrodzie:</strong> zapadnięte płyty chodnikowe lub nory przy ścianach często wskazują na podziemne korytarze.'
+],
+notice:"<strong>Zgłaszaj problem:</strong> złóż oficjalne zgłoszenie do Spaarnelanden i dodaj informację na mapie szczurów, aby inni mieszkańcy Haarlem wiedzieli, gdzie występuje problem.",
+primary:"Wyślij e-mail do Spaarnelanden",secondary:"Zgłoś problem na mapie szczurów",
+brand:"Razem sprawiamy, że problem szczurów staje się widoczny",top:"RATTENVANGER VAN HAARLEM · BADANIA I ZGŁOSZENIA",
+nav:["E-mail do Spaarnelanden","Mapa szczurów: gdzie są ogniska problemu?","Zasady zapobiegania szczurom","Informacje","Plakaty do wydrukowania","Jak rozpoznać odchody szczurów","Najczęściej zadawane pytania","Szczury i kanalizacja"],
+footer:"Rattenvanger van Haarlem to niezależna inicjatywa mieszkańców.",language:"Język"
+},
+es:{
+title:"Las ratas y el alcantarillado",intro:"Las ratas suelen vivir en el alcantarillado y utilizan tuberías dañadas o aberturas para salir a la superficie, tanto en la calle como, a veces, dentro de las viviendas.",
+captions:[
+'<strong>A través de alcantarillas y hundimientos en la calle:</strong> las conexiones rotas del alcantarillado y los agujeros en el pavimento permiten que las ratas salgan a la superficie.',
+'<strong>También a través del inodoro o de las tuberías de casa:</strong> las ratas pardas son excelentes nadadoras y pueden subir por el alcantarillado cuando hay conexiones abiertas.'
+],
+alt:["Rata asomándose por una alcantarilla en la calle","Rata en el inodoro que viene del alcantarillado"],
+what:"¿Qué puedes hacer?",responsible:"¿Quién es responsable?",
+owner:"<strong>Propietario o arrendador:</strong> la vivienda, el jardín delantero y las tuberías de alcantarillado dentro de la propiedad privada.",
+municipality:"<strong>Municipio de Haarlem:</strong> la acera, la calle y el alcantarillado situado bajo las vías públicas.",
+unsure:"¿No sabes dónde está el problema? Comunícalo al propietario o al municipio.",
+bullets:[
+'<strong>Pide una prueba de humo gratuita:</strong> si Anticimex acude después de tu aviso a Spaarnelanden, solicita directamente una <strong>prueba de humo gratuita</strong> para detectar fugas o conexiones abiertas del alcantarillado.',
+'<strong>No tires restos de comida por el desagüe:</strong> la grasa y los restos de comida en el inodoro o el fregadero sirven de alimento a las ratas del alcantarillado.',
+'<strong>Presta atención a los agujeros en la calle y el jardín:</strong> las losas hundidas o las madrigueras junto a las fachadas suelen indicar túneles subterráneos.'
+],
+notice:"<strong>Sigue informando:</strong> presenta una notificación oficial a Spaarnelanden y añade el aviso al mapa de ratas para que otros residentes de Haarlem puedan ver dónde hay problemas.",
+primary:"Enviar correo a Spaarnelanden",secondary:"Informar en el mapa de ratas",
+brand:"Juntos hacemos visible el problema de las ratas",top:"RATTENVANGER VAN HAARLEM · INVESTIGACIÓN Y AVISOS",
+nav:["Enviar correo a Spaarnelanden","Mapa de ratas: ¿dónde están los focos?","Normas para prevenir las ratas","Información","Carteles para imprimir","Cómo reconocer excrementos de rata","Preguntas frecuentes","Ratas y alcantarillado"],
+footer:"Rattenvanger van Haarlem es una iniciativa independiente de los residentes.",language:"Idioma"
+}
+};
+const nl={
+title:"Ratten en het riool",
+intro:"Ratten leven vaak in het riool en gebruiken beschadigde buizen of openingen om boven de grond te komen — op straat én soms zelfs in huis.",
+captions:[...document.querySelectorAll(".photo-caption")].map(x=>x.innerHTML),
+alt:[...document.querySelectorAll(".photo-card img")].map(x=>x.alt),
+what:"Wat kun je doen?",responsible:"Wie is verantwoordelijk?",
+owner:document.querySelector("main section > p:nth-of-type(2)")?.innerHTML || "<strong>Eigenaar of verhuurder:</strong> het huis, de voortuin en het riool op eigen terrein.",
+municipality:"<strong>Gemeente Haarlem:</strong> de stoep, de straat en het riool onder de openbare weg.",
+unsure:"Weet je niet waar het probleem zit? Meld het bij je verhuurder of bij de gemeente.",
+bullets:[...document.querySelectorAll(".info-list li")].map(x=>x.innerHTML),
+notice:document.querySelector(".notice").innerHTML,primary:document.querySelector(".primary").textContent,
+secondary:document.querySelector(".secondary-link").textContent,brand:"Samen maken we rattenoverlast zichtbaar",
+top:"RATTENVANGER VAN HAARLEM · ONDERZOEK & MELDINGEN",
+nav:[...document.querySelectorAll(".site-nav a")].map(x=>x.textContent),
+footer:document.querySelector("footer span:last-child").textContent,language:"Taal"
+};
+const selector=document.getElementById("language");
+const apply=lang=>{
+ const t=lang==="nl"?nl:T[lang]; if(!t)return;
+ document.documentElement.lang=lang; document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ document.title=t.title+" — Rattenvanger van Haarlem";
+ document.querySelector('meta[name="description"]').content=t.intro;
+ document.querySelector("main h2").textContent=t.title;
+ document.querySelector("main section > p").textContent=t.intro;
+ document.querySelectorAll(".photo-caption").forEach((x,i)=>x.innerHTML=t.captions[i]);
+ document.querySelectorAll(".photo-card img").forEach((x,i)=>x.alt=t.alt[i]);
+ const hs=document.querySelectorAll("main h3"); hs[0].textContent=t.what;hs[1].textContent=t.responsible;
+ const ps=document.querySelectorAll("main section > p");
+ ps[1].innerHTML=t.owner;ps[2].innerHTML=t.municipality;ps[3].textContent=t.unsure;
+ document.querySelectorAll(".info-list li").forEach((x,i)=>x.innerHTML=t.bullets[i]);
+ document.querySelector(".notice").innerHTML=t.notice;
+ document.querySelector(".primary").textContent=t.primary;
+ document.querySelector(".secondary-link").textContent=t.secondary;
+ document.querySelector(".language label").textContent=t.language;
+ document.querySelector(".site-brand small").textContent=t.brand;
+ document.querySelector(".rvh-top-inner > strong").textContent=t.top;
+ document.querySelectorAll(".site-nav a").forEach((x,i)=>x.textContent=t.nav[i]);
+ document.querySelector("footer span:last-child").textContent=t.footer;
+};
+selector.addEventListener("change",e=>apply(e.target.value));
+})();
+</script>
 </body>
 </html>
