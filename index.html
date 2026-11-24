@@ -960,6 +960,129 @@
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
 
+      // Bestaande meldingen uit de sheet "Rattenmeldingen Haarlem" (Blad1)
+      const SHEET_REPORTS = [
+        {
+          datum: "20-11-2026 13:16:38",
+          straat: "Aelbertsbergstraat",
+          aantal: 3,
+          status: "Ongeverifieerd",
+          lat: "52,39292154",
+          lng: "4,6317641",
+          meldtype: "exact12m",
+          categorie: "rats"
+        },
+        {
+          datum: "20-11-2026 13:47:58",
+          straat: "Aelbertsbergstraat",
+          aantal: 1,
+          status: "Ongeverifieerd",
+          lat: "52,39292154",
+          lng: "4,6317641",
+          meldtype: "exact12m",
+          categorie: "burrows"
+        },
+        {
+          datum: "20-11-2026 17:37:43",
+          straat: "Kleverlaan",
+          aantal: 1,
+          status: "Ongeverifieerd",
+          lat: "52,39448183",
+          lng: "4,64015493",
+          meldtype: "exact12m",
+          categorie: "rats"
+        },
+        {
+          datum: "23-11-2026 17:00:42",
+          straat: "Tetterodestraat",
+          aantal: 12,
+          status: "Ongeverifieerd",
+          lat: "52,39100733",
+          lng: "4,6324991",
+          meldtype: "exact12m",
+          categorie: "rats"
+        },
+        {
+          datum: "24-11-2026 8:40:59",
+          straat: "Aelbertsbergstraat",
+          aantal: 1,
+          status: "Ongeverifieerd",
+          lat: "52,39292154",
+          lng: "4,6317641",
+          meldtype: "exact12m",
+          categorie: "burrows"
+        }
+      ];
+
+      function parseCoord(val) {
+        if (typeof val === "number") return val;
+        if (!val) return NaN;
+        return parseFloat(String(val).replace(",", ".").trim());
+      }
+
+      function getRatBandColor(total) {
+        if (total >= 100) return "#000000";
+        if (total >= 60) return "#5b2c83";
+        if (total >= 40) return "#8e44ad";
+        if (total >= 20) return "#c0392b";
+        if (total >= 10) return "#e67e22";
+        if (total >= 5) return "#f1c40f";
+        return "#2ecc71";
+      }
+
+      function addReportMarker(map, item, offsetIndex, streetRatTotals) {
+        const baseLat = parseCoord(item.lat);
+        const baseLng = parseCoord(item.lng);
+        if (Number.isNaN(baseLat) || Number.isNaN(baseLng)) return;
+
+        // Kleine spreiding wanneer meerdere meldingen op exact dezelfde coördinaat liggen
+        const angle = offsetIndex * 2.39996;
+        const spread = offsetIndex === 0 ? 0 : 0.00014 * Math.sqrt(offsetIndex);
+        const lat = baseLat + Math.cos(angle) * spread;
+        const lng = baseLng + Math.sin(angle) * spread * 1.45;
+
+        const cat = (item.categorie || "rats").toLowerCase().trim();
+        const straatKey = (item.straat || "").toLowerCase().trim();
+        const streetTotal = streetRatTotals[straatKey] || Number(item.aantal || 1);
+
+        let fillColor = getRatBandColor(streetTotal);
+        let borderColor = "#222";
+        let radius = 8;
+        let catLabel = "Ratten";
+
+        if (cat === "droppings") {
+          fillColor = "#8b4513";
+          borderColor = "#ffffff";
+          radius = 7;
+          catLabel = "Rattenkeutels";
+        } else if (cat === "burrows") {
+          fillColor = "#ffffff";
+          borderColor = "#222222";
+          radius = 10;
+          catLabel = "Gangen of holen";
+        }
+
+        const marker = L.circleMarker([lat, lng], {
+          radius: radius,
+          fillColor: fillColor,
+          color: borderColor,
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.92
+        }).addTo(map);
+
+        const popupHtml = [
+          "<strong>" + (item.straat || "Onbekende straat") + "</strong>",
+          "Categorie: " + catLabel,
+          "Aantal in melding: " + (item.aantal || 1),
+          "Totaal ratten in straat: " + streetTotal,
+          item.datum ? "Datum: " + item.datum : "",
+          item.status ? "Status: " + item.status : ""
+        ].filter(Boolean).join("<br>");
+
+        marker.bindPopup(popupHtml);
+      }
+
       function showPage(page) {
         const target = pages.includes(page) ? page : "report";
         pages.forEach(p => {
@@ -1063,13 +1186,31 @@
         });
       }
 
+      const streetRatTotals = {};
+      const coordCounts = {};
+
+      SHEET_REPORTS.forEach(item => {
+        const cat = (item.categorie || "rats").toLowerCase().trim();
+        const straatKey = (item.straat || "").toLowerCase().trim();
+        if (cat === "rats" || !item.categorie) {
+          streetRatTotals[straatKey] = (streetRatTotals[straatKey] || 0) + (Number(item.aantal) || 0);
+        }
+      });
+
       const mapEl = document.getElementById("map");
       if (mapEl && typeof L !== "undefined") {
-        const map = L.map("map").setView([52.3874, 4.6462], 13);
+        const map = L.map("map").setView([52.3928, 4.6345], 14);
         window.rvhMap = map;
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
+
+        SHEET_REPORTS.forEach(item => {
+          const coordKey = String(item.lat) + "_" + String(item.lng);
+          const idx = coordCounts[coordKey] || 0;
+          coordCounts[coordKey] = idx + 1;
+          addReportMarker(map, item, idx, streetRatTotals);
+        });
       }
 
       const categoryEl = document.getElementById("category");
@@ -1115,22 +1256,25 @@
         submitBtn.addEventListener("click", function () {
           const street = streetInput.value.trim();
           const count = Math.max(1, Math.min(20, parseInt(obsInput.value, 10) || 1));
+          const straatKey = street.toLowerCase().trim();
+          if (categoryEl.value === "rats") {
+            streetRatTotals[straatKey] = (streetRatTotals[straatKey] || 0) + count;
+          }
           if (window.rvhMap && typeof L !== "undefined") {
             const center = window.rvhMap.getCenter();
-            const jLat = (Math.random() - 0.5) * 0.008;
-            const jLng = (Math.random() - 0.5) * 0.012;
-            const color = categoryEl.value === "droppings" ? "#8b4513" : categoryEl.value === "burrows" ? "#ffffff" : "#c0392b";
-            L.circleMarker([center.lat + jLat, center.lng + jLng], {
-              radius: categoryEl.value === "burrows" ? 9 : 7,
-              fillColor: color,
-              color: "#222",
-              weight: 2,
-              opacity: 1,
-              fillOpacity: 0.9
-            }).addTo(window.rvhMap).bindPopup("<strong>" + street + "</strong><br>Aantal: " + count);
+            const jLat = (Math.random() - 0.5) * 0.006;
+            const jLng = (Math.random() - 0.5) * 0.009;
+            addReportMarker(window.rvhMap, {
+              straat: street,
+              aantal: count,
+              status: "Nieuwe waarneming",
+              lat: center.lat + jLat,
+              lng: center.lng + jLng,
+              categorie: categoryEl.value
+            }, 1, streetRatTotals);
           }
           submitMsg.className = "success";
-          submitMsg.textContent = "Waarneming op straatniveau (" + street + ") toegevoegd aan de weergave.";
+          submitMsg.textContent = "Waarneming op straatniveau (" + street + ") toegevoegd aan de kaart.";
         });
       }
 
