@@ -1728,7 +1728,7 @@
           const categoryInfo = msg[cat] || msg.rats;
           const categoryTotal = cat === "burrows" ? sInfo.burrowsTotal :
             cat === "droppings" ? sInfo.droppingsTotal : sInfo.ratsTotal;
-          const totalName = categoryInfo[2];
+          const totalName = categoryTotal === 1 ? categoryInfo[0] : categoryInfo[2];
           const bandInfo = getRatBandInfo(sInfo.ratsTotal);
 
           submitMsg.className = "success";
