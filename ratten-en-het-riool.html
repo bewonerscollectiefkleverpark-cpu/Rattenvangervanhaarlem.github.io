@@ -298,6 +298,16 @@
       .site-nav a { font-size: .82rem; padding: 8px 9px; min-height: 38px; }
     }
   </style>
+<style id="rvh-share-footer">
+.rvh-share{width:100%;margin:18px 0 2px;padding:17px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:11px}
+.rvh-share-heading{font-size:14px;color:var(--ink);font-weight:800}
+.rvh-share-actions{display:flex;flex-wrap:wrap;gap:9px}
+.rvh-share-button{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--ink);font:700 13px 'Montserrat',sans-serif;text-decoration:none;cursor:pointer;transition:filter .2s,transform .2s}
+.rvh-share-button:hover{filter:brightness(.96);transform:translateY(-1px)}
+.rvh-wa{background:#e8f4e9;border-color:#c8dfca;color:#205b2c}.rvh-fb{background:#e9effb;border-color:#cbd8f0;color:#244b91}.rvh-ig{background:#f8eaf1;border-color:#ebd0df;color:#8a315e}.rvh-copy{background:#eee7da;color:#514431}
+.rvh-share-status{font-size:12px;color:var(--muted);min-height:1em}
+@media(max-width:600px){.rvh-share-actions{display:grid;grid-template-columns:1fr 1fr}.rvh-share-button{padding:10px 8px;text-align:center}}
+</style>
 </head>
 
 <body>
@@ -384,6 +394,14 @@
     <footer>
       <span class="haarlem-badge">Haarlem</span>
       <span>Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</span>
+    <div class="rvh-share" aria-label="Pagina delen">
+<strong class="rvh-share-heading">Deel deze pagina</strong>
+<div class="rvh-share-actions">
+<a class="rvh-share-button rvh-wa" data-share="whatsapp" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+<a class="rvh-share-button rvh-fb" data-share="facebook" href="#" target="_blank" rel="noopener noreferrer">Facebook</a>
+<button class="rvh-share-button rvh-ig" type="button" data-share="instagram">Deel via Instagram</button>
+<button class="rvh-share-button rvh-copy" type="button" data-share="copy">Kopieer weblink</button>
+</div><span class="rvh-share-status" role="status" aria-live="polite"></span></div>
     </footer>
   </div>
 
@@ -563,6 +581,36 @@ const apply=lang=>{
  document.querySelector("footer span:last-child").textContent=t.footer;
 };
 selector.addEventListener("change",e=>apply(e.target.value));
+})();
+</script>
+<script id="rvh-share-script">
+(() => {
+ const textByLang={"nl":{"heading":"Deel deze pagina","wa":"Deel via WhatsApp","fb":"Deel via Facebook","ig":"Deel via Instagram","copy":"Kopieer weblink","copied":"De weblink is gekopieerd. Je kunt hem nu plakken.","igmsg":"De weblink is gekopieerd. Open Instagram en plak de link in je bericht of bio.","copyfail":"Kopiëren is niet gelukt. Kopieer de weblink handmatig."},"en":{"heading":"Share this page","wa":"Share via WhatsApp","fb":"Share via Facebook","ig":"Share via Instagram","copy":"Copy page link","copied":"The page link has been copied. You can now paste it.","igmsg":"The page link has been copied. Open Instagram and paste it into your post or bio.","copyfail":"Copying failed. Please copy the page link manually."},"ar":{"heading":"شارك هذه الصفحة","wa":"المشاركة عبر واتساب","fb":"المشاركة عبر فيسبوك","ig":"المشاركة عبر إنستغرام","copy":"نسخ رابط الصفحة","copied":"تم نسخ رابط الصفحة. يمكنك الآن لصقه.","igmsg":"تم نسخ الرابط. افتح إنستغرام والصق الرابط في منشورك أو في النبذة التعريفية.","copyfail":"تعذّر النسخ. يُرجى نسخ رابط الصفحة يدويًا."},"so":{"heading":"La wadaag boggan","wa":"Ku wadaag WhatsApp","fb":"Ku wadaag Facebook","ig":"Ku wadaag Instagram","copy":"Nuqul ka samee xiriirka","copied":"Xiriirka waa la koobiyeeyay. Hadda waad dhejin kartaa.","igmsg":"Xiriirka waa la koobiyeeyay. Fur Instagram oo ku dheji qoraalkaaga ama bio-gaaga.","copyfail":"Nuqul samayntu ma suurtagelin. Fadlan gacanta ku koobiyee xiriirka."},"tr":{"heading":"Bu sayfayı paylaş","wa":"WhatsApp ile paylaş","fb":"Facebook ile paylaş","ig":"Instagram’da paylaş","copy":"Sayfa bağlantısını kopyala","copied":"Sayfa bağlantısı kopyalandı. Şimdi yapıştırabilirsiniz.","igmsg":"Bağlantı kopyalandı. Instagram’ı açın ve gönderinize veya biyografinize yapıştırın.","copyfail":"Kopyalama başarısız oldu. Bağlantıyı elle kopyalayın."},"pl":{"heading":"Udostępnij tę stronę","wa":"Udostępnij przez WhatsApp","fb":"Udostępnij przez Facebook","ig":"Udostępnij przez Instagram","copy":"Kopiuj link do strony","copied":"Link do strony został skopiowany. Możesz go teraz wkleić.","igmsg":"Link został skopiowany. Otwórz Instagram i wklej go do posta lub biogramu.","copyfail":"Nie udało się skopiować. Skopiuj link ręcznie."},"es":{"heading":"Comparte esta página","wa":"Compartir por WhatsApp","fb":"Compartir en Facebook","ig":"Compartir en Instagram","copy":"Copiar enlace de la página","copied":"El enlace se ha copiado. Ya puedes pegarlo.","igmsg":"El enlace se ha copiado. Abre Instagram y pégalo en tu publicación o biografía.","copyfail":"No se pudo copiar. Copia el enlace manualmente."}};
+ const root=document.querySelector(".rvh-share"); if(!root)return;
+ const status=root.querySelector(".rvh-share-status");
+ const update=()=>{
+  const lang=(document.documentElement.lang||"nl").toLowerCase().slice(0,2),t=textByLang[lang]||textByLang.nl;
+  root.querySelector(".rvh-share-heading").textContent=t.heading;
+  root.querySelector('[data-share="whatsapp"]').textContent=t.wa;
+  root.querySelector('[data-share="facebook"]').textContent=t.fb;
+  root.querySelector('[data-share="instagram"]').textContent=t.ig;
+  root.querySelector('[data-share="copy"]').textContent=t.copy;
+  root.querySelector('[data-share="whatsapp"]').href="https://wa.me/?text="+encodeURIComponent(document.title+" "+location.href.split("#")[0]);
+  root.querySelector('[data-share="facebook"]').href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href.split("#")[0]);
+  root.dir=lang==="ar"?"rtl":"ltr";
+ };
+ const copy=async(kind)=>{
+  const lang=(document.documentElement.lang||"nl").toLowerCase().slice(0,2),t=textByLang[lang]||textByLang.nl,url=location.href.split("#")[0];
+  try{
+   if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(url);
+   else{const field=document.createElement("textarea");field.value=url;field.style.position="fixed";field.style.opacity="0";document.body.appendChild(field);field.focus();field.select();const ok=document.execCommand("copy");field.remove();if(!ok)throw Error("copy failed");}
+   status.textContent=kind==="instagram"?t.igmsg:t.copied;
+  }catch(e){status.textContent=t.copyfail;}
+ };
+ root.querySelector('[data-share="copy"]').addEventListener("click",()=>copy("copy"));
+ root.querySelector('[data-share="instagram"]').addEventListener("click",()=>copy("instagram"));
+ const selector=document.getElementById("language");if(selector)selector.addEventListener("change",update);
+ update();
 })();
 </script>
 </body>
