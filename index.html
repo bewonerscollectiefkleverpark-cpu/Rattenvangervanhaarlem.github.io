@@ -1318,8 +1318,9 @@
         const grouped = groupReportsByStreet(reports);
         const ratStreets = Object.values(grouped).filter(s => s.ratsTotal > 0);
 
+        const heading = box.dataset.heading || "Actuele totalen per straat (ratten):";
         if (!ratStreets.length) {
-          box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> Nog geen rattenmeldingen.";
+          box.innerHTML = "<strong>" + heading + "</strong> " + (box.dataset.empty || "Nog geen rattenmeldingen.");
           return;
         }
 
@@ -1330,7 +1331,7 @@
             <strong>${escapeHtml(s.straat)}</strong>: ${s.ratsTotal} (${info.band})
           </span>`;
         });
-        box.innerHTML = "<strong>Actuele totalen per straat (ratten):</strong> " + parts.join("");
+        box.innerHTML = "<strong>" + heading + "</strong> " + parts.join("");
       }
 
       function renderAllMarkers(focusCoords) {
@@ -1357,9 +1358,9 @@
             });
             ratMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Alle opgetelde ratten in deze straat: <strong>" + s.ratsTotal + "</strong>",
-              "Kleur: " + bandInfo.band,
-              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
+              (document.getElementById("page-map").dataset.ratsLabel || "Alle opgetelde ratten in deze straat:") + " <strong>" + s.ratsTotal + "</strong>",
+              (document.getElementById("page-map").dataset.colourLabel || "Kleur:") + " " + bandInfo.band,
+              "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             ratMarker.addTo(markersLayer);
           }
@@ -1376,8 +1377,8 @@
             });
             dropMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Bolletje rattenkeutels (opgeteld): <strong>" + s.droppingsTotal + "</strong>",
-              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
+              (document.getElementById("page-map").dataset.droppingsLabel || "Bolletje rattenkeutels (opgeteld):") + " <strong>" + s.droppingsTotal + "</strong>",
+              "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             dropMarker.addTo(markersLayer);
           }
@@ -1394,8 +1395,8 @@
             });
             burrowMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              "Bolletje gangen of holen (opgeteld): <strong>" + s.burrowsTotal + "</strong>",
-              "<em>Voor je privacy willekeurig in de straat geplaatst</em>"
+              (document.getElementById("page-map").dataset.burrowsLabel || "Bolletje gangen of holen (opgeteld):") + " <strong>" + s.burrowsTotal + "</strong>",
+              "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             burrowMarker.addTo(markersLayer);
           }
@@ -1733,6 +1734,14 @@
           posters:["Carteles para imprimir","Imprime un cartel en tamaño A4 y colócalo en la calle o en la entrada del edificio para informar a tus vecinos.",["Cartel 1 — Juntos contra las ratas","Cartel 2 — Haarlem (6 idiomas)","Cartel 3 — Juntos contra el problema de las ratas","Cartel 4 — ¿Qué debes hacer? (Haarlem)"],["Imprimir cartel 1 (A4)","Imprimir cartel 2 (A4)","Imprimir cartel 3 (A4)","Imprimir cartel 4 (A4)"]]
         }
       };
+      const mapDynamicTranslations = {
+        en:{heading:"Current totals per street (rats):",empty:"No rat reports yet.",rats:"Total reported rats on this street:",colour:"Colour:",droppings:"Rat droppings (total):",burrows:"Burrows or tunnels (total):",privacy:"For your privacy, this dot is placed at a random location along the street."},
+        ar:{heading:"الإجماليات الحالية لكل شارع (الجرذان):",empty:"لا توجد بلاغات عن الجرذان حتى الآن.",rats:"إجمالي الجرذان المُبلّغ عنها في هذا الشارع:",colour:"اللون:",droppings:"فضلات الجرذان (الإجمالي):",burrows:"الأنفاق أو الجحور (الإجمالي):",privacy:"حفاظًا على خصوصيتك، توضع هذه النقطة في مكان عشوائي على طول الشارع."},
+        so:{heading:"Wadarta hadda ee waddo kasta (jiir):",empty:"Weli ma jiraan warbixinno jiir.",rats:"Wadarta jiirka waddadan laga soo sheegay:",colour:"Midab:",droppings:"Saxarada jiirka (wadarta):",burrows:"Godadka ama marinada (wadarta):",privacy:"Asturnaantaada awgeed, dhibicdan meel aan kala sooc lahayn ayaa waddada looga dhigaa."},
+        tr:{heading:"Sokak başına güncel toplamlar (fare):",empty:"Henüz fare bildirimi yok.",rats:"Bu sokakta bildirilen toplam fare:",colour:"Renk:",droppings:"Fare dışkısı (toplam):",burrows:"Tünel veya yuvalar (toplam):",privacy:"Gizliliğiniz için bu nokta sokak üzerinde rastgele bir yere yerleştirilmiştir."},
+        pl:{heading:"Aktualne sumy dla ulic (szczury):",empty:"Nie ma jeszcze zgłoszeń dotyczących szczurów.",rats:"Łączna liczba zgłoszonych szczurów na tej ulicy:",colour:"Kolor:",droppings:"Odchody szczurów (łącznie):",burrows:"Korytarze lub nory (łącznie):",privacy:"Dla ochrony prywatności kropka jest umieszczana losowo wzdłuż ulicy."},
+        es:{heading:"Totales actuales por calle (ratas):",empty:"Todavía no hay avisos de ratas.",rats:"Total de ratas notificadas en esta calle:",colour:"Color:",droppings:"Excrementos de rata (total):",burrows:"Túneles o madrigueras (total):",privacy:"Para proteger tu privacidad, este punto se coloca al azar en algún lugar de la calle."}
+      };
       function applyExtraPageLanguage(code) {
         const t = sitePageTranslations[code];
         if (!t) return;
@@ -1742,6 +1751,11 @@
         const posters = document.getElementById("page-posters");
         [map,rules,info,posters].forEach(el => { if (el) el.dir = code === "ar" ? "rtl" : "ltr"; });
         const setText = (el, value) => { if (el) el.textContent = value; };
+        const dynamic = mapDynamicTranslations[code] || mapDynamicTranslations.en;
+        map.dataset.heading=dynamic.heading; map.dataset.empty=dynamic.empty;
+        map.dataset.ratsLabel=dynamic.rats; map.dataset.colourLabel=dynamic.colour;
+        map.dataset.droppingsLabel=dynamic.droppings; map.dataset.burrowsLabel=dynamic.burrows;
+        map.dataset.privacyLabel=dynamic.privacy;
         const setHTML = (el, value) => { if (el) el.innerHTML = value; };
         const mapH = map.querySelector("h2");
         setText(mapH,t.map[0]);
@@ -1782,6 +1796,7 @@
         setText(posters.querySelector(".poster-print-instruction"),t.posters[1]);
         posters.querySelectorAll(".poster-card h3").forEach((el,i)=>setText(el,t.posters[2][i]));
         posters.querySelectorAll(".print-poster-btn").forEach((el,i)=>setText(el,t.posters[3][i]));
+        if (window.rvhMap && typeof renderAllMarkers === "function") renderAllMarkers();
       }
       const reportAccessibilityLabels = {
         nl: { navigation:"Hoofdnavigatie", officialRoute:"Route voor officiële melding", dateFormat:"dd-mm-jjjj" },
