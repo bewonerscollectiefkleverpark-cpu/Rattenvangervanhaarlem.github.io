@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#29231b">
   <title>Ratten en het riool — Rattenvanger van Haarlem</title>
-  <meta name="description" content="Hoe ratten samenhangen met het riool, verzakkingen en meldingen bij Spaarnelanden en de rattenkaart.">
+  <meta name="description" content="Hoe ratten via het riool omhoog komen bij putdeksels, verzakkingen of het toilet, en hoe je dit meldt.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,20 +83,32 @@
       margin: 22px 0;
     }
 
-    .photo-card {
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
       margin: 22px 0 26px;
+    }
+
+    @media(max-width:720px) {
+      .photo-grid { grid-template-columns: 1fr; }
+    }
+
+    .photo-card {
       padding: 18px;
       border: 2px solid var(--line);
       border-radius: 16px;
       background: #fbf9f5;
+      display: flex;
+      flex-direction: column;
     }
 
     .photo-card img {
       display: block;
       width: 100%;
-      max-width: 720px;
-      height: auto;
-      margin: 0 auto 14px;
+      height: 300px;
+      object-fit: cover;
+      margin: 0 0 14px;
       border-radius: 12px;
       border: 1px solid var(--line);
       background: #fff;
@@ -328,18 +340,24 @@
     <main>
       <section>
         <h2>Ratten en het riool</h2>
-        <p>Ratten bewegen zich graag ondergronds en via het riool. Beschadigde leidingen of gaten in de grond kunnen ervoor zorgen dat ze boven de grond opduiken.</p>
+        <p>Ratten leven vaak in het riool en gebruiken beschadigde buizen of openingen om boven de grond te komen — op straat én soms zelfs in huis.</p>
 
-        <div class="photo-card">
-          <img src="ratten-riool.jpg" alt="Ratten en riool" onerror="this.onerror=null;this.style.display='none';">
-          <p class="photo-caption"><strong>Ratten en het riool:</strong> waar riolering of bestrating is beschadigd, kunnen ratten gangen graven en opduiken in de straat of rondom woningen.</p>
+        <div class="photo-grid">
+          <div class="photo-card">
+            <img src="Scherm­afbeelding 2026-11-24 om 15.04.08.jpg" alt="Rat kijkt omhoog uit een rioolput op straat" onerror="this.onerror=null;this.style.display='none';">
+            <p class="photo-caption"><strong>Via putten en verzakkingen op straat:</strong> kapotte rioolverbindingen en gaten in de bestrating geven ratten vrij spel om vanuit het riool omhoog te komen[cite: 9].</p>
+          </div>
+          <div class="photo-card">
+            <img src="Scherm­afbeelding 2026-11-24 om 15.06.07.jpg" alt="Rat in de wc-pot vanuit het riool" onerror="this.onerror=null;this.style.display='none';">
+            <p class="photo-caption"><strong>Ook via het toilet of leidingen in huis:</strong> bruine ratten zijn uitstekende zwemmers en kunnen bij open verbindingen via het riool omhoog zwemmen[cite: 8].</p>
+          </div>
         </div>
 
-        <h3>Waar moet je op letten?</h3>
+        <h3>Wat kun je doen?</h3>
         <ul class="info-list">
-          <li><strong>Verzakkingen en gaten:</strong> gaten in stoepen, straten of langs gevels kunnen wijzen op ondergrondse gangen of problemen met de riolering.</li>
-          <li><strong>Rooktest vragen:</strong> vraag bij een bezoek van Anticimex om een <strong>gratis rooktest</strong> om mogelijke lekken of openingen in leidingen te ontdekken.</li>
-          <li><strong>Eigen erf en openbare ruimte:</strong> leidingen op eigen terrein vallen onder eigenaar of verhuurder; het openbare riool en de openbare ruimte vallen onder beheer van de gemeente/Spaarnelanden.</li>
+          <li><strong>Vraag om een gratis rooktest:</strong> als Anticimex langskomt na je melding bij Spaarnelanden, vraag dan direct om een <strong>gratis rooktest</strong> om lekken of open rioolverbindingen op te sporen.</li>
+          <li><strong>Spoel geen etensresten door:</strong> vet en etensresten in wc of gootsteen zijn voedsel voor ratten in het riool.</li>
+          <li><strong>Let op gaten in straat en tuin:</strong> verzakte tegels of holen langs gevels wijzen vaak op ondergrondse gangen.</li>
         </ul>
 
         <div class="notice">
