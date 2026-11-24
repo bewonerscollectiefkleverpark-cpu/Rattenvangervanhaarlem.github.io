@@ -505,7 +505,9 @@
         const warning=section.querySelector(".warning-box");
         warning.innerHTML="<strong>"+t.warning.split(":")[0]+":</strong>"+t.warning.substring(t.warning.indexOf(":")+1);
         const notice=section.querySelector(".notice");
-        notice.innerHTML="<strong>"+t.notice.split("?")[0]+"?</strong>"+t.notice.substring(t.notice.indexOf("?")+1);
+        const questionEnd=t.notice.search(/[?؟]/);
+        if(questionEnd>=0) notice.innerHTML="<strong>"+t.notice.slice(0,questionEnd+1)+"</strong>"+t.notice.slice(questionEnd+1);
+        else notice.textContent=t.notice;
         section.querySelectorAll(".actions a").forEach((el,i)=>el.textContent=t.actions[i]);
         document.querySelector("footer .haarlem-badge").textContent="Haarlem";
         document.querySelector("footer span:last-child").textContent=t.footer;
