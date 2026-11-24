@@ -149,11 +149,10 @@
       line-height: 1.6;
     }
     .choice-panel-full .choice-grid {
-      align-items: stretch;
+      align-items: flex-start;
       gap: 20px;
     }
     .choice-panel-full .choice-card {
-      height: 100%;
       box-sizing: border-box;
       gap: 16px;
       padding: 24px;
@@ -178,7 +177,7 @@
       padding: 14px 16px;
       border-radius: 8px;
       font-weight: 700;
-      margin: 6px 0 8px;
+      margin: 6px 0 4px;
       line-height: 1.6;
     }
     .choice-panel-full .choice-why {
@@ -221,8 +220,7 @@
     .choice-number { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: white; background: var(--ink); font-size: 18px; font-weight: 800; }
     .choice-card > strong { font-size: 15px; line-height: 1.45; font-weight: 800; }
     .choice-card p { margin: 0 0 6px; }
-    .choice-card .primary, .choice-button { margin-top: auto; }
-    .choice-button { background: var(--green); color: white; border-radius: 12px; padding: 13px 22px; font-weight: 800; }
+    .choice-button { margin-top: 6px; background: var(--green); color: white; border-radius: 12px; padding: 13px 22px; font-weight: 800; }
     .choice-button:hover:not(:disabled) { background: #52654b; }
     @media(max-width:650px) { .choice-grid { grid-template-columns: 1fr; } .choice-card { padding: 18px; } }
 
@@ -620,7 +618,7 @@
               <h3>Knop: Mail Spaarnelanden</h3>
               <strong>Voor een officiële melding en gratis hulp aan huis.</strong>
               <div class="arrow-flow" aria-label="Route voor officiële melding">
-                <div class="arrow-step">1. Klik op <strong>Mail Spaarnelanden</strong> en verstuur de mail zelf.</div>
+                <div class="arrow-step">1. Klik op <strong>Open e-mail naar Spaarnelanden</strong> en verstuur de mail zelf.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
                 <div class="arrow-step">2. Spaarnelanden schakelt Anticimex in.</div>
                 <div class="arrow-down" aria-hidden="true">⬇️</div>
@@ -661,8 +659,6 @@
                   </div>
                 </form>
               </div>
-
-              <a class="primary" id="officialLink" href="mailto:info@spaarnelanden.nl">Mail Spaarnelanden</a>
             </div>
 
             <div class="choice-card choice-map">
