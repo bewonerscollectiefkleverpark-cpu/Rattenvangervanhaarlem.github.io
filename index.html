@@ -1047,7 +1047,6 @@ footer.rvh-footer .rvh-footer-initiative{text-align:right!important}
 
         <div class="actions">
           <button type="button" id="submitReport" disabled>Waarneming registreren</button>
-          <button type="button" id="resetLocalReports" class="secondary-btn">Herstel basisdata (wis eigen toevoegingen)</button>
         </div>
 
         <p id="submitMessage" role="status" aria-live="polite"></p>
@@ -2074,21 +2073,6 @@ try {
           }
         });
       }
-
-      if (resetBtn && submitMsg) {
-        resetBtn.addEventListener("click", async function () {
-          try {
-            localStorage.removeItem(STORAGE_KEY);
-            localStorage.removeItem(RANDOM_PINS_KEY);
-          } catch (err) {}
-          randomStreetPins = {};
-          allReports = BASE_REPORTS.map(normalizeReport);
-          await applyPdokCoordsToExistingStreets("Aelbertsbergstraat");
-          submitMsg.className = "muted";
-          submitMsg.textContent = activeIndexTranslations().reset;
-        });
-      }
-
 
       // Taalkeuze is op deze eerste stap uitsluitend actief voor de pagina Mail Spaarnelanden.
       const languageSelect = document.getElementById("language");
