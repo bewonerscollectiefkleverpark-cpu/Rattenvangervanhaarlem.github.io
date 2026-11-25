@@ -1139,6 +1139,21 @@ const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMmRvtWUyT
       const RANDOM_PINS_KEY = "rvh_street_random_pins_v4";
       const COOLDOWN_KEY = "rvh_last_report_timestamp_v1";
       const COOLDOWN_MS = 60 * 60 * 1000;
+      const DEVICE_ID_KEY = "rvh_browser_device_id_v1";
+
+function getBrowserDeviceId() {
+  let id = localStorage.getItem(DEVICE_ID_KEY);
+
+  if (!id) {
+    id = "rvh_" + Date.now().toString(36) + "_" +
+         Math.random().toString(36).slice(2) +
+         Math.random().toString(36).slice(2);
+
+    localStorage.setItem(DEVICE_ID_KEY, id);
+  }
+
+  return id;
+}
       const pages = ["report", "map", "rules", "info", "posters"];
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
@@ -1792,21 +1807,66 @@ const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMmRvtWUyT
             lat: String(coords.lat),
             lng: String(coords.lng),
             meldtype: "straatniveau",
-            categorie: cat
+            categorie: cat, 
+            deviceId: getBrowserDeviceId()
           };
+          function addReportToSheet(record) {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "rvhCallback_" + Date.now() + "_" +
+      Math.random().toString(36).slice(2);
+
+    const params = new URLSearchParams({
+      action: "add",
+      callback: callbackName,
+      street: record.straat,
+      count: record.aantal,
+      lat: record.lat,
+      lng: record.lng,
+      deviceId: record.deviceId,
+      category: record.categorie
+    });
+
+    const script = document.createElement("script");
+    script.src = RVH_APPS_SCRIPT_URL + "?" + params.toString();
+
+    const cleanup = () => {
+      delete window[callbackName];
+      script.remove();
+    };
+
+    window[callbackName] = (result) => {
+      cleanup();
+
+      if (result && result.success) {
+        resolve(result);
+      } else {
+        reject(new Error(
+          result && result.message
+            ? result.message
+            : "De melding kon niet worden opgeslagen."
+        ));
+      }
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Verbinding met de meldingenserver mislukt."));
+    };
+
+    document.head.appendChild(script);
+  });
+}
 
           recordReportTimestamp();
           allReports.push(newRecord);
           saveReports(allReports);
 
-          try {
-            await fetch(RVH_APPS_SCRIPT_URL, {
-              method: "POST",
-              mode: "no-cors",
-              headers: { "Content-Type": "text/plain;charset=utf-8" },
-              body: JSON.stringify(newRecord)
-            });
-          } catch (err) {}
+         try {
+  await addReportToSheet(newRecord);
+} catch (err) {
+  console.error("Melding opslaan mislukt:", err);
+}
 
           await applyPdokCoordsToExistingStreets(canonicalStreet);
 
