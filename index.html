@@ -1308,23 +1308,22 @@ function getBrowserDeviceId() {
         if (c === "burrows") return "burrows";
         return "rats";
       }
+function normalizeReport(item) {
+  const cleanStreet = String(item.straat || item.street || "").trim().replace(/\s+/g, " ");
+  const key = normalizeStreetKey(cleanStreet);
+  const pdok = pdokStreetCoords[key];
 
-      function normalizeReport(item) {
-        const cleanStreet = String(item.straat || "").trim().replace(/\s+/g, " ");
-        const key = normalizeStreetKey(cleanStreet);
-        const pdok = pdokStreetCoords[key];
-        return {
-          datum: item.datum ? String(item.datum) : "",
-          straat: pdok ? pdok.canonicalName : cleanStreet,
-          aantal: Number(item.aantal) || 1,
-          status: item.status ? String(item.status) : "Ongeverifieerd",
-          lat: pdok ? String(pdok.lat) : (item.lat !== undefined ? String(item.lat) : ""),
-          lng: pdok ? String(pdok.lng) : (item.lng !== undefined ? String(item.lng) : ""),
-          meldtype: item.meldtype ? String(item.meldtype) : "straatniveau",
-          categorie: normalizeCategory(item.categorie)
-        };
-      }
-
+  return {
+    datum: item.datum || item.date ? String(item.datum || item.date) : "",
+    straat: pdok ? pdok.canonicalName : cleanStreet,
+    aantal: Number(item.aantal || item.count) || 1,
+    status: item.status ? String(item.status) : "Ongeverifieerd",
+    lat: pdok ? String(pdok.lat) : (item.lat !== undefined ? String(item.lat) : ""),
+    lng: pdok ? String(pdok.lng) : (item.lng !== undefined ? String(item.lng) : ""),
+    meldtype: item.meldtype || item.kind || "straatniveau",
+    categorie: normalizeCategory(item.categorie || item.category)
+  };
+}
       function loadReports() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -1594,18 +1593,51 @@ function getBrowserDeviceId() {
         }
       }
 
-      async function syncFromSheetSilently() {
-        try {
-          const res = await fetch(RVH_APPS_SCRIPT_URL, { cache: "no-store" });
-          const data = await res.json();
-          if (data && data.ok && Array.isArray(data.reports) && data.reports.length > 0) {
-            allReports = data.reports.map(normalizeReport);
-            saveReports(allReports);
-            await applyPdokCoordsToExistingStreets();
-          }
-        } catch (err) {}
-      }
+     async function syncFromSheetSilently() {
+  return new Promise((resolve) => {
+    const callbackName =
+      "rvhLoadCallback_" + Date.now() + "_" +
+      Math.random().toString(36).slice(2);
 
+    const script = document.createElement("script");
+    const params = new URLSearchParams({
+      callback: callbackName
+    });
+
+    script.src = RVH_APPS_SCRIPT_URL + "?" + params.toString();
+
+    let finished = false;
+
+    const cleanup = () => {
+      if (finished) return;
+      finished = true;
+      delete window[callbackName];
+      script.remove();
+      clearTimeout(timeout);
+      resolve();
+    };
+
+    const timeout = setTimeout(cleanup, 15000);
+
+    window[callbackName] = async (data) => {
+      try {
+        if (data && data.success && Array.isArray(data.reports)) {
+          allReports = data.reports.map(normalizeReport);
+          saveReports(allReports);
+          await applyPdokCoordsToExistingStreets();
+        }
+      } catch (err) {
+        console.error("Meldingen ophalen mislukt:", err);
+      } finally {
+        cleanup();
+      }
+    };
+
+    script.onerror = cleanup;
+
+    document.head.appendChild(script);
+  });
+}
       function showPage(page) {
         const target = pages.includes(page) ? page : "report";
         pages.forEach(p => {
