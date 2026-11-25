@@ -1207,17 +1207,42 @@ function getBrowserDeviceId() {
 
       let randomStreetPins = loadRandomPins();
 
+      function isValidPrivacyCoords(pos) {
+        if (!pos || typeof pos !== "object") return false;
+        const lat = Number(pos.lat);
+        const lng = Number(pos.lng);
+        return Number.isFinite(lat) && Number.isFinite(lng) &&
+          lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+      }
+
       function getRandomPrivacyCoords(streetName, categoryKey, baseLat, baseLng) {
-        const pinKey = String(streetName || "").toLowerCase().trim() + "__" + categoryKey;
-        if (randomStreetPins[pinKey]) return randomStreetPins[pinKey];
+        const pinKey = normalizeStreetKey(streetName) + "__" + categoryKey;
+        const saved = randomStreetPins[pinKey];
+
+        // Oude opgeslagen markerposities eerst controleren; ongeldige waarden
+        // kunnen anders het tekenen van de kaart onderbreken.
+        if (isValidPrivacyCoords(saved)) {
+          return { lat: Number(saved.lat), lng: Number(saved.lng) };
+        }
+
+        const centerLat = Number(baseLat);
+        const centerLng = Number(baseLng);
+        if (!Number.isFinite(centerLat) || !Number.isFinite(centerLng) ||
+            centerLat < -90 || centerLat > 90 || centerLng < -180 || centerLng > 180) {
+          return { lat: centerLat, lng: centerLng };
+        }
+
         const angle = Math.random() * Math.PI * 2;
         const dist = 0.00004 + Math.random() * 0.00014;
         const pos = {
-          lat: baseLat + Math.cos(angle) * dist * 0.65,
-          lng: baseLng + Math.sin(angle) * dist
+          lat: centerLat + Math.cos(angle) * dist * 0.65,
+          lng: centerLng + Math.sin(angle) * dist
         };
-        randomStreetPins[pinKey] = pos;
-        saveRandomPins(randomStreetPins);
+
+        if (isValidPrivacyCoords(pos)) {
+          randomStreetPins[pinKey] = pos;
+          saveRandomPins(randomStreetPins);
+        }
         return pos;
       }
 
@@ -1474,6 +1499,8 @@ function normalizeReport(item) {
               ratsTotal: 0,
               droppingsTotal: 0,
               burrowsTotal: 0,
+              hasDroppings: false,
+              hasBurrows: false,
               lastDatum: item.datum
             };
           }
@@ -1488,9 +1515,15 @@ function normalizeReport(item) {
           }
           if (item.datum) s.lastDatum = item.datum;
 
-          if (item.categorie === "droppings") s.droppingsTotal += item.aantal;
-          else if (item.categorie === "burrows") s.burrowsTotal += item.aantal;
-          else s.ratsTotal += item.aantal;
+          if (item.categorie === "droppings") {
+            s.droppingsTotal += item.aantal;
+            s.hasDroppings = true;
+          } else if (item.categorie === "burrows") {
+            s.burrowsTotal += item.aantal;
+            s.hasBurrows = true;
+          } else {
+            s.ratsTotal += item.aantal;
+          }
         });
 
         return streets;
@@ -1551,7 +1584,7 @@ function normalizeReport(item) {
             ratMarker.addTo(markersLayer);
           }
 
-          if (s.droppingsTotal > 0) {
+          if (s.hasDroppings) {
             const dropPos = getRandomPrivacyCoords(s.straat, "droppings", s.lat, s.lng);
             const dropMarker = L.circleMarker([dropPos.lat, dropPos.lng], {
               radius: 7,
@@ -1563,13 +1596,12 @@ function normalizeReport(item) {
             });
             dropMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              (document.getElementById("page-map").dataset.droppingsLabel || "Bolletje rattenkeutels (opgeteld):") + " <strong>" + s.droppingsTotal + "</strong>",
               "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             dropMarker.addTo(markersLayer);
           }
 
-          if (s.burrowsTotal > 0) {
+          if (s.hasBurrows) {
             const burrowPos = getRandomPrivacyCoords(s.straat, "burrows", s.lat, s.lng);
             const burrowMarker = L.circleMarker([burrowPos.lat, burrowPos.lng], {
               radius: 10,
@@ -1581,7 +1613,6 @@ function normalizeReport(item) {
             });
             burrowMarker.bindPopup([
               "<strong>" + escapeHtml(s.straat) + "</strong>",
-              (document.getElementById("page-map").dataset.burrowsLabel || "Bolletje gangen of holen (opgeteld):") + " <strong>" + s.burrowsTotal + "</strong>",
               "<em>" + (document.getElementById("page-map").dataset.privacyLabel || "Voor je privacy willekeurig in de straat geplaatst") + "</em>"
             ].join("<br>"));
             burrowMarker.addTo(markersLayer);
