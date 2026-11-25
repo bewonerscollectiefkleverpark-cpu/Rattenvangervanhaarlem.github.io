@@ -986,8 +986,8 @@ footer.rvh-footer .rvh-footer-initiative{text-align:right!important}
           <h3 id="mapHistoryTitle">Oude waarneming?</h3>
           <p id="mapHistoryBody">Je mag een waarneming van maximaal 12 maanden geleden melden, maar alleen als je die toen ook al bij Spaarnelanden of Anticimex hebt gemeld. Heb je dat toen niet gedaan? Dan mag je deze oude waarneming niet alsnog op de kaart zetten.</p>
         </div>
-        <div class="legend-box">
-          <span class="legend-title">Totaal aantal gemelde ratten per straat (afgelopen 12 maanden):</span>
+        <details class="legend-box">
+          <summary class="legend-title">Legenda</summary>
           <div class="legend">
             <span class="legend-item"><i class="dot" style="background:#2ecc71"></i><span>1–4 ratten</span></span>
             <span class="legend-item"><i class="dot" style="background:#f1c40f"></i><span>5–9 ratten</span></span>
@@ -999,7 +999,7 @@ footer.rvh-footer .rvh-footer-initiative{text-align:right!important}
             <span class="legend-item"><i class="dot" style="background:#8b4513;border:2px solid #ffffff"></i><span>Bruine stip: rattenkeutels</span></span>
             <span class="legend-item"><i class="dot" style="background:#ffffff;border:2px solid #222;width:22px;height:22px"></i><span>Witte stip: gangen of holen</span></span>
           </div>
-        </div>
+        </details>
 
         <div class="street-summary-box" id="streetTotalsOverview" aria-live="polite">
           <strong>Actuele totalen per straat (ratten):</strong> Laden...
@@ -2190,13 +2190,17 @@ try {
       const activeIndexTranslations = () => indexDynamicTranslations[(document.documentElement.lang || "nl").slice(0,2)] || indexDynamicTranslations.nl;
 
       const simpleMapExplanation = {
-        nl: "De kaart toont meldingen van de afgelopen 12 maanden. Oudere meldingen verdwijnen van de kaart, maar blijven bewaard in het gegevensbestand. Per straat kunnen drie bolletjes staan: gekleurd voor ratten, bruin voor keutels en wit voor gangen en holen. De bolletjes staan willekeurig in de straat, nooit bij een huisnummer. Alleen een straatnaam die precies klopt en in Haarlem ligt, komt op de kaart.",
-        en: "The map shows reports from the past 12 months. Older reports disappear from the map but remain saved in the data file. Each street can have up to three dots: coloured for rats, brown for droppings and white for burrows or tunnels. Dots are placed randomly along the street, never at a house number. Only an exact street name in Haarlem is shown.",
-        ar: "تعرض الخريطة البلاغات خلال آخر 12 شهرًا. تختفي البلاغات الأقدم من الخريطة، لكنها تبقى محفوظة في ملف البيانات. يمكن أن تظهر في كل شارع ثلاث نقاط: نقطة ملوّنة للجرذان، وبنية للفضلات، وبيضاء للجحور والأنفاق. توضع النقاط عشوائيًا في الشارع، وليس عند رقم منزل. لا يظهر إلا اسم شارع صحيح في هارلم.",
-        so: "Khariidaddu waxay muujinaysaa warbixinnadii 12-kii bilood ee u dambeeyay. Warbixinnada ka weyn way ka baxaan khariidadda, laakiin xogta way ku sii kaydsan yihiin. Waddo kasta waxaa ka muuqan kara saddex dhibcood: midab leh oo jiirka ah, bunni ah oo saxarada ah, iyo caddaan ah oo godadka ama marinada ah. Dhibcaha si aan kala sooc lahayn ayaa waddada loogu dhigaa, mana yaallaan lambarka guri. Waxaa la muujiyaa oo keliya magaca waddo ee Haarlem oo si sax ah loo qoray.",
-        tr: "Harita son 12 aydaki bildirimleri gösterir. Daha eski bildirimler haritadan kalkar, ancak veri dosyasında saklanmaya devam eder. Her sokakta en fazla üç nokta olabilir: fareler için renkli, dışkılar için kahverengi, yuva ve tüneller için beyaz. Noktalar sokak üzerinde rastgele bir yere konur, kapı numarasına konmaz. Haritada yalnızca Haarlem'deki doğru yazılmış sokak adları gösterilir.",
-        pl: "Mapa pokazuje zgłoszenia z ostatnich 12 miesięcy. Starsze zgłoszenia znikają z mapy, ale pozostają zapisane w pliku danych. Na każdej ulicy mogą być maksymalnie trzy kropki: kolorowa oznacza szczury, brązowa odchody, a biała nory lub korytarze. Kropki są umieszczane losowo na ulicy, nigdy przy numerze domu. Na mapie pojawiają się tylko poprawnie zapisane nazwy ulic w Haarlem.",
-        es: "El mapa muestra los avisos de los últimos 12 meses. Los avisos más antiguos desaparecen del mapa, pero siguen guardados en el archivo de datos. En cada calle puede haber hasta tres puntos: de color para las ratas, marrón para los excrementos y blanco para las madrigueras o túneles. Los puntos se colocan al azar en la calle, nunca junto a un número de casa. Solo aparecen nombres de calles de Haarlem escritos correctamente."
+        nl: "<ol><li><strong>Bekijk de kaart</strong> – Bekijk waar ratten, keutels en holen of gaten zijn waargenomen.</li><li><strong>Meld een waarneming</strong> – Geef door of je ratten, keutels of holen en gaten hebt gezien.</li><li><strong>Bekijk de meldingen</strong> – Bekijk de waarnemingen op de kaart.</li></ol>",
+        en: "<ol><li><strong>View the map</strong> – See where rats, droppings, and burrows or holes have been spotted.</li><li><strong>Report a sighting</strong> – Tell us whether you have seen rats, droppings, or burrows and holes.</li><li><strong>View the reports</strong> – See the sightings on the map.</li></ol>",
+        ar: "<ol><li><strong>查看地图</strong> – تعرّف على أماكن رصد الجرذان والفضلات والجحور أو الثقوب.</li><li><strong>أبلغ عن مشاهدة</strong> – أخبرنا إن كنت قد شاهدت جرذانًا أو فضلات أو جحورًا وثقوبًا.</li><li><strong>查看 البلاغات</strong> – اطّلع على المشاهدات على الخريطة.</li></ol>",
+        so: "<ol><li><strong>Fiiri khariidadda</strong> – Eeg meelaha lagu arkay jiir, saxaro, iyo godad ama marinno.</li><li><strong>Gudbi warbixin</strong> – Sheeg haddii aad aragtay jiir, saxaro, ama godad iyo marinno.</li><li><strong>Fiiri warbixinnada</strong> – Ka eeg aragtiyada khariidadda.</li></ol>",
+        tr: "<ol><li><strong>Haritayı inceleyin</strong> – Farelerin, dışkıların ve yuva veya deliklerin nerelerde görüldüğüne bakın.</li><li><strong>Gözlem bildirin</strong> – Fare, dışkı veya yuva ve delik görüp görmediğinizi bildirin.</li><li><strong>Bildirimleri inceleyin</strong> – Gözlemleri haritada görün.</li></ol>",
+        pl: "<ol><li><strong>Sprawdź mapę</strong> – Zobacz, gdzie zauważono szczury, odchody oraz nory lub otwory.</li><li><strong>Zgłoś obserwację</strong> – Poinformuj, czy widziałeś szczury, odchody lub nory i otwory.</li><li><strong>Sprawdź zgłoszenia</strong> – Zobacz obserwacje na mapie.</li></ol>",
+        es: "<ol><li><strong>Consulta el mapa</strong> – Mira dónde se han visto ratas, excrementos y madrigueras o agujeros.</li><li><strong>Comunica un avistamiento</strong> – Indica si has visto ratas, excrementos o madrigueras y agujeros.</li><li><strong>Consulta los avisos</strong> – Mira los avistamientos en el mapa.</li></ol>"
+      };
+      const legendSummaryTranslations = {
+        nl: "Legenda", en: "Legend", ar: "مفتاح الخريطة", so: "Furaha khariidadda",
+        tr: "Açıklamalar", pl: "Legenda", es: "Leyenda"
       };
       const rulesAltTranslations = {
         en:["No bird feeding sign, with birdseed and a rat eating in the background","Waste container with a rubbish bag beside it","Woodpile beside bushes in a garden","Holes in the ground beside a rainpipe by a wall"],
@@ -2251,8 +2255,8 @@ try {
         setText(map.querySelector(".visibility-highlight"),t.map[2]);
         const notices = map.querySelectorAll(".notice");
         const simpleExplanation = simpleMapExplanation[code] || simpleMapExplanation.en;
-        setHTML(notices[0],"<strong>"+t.map[4]+"</strong><p>"+simpleExplanation+"</p>");
-        setText(map.querySelector(".legend-title"),t.map[6]);
+        setHTML(notices[0],"<strong>"+t.map[4]+"</strong>"+simpleExplanation);
+        setText(map.querySelector(".legend-title"),legendSummaryTranslations[code] || legendSummaryTranslations.nl);
         map.querySelectorAll(".legend-item span:last-child").forEach((el,i)=>setText(el,t.map[7][i]));
         setHTML(map.querySelector("#streetTotalsOverview"),"<strong>"+t.map[8]+"</strong> "+dynamic.loading);
         map.querySelector("#map").setAttribute("aria-label",t.map[9]);
