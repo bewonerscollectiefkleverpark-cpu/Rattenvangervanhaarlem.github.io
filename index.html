@@ -1107,14 +1107,14 @@ button[data-page="map"]:hover:not(:disabled),
         <p class="poster-print-instruction">Klik op de poster om deze op A4-formaat te printen.</p>
         <div class="poster-grid">
           <div class="poster-card">
-            <img class="poster-preview-trigger" src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Informatieposter Rattenvanger van Haarlem — klik om groter te bekijken" role="button" tabindex="0" aria-label="Bekijk de poster vergroot" onerror="this.onerror=null;this.style.display='none';">
+            <img class="poster-preview-trigger" src="Scherm%C2%ADafbeelding%202026-11-25%20om%2011.46.28.png" alt="Informatieposter Rattenvanger van Haarlem — klik om groter te bekijken" role="button" tabindex="0" aria-label="Bekijk de poster vergroot" onerror="this.onerror=null;this.style.display='none';">
           </div>
         </div>
       </section>
       <div id="posterPreview" class="poster-preview" aria-hidden="true">
         <div class="poster-preview-panel" role="dialog" aria-modal="true" aria-label="Poster bekijken">
           <button type="button" class="poster-preview-close" aria-label="Sluiten">×</button>
-          <img src="Gemini_Generated_Image_ptt4ohptt4ohptt4%20(2).jpeg" alt="Vergrote informatieposter Rattenvanger van Haarlem">
+          <img src="Scherm%C2%ADafbeelding%202026-11-25%20om%2011.46.28.png" alt="Vergrote informatieposter Rattenvanger van Haarlem">
           <button type="button" class="poster-preview-print">Print poster op A4</button>
         </div>
       </div>
@@ -2249,12 +2249,12 @@ button[data-page="map"]:hover:not(:disabled),
   root.querySelector('[data-share="facebook"] span').textContent=t.fb;
   root.querySelector('[data-share="instagram"] span').textContent=t.ig;
   root.querySelector('[data-share="copy"] span').textContent=t.copy;
-  root.querySelector('[data-share="whatsapp"]').href="https://wa.me/?text="+encodeURIComponent(document.title+" "+location.href.split("#")[0]);
-  root.querySelector('[data-share="facebook"]').href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href.split("#")[0]);
+  root.querySelector('[data-share="whatsapp"]').href="https://wa.me/?text="+encodeURIComponent(document.title+" "+"https://rattenvangervanhaarlem.github.io/");
+  root.querySelector('[data-share="facebook"]').href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent("https://rattenvangervanhaarlem.github.io/");
   root.dir=lang==="ar"?"rtl":"ltr";
  };
  const copy=async(kind)=>{
-  const lang=(document.documentElement.lang||"nl").toLowerCase().slice(0,2),t=textByLang[lang]||textByLang.nl,url=location.href.split("#")[0];
+  const lang=(document.documentElement.lang||"nl").toLowerCase().slice(0,2),t=textByLang[lang]||textByLang.nl,url="https://rattenvangervanhaarlem.github.io/";
   try{
    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(url);
    else{const field=document.createElement("textarea");field.value=url;field.style.position="fixed";field.style.opacity="0";document.body.appendChild(field);field.focus();field.select();const ok=document.execCommand("copy");field.remove();if(!ok)throw Error("copy failed");}
