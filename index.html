@@ -1228,7 +1228,7 @@ function getBrowserDeviceId() {
       function privacyPinOverlapsOtherMarker(pos, pinKey) {
         return Object.keys(randomStreetPins).some(key => {
           if (key === pinKey || !isValidPrivacyCoords(randomStreetPins[key])) return false;
-          return privacyPinDistanceMeters(pos, randomStreetPins[key]) < 4;
+          return privacyPinDistanceMeters(pos, randomStreetPins[key]) < 10;
         });
       }
 
@@ -1256,9 +1256,9 @@ function getBrowserDeviceId() {
         // Kies een nieuwe privacyplek dicht bij de straat, met voldoende
         // afstand tot de andere opgeslagen markers zodat stippen zichtbaar blijven.
         let pos = { lat: centerLat, lng: centerLng };
-        for (let attempt = 0; attempt < 60; attempt++) {
+        for (let attempt = 0; attempt < 120; attempt++) {
           const angle = Math.random() * Math.PI * 2;
-          const dist = 0.00002 + Math.random() * 0.00005;
+          const dist = 0.00005 + Math.random() * 0.00005;
           const candidate = {
             lat: centerLat + Math.cos(angle) * dist * 0.65,
             lng: centerLng + Math.sin(angle) * dist
