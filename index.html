@@ -1228,7 +1228,7 @@ function getBrowserDeviceId() {
       function privacyPinOverlapsOtherMarker(pos, pinKey) {
         return Object.keys(randomStreetPins).some(key => {
           if (key === pinKey || !isValidPrivacyCoords(randomStreetPins[key])) return false;
-          return privacyPinDistanceMeters(pos, randomStreetPins[key]) < 22;
+          return privacyPinDistanceMeters(pos, randomStreetPins[key]) < 4;
         });
       }
 
@@ -1247,7 +1247,7 @@ function getBrowserDeviceId() {
         // ligt én niet vrijwel boven op een andere marker staat.
         if (isValidPrivacyCoords(saved)) {
           const savedPos = { lat: Number(saved.lat), lng: Number(saved.lng) };
-          if (privacyPinDistanceMeters(savedPos, { lat: centerLat, lng: centerLng }) <= 500 &&
+          if (privacyPinDistanceMeters(savedPos, { lat: centerLat, lng: centerLng }) <= 10 &&
               !privacyPinOverlapsOtherMarker(savedPos, pinKey)) {
             return savedPos;
           }
@@ -1258,7 +1258,7 @@ function getBrowserDeviceId() {
         let pos = { lat: centerLat, lng: centerLng };
         for (let attempt = 0; attempt < 60; attempt++) {
           const angle = Math.random() * Math.PI * 2;
-          const dist = 0.00012 + Math.random() * 0.00013;
+          const dist = 0.00002 + Math.random() * 0.00005;
           const candidate = {
             lat: centerLat + Math.cos(angle) * dist * 0.65,
             lng: centerLng + Math.sin(angle) * dist
