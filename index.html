@@ -768,9 +768,13 @@
     @media(max-width:650px) {
       .top .wrap, .top .rvh-top-inner { width: calc(100% - 28px) !important; flex-wrap: wrap; flex-direction: column; align-items: flex-start; }
       .site-header { width: calc(100% - 28px) !important; padding: 14px !important; margin: 14px auto 20px !important; }
-      .site-brand { gap: 10px; }
+      .site-brand { gap: 10px; width: 100%; min-width: 0; }
       .site-brand img { width: 54px !important; height: 54px !important; flex-basis: 54px !important; }
+      .site-brand span { flex: 1 1 auto; min-width: 0; }
+      .site-brand strong { font-size: clamp(1.25rem, 6vw, 2rem); line-height: 1.15; overflow-wrap: anywhere; }
       .site-brand small { font-size: .88rem; }
+      .privacy-heading > div { min-width: 0; }
+      .privacy-heading h3 { font-size: clamp(18px, 4.5vw, 24px); overflow-wrap: anywhere; }
       .site-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; }
       .site-nav a, .site-nav button { font-size: .82rem; padding: 8px 9px; min-height: 38px; }
     }
