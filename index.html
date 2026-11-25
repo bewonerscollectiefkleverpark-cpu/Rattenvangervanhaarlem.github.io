@@ -1890,16 +1890,23 @@ function normalizeReport(item) {
   });
 }
 
-          recordReportTimestamp();
-          allReports.push(newRecord);
-          saveReports(allReports);
-
-         try {
+try {
   await addReportToSheet(newRecord);
+
+  recordReportTimestamp();
+  allReports.push(newRecord);
+  saveReports(allReports);
+
 } catch (err) {
   console.error("Melding opslaan mislukt:", err);
-}
 
+  alert(
+    "Je melding kon niet worden opgeslagen. " +
+    "Controleer je internetverbinding en probeer het later opnieuw."
+  );
+
+  return;
+}
           await applyPdokCoordsToExistingStreets(canonicalStreet);
 
           const grouped = groupReportsByStreet(allReports);
