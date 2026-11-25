@@ -1699,6 +1699,7 @@ async function syncFromSheetSilently() {
           allReports = data.reports.map(normalizeReport);
           saveReports(allReports);
           await applyPdokCoordsToExistingStreets();
+          renderAllMarkers();
           status = "updatedStatus";
         }
       } catch (err) {
