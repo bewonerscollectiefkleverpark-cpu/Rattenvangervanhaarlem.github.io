@@ -1597,7 +1597,7 @@ function normalizeReport(item) {
             const bandInfo = getRatBandInfo(s.ratsTotal);
             const ratPos = getRandomPrivacyCoords(s.straat, "rats", s.lat, s.lng);
             const ratMarker = L.circleMarker([ratPos.lat, ratPos.lng], {
-              radius: 11,
+              radius: 10,
               fillColor: bandInfo.color,
               color: "#ffffff",
               weight: 2.5,
@@ -1616,7 +1616,7 @@ function normalizeReport(item) {
           if (s.hasDroppings) {
             const dropPos = getRandomPrivacyCoords(s.straat, "droppings", s.lat, s.lng);
             const dropMarker = L.circleMarker([dropPos.lat, dropPos.lng], {
-              radius: 7,
+              radius: 10,
               fillColor: "#8b4513",
               color: "#ffffff",
               weight: 2,
