@@ -768,13 +768,16 @@
     @media(max-width:650px) {
       .top .wrap, .top .rvh-top-inner { width: calc(100% - 28px) !important; flex-wrap: wrap; flex-direction: column; align-items: flex-start; }
       .site-header { width: calc(100% - 28px) !important; padding: 14px !important; margin: 14px auto 20px !important; }
-      .site-brand { gap: 10px; width: 100%; min-width: 0; }
-      .site-brand img { width: 54px !important; height: 54px !important; flex-basis: 54px !important; }
-      .site-brand span { flex: 1 1 auto; min-width: 0; }
-      .site-brand strong { font-size: clamp(1.25rem, 6vw, 2rem); line-height: 1.15; overflow-wrap: anywhere; }
-      .site-brand small { font-size: .88rem; }
-      .privacy-heading > div { min-width: 0; }
-      .privacy-heading h3 { font-size: clamp(18px, 4.5vw, 24px); overflow-wrap: anywhere; }
+      .site-brand { box-sizing: border-box; gap: 10px; width: 100%; max-width: 100%; min-width: 0; }
+      .site-brand img { width: 54px !important; height: 54px !important; flex: 0 0 54px !important; }
+      .site-brand span { flex: 1 1 0; min-width: 0; max-width: 100%; }
+      .site-brand strong { display: block; min-width: 0; max-width: 100%; font-size: clamp(1.1rem, 5.2vw, 1.65rem); line-height: 1.15; overflow-wrap: anywhere; }
+      .site-brand small { display: block; min-width: 0; max-width: 100%; font-size: clamp(.72rem, 3.2vw, .88rem); line-height: 1.35; overflow-wrap: anywhere; }
+      .privacy-panel { box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; padding: 16px; overflow-wrap: anywhere; }
+      .privacy-heading { align-items: flex-start; gap: 10px; min-width: 0; }
+      .privacy-heading > div { flex: 1 1 0; min-width: 0; }
+      .privacy-heading h3 { min-width: 0; max-width: 100%; font-size: clamp(17px, 4.2vw, 22px); overflow-wrap: anywhere; }
+      .privacy-lead, .privacy-list li, .privacy-caveat { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
       .site-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; }
       .site-nav a, .site-nav button { font-size: .82rem; padding: 8px 9px; min-height: 38px; }
     }
