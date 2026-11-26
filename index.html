@@ -1669,9 +1669,15 @@ function normalizeReport(item) {
      function setMapDataStatus(status) {
   const el = document.getElementById("mapDataStatus");
   if (!el) return;
-  const code = (document.documentElement.lang || "nl").toLowerCase().slice(0, 2);
-  const t = mapDynamicTranslations[code] || mapDynamicTranslations.en;
-  el.textContent = t[status] || "";
+  try {
+    const code = (document.documentElement.lang || "nl").toLowerCase().slice(0, 2);
+    const t = mapDynamicTranslations[code] || mapDynamicTranslations.en;
+    el.textContent = t[status] || "";
+  } catch (err) {
+    // De kaart kan al beginnen met laden voordat de vertalingen zijn opgebouwd.
+    el.textContent = status === "loadingStatus" ? "Meldingen laden…" :
+      status === "updatedStatus" ? "Meldingen bijgewerkt." : "Meldingen konden niet worden geladen. Probeer de kaart opnieuw te openen.";
+  }
 }
 
 async function syncFromSheetSilently() {
@@ -1731,13 +1737,18 @@ function showPage(page) {
           else btn.removeAttribute("aria-current");
         });
         if (target === "map") {
-          applyPdokCoordsToExistingStreets();
-          syncFromSheetSilently();
-          if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
-            setTimeout(() => {
+          applyPdokCoordsToExistingStreets().catch(err => console.warn("Straatlocaties konden niet worden bijgewerkt:", err));
+          syncFromSheetSilently().then(() => {
+            if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
               window.rvhMap.invalidateSize();
               renderAllMarkers();
-            }, 120);
+            }
+          }).catch(err => {
+            console.error("Spreadsheetmeldingen konden niet worden opgehaald:", err);
+            setMapDataStatus("errorStatus");
+          });
+          if (window.rvhMap && typeof window.rvhMap.invalidateSize === "function") {
+            setTimeout(() => window.rvhMap.invalidateSize(), 150);
           }
         }
       }
@@ -1834,8 +1845,11 @@ function showPage(page) {
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: "&copy; OpenStreetMap"
         }).addTo(map);
-        applyPdokCoordsToExistingStreets();
-        syncFromSheetSilently();
+        applyPdokCoordsToExistingStreets().catch(err => console.warn("Straatlocaties konden niet worden bijgewerkt:", err));
+        syncFromSheetSilently().catch(err => {
+          console.error("Spreadsheetmeldingen konden niet worden opgehaald:", err);
+          setMapDataStatus("errorStatus");
+        });
       } else {
         updateStreetOverviewUI(allReports);
       }
@@ -2419,16 +2433,19 @@ try {
         const rtl = code === "ar";
         document.documentElement.lang = code;
         report.dir = rtl ? "rtl" : "ltr";
-        document.querySelector(".language label").textContent = t.language;
+        const languageLabel = document.querySelector(".language label");
+        if (languageLabel) languageLabel.textContent = t.language;
         const accessibility = reportAccessibilityLabels[code] || reportAccessibilityLabels.nl;
         const siteNav = document.querySelector(".site-nav");
         const officialRoute = report.querySelector(".arrow-flow");
         if (siteNav) siteNav.setAttribute("aria-label", accessibility.navigation);
         if (officialRoute) officialRoute.setAttribute("aria-label", accessibility.officialRoute);
-        document.querySelector(".site-brand strong").textContent = t.brand;
+        const brandTitle = document.querySelector(".site-brand strong");
+        if (brandTitle) brandTitle.textContent = t.brand;
         const topHeading = document.querySelector(".rvh-top-inner > strong");
         if (topHeading) topHeading.textContent = topTranslations[code] || topTranslations.nl;
-        document.querySelector(".site-brand small").textContent = t.tagline;
+        const brandTagline = document.querySelector(".site-brand small");
+        if (brandTagline) brandTagline.textContent = t.tagline;
         const nav = document.querySelectorAll(".site-nav button, .site-nav a");
         t.nav.forEach((v,i) => { if(nav[i]) nav[i].textContent = v; });
         const privacyNavLabels={nl:"Informatie & privacy",en:"Information & privacy",ar:"المعلومات والخصوصية",so:"Macluumaad & asturnaan",tr:"Bilgi ve gizlilik",pl:"Informacje i prywatność",es:"Información y privacidad"};
@@ -2439,7 +2456,7 @@ try {
         report.querySelectorAll(".arrow-step").forEach((el,i)=>{ if(t.steps[i]) el.innerHTML=t.steps[i]; });
         set(".choice-official > p",t.freeHelp);
         set("#spaarnelandenFormBox h4",t.formTitle); set("#spaarnelandenFormBox > p",t.formIntro,true);
-        ["#spNaam","#spAdres","#spTelefoon","#spDatum","#spBeschrijving"].forEach((sel,i)=>{const el=report.querySelector(sel); if(el){el.previousElementSibling.textContent=[t.name,t.address,t.phone,t.date,t.description][i];el.placeholder=[t.namePh,t.addressPh,t.phonePh,accessibility.dateFormat,t.descriptionPh][i];}});
+        ["#spNaam","#spAdres","#spTelefoon","#spDatum","#spBeschrijving"].forEach((sel,i)=>{const el=report.querySelector(sel); if(el){if(el.previousElementSibling)el.previousElementSibling.textContent=[t.name,t.address,t.phone,t.date,t.description][i];el.placeholder=[t.namePh,t.addressPh,t.phonePh,accessibility.dateFormat,t.descriptionPh][i];}});
         set("#spaarnelandenMailForm button[type=submit]",t.send);
         set(".choice-map h3",t.mapTitle); set(".choice-map > strong",t.mapLead); set(".choice-map .visibility-highlight",t.visibility); set(".choice-warning",t.warning); set("#mapChoiceButton",t.mapButton);
         const historyTitle=document.getElementById("mapHistoryTitle"); if(historyTitle) historyTitle.textContent=t.mapHistoryTitle;
@@ -2449,9 +2466,10 @@ try {
         set(":scope > p.muted",t.returnInfo);
         const returned=report.querySelector("#returned"); if(returned && returned.nextElementSibling) returned.nextElementSibling.textContent=t.returned;
         set("#unlockButton",t.viewMap);
-        document.querySelector(".language label").setAttribute("for","language");
+        if (languageLabel) languageLabel.setAttribute("for","language");
         if (languageSelect) languageSelect.value=code;
-        applyExtraPageLanguage(code);
+        try { applyExtraPageLanguage(code); }
+        catch (err) { console.error("Vertaling van aanvullende pagina’s is mislukt:", err); }
       }
       const RVH_LANGUAGE_KEY = "rvhLanguage";
       const savedLanguage = (() => {
@@ -2466,9 +2484,16 @@ try {
           if (!reportTranslations[code]) code = "nl";
           languageSelect.value = code;
           try { localStorage.setItem(RVH_LANGUAGE_KEY, code); } catch (err) {}
-          applyReportLanguage(code);
-          if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
-          if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
+          try {
+            applyReportLanguage(code);
+          } catch (err) {
+            console.error("Taalwissel kon niet volledig worden toegepast:", err);
+          } finally {
+            document.documentElement.lang = code;
+            document.documentElement.dir = code === "ar" ? "rtl" : "ltr";
+            if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
+            if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
+          }
         };
         // Gebruik addEventListener zoals in de eerder werkende versie.
         // De extra blur-afhandeling vangt mobiele keuzemenu's op die change laat doorgeven.
