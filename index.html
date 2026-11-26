@@ -1152,7 +1152,7 @@ footer.rvh-footer .rvh-footer-initiative{text-align:right!important}
   <script>
     (function () {
 const RVH_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMmRvtWUyTQWamuxKI84Iu7hNEQ2_UMskCrVge3zbL4c3FxpwNQegwwqCaXZ7fF7DJ/exec";      
-      const STORAGE_KEY = "rvh_map_reports_v6";
+      const STORAGE_KEY = "rvh_map_reports_v7";
       const RANDOM_PINS_KEY = "rvh_street_random_pins_v4";
       const COOLDOWN_KEY = "rvh_last_report_timestamp_v1";
       const COOLDOWN_MS = 60 * 60 * 1000;
@@ -1175,13 +1175,8 @@ function getBrowserDeviceId() {
       const navButtons = Array.from(document.querySelectorAll(".site-nav button[data-page]"));
       const brandLink = document.querySelector(".site-brand[data-page]");
 
-      const BASE_REPORTS = [
-        { datum: "20-11-2026 13:16:38", straat: "Aelbertsbergstraat", aantal: 3, status: "Ongeverifieerd", lat: "", lng: "", meldtype: "straatniveau", categorie: "rats" },
-        { datum: "20-11-2026 13:47:58", straat: "Aelbertsbergstraat", aantal: 1, status: "Ongeverifieerd", lat: "", lng: "", meldtype: "straatniveau", categorie: "burrows" },
-        { datum: "20-11-2026 17:37:43", straat: "Kleverlaan", aantal: 1, status: "Ongeverifieerd", lat: "", lng: "", meldtype: "straatniveau", categorie: "rats" },
-        { datum: "23-11-2026 17:00:42", straat: "Tetterodestraat", aantal: 12, status: "Ongeverifieerd", lat: "", lng: "", meldtype: "straatniveau", categorie: "rats" },
-        { datum: "24-11-2026 8:40:59", straat: "Aelbertsbergstraat", aantal: 1, status: "Ongeverifieerd", lat: "", lng: "", meldtype: "straatniveau", categorie: "burrows" }
-      ];
+      // Geen voorbeeldmeldingen tonen als de echte meldingenserver niet bereikbaar is.
+      const BASE_REPORTS = [];
 
       const pdokStreetCoords = {};
 
@@ -1403,7 +1398,7 @@ function normalizeReport(item) {
             if (Array.isArray(parsed) && parsed.length > 0) return parsed.map(normalizeReport);
           }
         } catch (err) {}
-        return BASE_REPORTS.map(normalizeReport);
+        return [];
       }
 
       function saveReports(list) {
