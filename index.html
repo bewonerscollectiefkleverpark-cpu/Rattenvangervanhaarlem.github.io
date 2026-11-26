@@ -854,6 +854,35 @@ button[data-page="map"]:hover:not(:disabled),
 }
 
 
+/* Geselecteerde hoofdnavigatie: extra duidelijk, ook op mobiel */
+.site-nav button[data-page="report"][aria-current="page"] {
+  background: #8f1717 !important;
+  color: #fff !important;
+  border: 3px solid #fff !important;
+  outline: 2px solid #8f1717 !important;
+  outline-offset: 1px !important;
+  box-shadow: 0 0 0 2px rgba(143,23,23,.28), inset 0 -4px 0 rgba(0,0,0,.22) !important;
+  font-weight: 900 !important;
+}
+.site-nav button[data-page="map"][aria-current="page"] {
+  background: #24552d !important;
+  color: #fff !important;
+  border: 3px solid #fff !important;
+  outline: 2px solid #24552d !important;
+  outline-offset: 1px !important;
+  box-shadow: 0 0 0 2px rgba(36,85,45,.28), inset 0 -4px 0 rgba(0,0,0,.22) !important;
+  font-weight: 900 !important;
+}
+@media(max-width:650px) {
+  .site-nav button[data-page="report"][aria-current="page"],
+  .site-nav button[data-page="map"][aria-current="page"] {
+    border-width: 3px !important;
+    min-height: 42px !important;
+    padding: 9px 10px !important;
+    outline-offset: 1px !important;
+  }
+}
+
 /* Contactgegevens in de footer: rustig, duidelijk en goed leesbaar */
 footer.rvh-footer .rvh-footer-meta{display:grid!important;grid-template-columns:1fr minmax(240px,1.7fr) 1fr!important;align-items:center!important;gap:16px!important}
 footer.rvh-footer .rvh-footer-meta .haarlem-badge{text-align:left!important}
