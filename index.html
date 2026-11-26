@@ -2479,28 +2479,24 @@ try {
         } catch (err) { return "nl"; }
       })();
       if (languageSelect) {
-        // Centrale taalwissel: rechtstreeks aanroepbaar vanaf de keuzelijst én de deelknoppen.
-        window.rvhSetLanguage = function (code) {
-          if (!reportTranslations[code]) code = "nl";
-          languageSelect.value = code;
+        // Terug naar de eenvoudige taalwissel uit de eerder werkende versie.
+        const changeSiteLanguage = function () {
+          const code = languageSelect.value;
           try { localStorage.setItem(RVH_LANGUAGE_KEY, code); } catch (err) {}
           try {
             applyReportLanguage(code);
           } catch (err) {
-            console.error("Taalwissel kon niet volledig worden toegepast:", err);
-          } finally {
-            document.documentElement.lang = code;
-            document.documentElement.dir = code === "ar" ? "rtl" : "ltr";
-            if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
-            if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
+            console.error("Taalwissel op de startpagina is mislukt:", err);
           }
+          if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
+          if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
         };
-        // Gebruik addEventListener zoals in de eerder werkende versie.
-        // De extra blur-afhandeling vangt mobiele keuzemenu's op die change laat doorgeven.
-        const changeSiteLanguage = function () { window.rvhSetLanguage(languageSelect.value); };
-        languageSelect.addEventListener("input", changeSiteLanguage);
+        window.rvhSetLanguage = function (code) {
+          if (!reportTranslations[code]) code = "nl";
+          languageSelect.value = code;
+          changeSiteLanguage();
+        };
         languageSelect.addEventListener("change", changeSiteLanguage);
-        languageSelect.addEventListener("blur", changeSiteLanguage);
         languageSelect.value = savedLanguage;
         applyReportLanguage(savedLanguage);
         if (categoryEl) categoryEl.dispatchEvent(new Event("change"));
