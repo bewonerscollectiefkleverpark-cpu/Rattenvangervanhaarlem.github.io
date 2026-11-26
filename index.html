@@ -2461,12 +2461,15 @@ try {
         } catch (err) { return "nl"; }
       })();
       if (languageSelect) {
-        languageSelect.addEventListener("change", function () {
+        const changeSiteLanguage = function () {
           const code = this.value;
           try { localStorage.setItem(RVH_LANGUAGE_KEY, code); } catch (err) {}
           applyReportLanguage(code);
           if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
-        });
+        };
+        // iPhone/iPad browsers can signal a picker selection through input before change.
+        languageSelect.addEventListener("input", changeSiteLanguage);
+        languageSelect.addEventListener("change", changeSiteLanguage);
         languageSelect.value = savedLanguage;
         applyReportLanguage(savedLanguage);
         if (categoryEl) categoryEl.dispatchEvent(new Event("change"));
