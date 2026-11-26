@@ -2239,6 +2239,78 @@ try {
         pl:{alt:"Plakat informacyjny Rattenvanger van Haarlem — kliknij, aby powiększyć",preview:"Powiększ plakat",dialog:"Podgląd plakatu",close:"Zamknij",largeAlt:"Powiększony plakat informacyjny Rattenvanger van Haarlem",print:"Drukuj plakat w formacie A4"},
         es:{alt:"Cartel informativo de Rattenvanger van Haarlem — haz clic para ampliarlo",preview:"Ver el cartel ampliado",dialog:"Ver cartel",close:"Cerrar",largeAlt:"Cartel informativo ampliado de Rattenvanger van Haarlem",print:"Imprimir cartel en A4"}
       };
+      const privacyPageTranslations = {
+        nl: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">PRIVACYVERKLARING</p><h3>Wat gebeurt er met je gegevens?</h3></div></div>
+          <p class="privacy-lead">We gebruiken meldingen om rattenoverlast in Haarlem zichtbaar te maken. We vragen op de rattenkaart niet om je naam of contactgegevens.</p>
+          <h3>Welke gegevens bewaren we?</h3><ul class="privacy-list"><li>De straatnaam en de locatie op straatniveau.</li><li>Het aantal ratten of het soort waarneming: ratten, keutels of holen.</li><li>De datum en tijd van de melding.</li><li>Een willekeurige code van je browser om misbruik en dubbele meldingen te helpen beperken.</li></ul>
+          <h3>Wat is zichtbaar?</h3><p>De meldingen worden op de openbare kaart getoond op straatniveau. De stip staat op een willekeurige plek in de straat en niet bij een huisnummer. De browsercode wordt niet op de kaart getoond.</p>
+          <h3>Wie kan de gegevens bekijken?</h3><p>De meldingen op de kaart zijn voor iedereen zichtbaar. De achterliggende spreadsheet is alleen toegankelijk voor de beheerder van dit bewonersinitiatief.</p>
+          <h3>Hoelang bewaren we de gegevens?</h3><p>De kaart toont meldingen van maximaal de afgelopen 12 maanden. Oudere meldingen kunnen langer in de achterliggende spreadsheet bewaard blijven.</p>
+          <h3>Gegevens voor Spaarnelanden</h3><p>Als je het e-mailformulier gebruikt, vul je zelf je naam, adres en telefoonnummer in. Deze gegevens worden in je eigen e-mailprogramma gezet, zodat je de e-mail rechtstreeks naar Spaarnelanden kunt sturen. De website ontvangt deze e-mail niet.</p>
+          <h3>Waarvoor gebruiken we de gegevens?</h3><p>We gebruiken de meldingen om zichtbaar te maken waar in Haarlem ratten, keutels en holen zijn waargenomen. Het is een bewonersinitiatief; meldingen worden niet onafhankelijk gecontroleerd.</p>
+          <h3>Vragen over privacy?</h3><p>Mail naar <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">Rattenvanger van Haarlem is een onafhankelijk bewonersinitiatief.</p>`,
+        en: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">PRIVACY NOTICE</p><h3>What happens to your data?</h3></div></div>
+          <p class="privacy-lead">We use reports to make rat problems in Haarlem visible. The rat map does not ask for your name or contact details.</p>
+          <h3>What information do we store?</h3><ul class="privacy-list"><li>The street name and a location at street level.</li><li>The number of rats or the type of sighting: rats, droppings or burrows.</li><li>The date and time of the report.</li><li>A random browser code to help limit misuse and duplicate reports.</li></ul>
+          <h3>What is visible?</h3><p>Reports appear on the public map at street level. The marker is placed at a random location along the street, not at a house number. The browser code is not shown on the map.</p>
+          <h3>Who can access the information?</h3><p>Map reports are visible to everyone. The underlying spreadsheet is accessible only to the administrator of this residents’ initiative.</p>
+          <h3>How long is information kept?</h3><p>The map displays reports from the past 12 months only. Older reports may remain stored in the underlying spreadsheet for longer.</p>
+          <h3>Information sent to Spaarnelanden</h3><p>If you use the email form, you enter your name, address and phone number yourself. These details are placed in your own email program so you can send the email directly to Spaarnelanden. The website does not receive that email.</p>
+          <h3>Why do we use the information?</h3><p>Reports help show where rats, droppings and burrows have been observed in Haarlem. This is a residents’ initiative; reports are not independently verified.</p>
+          <h3>Privacy questions?</h3><p>Email <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">Rat Watch Haarlem is an independent residents’ initiative.</p>`,
+        ar: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">بيان الخصوصية</p><h3>ماذا يحدث لبياناتك؟</h3></div></div>
+          <p class="privacy-lead">نستخدم البلاغات لإظهار مشكلة الجرذان في هارلم. لا تطلب خريطة الجرذان اسمك أو بيانات الاتصال بك.</p>
+          <h3>ما البيانات التي نحتفظ بها؟</h3><ul class="privacy-list"><li>اسم الشارع والموقع على مستوى الشارع.</li><li>عدد الجرذان أو نوع المشاهدة: جرذان أو فضلات أو جحور.</li><li>تاريخ البلاغ ووقته.</li><li>رمز عشوائي للمتصفح للمساعدة في الحد من إساءة الاستخدام والبلاغات المكررة.</li></ul>
+          <h3>ما الذي يظهر للعامة؟</h3><p>تظهر البلاغات على الخريطة العامة على مستوى الشارع. توضع العلامة في مكان عشوائي على الشارع وليس عند رقم منزل. ولا يظهر رمز المتصفح على الخريطة.</p>
+          <h3>من يمكنه الاطلاع على البيانات؟</h3><p>يمكن للجميع رؤية البلاغات على الخريطة. أما جدول البيانات الأساسي فلا يمكن الوصول إليه إلا من قِبل مسؤول المبادرة.</p>
+          <h3>إلى متى نحتفظ بالبيانات؟</h3><p>تعرض الخريطة البلاغات الخاصة بآخر 12 شهرًا فقط. وقد تبقى البلاغات الأقدم محفوظة في جدول البيانات لفترة أطول.</p>
+          <h3>البيانات المرسلة إلى Spaarnelanden</h3><p>إذا استخدمت نموذج البريد الإلكتروني، فأنت تُدخل اسمك وعنوانك ورقم هاتفك بنفسك. تُضاف هذه البيانات إلى برنامج البريد لديك لتتمكن من إرسال الرسالة مباشرة إلى Spaarnelanden. لا يستقبل الموقع هذه الرسالة.</p>
+          <h3>لماذا نستخدم البيانات؟</h3><p>تساعدنا البلاغات على إظهار أماكن مشاهدة الجرذان وفضلاتها وجحورها في هارلم. هذه مبادرة للسكان، ولا يتم التحقق من البلاغات بشكل مستقل.</p>
+          <h3>هل لديك أسئلة عن الخصوصية؟</h3><p>راسلنا عبر البريد: <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">مبادرة Rattenvanger van Haarlem مستقلة ويقودها السكان.</p>`,
+        so: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">OGEYSIISKA ASTURNAANTA</p><h3>Maxaa ku dhacaya xogtaada?</h3></div></div>
+          <p class="privacy-lead">Waxaan warbixinnada u isticmaalnaa inaan dhibaatada jiirka ee Haarlem muuqata ka dhigno. Khariidadda jiirku kuma weydiisato magacaaga ama xogta xiriirkaaga.</p>
+          <h3>Xogtee ayaan kaydinnaa?</h3><ul class="privacy-list"><li>Magaca waddada iyo goobta heerka waddada.</li><li>Tirada jiirka ama nooca aragtida: jiir, saxaro ama godad.</li><li>Taariikhda iyo waqtiga warbixinta.</li><li>Koodh browser oo aan kala sooc lahayn si looga hortago isticmaal khaldan iyo warbixinno isku mid ah.</li></ul>
+          <h3>Maxaa dadweynuhu arki karaan?</h3><p>Warbixinnada waxaa khariidadda dadweynaha lagu muujiyaa heerka waddada. Calaamadda waxaa si aan kala sooc lahayn loogu dhigaa waddada, mana aha lambarka guri agtiisa. Koodhka browser-ka khariidadda laguma muujiyo.</p>
+          <h3>Yaa heli kara xogta?</h3><p>Qof walba wuxuu arki karaa warbixinnada khariidadda. Xaashida xogta ee asalka ah waxaa heli kara oo keliya maamulaha hindisahan dadka deegaanka.</p>
+          <h3>Ilaa intee ayaa xogta la hayaa?</h3><p>Khariidaddu waxay muujisaa oo keliya warbixinnada 12-kii bilood ee ugu dambeeyay. Warbixinnadii hore waxay xaashida xogta ku sii jiri karaan muddo ka dheer.</p>
+          <h3>Xogta loo diro Spaarnelanden</h3><p>Haddii aad isticmaasho foomka iimaylka, adiga ayaa gelinaya magacaaga, cinwaankaaga iyo lambarka telefoonkaaga. Xogtan waxaa lagu geliyaa barnaamijka iimaylkaaga si aad si toos ah ugu dirto Spaarnelanden. Mareegtu ma hesho iimaylkaas.</p>
+          <h3>Maxaan xogta u isticmaalnaa?</h3><p>Warbixinnadu waxay naga caawiyaan inaan muujinno meelaha Haarlem lagu arkay jiir, saxaro iyo godad. Tani waa hindise ay leeyihiin dadka deegaanka; warbixinnada si madax-bannaan looma xaqiijiyo.</p>
+          <h3>Su'aalo ku saabsan asturnaanta?</h3><p>Iimayl u dir <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">Rattenvanger van Haarlem waa hindise madax-bannaan oo dadka deegaanka leeyihiin.</p>`,
+        tr: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">GİZLİLİK BİLDİRİMİ</p><h3>Verilerinize ne oluyor?</h3></div></div>
+          <p class="privacy-lead">Bildirimleri, Haarlem'deki fare sorununu görünür kılmak için kullanıyoruz. Fare haritası adınızı veya iletişim bilgilerinizi istemez.</p>
+          <h3>Hangi bilgileri saklıyoruz?</h3><ul class="privacy-list"><li>Sokak adı ve sokak düzeyindeki konum.</li><li>Fare sayısı veya gözlem türü: fare, dışkı ya da yuva.</li><li>Bildirimin tarihi ve saati.</li><li>Kötüye kullanımı ve yinelenen bildirimleri azaltmaya yardımcı olan rastgele bir tarayıcı kodu.</li></ul>
+          <h3>Herkes neyi görebilir?</h3><p>Bildirimler herkese açık haritada sokak düzeyinde gösterilir. İşaret sokak üzerinde rastgele bir yere konur; kapı numarasına konmaz. Tarayıcı kodu haritada gösterilmez.</p>
+          <h3>Bilgilere kim erişebilir?</h3><p>Haritadaki bildirimleri herkes görebilir. Temel elektronik tabloya yalnızca bu mahalle sakinleri girişiminin yöneticisi erişebilir.</p>
+          <h3>Bilgiler ne kadar süre saklanır?</h3><p>Harita yalnızca son 12 ayın bildirimlerini gösterir. Daha eski bildirimler temel elektronik tabloda daha uzun süre saklanabilir.</p>
+          <h3>Spaarnelanden'e gönderilen bilgiler</h3><p>E-posta formunu kullanırsanız adınızı, adresinizi ve telefon numaranızı kendiniz girersiniz. Bu bilgiler, e-postayı doğrudan Spaarnelanden'e gönderebilmeniz için kendi e-posta programınıza eklenir. Web sitesi bu e-postayı almaz.</p>
+          <h3>Bilgileri neden kullanıyoruz?</h3><p>Bildirimler, Haarlem'de farelerin, dışkıların ve yuvaların nerelerde görüldüğünü göstermemize yardımcı olur. Bu bir mahalle sakinleri girişimidir; bildirimler bağımsız olarak doğrulanmaz.</p>
+          <h3>Gizlilik hakkında sorunuz mu var?</h3><p><a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a> adresine e-posta gönderin.</p>
+          <p class="privacy-caveat">Rattenvanger van Haarlem bağımsız bir mahalle sakinleri girişimidir.</p>`,
+        pl: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">INFORMACJA O PRYWATNOŚCI</p><h3>Co dzieje się z Twoimi danymi?</h3></div></div>
+          <p class="privacy-lead">Wykorzystujemy zgłoszenia, aby pokazać skalę problemu szczurów w Haarlem. Mapa szczurów nie prosi o imię i nazwisko ani dane kontaktowe.</p>
+          <h3>Jakie informacje przechowujemy?</h3><ul class="privacy-list"><li>Nazwę ulicy i lokalizację na poziomie ulicy.</li><li>Liczbę szczurów lub rodzaj obserwacji: szczury, odchody albo nory.</li><li>Datę i godzinę zgłoszenia.</li><li>Losowy kod przeglądarki, który pomaga ograniczać nadużycia i powtarzające się zgłoszenia.</li></ul>
+          <h3>Co jest widoczne?</h3><p>Zgłoszenia są widoczne na publicznej mapie na poziomie ulicy. Znacznik jest umieszczany losowo wzdłuż ulicy, a nie przy numerze domu. Kod przeglądarki nie jest widoczny na mapie.</p>
+          <h3>Kto może uzyskać dostęp do informacji?</h3><p>Zgłoszenia na mapie są publiczne. Dostęp do arkusza kalkulacyjnego ma wyłącznie administrator tej inicjatywy mieszkańców.</p>
+          <h3>Jak długo przechowujemy dane?</h3><p>Mapa pokazuje wyłącznie zgłoszenia z ostatnich 12 miesięcy. Starsze zgłoszenia mogą być przechowywane w arkuszu dłużej.</p>
+          <h3>Dane wysyłane do Spaarnelanden</h3><p>Jeśli korzystasz z formularza e-mail, samodzielnie wpisujesz imię i nazwisko, adres oraz numer telefonu. Dane te są umieszczane w Twoim programie pocztowym, aby można było wysłać wiadomość bezpośrednio do Spaarnelanden. Strona nie otrzymuje tej wiadomości.</p>
+          <h3>W jakim celu używamy danych?</h3><p>Zgłoszenia pomagają pokazać, gdzie w Haarlem zauważono szczury, odchody i nory. Jest to inicjatywa mieszkańców; zgłoszenia nie są niezależnie weryfikowane.</p>
+          <h3>Pytania dotyczące prywatności?</h3><p>Napisz na adres <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">Rattenvanger van Haarlem to niezależna inicjatywa mieszkańców.</p>`,
+        es: `<div class="privacy-heading"><span class="privacy-symbol" aria-hidden="true">🔒</span><div><p class="privacy-kicker">AVISO DE PRIVACIDAD</p><h3>¿Qué ocurre con tus datos?</h3></div></div>
+          <p class="privacy-lead">Utilizamos los avisos para hacer visible el problema de las ratas en Haarlem. El mapa no te pide tu nombre ni tus datos de contacto.</p>
+          <h3>¿Qué información guardamos?</h3><ul class="privacy-list"><li>El nombre de la calle y la ubicación a nivel de calle.</li><li>El número de ratas o el tipo de observación: ratas, excrementos o madrigueras.</li><li>La fecha y la hora del aviso.</li><li>Un código aleatorio del navegador para ayudar a limitar el uso indebido y los avisos duplicados.</li></ul>
+          <h3>¿Qué puede ver el público?</h3><p>Los avisos aparecen en el mapa público a nivel de calle. El punto se coloca al azar en algún lugar de la calle, no junto a un número de vivienda. El código del navegador no aparece en el mapa.</p>
+          <h3>¿Quién puede acceder a la información?</h3><p>Cualquier persona puede ver los avisos del mapa. Solo el administrador de esta iniciativa vecinal puede acceder a la hoja de cálculo original.</p>
+          <h3>¿Durante cuánto tiempo guardamos la información?</h3><p>El mapa muestra únicamente los avisos de los últimos 12 meses. Los avisos más antiguos pueden conservarse durante más tiempo en la hoja de cálculo.</p>
+          <h3>Información enviada a Spaarnelanden</h3><p>Si utilizas el formulario de correo, tú mismo introduces tu nombre, dirección y teléfono. Estos datos se incluyen en tu propio programa de correo para que puedas enviar el mensaje directamente a Spaarnelanden. La web no recibe ese correo.</p>
+          <h3>¿Para qué utilizamos la información?</h3><p>Los avisos ayudan a mostrar dónde se han observado ratas, excrementos y madrigueras en Haarlem. Es una iniciativa vecinal; los avisos no se verifican de forma independiente.</p>
+          <h3>¿Tienes preguntas sobre privacidad?</h3><p>Escribe a <a href="mailto:rattenvangervanhaarlem@gmail.com">rattenvangervanhaarlem@gmail.com</a>.</p>
+          <p class="privacy-caveat">Rattenvanger van Haarlem es una iniciativa vecinal independiente.</p>`
+      };
       function applyExtraPageLanguage(code) {
         const t = sitePageTranslations[code];
         if (!t) return;
@@ -2306,6 +2378,8 @@ try {
         setText(info.querySelector(".privacy-lead"),t.info[7]);
         info.querySelectorAll(".privacy-list li").forEach((el,i)=>setText(el,t.info[i+8]));
         setText(info.querySelector(".privacy-caveat"),t.info[10]);
+        const privacyPanel=info.querySelector(".privacy-panel");
+        if(privacyPanel) privacyPanel.innerHTML=privacyPageTranslations[code]||privacyPageTranslations.nl;
         setText(posters.querySelector("h2"),t.posters[0]);
         setText(posters.querySelector(".poster-print-instruction"),t.posters[1]);
         posters.querySelectorAll(".poster-card h3").forEach((el,i)=>setText(el,t.posters[2][i]));
@@ -2348,6 +2422,8 @@ try {
         document.querySelector(".site-brand small").textContent = t.tagline;
         const nav = document.querySelectorAll(".site-nav button, .site-nav a");
         t.nav.forEach((v,i) => { if(nav[i]) nav[i].textContent = v; });
+        const privacyNavLabels={nl:"Informatie & privacy",en:"Information & privacy",ar:"المعلومات والخصوصية",so:"Macluumaad & asturnaan",tr:"Bilgi ve gizlilik",pl:"Informacje i prywatność",es:"Información y privacidad"};
+        if(nav[3]) nav[3].textContent=privacyNavLabels[code]||privacyNavLabels.nl;
         const set = (sel,val,html=false) => { const el=report.querySelector(sel); if(el) html ? el.innerHTML=val : el.textContent=val; };
         set("h2",t.report); set(".reporting-fatigue-banner",t.reminder); set(".choice-intro",t.intro);
         set(".choice-official h3",t.officialTitle); set(".choice-official > strong",t.officialLead);
