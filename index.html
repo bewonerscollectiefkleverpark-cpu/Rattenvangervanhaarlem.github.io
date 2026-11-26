@@ -2461,17 +2461,17 @@ try {
         } catch (err) { return "nl"; }
       })();
       if (languageSelect) {
-        const changeSiteLanguage = function () {
-          const code = this.value;
+        // Centrale taalwissel: rechtstreeks aanroepbaar vanaf de keuzelijst én de deelknoppen.
+        window.rvhSetLanguage = function (code) {
+          if (!reportTranslations[code]) code = "nl";
+          languageSelect.value = code;
           try { localStorage.setItem(RVH_LANGUAGE_KEY, code); } catch (err) {}
           applyReportLanguage(code);
           if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
+          if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
         };
-        // iPhone/iPad browsers can signal a picker selection through input before change.
-        languageSelect.addEventListener("input", changeSiteLanguage);
-        languageSelect.addEventListener("change", changeSiteLanguage);
-        // Fallback: sommige mobiele keuzemenu’s geven de definitieve waarde pas vrij bij sluiten.
-        languageSelect.addEventListener("blur", changeSiteLanguage);
+        languageSelect.onchange = function () { window.rvhSetLanguage(this.value); };
+        languageSelect.oninput = function () { window.rvhSetLanguage(this.value); };
         languageSelect.value = savedLanguage;
         applyReportLanguage(savedLanguage);
         if (categoryEl) categoryEl.dispatchEvent(new Event("change"));
@@ -2546,7 +2546,7 @@ try {
  };
  root.querySelector('[data-share="copy"]').addEventListener("click",()=>copy("copy"));
  root.querySelector('[data-share="instagram"]').addEventListener("click",()=>{window.open("https://www.instagram.com/","_blank","noopener,noreferrer");copy("instagram");});
- const selector=document.getElementById("language");if(selector){selector.addEventListener("input",update);selector.addEventListener("change",update);selector.addEventListener("blur",update);}
+ window.rvhUpdateShareLanguage=update;
  update();
 })();
 </script>
