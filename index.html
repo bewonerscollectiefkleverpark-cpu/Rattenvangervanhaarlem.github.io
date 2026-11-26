@@ -1699,9 +1699,15 @@ async function syncFromSheetSilently() {
         if (data && data.success && Array.isArray(data.reports)) {
           allReports = data.reports.map(normalizeReport);
           saveReports(allReports);
-          await applyPdokCoordsToExistingStreets();
+
+          // Toon de ontvangen meldingen direct; PDOK-verrijking mag de kaart niet blokkeren.
           renderAllMarkers();
           status = "updatedStatus";
+
+          // Werk straatnamen/coördinaten daarna op de achtergrond bij.
+          applyPdokCoordsToExistingStreets().catch((err) => {
+            console.warn("PDOK-verrijking niet beschikbaar; bestaande meldingscoördinaten blijven gebruikt:", err);
+          });
         }
       } catch (err) {
         console.error("Meldingen ophalen mislukt:", err);
