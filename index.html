@@ -2470,8 +2470,12 @@ try {
           if (categoryEl && categoryEl.dispatchEvent) categoryEl.dispatchEvent(new Event("change"));
           if (typeof window.rvhUpdateShareLanguage === "function") window.rvhUpdateShareLanguage();
         };
-        languageSelect.onchange = function () { window.rvhSetLanguage(this.value); };
-        languageSelect.oninput = function () { window.rvhSetLanguage(this.value); };
+        // Gebruik addEventListener zoals in de eerder werkende versie.
+        // De extra blur-afhandeling vangt mobiele keuzemenu's op die change laat doorgeven.
+        const changeSiteLanguage = function () { window.rvhSetLanguage(languageSelect.value); };
+        languageSelect.addEventListener("input", changeSiteLanguage);
+        languageSelect.addEventListener("change", changeSiteLanguage);
+        languageSelect.addEventListener("blur", changeSiteLanguage);
         languageSelect.value = savedLanguage;
         applyReportLanguage(savedLanguage);
         if (categoryEl) categoryEl.dispatchEvent(new Event("change"));
