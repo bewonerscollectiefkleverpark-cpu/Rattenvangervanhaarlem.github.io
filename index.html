@@ -2505,7 +2505,7 @@ try {
         const nav = document.querySelectorAll(".site-nav button, .site-nav a");
         t.nav.forEach((v,i) => { if(nav[i]) nav[i].textContent = v; });
         const privacyNavLabels={nl:"Informatie & privacy",en:"Information & privacy",ar:"المعلومات والخصوصية",so:"Macluumaad & asturnaan",tr:"Bilgi ve gizlilik",pl:"Informacje i prywatność",es:"Información y privacidad"};
-        if(nav[3]) nav[3].textContent=privacyNavLabels[code]||privacyNavLabels.nl;
+        if(nav[4]) nav[4].textContent=privacyNavLabels[code]||privacyNavLabels.nl;
         const set = (sel,val,html=false) => { const el=report.querySelector(sel); if(el) html ? el.innerHTML=val : el.textContent=val; };
         set("h2",t.report); set(".reporting-fatigue-banner",t.reminder); set(".choice-intro",t.intro);
         set(".choice-official h3",t.officialTitle); set(".choice-official > strong",t.officialLead);
