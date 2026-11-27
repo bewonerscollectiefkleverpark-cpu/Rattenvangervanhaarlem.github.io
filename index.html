@@ -2642,11 +2642,11 @@ try {
     document.querySelectorAll(".site-nav a,.site-nav button").forEach(el=>{
       const value=el.textContent||"";
       const cleaned=value
-        .replace(/\\\\(?:n|&#x0*6e;|&amp;#x0*6e;)/gi," ")
+        .replace(/\\(?:n|&#x0*6e;|&amp;#x0*6e;)/gi," ")
         .replace(/&#x0*6e;/gi,"")
-        .replace(/\\\\n/gi," ")
-        .replace(/[\\r\\n]+/g," ")
-        .replace(/\\s+/g," ").trim();
+        .replace(/\\n/gi," ")
+        .replace(/[\r\n]+/g," ")
+        .replace(/\s+/g," ").trim();
       if(cleaned!==value)el.textContent=cleaned;
     });
   };
