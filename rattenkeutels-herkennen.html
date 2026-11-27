@@ -636,5 +636,24 @@ a[href="index.html#page-map"]:hover { background: #52654b !important; }
  update();
 })();
 </script>
+<script>
+(function(){
+  const cleanNav=()=>{
+    document.querySelectorAll(".site-nav a,.site-nav button").forEach(el=>{
+      const value=el.textContent||"";
+      const cleaned=value
+        .replace(/\\\\(?:n|&#x0*6e;|&amp;#x0*6e;)/gi," ")
+        .replace(/&#x0*6e;/gi,"")
+        .replace(/\\\\n/gi," ")
+        .replace(/[\\r\\n]+/g," ")
+        .replace(/\\s+/g," ").trim();
+      if(cleaned!==value)el.textContent=cleaned;
+    });
+  };
+  cleanNav();
+  const nav=document.querySelector(".site-nav");
+  if(nav)new MutationObserver(cleanNav).observe(nav,{subtree:true,childList:true,characterData:true});
+})();
+</script>
 </body>
 </html>
