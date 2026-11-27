@@ -8,7 +8,7 @@
   <meta name="description" content="Ratten gezien in Haarlem? Meld rattenoverlast bij Spaarnelanden, vul de Ratten Hotspot Kaart in en spreek de politiek aan via Rattenvanger van Haarlem.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html">
-  <link rel="alternate" hreflang="nl" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang=nl">
+  <link rel="alternate" hreflang="nl" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html">
   <link rel="alternate" hreflang="en" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang=en">
   <link rel="alternate" hreflang="pl" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang=pl">
   <link rel="alternate" hreflang="tr" href="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang=tr">
@@ -94,7 +94,7 @@
  function apply(code,updateUrl){
    const t=data[code]||data.nl;
    document.documentElement.lang=code;document.documentElement.dir=code==="ar"?"rtl":"ltr";
-   document.title=t.title;document.querySelector('meta[name="description"]').content=t.description;
+   document.title=t.title;document.querySelector('meta[name="description"]').content=t.description;const canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href=code==="nl"?"https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html":"https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang="+code;
    document.getElementById("top-text").textContent=t.top;document.getElementById("brand-tagline").textContent=t.tagline;document.getElementById("language-label").textContent=t.language;
    navIds.forEach((id,i)=>document.getElementById(id).textContent=t.nav[i]);
    Object.entries(ids).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.textContent=t[key]||t[({lead:"lead"}[key])];});
