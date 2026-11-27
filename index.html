@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#29231b">
-  <title>Rattenvanger van Haarlem</title>
+  <title>Rattenoverlast Haarlem melden | Rattenvanger van Haarlem</title>
   <meta name="description" content="Help rattenoverlast in Haarlem zichtbaar te maken. Doe een officiële melding en registreer je waarneming.">
   <meta name="google-site-verification" content="S5P2jkBXrHul4EJ-EjP6C4_c_9X1AeRYWE1wg3ZCotU" />
 
@@ -2484,8 +2484,18 @@ try {
         pl:"Zobacz zgłoszenia dotyczące szczurów z Haarlem i samodzielnie zgłoś problem.",
         es:"Consulta los avisos sobre ratas en Haarlem y envía tu propio aviso."
       };
+      const homepageTitles = {
+        nl: "Rattenoverlast Haarlem melden | Rattenvanger van Haarlem",
+        en: "Report rat problems in Haarlem | Rat Watch Haarlem",
+        pl: "Zgłoś problem szczurów w Haarlem | Inicjatywa przeciw szczurom w Haarlem",
+        tr: "Haarlem'de fare sorununu bildirin | Haarlem Fare Takip Girişimi",
+        ar: "الإبلاغ عن مشكلة الجرذان في هارلم | مراقبة الجرذان في هارلم",
+        so: "Ka warbixi dhibaatada jiirka ee Haarlem | La-socodka Jiirka Haarlem",
+        es: "Denunciar problemas de ratas en Haarlem | Iniciativa contra las ratas de Haarlem"
+      };
       function applyReportLanguage(code) {
         const t = reportTranslations[code] || reportTranslations.nl;
+        document.title = homepageTitles[code] || homepageTitles.nl;
         const report = document.getElementById("page-report");
         const rtl = code === "ar";
         document.documentElement.lang = code;
