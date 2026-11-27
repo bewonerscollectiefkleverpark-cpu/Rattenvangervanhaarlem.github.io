@@ -31,7 +31,16 @@
     footer{padding:24px 4px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);text-align:center}.footer-brand{display:block;color:var(--red);font-size:22px;font-weight:900}.footer-tagline{color:var(--ink);font-weight:700;font-size:14px}
     @media(max-width:760px){.hero-actions,.two-col{grid-template-columns:1fr}.action{min-height:0}.site-brand{gap:12px}.site-brand img{width:60px;height:60px}.site-brand small{font-size:.9rem}.top-inner{flex-wrap:wrap;flex-direction:column;align-items:flex-start}.site-header{width:calc(100% - 28px);padding:14px;margin:14px auto 20px}.site-nav a{font-size:.82rem;padding:8px 9px}}
     [dir=rtl] .notice{border-left:1px solid #eee5d7;border-right:4px solid var(--green)}[dir=rtl] .site-brand{flex-direction:row}
-  </style>
+  
+/* Deelknoppen op de SEO-landingspagina */
+.rvh-share{width:100%;margin:22px 0 4px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.rvh-share-title{font-weight:800;color:var(--ink);font-size:15px}
+.rvh-share-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px}
+.rvh-share-actions a,.rvh-share-actions button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:10px 14px;border:0;border-radius:9px;color:#fff;text-decoration:none;font:700 13px Montserrat,sans-serif;cursor:pointer}
+.rvh-share-wa{background:#25a85a}.rvh-share-fb{background:#1877f2}.rvh-share-x{background:#222}.rvh-share-copy{background:#526b48}.rvh-share-ig{background:#b83280}
+.rvh-share-status{min-height:1em;font-size:12px;color:var(--muted)}
+@media(max-width:600px){.rvh-share-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:440px}.rvh-share-actions a,.rvh-share-actions button{font-size:12px;padding:9px 7px}}
+</style>
   <script type="application/ld+json" id="structured-data">
   {"@context":"https://schema.org","@type":"WebPage","name":"Rattenoverlast Haarlem","description":"Informatie over rattenoverlast in Haarlem. Meld ratten bij Spaarnelanden, registreer waarnemingen op de Ratten Hotspot Kaart en neem contact op met de politiek.","inLanguage":"nl","isPartOf":{"@type":"WebSite","name":"Rattenvanger van Haarlem","url":"https://rattenvangervanhaarlem.github.io/"},"about":{"@type":"Thing","name":"Rattenoverlast in Haarlem"}}
   </script>
@@ -77,7 +86,19 @@
       <details><summary id="q6">Waarom kijken jullie ook naar de riolering?</summary><p id="a6">Ratten kunnen zich via riolen verplaatsen, maar niet iedere rattenoverlast heeft dezelfde oorzaak. Daarom zijn inspecties, onderhoud en lokale omstandigheden belangrijk om te onderzoeken.</p></details>
     </section>
     <section><h2 id="join-title">Samen maken we rattenoverlast zichtbaar</h2><p id="join-text">Heb je ratten gezien in Haarlem? Doe een officiële melding, voeg je waarneming toe aan de hotspotkaart en laat de politiek weten wat er speelt. Zo helpen inwoners samen om een beter beeld van de rattenoverlast te krijgen.</p><div class="hero-actions"><a class="action" href="index.html#page-report"><strong id="bottom1">Meld bij Spaarnelanden</strong><b id="bottom1b">Doe een melding</b></a><a class="action" href="index.html#page-map"><strong id="bottom2">Vul de Ratten Hotspot Kaart in</strong><b id="bottom2b">Vul de kaart in</b></a><a class="action" href="index.html#page-initiative"><strong id="bottom3">Meld bij de politiek</strong><b id="bottom3b">Spreek de politiek aan</b></a></div></section>
-  </main><footer><span class="footer-brand">Rattenvanger van Haarlem</span><span class="footer-tagline" id="footer-tagline">Samen maken we rattenoverlast zichtbaar.</span><p id="footer-note">Een onafhankelijk bewonersinitiatief voor heel Haarlem.</p></footer></div>
+  </main><footer><span class="footer-brand">Rattenvanger van Haarlem</span><span class="footer-tagline" id="footer-tagline">Samen maken we rattenoverlast zichtbaar.</span><p id="footer-note">Een onafhankelijk bewonersinitiatief voor heel Haarlem.</p>
+    <section class="rvh-share" id="rvh-share" aria-label="Deel deze pagina">
+      <div class="rvh-share-title" id="rvh-share-title">Deel deze pagina</div>
+      <div class="rvh-share-actions">
+        <a class="rvh-share-wa" id="rvh-share-wa" target="_blank" rel="noopener noreferrer" href="https://wa.me/">◉ <span id="rvh-share-wa-label">WhatsApp</span></a>
+        <a class="rvh-share-fb" id="rvh-share-fb" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/">f <span id="rvh-share-fb-label">Facebook</span></a>
+        <a class="rvh-share-x" id="rvh-share-x" target="_blank" rel="noopener noreferrer" href="https://x.com/">𝕏 <span id="rvh-share-x-label">Delen op X</span></a>
+        <button class="rvh-share-ig" id="rvh-share-ig" type="button">◎ <span id="rvh-share-ig-label">Instagram</span></button>
+        <button class="rvh-share-copy" id="rvh-share-copy" type="button">🔗 <span id="rvh-share-copy-label">Kopieer link</span></button>
+      </div>
+      <div class="rvh-share-status" id="rvh-share-status" aria-live="polite"></div>
+    </section>
+  </footer></div>
 <script>
 (() => {
  const data = {
@@ -96,7 +117,7 @@
    document.documentElement.lang=code;document.documentElement.dir=code==="ar"?"rtl":"ltr";
    document.title=t.title;document.querySelector('meta[name="description"]').content=t.description;const canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href=code==="nl"?"https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html":"https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html?lang="+code;
    document.getElementById("top-text").textContent=t.top;document.getElementById("brand-tagline").textContent=t.tagline;document.getElementById("language-label").textContent=t.language;
-   navIds.forEach((id,i)=>document.getElementById(id).textContent=t.nav[i]);
+   navIds.forEach((id,i)=>{const el=document.getElementById(id);el.textContent=(t.nav[i]||"").replace(/\\\\n/g," ").replace(/\\n/g," ").replace(/\s+/g," ").trim();});
    Object.entries(ids).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.textContent=t[key]||t[({lead:"lead"}[key])];});
    t.q.forEach((v,i)=>{document.getElementById("q"+(i+1)).textContent=v;document.getElementById("a"+(i+1)).textContent=t.ans[i];});
    ["bottom1","bottom2","bottom3"].forEach((id,i)=>document.getElementById(id).textContent=t.bottom[i]);
@@ -110,8 +131,30 @@
  const query=new URLSearchParams(location.search).get("lang");
  let initial=allowed.includes(query)?query:"nl";
  try{if(!query){const saved=localStorage.getItem("rvhLanguage");if(allowed.includes(saved))initial=saved;}}catch(e){}
- select.value=initial;apply(initial,false);
- select.addEventListener("change",()=>{try{localStorage.setItem("rvhLanguage",select.value)}catch(e){}apply(select.value,true);});
+ select.value=initial;apply(initial,false);if(window.rvhUpdateLandingShare)window.rvhUpdateLandingShare();
+ select.addEventListener("change",()=>{try{localStorage.setItem("rvhLanguage",select.value)}catch(e){}apply(select.value,true);if(window.rvhUpdateLandingShare)window.rvhUpdateLandingShare();});
+})();
+</script>
+
+<script>
+(() => {
+ const words={
+ nl:{title:"Deel deze pagina",x:"Deel op X",copy:"Kopieer link",copied:"Link gekopieerd.",ig:"Instagram openen · link kopiëren",igmsg:"De link is gekopieerd. Plak hem in je Instagram-bericht."},
+ en:{title:"Share this page",x:"Share on X",copy:"Copy link",copied:"Link copied.",ig:"Open Instagram · copy link",igmsg:"The link is copied. Paste it into your Instagram post."},
+ pl:{title:"Udostępnij tę stronę",x:"Udostępnij na X",copy:"Kopiuj link",copied:"Link skopiowany.",ig:"Otwórz Instagram · kopiuj link",igmsg:"Link został skopiowany. Wklej go w poście na Instagramie."},
+ tr:{title:"Bu sayfayı paylaş",x:"X'te paylaş",copy:"Bağlantıyı kopyala",copied:"Bağlantı kopyalandı.",ig:"Instagram'ı aç · bağlantıyı kopyala",igmsg:"Bağlantı kopyalandı. Instagram paylaşımınıza yapıştırın."},
+ ar:{title:"شارك هذه الصفحة",x:"شارك على X",copy:"نسخ الرابط",copied:"تم نسخ الرابط.",ig:"افتح إنستغرام · انسخ الرابط",igmsg:"تم نسخ الرابط. الصقه في منشور إنستغرام."},
+ so:{title:"La wadaag boggan",x:"Ku wadaag X",copy:"Nuqul ka samee xiriirka",copied:"Xiriirka waa la koobiyeeyay.",ig:"Fur Instagram · nuqul ka samee xiriirka",igmsg:"Xiriirka waa la koobiyeeyay. Ku dheji qoraalkaaga Instagram."},
+ es:{title:"Comparte esta página",x:"Compartir en X",copy:"Copiar enlace",copied:"Enlace copiado.",ig:"Abrir Instagram · copiar enlace",igmsg:"El enlace está copiado. Pégalo en tu publicación de Instagram."}
+ };
+ const root=document.getElementById("rvh-share");if(!root)return;
+ const url="https://rattenvangervanhaarlem.github.io/rattenoverlast-haarlem.html";
+ const update=()=>{const lang=(document.documentElement.lang||"nl").slice(0,2),t=words[lang]||words.nl;document.getElementById("rvh-share-title").textContent=t.title;document.getElementById("rvh-share-x-label").textContent=t.x;document.getElementById("rvh-share-copy-label").textContent=t.copy;document.getElementById("rvh-share-ig-label").textContent=t.ig;root.dir=lang==="ar"?"rtl":"ltr";document.getElementById("rvh-share-wa").href="https://wa.me/?text="+encodeURIComponent(document.title+" "+url);document.getElementById("rvh-share-fb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);document.getElementById("rvh-share-x").href="https://twitter.com/intent/tweet?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(document.title);};
+ const status=document.getElementById("rvh-share-status");
+ const copy=async(instagram)=>{const lang=(document.documentElement.lang||"nl").slice(0,2),t=words[lang]||words.nl;try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(url);else{const el=document.createElement("textarea");el.value=url;el.style.position="fixed";el.style.opacity="0";document.body.appendChild(el);el.select();const ok=document.execCommand("copy");el.remove();if(!ok)throw Error("copy failed");}status.textContent=instagram?t.igmsg:t.copied;}catch(e){status.textContent=url;}};
+ document.getElementById("rvh-share-copy").addEventListener("click",()=>copy(false));
+ document.getElementById("rvh-share-ig").addEventListener("click",()=>{copy(true);window.open("https://www.instagram.com/","_blank","noopener,noreferrer");});
+ update();window.rvhUpdateLandingShare=update;
 })();
 </script>
 </body></html>
